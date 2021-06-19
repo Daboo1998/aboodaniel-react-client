@@ -1,26 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import PageNavigator from "./components/pageNavigator/PageNavigator";
+import HomePageLayout from "./components/layouts/HomePageLayout";
+import ExperiencePageLayout from "./components/layouts/ExperiencePageLayout";
+import PageNavigatorBar from "./components/molecules/navigator/PageNavigatorBar";
+import NavigationBarLink from "./components/atoms/NavigationBarLink";
+import Footer from "./components/molecules/Footer";
+import NotFoundPageLayout from "./components/layouts/NotFoundPageLayout";
+import Spacer from "./components/atoms/Spacer";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+      <PageNavigator>
+          <PageNavigatorBar>
+              <NavigationBarLink to="/" pageTitle="Home">
+                  Home
+              </NavigationBarLink>
+              <NavigationBarLink to="/experience" pageTitle="Experience">
+                  Experience
+              </NavigationBarLink>
+          </PageNavigatorBar>
+
+          <HomePageLayout path="/" />
+          <ExperiencePageLayout path="/experience" />
+          <NotFoundPageLayout />
+
+          <Spacer />
+          <Footer />
+      </PageNavigator>
+    );
 }
 
 export default App;
