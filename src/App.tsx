@@ -4,7 +4,7 @@ import HomePageLayout from "./components/layouts/pages/HomePageLayout";
 import ExperiencePageLayout from "./components/layouts/pages/ExperiencePageLayout";
 import ContactPageLayout from "./components/layouts/pages/ContactPageLayout";
 import PageNavigatorBar from "./components/molecules/navigator/PageNavigatorBar";
-import NavigationBarLink from "./components/atoms/NavigationBarLink";
+import PageNavigatorBarLink from "./components/atoms/PageNavigatorBarLink";
 import Footer from "./components/molecules/Footer";
 import NotFoundPageLayout from "./components/layouts/pages/NotFoundPageLayout";
 import Spacer from "./components/atoms/Spacer";
@@ -13,15 +13,15 @@ function App() {
     return (
       <PageNavigator>
           <PageNavigatorBar>
-              <NavigationBarLink to="/" pageTitle="Home">
+              <PageNavigatorBarLink to="/" pageTitle="Home">
                   Home
-              </NavigationBarLink>
-              <NavigationBarLink to="/experience" pageTitle="Experience">
+              </PageNavigatorBarLink>
+              <PageNavigatorBarLink to="/experience" pageTitle="Experience">
                   Experience
-              </NavigationBarLink>
-              <NavigationBarLink to="/contact" pageTitle="Contact">
+              </PageNavigatorBarLink>
+              <PageNavigatorBarLink to="/contact" pageTitle="Contact">
                   Contact
-              </NavigationBarLink>
+              </PageNavigatorBarLink>
           </PageNavigatorBar>
 
           <HomePageLayout path="/" />
