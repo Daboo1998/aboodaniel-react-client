@@ -9,7 +9,6 @@ export interface NavigationBarLinkProps extends LinkProps {
 }
 
 const NavigationBarLink: React.FC<NavigationBarLinkProps> = ({to, children, pageTitle}) => {
-    const [isHovered, setIsHovered] = useState(false);
     const navigator = useContext(PageNavigatorContext);
     const pageNavigatorBar = useContext(PageNavigatorBarContext);
 
@@ -24,10 +23,11 @@ const NavigationBarLink: React.FC<NavigationBarLinkProps> = ({to, children, page
     });
 
     return (
-        <Link to={to} className={`>md:border-r <md:border-b border-black p-2 pb-6 pt-6 >md:p-4
-        bg-${(to === navigator.currentPath || isHovered) ? "gray-200" : "white"}`}
-              onMouseEnter={(_) => setIsHovered(true)}
-              onMouseLeave={(_) => setIsHovered(false)}
+        <Link to={to}
+              className = {
+                "bg-white hover:bg-gray-200 >md:border-r <md:border-b border-black p-2 pb-6 pt-6 >md:p-4" +
+                (to === navigator.currentPath) ? " bg-gray-200" : ""
+              }
               onClick={handleClick}
         >
             {children}
