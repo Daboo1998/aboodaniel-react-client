@@ -7,7 +7,7 @@ export interface ExperiencePageLayoutProps extends PageLayoutProps {}
 
 const ExperiencePageLayout: React.FC<ExperiencePageLayoutProps> = ({ path }) => {
     return (
-        <PageLayout path={path} className="pt-10">
+        <PageLayout path={path}>
             <h1 className="text-gray-500 font-bold w-full pl-4">My experience</h1>
             <div className=" rounded-md border-black mt-4 mb-4 p-2">
                 {

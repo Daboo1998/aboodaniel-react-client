@@ -2,6 +2,8 @@ import React, {useContext, useState} from "react";
 import { ReactComponent as MenuIcon } from "../../../images/icons/menuIcon.svg";
 import { ReactComponent as CloseIcon } from "../../../images/icons/closeIcon.svg"
 import {PageNavigatorContext} from "../../pageNavigator/PageNavigator";
+import Spacer from "../../atoms/Spacer";
+import {useAuth} from "../../../contexts/AuthContext";
 
 export const PageNavigatorBarContext = React.createContext({
     isHidden: false,
@@ -11,6 +13,17 @@ export const PageNavigatorBarContext = React.createContext({
 const PageNavigatorBar: React.FC = ({children}) => {
     const [isHidden, setIsHidden] = useState(true);
     const { currentTitle } = useContext(PageNavigatorContext);
+
+    const {isDeveloper, login, logout} = useAuth();
+
+    const handleLogin = (e: React.MouseEvent) => {
+        e.preventDefault();
+        if (isDeveloper) {
+            logout();
+        } else {
+            login()
+        }
+    };
 
     return (<PageNavigatorBarContext.Provider value={{isHidden, hide: () => setIsHidden(true)}}>
       <div className={`flex flex-col >md:flex-row ${isHidden ? "" : "border-b"} >md:border-b border-black fixed w-full top-0 bg-white z-10`}>
@@ -26,7 +39,11 @@ const PageNavigatorBar: React.FC = ({children}) => {
               <md:overflow-hidden <md:transition-height <md:duration-500 <md:ease-in-out`
           }>
               {children}
+              <Spacer />
+              <button className="pb-20 >md:hidden" onClick={handleLogin}>{isDeveloper ? "Log Out" : "Log In"}</button>
           </div>
+          <Spacer />
+          <button className="pr-4 <md:hidden" onClick={handleLogin}>{isDeveloper ? "Log Out" : "Log In"}</button>
       </div>
     </PageNavigatorBarContext.Provider>);
 };

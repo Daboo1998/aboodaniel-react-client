@@ -5,7 +5,7 @@ interface HomePageLayoutProps extends PageLayoutProps {}
 
 const HomePageLayout: React.FC<HomePageLayoutProps> = ({ path }) => {
     return (
-        <PageLayout path={path} className="pt-10">
+        <PageLayout path={path}>
             <h1>Welcome to my kingdom!</h1>
         </PageLayout>
     );
