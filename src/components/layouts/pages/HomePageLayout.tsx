@@ -1,5 +1,5 @@
 import React from "react";
-import PageLayout, {PageLayoutProps} from "./PageLayout";
+import PageLayout, {PageLayoutProps} from "../PageLayout";
 
 interface HomePageLayoutProps extends PageLayoutProps {}
 

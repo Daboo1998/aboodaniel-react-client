@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
-import PageLayout from "./PageLayout";
-import {PageNavigatorContext} from "../pageNavigator/PageNavigator";
+import PageLayout from "../PageLayout";
+import {PageNavigatorContext} from "../../pageNavigator/PageNavigator";
 
 const NotFoundPageLayout: React.FC = () => {
     const {paths, currentPath} = useContext(PageNavigatorContext);

@@ -1,7 +1,7 @@
 import React from "react";
-import PageLayout, {PageLayoutProps} from "./PageLayout";
-import experience from "../../data/experience";
-import Experience from "../molecules/experience/Experience";
+import PageLayout, {PageLayoutProps} from "../PageLayout";
+import experience from "../../../data/experience";
+import Experience from "../../molecules/experience/Experience";
 
 export interface ExperiencePageLayoutProps extends PageLayoutProps {}
 
