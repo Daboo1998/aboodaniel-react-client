@@ -1,14 +1,14 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect} from "react";
 import Link, {LinkProps} from "./Link";
 import {PageNavigatorContext } from "../pageNavigator/PageNavigator";
 import { PageNavigatorBarContext } from "../molecules/navigator/PageNavigatorBar";
 
 
-export interface NavigationBarLinkProps extends LinkProps {
+export interface PageNavigatorBarLinkProps extends LinkProps {
     pageTitle: string
 }
 
-const NavigationBarLink: React.FC<NavigationBarLinkProps> = ({to, children, pageTitle}) => {
+const PageNavigatorBarLink: React.FC<PageNavigatorBarLinkProps> = ({to, children, pageTitle}) => {
     const navigator = useContext(PageNavigatorContext);
     const pageNavigatorBar = useContext(PageNavigatorBarContext);
 
@@ -26,7 +26,7 @@ const NavigationBarLink: React.FC<NavigationBarLinkProps> = ({to, children, page
         <Link to={to}
               className = {
                 "bg-white hover:bg-gray-200 >md:border-r <md:border-b border-black p-2 pb-6 pt-6 >md:p-4" +
-                (to === navigator.currentPath) ? " bg-gray-200" : ""
+                ((to === navigator.currentPath) ? " bg-gray-200" : "")
               }
               onClick={handleClick}
         >
@@ -35,4 +35,4 @@ const NavigationBarLink: React.FC<NavigationBarLinkProps> = ({to, children, page
     );
 };
 
-export default NavigationBarLink;
+export default PageNavigatorBarLink;
