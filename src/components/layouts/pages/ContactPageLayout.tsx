@@ -19,9 +19,9 @@ const ContactPageLayout: React.FC<ContactPageLayoutProps> = ({ path }) => {
         <PageLayout path={path} className="pt-10 items-center">
             <h1>Contact</h1>
             <form className="flex flex-col items-end w-min" onSubmit={handleSubmit}>
-                <TextInput name="email" value={email} onChange={setEmail}>Email: </TextInput>
-                <TextInput name="name" value={name} onChange={setName}>Name: </TextInput>
-                <TextAreaInput name="message" value={message} onChange={setMessage}>Message: </TextAreaInput>
+                <TextInput name="email" value={email} onChange={setEmail}>Email:</TextInput>
+                <TextInput name="name" value={name} onChange={setName}>Name:</TextInput>
+                <TextAreaInput name="message" value={message} onChange={setMessage}>Message:</TextAreaInput>
             </form>
             <button onClick={handleSubmit}>Submit</button>
         </PageLayout>
