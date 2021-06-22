@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import Link, {LinkProps} from "./Link";
 import { PageNavigatorBarContext } from "../molecules/navigator/PageNavigatorBar";
 import { useHistory } from 'react-router-dom'
@@ -15,6 +15,12 @@ const PageNavigatorBarLink: React.FC<PageNavigatorBarLinkProps> = ({to, children
         pageNavigatorBar.hide();
         pageNavigatorBar.setCurrentTitle(pageTitle);
     };
+
+    useEffect(() => {
+        if (to === history.location.pathname) {
+            pageNavigatorBar.setCurrentTitle(pageTitle);
+        }
+    });
 
     return (
         <Link to={to}
