@@ -1,18 +1,19 @@
-import React, {useContext, useState} from "react";
+import React, {useState} from "react";
 import { ReactComponent as MenuIcon } from "../../../images/icons/menuIcon.svg";
 import { ReactComponent as CloseIcon } from "../../../images/icons/closeIcon.svg"
-import {PageNavigatorContext} from "../../pageNavigator/PageNavigator";
 
 export const PageNavigatorBarContext = React.createContext({
     isHidden: false,
+    currentTitle: "",
+    setCurrentTitle: (title: string) => {},
     hide: () => {}
 });
 
 const PageNavigatorBar: React.FC = ({children}) => {
     const [isHidden, setIsHidden] = useState(true);
-    const { currentTitle } = useContext(PageNavigatorContext);
+    const [currentTitle, setCurrentTitle] = useState("");
 
-    return (<PageNavigatorBarContext.Provider value={{isHidden, hide: () => setIsHidden(true)}}>
+    return (<PageNavigatorBarContext.Provider value={{isHidden, currentTitle, hide: () => setIsHidden(true), setCurrentTitle}}>
       <div className={`flex flex-col >md:flex-row ${isHidden ? "" : "border-b"} >md:border-b border-black fixed w-full top-0 bg-white z-10`}>
           <div className="flex flex-row >md:hidden bg-white w-10 h-14 border-b border-black w-full">
               <button className="border-0 p-2 w-10 pl-6" onClick={(_) => setIsHidden(!isHidden)}>

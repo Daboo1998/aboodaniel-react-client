@@ -5,9 +5,9 @@ import Experience from "../molecules/experience/Experience";
 
 export interface ExperiencePageLayoutProps extends PageLayoutProps {}
 
-const ExperiencePageLayout: React.FC<ExperiencePageLayoutProps> = ({ path }) => {
+const ExperiencePageLayout: React.FC<ExperiencePageLayoutProps> = () => {
     return (
-        <PageLayout path={path} className="pt-10">
+        <PageLayout className="pt-10">
             <h1 className="text-gray-500 font-bold w-full pl-4">My experience</h1>
             <div className=" rounded-md border-black mt-4 mb-4 p-2">
                 {
