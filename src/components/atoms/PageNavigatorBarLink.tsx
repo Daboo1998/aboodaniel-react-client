@@ -17,7 +17,7 @@ const PageNavigatorBarLink: React.FC<PageNavigatorBarLinkProps> = ({to, children
     };
 
     useEffect(() => {
-        if (to === history.location.pathname) {
+        if (pageNavigatorBar.currentTitle !== pageTitle && to === history.location.pathname) {
             pageNavigatorBar.setCurrentTitle(pageTitle);
         }
     });
