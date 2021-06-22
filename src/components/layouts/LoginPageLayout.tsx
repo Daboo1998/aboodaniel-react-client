@@ -3,20 +3,31 @@ import PageLayout from "./PageLayout";
 import Spacer from "../atoms/Spacer";
 import {useAuth} from "../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
+import firebase from "firebase/app";
+import "firebase/auth";
 
 const LoginPageLayout: React.FC = () => {
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const {login, loginSource} = useAuth();
     const history = useHistory();
 
-    const handleSubmit: FormEventHandler = (e) => {
+    const handleSubmit: FormEventHandler = async (e) => {
         e.preventDefault();
-        if (username === "admin" && password === "alpine") {
-            login();
-            history.push(loginSource);
-        }
+
+        login(email, password).then(user => {
+            if (user) {
+                console.log(`Logged in with uid="${user.user?.uid}"`);
+                history.push(loginSource);
+            } else {
+                // TODO: display errors
+                console.log("No user")
+            }
+        }).catch(e => {
+            console.log("something is wrong!");
+            console.log(e);
+        });
     };
 
     return (
@@ -25,8 +36,8 @@ const LoginPageLayout: React.FC = () => {
             <div className="flex flex-col items-center">
                 <form onSubmit={handleSubmit}>
                     <label>
-                        <p>Username</p>
-                        <input type="text" onChange={e => setUsername(e.target.value)} className="border border-black rounded px-1" />
+                        <p>Email</p>
+                        <input type="text" onChange={e => setEmail(e.target.value)} className="border border-black rounded px-1" />
                     </label>
                     <label>
                         <p>Password</p>

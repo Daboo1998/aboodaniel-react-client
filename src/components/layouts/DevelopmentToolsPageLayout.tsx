@@ -1,22 +1,23 @@
-import React from "react";
+import React, {useEffect} from "react";
 import PageLayout, {PageLayoutProps} from "./PageLayout";
 import {useAuth} from "../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
+import firebase from "firebase";
 
 export interface DevelopmentToolsPageLayoutProps extends PageLayoutProps {}
 
 const DevelopmentToolsPageLayout: React.FC<DevelopmentToolsPageLayoutProps> = () => {
-    const {isDeveloper, wentToLogin} = useAuth();
+    const {wentToLogin, isLoggedIn} = useAuth();
     const history = useHistory();
 
-    if (!isDeveloper) {
+    if (isLoggedIn !== undefined && !isLoggedIn) {
         history.push("/login");
         wentToLogin("/developerTools");
     }
 
     return (
         <PageLayout>
-            {isDeveloper ? <h1>Development Tools</h1> : <h1>You have to log in!</h1>}
+            {isLoggedIn && <h1>Development Tools</h1>}
         </PageLayout>
     );
 };

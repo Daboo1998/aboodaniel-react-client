@@ -4,6 +4,7 @@ import { ReactComponent as CloseIcon } from "../../../images/icons/closeIcon.svg
 import {useAuth} from "../../../contexts/AuthContext";
 import Spacer from "../../atoms/Spacer";
 import {useHistory} from "react-router-dom";
+import firebase from "firebase";
 
 export const PageNavigatorBarContext = React.createContext({
     isHidden: false,
@@ -17,13 +18,15 @@ const PageNavigatorBar: React.FC = ({children}) => {
     const [currentTitle, setCurrentTitle] = useState("Home");
     const history = useHistory();
 
-    const {isDeveloper, logout, wentToLogin} = useAuth();
+    const {logout, wentToLogin, isLoggedIn} = useAuth();
 
     const handleLogin = (e: React.MouseEvent) => {
         e.preventDefault();
-        if (isDeveloper) {
-            logout();
-            history.push("/");
+        if (isLoggedIn) {
+            logout().then(_ => {
+                console.log("Signed Out");
+                history.push("/");
+            });
         } else {
             wentToLogin(history.location.pathname);
             history.push("/login");
@@ -45,10 +48,10 @@ const PageNavigatorBar: React.FC = ({children}) => {
           }>
               {children}
               <Spacer />
-              <button className="pb-20 >md:hidden" onClick={handleLogin}>{isDeveloper ? "Log Out" : "Log In"}</button>
+              <button className="pb-20 >md:hidden" onClick={handleLogin}>{isLoggedIn ? "Log Out" : "Log In"}</button>
           </div>
           <Spacer />
-          <button className="pr-4 <md:hidden" onClick={handleLogin}>{isDeveloper ? "Log Out" : "Log In"}</button>
+          <button className="pr-4 <md:hidden" onClick={handleLogin}>{isLoggedIn ? "Log Out" : "Log In"}</button>
       </div>
     </PageNavigatorBarContext.Provider>);
 };

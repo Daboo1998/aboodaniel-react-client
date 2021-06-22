@@ -9,11 +9,12 @@ import Spacer from "./components/atoms/Spacer";
 import DevelopmentToolsPageLayout from "./components/layouts/DevelopmentToolsPageLayout";
 import LoginPageLayout from "./components/layouts/LoginPageLayout";
 import {useAuth} from "./contexts/AuthContext";
+import firebase from "firebase";
 
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 function App() {
-    const auth = useAuth();
+    const {isLoggedIn} = useAuth();
 
     return (
         <BrowserRouter basename="/">
@@ -26,7 +27,7 @@ function App() {
                         Experience
                     </PageNavigatorBarLink>
                     {
-                        auth.isDeveloper && <PageNavigatorBarLink to="/developerTools" pageTitle="Developer Tools">
+                        isLoggedIn && <PageNavigatorBarLink to="/developerTools" pageTitle="Developer Tools">
                             Developer Tools
                         </PageNavigatorBarLink>
                     }
