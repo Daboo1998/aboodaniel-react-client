@@ -3,6 +3,7 @@ import { ReactComponent as MenuIcon } from "../../../images/icons/menuIcon.svg";
 import { ReactComponent as CloseIcon } from "../../../images/icons/closeIcon.svg"
 import {useAuth} from "../../../contexts/AuthContext";
 import Spacer from "../../atoms/Spacer";
+import {useHistory} from "react-router-dom";
 
 export const PageNavigatorBarContext = React.createContext({
     isHidden: false,
@@ -14,15 +15,18 @@ export const PageNavigatorBarContext = React.createContext({
 const PageNavigatorBar: React.FC = ({children}) => {
     const [isHidden, setIsHidden] = useState(true);
     const [currentTitle, setCurrentTitle] = useState("Home");
+    const history = useHistory();
 
-    const {isDeveloper, login, logout} = useAuth();
+    const {isDeveloper, logout, wentToLogin} = useAuth();
 
     const handleLogin = (e: React.MouseEvent) => {
         e.preventDefault();
         if (isDeveloper) {
             logout();
+            history.push("/");
         } else {
-            login()
+            wentToLogin(history.location.pathname);
+            history.push("/login");
         }
     };
 

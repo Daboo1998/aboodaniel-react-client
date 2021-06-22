@@ -13,6 +13,7 @@ const PageNavigatorBarLink: React.FC<PageNavigatorBarLinkProps> = ({to, children
 
     const handleClick = (e: React.MouseEvent) => {
         pageNavigatorBar.hide();
+        pageNavigatorBar.setCurrentTitle(pageTitle);
     };
 
     useEffect(() => {

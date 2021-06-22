@@ -7,6 +7,7 @@ import Footer from "./components/molecules/Footer";
 import NotFoundPageLayout from "./components/layouts/NotFoundPageLayout";
 import Spacer from "./components/atoms/Spacer";
 import DevelopmentToolsPageLayout from "./components/layouts/DevelopmentToolsPageLayout";
+import LoginPageLayout from "./components/layouts/LoginPageLayout";
 import {useAuth} from "./contexts/AuthContext";
 
 import { BrowserRouter, Route, Switch } from "react-router-dom";
@@ -37,11 +38,12 @@ function App() {
                     <Route exact path="/experience">
                         <ExperiencePageLayout />
                     </Route>
-                    {
-                        auth.isDeveloper && <Route exact path="/developerTools">
-                            <DevelopmentToolsPageLayout />
-                        </Route>
-                    }
+                    <Route exact path="/developerTools">
+                        <DevelopmentToolsPageLayout />
+                    </Route>
+                    <Route exact path="/login">
+                        <LoginPageLayout />
+                    </Route>
                     <Route>
                         <NotFoundPageLayout />
                     </Route>
