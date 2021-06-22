@@ -4,6 +4,8 @@ import firebase from "firebase";
 interface AuthContextInterface {
     loginSource: string;
     isLoggedIn: boolean | undefined;
+    isDeveloper: boolean;
+    user: firebase.User | null;
     wentToLogin: (source: string) => void;
     login: (email: string, password: string) => Promise<void | firebase.auth.UserCredential>,
     logout: () => Promise<any>
@@ -13,7 +15,9 @@ interface AuthContextInterface {
 const AuthContext = React.createContext<AuthContextInterface>({
     loginSource: "",
     isLoggedIn: undefined,
+    isDeveloper: false,
     wentToLogin: (source: string) => {},
+    user: null,
     login: (email: string, password: string) => { return Promise.reject() },
     logout: () => { return Promise.reject() }
 });
@@ -25,12 +29,27 @@ export const useAuth = () => {
 export const AuthContextProvider: React.FC = ({children}) => {
     const [loginSource, setLoginSource] = useState<string>("");
     const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>(undefined);
+    const [user, setUser] = useState<firebase.User | null>(null);
+    const [isDeveloper, setIsDeveloper] = useState(false);
 
-    firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
+    firebase.auth().onAuthStateChanged(function(newUser) {
+        if (newUser) {
+            firebase.firestore()
+                .collection("roles")
+                .where("users", "array-contains", newUser.uid)
+                .get()
+                .then(result => {
+                   if (!result.empty) {
+                       setIsDeveloper(true);
+                   }
+                });
+
             setIsLoggedIn(true);
+            setUser(newUser);
         } else {
             setIsLoggedIn(false);
+            setIsDeveloper(false);
+            setUser(null);
         }
     });
 
@@ -49,7 +68,7 @@ export const AuthContextProvider: React.FC = ({children}) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, login: handleLogin, logout: handleLogout, wentToLogin, loginSource}}>
+        <AuthContext.Provider value={{ user, isLoggedIn, login: handleLogin, logout: handleLogout, wentToLogin, loginSource, isDeveloper}}>
             {children}
         </AuthContext.Provider>
     );

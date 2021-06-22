@@ -7,7 +7,7 @@ import firebase from "firebase";
 export interface DevelopmentToolsPageLayoutProps extends PageLayoutProps {}
 
 const DevelopmentToolsPageLayout: React.FC<DevelopmentToolsPageLayoutProps> = () => {
-    const {wentToLogin, isLoggedIn} = useAuth();
+    const {wentToLogin, isLoggedIn, isDeveloper} = useAuth();
     const history = useHistory();
 
     if (isLoggedIn !== undefined && !isLoggedIn) {
@@ -17,7 +17,7 @@ const DevelopmentToolsPageLayout: React.FC<DevelopmentToolsPageLayoutProps> = ()
 
     return (
         <PageLayout>
-            {isLoggedIn && <h1>Development Tools</h1>}
+            {isLoggedIn && (isDeveloper ? <h1>Development Tools</h1> : <h1>You are not a developer! Its dangerous here!</h1>)}
         </PageLayout>
     );
 };
