@@ -3,10 +3,10 @@ import PageLayout, {PageLayoutProps} from "./PageLayout";
 
 export interface DevelopmentToolsPageLayoutProps extends PageLayoutProps {}
 
-const DevelopmentToolsPageLayout: React.FC<DevelopmentToolsPageLayoutProps> = ({path}) => {
+const DevelopmentToolsPageLayout: React.FC<DevelopmentToolsPageLayoutProps> = () => {
 
     return (
-        <PageLayout path={path}>
+        <PageLayout>
             <h1>Development Tools</h1>
         </PageLayout>
     );

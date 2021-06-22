@@ -1,11 +1,9 @@
 import React from "react";
-import PageLayout, {PageLayoutProps} from "./PageLayout";
+import PageLayout from "./PageLayout";
 
-interface HomePageLayoutProps extends PageLayoutProps {}
-
-const HomePageLayout: React.FC<HomePageLayoutProps> = ({ path }) => {
+const HomePageLayout: React.FC = () => {
     return (
-        <PageLayout path={path}>
+        <PageLayout className="pt-10">
             <h1>Welcome to my kingdom!</h1>
         </PageLayout>
     );
