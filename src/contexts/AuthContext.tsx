@@ -7,7 +7,8 @@ interface AuthContextInterface {
     isDeveloper: boolean;
     user: firebase.User | null;
     wentToLogin: (source: string) => void;
-    login: (email: string, password: string) => Promise<void | firebase.auth.UserCredential>,
+    login: (email: string, password: string, shouldRememberUser: boolean) => Promise<void | firebase.auth.UserCredential>,
+    register: (email: string, password: string, shouldRememberUser: boolean) => Promise<void | firebase.auth.UserCredential>,
     logout: () => Promise<any>
 }
 
@@ -18,7 +19,8 @@ const AuthContext = React.createContext<AuthContextInterface>({
     isDeveloper: false,
     wentToLogin: (source: string) => {},
     user: null,
-    login: (email: string, password: string) => { return Promise.reject() },
+    login: (email: string, password: string, shouldRememberUser: boolean) => { return Promise.reject() },
+    register: (email: string, password: string, shouldRememberUser: boolean) => { return Promise.reject() },
     logout: () => { return Promise.reject() }
 });
 
@@ -53,9 +55,27 @@ export const AuthContextProvider: React.FC = ({children}) => {
         }
     });
 
-    const handleLogin = async (email: string, password: string) => {
-        return firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
+    const handleLogin = async (email: string, password: string, shouldRememberUser: boolean) => {
+        let persistence = firebase.auth.Auth.Persistence.SESSION;
+
+        if (shouldRememberUser) {
+            persistence = firebase.auth.Auth.Persistence.LOCAL;
+        }
+
+        return firebase.auth().setPersistence(persistence).then(() => {
             return firebase.auth().signInWithEmailAndPassword(email, password);
+        });
+    };
+
+    const handleRegister = async (email: string, password: string, shouldRememberUser: boolean) => {
+        let persistence = firebase.auth.Auth.Persistence.SESSION;
+
+        if (shouldRememberUser) {
+            persistence = firebase.auth.Auth.Persistence.LOCAL;
+        }
+
+        return firebase.auth().setPersistence(persistence).then(() => {
+           return firebase.auth().createUserWithEmailAndPassword(email, password);
         });
     };
 
@@ -68,7 +88,14 @@ export const AuthContextProvider: React.FC = ({children}) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, isLoggedIn, login: handleLogin, logout: handleLogout, wentToLogin, loginSource, isDeveloper}}>
+        <AuthContext.Provider value={{
+            user,
+            isLoggedIn,
+            login: handleLogin,
+            logout: handleLogout, wentToLogin,
+            register: handleRegister,
+            loginSource,
+            isDeveloper}}>
             {children}
         </AuthContext.Provider>
     );

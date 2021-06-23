@@ -10,6 +10,7 @@ import DevelopmentToolsPageLayout from "./components/layouts/DevelopmentToolsPag
 import LoginPageLayout from "./components/layouts/LoginPageLayout";
 import {useAuth} from "./contexts/AuthContext";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import RegisterPageLayout from "./components/layouts/RegisterPageLayout";
 
 function App() {
     const {isDeveloper, user} = useAuth();
@@ -46,6 +47,9 @@ function App() {
                     </Route>
                     <Route exact path="/login">
                         <LoginPageLayout />
+                    </Route>
+                    <Route exact path="/register">
+                        <RegisterPageLayout />
                     </Route>
                     <Route>
                         <NotFoundPageLayout />
