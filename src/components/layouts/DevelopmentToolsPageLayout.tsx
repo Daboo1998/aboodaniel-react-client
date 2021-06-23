@@ -1,8 +1,8 @@
-import React, {useEffect} from "react";
+import React from "react";
 import PageLayout, {PageLayoutProps} from "./PageLayout";
 import {useAuth} from "../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
-import firebase from "firebase";
+import DevelopmentTools from "../molecules/developer tools/DevelopmentTools";
 
 export interface DevelopmentToolsPageLayoutProps extends PageLayoutProps {}
 
@@ -17,7 +17,7 @@ const DevelopmentToolsPageLayout: React.FC<DevelopmentToolsPageLayoutProps> = ()
 
     return (
         <PageLayout>
-            {isLoggedIn && (isDeveloper ? <h1>Development Tools</h1> : <h1>You are not a developer! Its dangerous here!</h1>)}
+            {isLoggedIn && (isDeveloper ? <DevelopmentTools /> : <h1>You are not a developer! Its dangerous here!</h1>)}
         </PageLayout>
     );
 };

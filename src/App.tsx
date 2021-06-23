@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import HomePageLayout from "./components/layouts/HomePageLayout";
 import ExperiencePageLayout from "./components/layouts/ExperiencePageLayout";
 import PageNavigatorBar from "./components/molecules/navigator/PageNavigatorBar";
@@ -15,9 +15,11 @@ import RegisterPageLayout from "./components/layouts/RegisterPageLayout";
 function App() {
     const {isDeveloper, user} = useAuth();
 
-    user?.getIdToken().then(token => {
-       console.log(`token: ${token}`);
-    });
+    useEffect(() => {
+        user?.getIdToken().then(token => {
+            console.log(`token: ${token}`);
+        });
+    }, [user]);
 
     return (
         <BrowserRouter basename="/">

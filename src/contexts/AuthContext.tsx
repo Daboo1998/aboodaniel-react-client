@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, useEffect} from "react";
 import firebase from "firebase";
 
 interface AuthContextInterface {
@@ -30,30 +30,36 @@ export const useAuth = () => {
 
 export const AuthContextProvider: React.FC = ({children}) => {
     const [loginSource, setLoginSource] = useState<string>("");
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>(undefined);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean| undefined>(undefined);
     const [user, setUser] = useState<firebase.User | null>(null);
     const [isDeveloper, setIsDeveloper] = useState(false);
 
-    firebase.auth().onAuthStateChanged(function(newUser) {
-        if (newUser) {
-            firebase.firestore()
-                .collection("roles")
-                .where("users", "array-contains", newUser.uid)
-                .get()
-                .then(result => {
-                   if (!result.empty) {
-                       setIsDeveloper(true);
-                   }
-                });
+    useEffect(() => {
+        const unsubscribe = firebase.auth().onAuthStateChanged(function(newUser) {
+            if (newUser) {
+                firebase.firestore()
+                    .collection("roles")
+                    .where("users", "array-contains", newUser.uid)
+                    .get()
+                    .then(result => {
+                        if (!result.empty) {
+                            setIsDeveloper(true);
+                        }
+                    }).catch(e => {
+                        console.error("Could not retrieve role List: " + e.message);
+                    });
+                console.log(newUser);
+                setIsLoggedIn(true);
+                setUser(newUser);
+            } else {
+                setIsLoggedIn(false);
+                setIsDeveloper(false);
+                setUser(null);
+            }
+        });
 
-            setIsLoggedIn(true);
-            setUser(newUser);
-        } else {
-            setIsLoggedIn(false);
-            setIsDeveloper(false);
-            setUser(null);
-        }
-    });
+        return () => unsubscribe();
+    }, []);
 
     const handleLogin = async (email: string, password: string, shouldRememberUser: boolean) => {
         let persistence = firebase.auth.Auth.Persistence.SESSION;
