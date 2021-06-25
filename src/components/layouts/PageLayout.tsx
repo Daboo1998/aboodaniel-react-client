@@ -10,7 +10,7 @@ const PageLayout: React.FC<PageLayoutProps> = (
     }
 ) => {
     return (
-        <div className={"flex flex-col w-full p-10 bg-white"}  {...props}>
+        <div className={"flex flex-col w-full p-10 bg-white pt-20"}  {...props}>
             <div className={(className ?? "") + " w-full"}>
                 {children}
             </div>

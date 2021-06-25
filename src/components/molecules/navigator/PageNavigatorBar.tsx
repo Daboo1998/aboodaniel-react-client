@@ -1,6 +1,10 @@
 import React, {useState} from "react";
 import { ReactComponent as MenuIcon } from "../../../images/icons/menuIcon.svg";
 import { ReactComponent as CloseIcon } from "../../../images/icons/closeIcon.svg"
+import {useAuth} from "../../../contexts/AuthContext";
+import Spacer from "../../atoms/Spacer";
+import {useHistory} from "react-router-dom";
+import firebase from "firebase";
 
 export const PageNavigatorBarContext = React.createContext({
     isHidden: false,
@@ -11,7 +15,23 @@ export const PageNavigatorBarContext = React.createContext({
 
 const PageNavigatorBar: React.FC = ({children}) => {
     const [isHidden, setIsHidden] = useState(true);
-    const [currentTitle, setCurrentTitle] = useState("");
+    const [currentTitle, setCurrentTitle] = useState("Home");
+    const history = useHistory();
+
+    const {logout, wentToLogin, isLoggedIn, user} = useAuth();
+
+    const handleLogin = (e: React.MouseEvent) => {
+        e.preventDefault();
+        if (isLoggedIn) {
+            logout().then(_ => {
+                console.log("Signed Out");
+                history.push("/");
+            });
+        } else {
+            wentToLogin(history.location.pathname);
+            history.push("/login");
+        }
+    };
 
     return (<PageNavigatorBarContext.Provider value={{isHidden, currentTitle, hide: () => setIsHidden(true), setCurrentTitle}}>
       <div className={`flex flex-col >md:flex-row ${isHidden ? "" : "border-b"} >md:border-b border-black fixed w-full top-0 bg-white z-10`}>
@@ -27,6 +47,15 @@ const PageNavigatorBar: React.FC = ({children}) => {
               <md:overflow-hidden <md:transition-height <md:duration-500 <md:ease-in-out`
           }>
               {children}
+              <Spacer />
+              <button className="pb-20 >md:hidden" onClick={handleLogin}>{isLoggedIn ? "Log Out" : "Log In"}</button>
+          </div>
+          <Spacer />
+          <div className={"flex flex-row items-center"}>
+              {
+                  user && <p className="px-4 text-blue-800">{user?.displayName ? user.displayName : user?.uid}</p>
+              }
+              <button className="pr-4 <md:hidden" onClick={handleLogin}>{isLoggedIn ? "Log Out" : "Log In"}</button>
           </div>
       </div>
     </PageNavigatorBarContext.Provider>);

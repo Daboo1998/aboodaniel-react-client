@@ -3,10 +3,23 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {AuthContextProvider} from "./contexts/AuthContext";
+import firebase from "firebase/app";
+
+firebase.initializeApp({
+    apiKey: "AIzaSyDZjX5mSBoF_ebDTlcLUDJFuRo6Iz_-3WQ",
+    authDomain: "aboodaniel-website.firebaseapp.com",
+    projectId: "aboodaniel-website",
+    storageBucket: "aboodaniel-website.appspot.com",
+    messagingSenderId: "366395000913",
+    appId: "1:366395000913:web:c846d73944c2db09751070"
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AuthContextProvider>
+        <App />
+    </AuthContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

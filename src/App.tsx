@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import HomePageLayout from "./components/layouts/HomePageLayout";
 import ExperiencePageLayout from "./components/layouts/ExperiencePageLayout";
 import PageNavigatorBar from "./components/molecules/navigator/PageNavigatorBar";
@@ -6,10 +6,21 @@ import PageNavigatorBarLink from "./components/atoms/PageNavigatorBarLink";
 import Footer from "./components/molecules/Footer";
 import NotFoundPageLayout from "./components/layouts/NotFoundPageLayout";
 import Spacer from "./components/atoms/Spacer";
-
+import DevelopmentToolsPageLayout from "./components/layouts/DevelopmentToolsPageLayout";
+import LoginPageLayout from "./components/layouts/LoginPageLayout";
+import {useAuth} from "./contexts/AuthContext";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import RegisterPageLayout from "./components/layouts/RegisterPageLayout";
 
 function App() {
+    const {isDeveloper, user} = useAuth();
+
+    useEffect(() => {
+        user?.getIdToken().then(token => {
+            console.log(`token: ${token}`);
+        });
+    }, [user]);
+
     return (
         <BrowserRouter basename="/">
             <div className="flex flex-col h-screen">
@@ -20,6 +31,11 @@ function App() {
                     <PageNavigatorBarLink to="/experience" pageTitle="Experience">
                         Experience
                     </PageNavigatorBarLink>
+                    {
+                        isDeveloper && <PageNavigatorBarLink to="/developerTools" pageTitle="Developer Tools">
+                            Developer Tools
+                        </PageNavigatorBarLink>
+                    }
                 </PageNavigatorBar>
                 <Switch>
                     <Route exact path="/">
@@ -27,6 +43,15 @@ function App() {
                     </Route>
                     <Route exact path="/experience">
                         <ExperiencePageLayout />
+                    </Route>
+                    <Route exact path="/developerTools">
+                        <DevelopmentToolsPageLayout />
+                    </Route>
+                    <Route exact path="/login">
+                        <LoginPageLayout />
+                    </Route>
+                    <Route exact path="/register">
+                        <RegisterPageLayout />
                     </Route>
                     <Route>
                         <NotFoundPageLayout />
