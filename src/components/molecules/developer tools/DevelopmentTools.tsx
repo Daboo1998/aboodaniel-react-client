@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
-import firebase from "firebase";
+import firebase from "firebase/app";
 import usePopup from "../../../hooks/usePopup";
 import AddRolePopup from "./AddRolePopup";
 import AddUserPopup from "./AddUserPopup";
 import Spacer from "../../atoms/Spacer";
+import "firebase/firestore";
 
 type Role = {
     type: string;

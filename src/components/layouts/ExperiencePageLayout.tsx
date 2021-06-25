@@ -12,7 +12,7 @@ const ExperiencePageLayout: React.FC<ExperiencePageLayoutProps> = () => {
             <div className=" rounded-md border-black mt-4 mb-4 p-2">
                 {
                     experience.map((exp) => {
-                        return <Experience experience={exp} />
+                        return <Experience key={exp.title} experience={exp} />
                     })
                 }
             </div>

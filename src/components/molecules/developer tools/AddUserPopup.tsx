@@ -1,7 +1,8 @@
 import React, {FormEventHandler, useState} from "react";
 import {Popup, PopupProps} from "../../../hooks/usePopup";
-import firebase from "firebase";
 import Spacer from "../../atoms/Spacer";
+import firebase from "firebase/app";
+import "firebase/firestore";
 
 interface AddUserPopupProps extends PopupProps {
     hide: () => void,

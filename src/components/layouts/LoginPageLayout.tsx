@@ -4,7 +4,6 @@ import Spacer from "../atoms/Spacer";
 import {useAuth} from "../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
 import Link from "../atoms/Link";
-import "firebase/auth";
 
 const LoginPageLayout: React.FC = () => {
     const [email, setEmail] = useState("");
