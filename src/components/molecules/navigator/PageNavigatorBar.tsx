@@ -18,7 +18,7 @@ const PageNavigatorBar: React.FC = ({children}) => {
     const [currentTitle, setCurrentTitle] = useState("Home");
     const history = useHistory();
 
-    const {logout, wentToLogin, isLoggedIn} = useAuth();
+    const {logout, wentToLogin, isLoggedIn, user} = useAuth();
 
     const handleLogin = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -51,7 +51,12 @@ const PageNavigatorBar: React.FC = ({children}) => {
               <button className="pb-20 >md:hidden" onClick={handleLogin}>{isLoggedIn ? "Log Out" : "Log In"}</button>
           </div>
           <Spacer />
-          <button className="pr-4 <md:hidden" onClick={handleLogin}>{isLoggedIn ? "Log Out" : "Log In"}</button>
+          <div className={"flex flex-row items-center"}>
+              {
+                  user && <p className="px-4 text-blue-800">{user?.displayName ? user.displayName : user?.uid}</p>
+              }
+              <button className="pr-4 <md:hidden" onClick={handleLogin}>{isLoggedIn ? "Log Out" : "Log In"}</button>
+          </div>
       </div>
     </PageNavigatorBarContext.Provider>);
 };

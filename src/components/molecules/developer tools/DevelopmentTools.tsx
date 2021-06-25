@@ -14,38 +14,48 @@ const DevelopmentTools: React.FC = () => {
     const [rolesList, setRolesList] = useState<Role []>([]);
     const [isAddRolePopupShown, showAddRolePopup, hideAddRolePopup] = usePopup();
     const [isAddUserPopupShown, showAddUserPopup, hideAddUserPopup] = usePopup();
+    const [selectedRoleType, setSelectedRoleType] = useState("");
+    const [refreshIndicator, refresh] = useState<boolean>();
+
+    const handleShowAddUserPopup = (roleType: string) => {
+        setSelectedRoleType(roleType);
+        showAddUserPopup();
+    };
+
+    const handleChange = () => {
+        refresh(!refreshIndicator);
+    };
 
     useEffect(() => {
-        console.log("Refreshed list")
+        console.log("Refreshing list...");
         const col = firebase.firestore()
             .collection("roles");
 
-        const unsubscribe = col
-            .onSnapshot((querySnapshot => {
-                let newRolesList: Role[] = [];
-                querySnapshot
-                    .forEach(snapshot => {
-                        console.log("Doc changed: " + snapshot);
-                        const docData = snapshot.data();
-                        const roleData = {
-                            type: docData.id,
-                            users: docData.users ? docData.users : [],
-                        };
+        setRolesList([]);
+        col.get()
+            .then(result => {
+                const newList = result.docs.map((doc) => {
+                    const docData = doc.data();
 
-                        newRolesList.push(roleData);
-                        setRolesList?.(newRolesList);
-                    });
-            }), error => {
-                console.log(error.message);
+                    return {
+                        type: doc.id,
+                        users: docData.users ? docData.users : [],
+                    }
+                });
+
+                console.log(`Got ${newList.length} roles!`);
+
+                setRolesList(newList);
+            }).catch(e => {
+                console.log("Could not get list of roles: " + e.message);
             });
-
-        return () => unsubscribe();
-    }, []);
+    }, [refreshIndicator]);
 
     return (
         <div>
             <h1>Development Tools</h1>
-            <AddRolePopup isPopupShown={isAddRolePopupShown} hide={hideAddRolePopup} />
+            <AddRolePopup isPopupShown={isAddRolePopupShown} hide={hideAddRolePopup} onAdded={handleChange}/>
+            <AddUserPopup role={selectedRoleType} isPopupShown={isAddUserPopupShown} hide={hideAddUserPopup} onAdded={handleChange} />
             <div className="mt-4 border border-black w-max">
                 <div className="flex flex-row border-b border-black items-center px-2">
                     <h2 className="">Roles list</h2>
@@ -62,13 +72,12 @@ const DevelopmentTools: React.FC = () => {
                         rolesList?.map((role) => {
                             return role && role.type && (
                                 <li key={role.type}>
-                                    <AddUserPopup role={role.type} isPopupShown={isAddUserPopupShown} hide={hideAddUserPopup} />
                                     <div className="flex flex-row items-center border-b border-black">
                                         <h3>{role.type}</h3>
                                         <Spacer />
                                         <button
                                             className="border border-black p-1 m-1 rounded bg-green-600"
-                                            onClick={_ => showAddUserPopup()}
+                                            onClick={_ => handleShowAddUserPopup(role.type)}
                                         >
                                             <p className="text-white">add user</p>
                                         </button>

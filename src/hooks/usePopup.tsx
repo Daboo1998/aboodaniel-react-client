@@ -8,7 +8,7 @@ export interface PopupProps {
 export const Popup: React.FC<PopupProps> = ({children, isPopupShown}) => {
     if (isPopupShown) {
         return (
-            <div className={`z-50 w-screen h-screen bg-gray-200 bg-opacity-80 flex flex-col fixed top-0 left-0 items-center ${!isPopupShown && "hidden"}`}>
+            <div className={`z-50 w-screen h-screen bg-gray-100 bg-opacity-80 flex flex-col fixed top-0 left-0 items-center ${!isPopupShown && "hidden"}`}>
                 <Spacer />
                 <div className="w-min h-min bg-white">
                     {children}

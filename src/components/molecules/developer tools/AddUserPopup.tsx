@@ -5,10 +5,11 @@ import Spacer from "../../atoms/Spacer";
 
 interface AddUserPopupProps extends PopupProps {
     hide: () => void,
+    onAdded?: () => void
     role: string;
 }
 
-const AddUserPopup: React.FC<AddUserPopupProps> = ({isPopupShown, hide, role}) => {
+const AddUserPopup: React.FC<AddUserPopupProps> = ({isPopupShown, hide, role, onAdded}) => {
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
     const [user, setUser] = useState("");
 
@@ -16,14 +17,30 @@ const AddUserPopup: React.FC<AddUserPopupProps> = ({isPopupShown, hide, role}) =
         e.preventDefault();
         setErrorMessage(undefined);
 
-        firebase.firestore().collection("roles")
-            .doc(role)
-            .update("users", user)
-            .catch(e => {
-                setErrorMessage(e.message);
+        const documentReference = firebase.firestore()
+            .collection("roles")
+            .doc(role);
+
+        firebase.firestore()
+            .runTransaction(transaction => {
+                return transaction
+                    .get(documentReference)
+                    .then(document => {
+                        if (!document.exists) {
+                            throw Error("Document does not exist!");
+                        }
+                        const users = document.data()?.users;
+                        const newUsers = [...users, user];
+
+                        transaction.update(documentReference, { users: newUsers });
+                    });
             }).then(() => {
-            hide();
-        });
+                console.log("Transaction successfully committed!");
+                onAdded?.();
+                hide();
+            }).catch((error) => {
+                console.log("Transaction failed: ", error);
+            });
     };
 
     return (

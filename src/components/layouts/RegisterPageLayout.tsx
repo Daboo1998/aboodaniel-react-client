@@ -6,6 +6,7 @@ import {useHistory} from "react-router-dom";
 import "firebase/auth";
 
 const RegisterPageLayout: React.FC = () => {
+    const [displayName, setDisplayName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
@@ -15,8 +16,8 @@ const RegisterPageLayout: React.FC = () => {
     const {register, loginSource} = useAuth();
     const history = useHistory();
 
-    const handleSubmit: FormEventHandler = async (e) => {
-        e.preventDefault();
+    const handleSubmit: FormEventHandler = async (event) => {
+        event.preventDefault();
         setErrorMessage(undefined);
 
         if (password !== passwordConfirmation) {
@@ -24,26 +25,29 @@ const RegisterPageLayout: React.FC = () => {
             return;
         }
 
-        register(email, password, true).then((c) => {
-            if (c) {
-                console.log(`Registered in with uid="${c.user?.uid}"`);
+        register(email, password, true).then((credentials) => {
+            if (credentials) {
+                console.log(`Registered in with uid="${credentials.user?.uid}"`);
+                if (displayName !== "") {
+                    credentials.user?.updateProfile({displayName: displayName})
+                }
                 history.push(loginSource);
             } else {
                 setErrorMessage("Something went wrong!")
             }
-        }).catch(e => {
+        }).catch(error => {
             console.log("something is wrong!");
-            console.log(e);
+            console.log(error);
 
-            if (e.code === "auth/email-already-in-use") {
+            if (error.code === "auth/email-already-in-use") {
                 setErrorMessage("Email is already in use!");
-            } else if (e.code === "auth/invalid-email") {
+            } else if (error.code === "auth/invalid-email") {
                 setErrorMessage("Email is wrongly formatted!");
-            } else if (e.code === "auth/weak-password") {
+            } else if (error.code === "auth/weak-password") {
                 // To change in future
-                setErrorMessage(e.message);
+                setErrorMessage(error.message);
             } else {
-                setErrorMessage(e.message);
+                setErrorMessage(error.message);
             }
         });
     };
@@ -53,6 +57,10 @@ const RegisterPageLayout: React.FC = () => {
             <h1>Register</h1>
             <div className="flex flex-col items-center">
                 <form className="w-min" onSubmit={handleSubmit}>
+                    <label>
+                        <p>Display name: </p>
+                        <input type="text" onChange={e => setDisplayName(e.target.value)} className="border border-black rounded px-1" />
+                    </label>
                     <label>
                         <p>Email</p>
                         <input type="text" onChange={e => setEmail(e.target.value)} className="border border-black rounded px-1" />

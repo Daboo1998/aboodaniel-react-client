@@ -4,10 +4,11 @@ import firebase from "firebase";
 import Spacer from "../../atoms/Spacer";
 
 interface AddRolePopupProps extends PopupProps {
-    hide: () => void
+    hide: () => void;
+    onAdded?: () => void;
 }
 
-const AddRolePopup: React.FC<AddRolePopupProps> = ({isPopupShown, hide}) => {
+const AddRolePopup: React.FC<AddRolePopupProps> = ({isPopupShown, hide, onAdded}) => {
     const [newRole, setNewRole] = useState("");
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
@@ -20,6 +21,7 @@ const AddRolePopup: React.FC<AddRolePopupProps> = ({isPopupShown, hide}) => {
         }).catch(e => {
             setErrorMessage(e.message);
         }).then(() => {
+            onAdded?.();
             hide();
         });
     };

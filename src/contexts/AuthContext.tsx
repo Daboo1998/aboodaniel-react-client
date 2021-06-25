@@ -36,17 +36,17 @@ export const AuthContextProvider: React.FC = ({children}) => {
 
     useEffect(() => {
         const unsubscribe = firebase.auth().onAuthStateChanged(function(newUser) {
-            if (newUser) {
+            if (newUser && !newUser.isAnonymous) {
                 firebase.firestore()
                     .collection("roles")
-                    .where("users", "array-contains", newUser.uid)
+                    .doc("developer")
                     .get()
-                    .then(result => {
-                        if (!result.empty) {
-                            setIsDeveloper(true);
-                        }
+                    .then(_ => {
+                        console.log("Is a developer.");
+                        setIsDeveloper(true);
                     }).catch(e => {
-                        console.error("Could not retrieve role List: " + e.message);
+                        console.error("Is not developer.");
+                        setIsDeveloper(false);
                     });
                 console.log(newUser);
                 setIsLoggedIn(true);

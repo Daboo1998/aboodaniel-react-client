@@ -22,23 +22,22 @@ const LoginPageLayout: React.FC = () => {
         login(email, password, shouldRememberUser).then(user => {
             if (user) {
                 console.log(`Logged in with uid="${user.user?.uid}"`);
-                history.push(loginSource);
+                history.push(loginSource === "/register" ? "/" : loginSource);
             } else {
-                // TODO: display errors
-                console.log("No user")
+                setErrorMessage("Something was wrong while logging in!");
             }
-        }).catch(e => {
+        }).catch(error => {
             console.log("something is wrong!");
-            console.log(e);
+            console.log(error);
 
-            if (e.code === "auth/user-not-found") {
+            if (error.code === "auth/user-not-found") {
                 setErrorMessage("There is no user with provided email!");
-            } else if (e.code === "auth/wrong-password") {
+            } else if (error.code === "auth/wrong-password") {
                 setErrorMessage("Wrong password!");
-            } else if (e.code === "auth/invalid-email") {
+            } else if (error.code === "auth/invalid-email") {
                 setErrorMessage("Email is wrongly formatted!")
             } else {
-                setErrorMessage(e.message);
+                setErrorMessage(error.message);
             }
         });
     };
@@ -46,7 +45,8 @@ const LoginPageLayout: React.FC = () => {
     return (
         <PageLayout>
             <h1>Login</h1>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center h-full">
+                <Spacer />
                 <form className="w-min" onSubmit={handleSubmit}>
                     <label>
                         <p>Email</p>
@@ -76,7 +76,7 @@ const LoginPageLayout: React.FC = () => {
                     <div className="pt-2">
                         <button type="submit" className="border border-black rounded bg-gray-200 p-1">Submit</button>
                     </div>
-                    <Link to="/register">
+                    <Link to="/register" className="text-blue-500 pt-2">
                         Register instead
                     </Link>
                 </form>
