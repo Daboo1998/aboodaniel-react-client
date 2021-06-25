@@ -4,7 +4,6 @@ import { ReactComponent as CloseIcon } from "../../../images/icons/closeIcon.svg
 import {useAuth} from "../../../contexts/AuthContext";
 import Spacer from "../../atoms/Spacer";
 import {useHistory} from "react-router-dom";
-import firebase from "firebase";
 
 export const PageNavigatorBarContext = React.createContext({
     isHidden: false,
