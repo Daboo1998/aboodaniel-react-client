@@ -30,6 +30,8 @@ const PageNavigatorBar: React.FC = ({children}) => {
             wentToLogin(history.location.pathname);
             history.push("/login");
         }
+
+        setIsHidden(true);
     };
 
     return (<PageNavigatorBarContext.Provider value={{isHidden, currentTitle, hide: () => setIsHidden(true), setCurrentTitle}}>
@@ -47,12 +49,13 @@ const PageNavigatorBar: React.FC = ({children}) => {
           }>
               {children}
               <Spacer />
+              { user && <p className="py-4 >md:hidden text-center text-blue-800">{user?.displayName ? user.displayName : user?.uid}</p> }
               <button className="pb-20 >md:hidden" onClick={handleLogin}>{isLoggedIn ? "Log Out" : "Log In"}</button>
           </div>
           <Spacer />
           <div className={"flex flex-row items-center"}>
               {
-                  user && <p className="px-4 text-blue-800">{user?.displayName ? user.displayName : user?.uid}</p>
+                  user && <p className="px-4 <md:hidden text-blue-800">{user?.displayName ? user.displayName : user?.uid}</p>
               }
               <button className="pr-4 <md:hidden" onClick={handleLogin}>{isLoggedIn ? "Log Out" : "Log In"}</button>
           </div>
