@@ -1,9 +1,9 @@
-import { Experience as ExperienceType, stringRepresentation } from "../../../data/experience";
+import ExperienceModel, { stringRepresentation } from "../../../data/experience";
 import React, { useState } from "react";
 import Spacer from "../../atoms/Spacer";
 
 export interface ExperienceProps {
-    experience: ExperienceType
+    experience: ExperienceModel
 }
 
 const Experience: React.FC<ExperienceProps> = ({experience}) => {
@@ -25,8 +25,17 @@ const Experience: React.FC<ExperienceProps> = ({experience}) => {
             return <h4 className={className}>{`Ongoing, started in ${stringRepresentation(experience.startingDate)}`}</h4>;
         }
 
-        let monthsDifference = experience.endDate.year * 12 + experience.endDate.month;
-        monthsDifference -= experience.startingDate.year * 12 + experience.startingDate.month - 1;
+        const startingDate = new Date(experience.startingDate);
+        const endDate = new Date(experience.endDate);
+
+        const startingMonth = startingDate.getUTCMonth() + 1;
+        const startingYear = startingDate.getUTCFullYear();
+
+        const endMonth = endDate.getUTCMonth() + 1;
+        const endYear = endDate.getUTCFullYear();
+
+        let monthsDifference = endYear * 12 + endMonth;
+        monthsDifference -= startingYear * 12 + startingMonth - 1;
 
         if (monthsDifference === 1) {
             if (monthsDifference < 12) {
