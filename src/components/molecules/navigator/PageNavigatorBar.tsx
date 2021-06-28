@@ -35,7 +35,7 @@ const PageNavigatorBar: React.FC = ({children}) => {
     };
 
     return (<PageNavigatorBarContext.Provider value={{isHidden, currentTitle, hide: () => setIsHidden(true), setCurrentTitle}}>
-      <div className={`flex flex-col >md:flex-row ${isHidden ? "" : "border-b"} >md:border-b border-black fixed w-full <md:h-full top-0 z-10`}>
+      <div className={`flex flex-col >md:flex-row ${isHidden ? "" : "border-b <md:h-full"} >md:border-b border-black fixed w-full top-0 z-10`}>
           <div className="flex flex-row >md:hidden bg-white w-10 h-14 border-b border-black w-full">
               <button className="border-0 p-2 w-10 pl-6" onClick={(_) => setIsHidden(!isHidden)}>
                   {isHidden ? <MenuIcon width="15px" /> : <CloseIcon width="15px" />}
