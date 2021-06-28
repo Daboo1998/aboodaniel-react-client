@@ -10,7 +10,7 @@ const HomePageLayout: React.FC = () => {
         <PageLayout className="pt-10">
             <h1 className="text-center">Welcome to my kingdom!</h1>
             <div className="p-8">
-                <img src="/images/me.jpg" className="w-48 float-left pr-4 pb-4" />
+                <img src="/images/me.jpg" className="w-48 float-left pr-4 pb-4" alt=""/>
                 <p className="text-xl">A bit about me. I have been always, looking into the future, wanting to create new solutions using
                     technology to change how we live our everyday lives. My mission is to innovate, while also make my
                     work to be understood  by others and be able to work together with people. Creativity, my persuit after
