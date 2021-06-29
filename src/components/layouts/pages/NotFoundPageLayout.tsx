@@ -1,5 +1,5 @@
 import React from "react";
-import PageLayout from "./PageLayout";
+import PageLayout from "../PageLayout";
 import {useLocation} from "react-router-dom";
 
 const NotFoundPageLayout: React.FC = () => {

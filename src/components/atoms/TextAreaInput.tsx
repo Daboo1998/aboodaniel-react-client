@@ -1,0 +1,20 @@
+import React from "react";
+import {TextInputProps} from "./TextInput";
+
+export interface TextAreaInputProps extends TextInputProps {}
+
+const TextAreaInput: React.FC<TextAreaInputProps> = ({ name , children, value, onChange}) => {
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        e.preventDefault();
+        onChange?.(e.target.value);
+    };
+
+    return <p className="text-gray-800 font-sans font-bold">
+        <label htmlFor={name} className="mb-2">{children}<br />
+            <textarea name={name} value={value} cols={40} rows={10} aria-invalid onChange={handleChange}
+                      className="border rounded-md border-gray-200 transition box-shadow-inner py-2 px-4 mb-2" />
+        </label>
+    </p>
+};
+
+export default TextAreaInput;

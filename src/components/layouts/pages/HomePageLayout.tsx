@@ -1,5 +1,5 @@
 import React from "react";
-import PageLayout from "./PageLayout";
+import PageLayout from "../PageLayout";
 
 const HomePageLayout: React.FC = () => {
     // const handleScroll: React.MouseEventHandler = () => {

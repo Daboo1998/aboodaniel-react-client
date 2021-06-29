@@ -1,8 +1,8 @@
 import React from "react";
-import PageLayout, {PageLayoutProps} from "./PageLayout";
-import {useAuth} from "../../contexts/AuthContext";
+import PageLayout, {PageLayoutProps} from "../PageLayout";
+import {useAuth} from "../../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
-import DevelopmentTools from "../molecules/developer tools/DevelopmentTools";
+import DevelopmentTools from "../../molecules/developer tools/DevelopmentTools";
 
 export interface DevelopmentToolsPageLayoutProps extends PageLayoutProps {}
 

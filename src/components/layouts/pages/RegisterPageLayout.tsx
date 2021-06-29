@@ -1,7 +1,7 @@
 import React, {FormEventHandler, useState} from "react";
-import PageLayout from "./PageLayout";
-import Spacer from "../atoms/Spacer";
-import {useAuth} from "../../contexts/AuthContext";
+import PageLayout from "../PageLayout";
+import Spacer from "../../atoms/Spacer";
+import {useAuth} from "../../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
 import "firebase/auth";
 

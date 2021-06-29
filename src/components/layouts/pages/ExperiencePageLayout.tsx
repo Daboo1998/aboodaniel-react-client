@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import PageLayout, {PageLayoutProps} from "./PageLayout";
-import ExperienceModel from "../../data/experience";
-import Experience from "../molecules/experience/Experience";
+import PageLayout, {PageLayoutProps} from "../PageLayout";
+import ExperienceModel from "../../../data/experience";
+import Experience from "../../molecules/experience/Experience";
 import firebase from "firebase/app";
 import "firebase/firestore";
 
