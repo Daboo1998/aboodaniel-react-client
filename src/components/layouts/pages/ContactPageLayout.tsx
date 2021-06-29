@@ -63,7 +63,7 @@ const ContactPageLayout: React.FC = () => {
         <PageLayout className="pt-10 items-center">
             <h1>Contact</h1>
             <div className="h-8" />
-            <form className="flex flex-col items-start w-min" onSubmit={handleSubmit}>
+            <form className="flex flex-col items-start w-full" onSubmit={handleSubmit}>
                 <TextInput name="email" value={email} onChange={setEmail}>Email (required)</TextInput>
                 <div className="h-6" />
                 <TextInput name="name" value={name} onChange={setName}>Name (required)</TextInput>
@@ -75,7 +75,7 @@ const ContactPageLayout: React.FC = () => {
                 <p className="text-green-600">{ information }</p>
                 <p className="text-error bold">{errorMessage}</p>
                 <div className="h-6" />
-                <button type="submit" className="bg-submit text-white rounded py-3 px-5 uppercase">
+                <button type="submit" className="bg-submit text-white rounded py-3 px-5 uppercase <md:w-full">
                     Send
                 </button>
             </form>

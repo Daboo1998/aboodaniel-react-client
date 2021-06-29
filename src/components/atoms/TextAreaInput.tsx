@@ -9,10 +9,10 @@ const TextAreaInput: React.FC<TextAreaInputProps> = ({ name , children, value, o
         onChange?.(e.target.value);
     };
 
-    return <p className="text-gray-800 font-sans font-bold">
+    return <p className="text-gray-800 font-sans font-bold w-full">
         <label htmlFor={name} className="mb-2">{children}<br />
-            <textarea name={name} value={value} cols={40} rows={10} aria-invalid onChange={handleChange}
-                      className="border rounded-md border-gray-200 transition box-shadow-inner py-2 px-4 mb-2" />
+            <textarea name={name} value={value} rows={10} aria-invalid onChange={handleChange}
+                      className="border rounded-md border-gray-200 transition box-shadow-inner py-2 px-4 mb-2 >md:w-96 <md:w-full" />
         </label>
     </p>
 };
