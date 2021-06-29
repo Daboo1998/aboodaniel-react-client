@@ -1,21 +1,17 @@
-import React, {useContext} from "react";
+import React from "react";
 import PageLayout from "../PageLayout";
-import {PageNavigatorContext} from "../../pageNavigator/PageNavigator";
+import {useLocation} from "react-router-dom";
 
 const NotFoundPageLayout: React.FC = () => {
-    const {paths, currentPath} = useContext(PageNavigatorContext);
+    const location = useLocation();
 
-    if (paths.includes(currentPath)) {
-        return null;
-    }
-
-    return (<PageLayout path={currentPath} className="p-6">
+    return (<PageLayout className="p-6">
         <div className="text-center text-9xl font-bold text-gray-500 p-4">404</div>
         <h1 className="font-bold">
             Oops! You should not be here!
         </h1>
         <h2>
-            Page "{currentPath}" was not found!
+            Page "{location.pathname}" was not found!
         </h2>
         <p>
             Please navigate to a different page using the navigator at the top of the page, or enter a valid url.

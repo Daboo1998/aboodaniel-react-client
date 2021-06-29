@@ -1,11 +1,9 @@
 import React, {useState} from "react";
-import PageLayout, {PageLayoutProps} from "../PageLayout";
+import PageLayout from "../PageLayout";
 import TextInput from "../../atoms/TextInput";
 import TextAreaInput from "../../atoms/TextAreaInput";
 
-interface ContactPageLayoutProps extends PageLayoutProps {}
-
-const ContactPageLayout: React.FC<ContactPageLayoutProps> = ({ path }) => {
+const ContactPageLayout: React.FC = () => {
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [message, setMessage] = useState("");
@@ -16,7 +14,7 @@ const ContactPageLayout: React.FC<ContactPageLayoutProps> = ({ path }) => {
     };
 
     return (
-        <PageLayout path={path} className="pt-10 items-center">
+        <PageLayout className="pt-10 items-center">
             <h1>Contact</h1>
             <form className="flex flex-col items-end w-min" onSubmit={handleSubmit}>
                 <TextInput name="email" value={email} onChange={setEmail}>Email:</TextInput>

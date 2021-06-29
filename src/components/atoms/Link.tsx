@@ -1,5 +1,5 @@
-import {history, PageNavigatorContext } from "../pageNavigator/PageNavigator";
-import React, {useContext} from "react";
+import React from "react";
+import {useHistory} from "react-router-dom";
 
 export interface LinkProps {
     to: string,
@@ -10,18 +10,15 @@ export interface LinkProps {
 }
 
 const Link: React.FC<LinkProps> = ({ children, to, onClick, ...props }) => {
-    const { currentPath } = useContext(PageNavigatorContext);
+    const history = useHistory();
 
     const handleClick = (e: React.MouseEvent) => {
         e.preventDefault();
 
-        if (currentPath === to) {
-            // If it's not a valid path function will not trigger.
-            return;
-        }
         if (onClick) {
             onClick(e);
         }
+
         history.push(to);
     };
 

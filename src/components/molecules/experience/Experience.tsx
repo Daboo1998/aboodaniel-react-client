@@ -1,13 +1,18 @@
-import { Experience as ExperienceType, stringRepresentation } from "../../../data/experience";
+import ExperienceModel, { stringRepresentation } from "../../../data/experience";
 import React, { useState } from "react";
 import Spacer from "../../atoms/Spacer";
 
 export interface ExperienceProps {
-    experience: ExperienceType
+    experience: ExperienceModel
 }
 
 const Experience: React.FC<ExperienceProps> = ({experience}) => {
     const [areDetailsHidden, setAreDetailsHidden] = useState(true);
+
+    const handleHeaderClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setAreDetailsHidden(!areDetailsHidden);
+    };
 
     const timeDescription = () => {
         if (!(experience.startingDate && experience.endDate)) {
@@ -20,8 +25,17 @@ const Experience: React.FC<ExperienceProps> = ({experience}) => {
             return <h4 className={className}>{`Ongoing, started in ${stringRepresentation(experience.startingDate)}`}</h4>;
         }
 
-        let monthsDifference = experience.endDate.year * 12 + experience.endDate.month;
-        monthsDifference -= experience.startingDate.year * 12 + experience.startingDate.month - 1;
+        const startingDate = new Date(experience.startingDate);
+        const endDate = new Date(experience.endDate);
+
+        const startingMonth = startingDate.getUTCMonth() + 1;
+        const startingYear = startingDate.getUTCFullYear();
+
+        const endMonth = endDate.getUTCMonth() + 1;
+        const endYear = endDate.getUTCFullYear();
+
+        let monthsDifference = endYear * 12 + endMonth;
+        monthsDifference -= startingYear * 12 + startingMonth - 1;
 
         if (monthsDifference === 1) {
             if (monthsDifference < 12) {
@@ -50,7 +64,7 @@ const Experience: React.FC<ExperienceProps> = ({experience}) => {
 
     return (
         <div className="pb-12">
-            <div className="flex flex-row sticky bg-white top-12 border-t-2 border-black p-2">
+            <div className="flex flex-row sticky bg-white top-12 border-t-2 border-black p-2" onClick={handleHeaderClick}>
                 <h3>
                     {experience.title}
                 </h3>
@@ -59,7 +73,7 @@ const Experience: React.FC<ExperienceProps> = ({experience}) => {
                     {areDetailsHidden ? "More" : "Less"}
                 </button>
             </div>
-            {timeDescription()}
+            <div onClick={handleHeaderClick}>{timeDescription()}</div>
             <div className={`${areDetailsHidden ? "max-h-0" : "max-h-inf"} overflow-hidden transition-max-h duration-1000 ease-in-out`}>
                 <p className="p-2">
                     {experience.description + " "}

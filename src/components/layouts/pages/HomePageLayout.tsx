@@ -1,12 +1,22 @@
 import React from "react";
-import PageLayout, {PageLayoutProps} from "../PageLayout";
+import PageLayout from "../PageLayout";
 
-interface HomePageLayoutProps extends PageLayoutProps {}
+const HomePageLayout: React.FC = () => {
+    // const handleScroll: React.MouseEventHandler = () => {
+    //
+    // };
 
-const HomePageLayout: React.FC<HomePageLayoutProps> = ({ path }) => {
     return (
-        <PageLayout path={path} className="pt-10">
-            <h1>Welcome to my kingdom!</h1>
+        <PageLayout className="pt-10">
+            <h1 className="text-center">Welcome to my kingdom!</h1>
+            <div className="p-8">
+                <img src="/images/me.jpg" className="w-48 float-left pr-4 pb-4" alt=""/>
+                <p className="text-xl">A bit about me. I have been always, looking into the future, wanting to create new solutions using
+                    technology to change how we live our everyday lives. My mission is to innovate, while also make my
+                    work to be understood  by others and be able to work together with people. Creativity, my persuit after
+                    my goals and my determination are my main attributes. I always understand the needs of people I work
+                    with, and find a way for all parties to be happy. Btw, I've built this website from scratch ;) </p>
+            </div>
         </PageLayout>
     );
 };
