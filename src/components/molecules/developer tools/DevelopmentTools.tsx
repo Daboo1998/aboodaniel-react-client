@@ -1,15 +1,10 @@
 import React, {useEffect, useState} from "react";
-import firebase from "firebase/app";
 import usePopup from "../../../hooks/usePopup";
 import AddRolePopup from "./AddRolePopup";
 import AddUserPopup from "./AddUserPopup";
 import Spacer from "../../atoms/Spacer";
-import "firebase/firestore";
-
-type Role = {
-    type: string;
-    users: [string]
-};
+import database from "../../../data/database";
+import Role from "../../../data/Role";
 
 const DevelopmentTools: React.FC = () => {
     const [rolesList, setRolesList] = useState<Role []>([]);
@@ -29,27 +24,13 @@ const DevelopmentTools: React.FC = () => {
 
     useEffect(() => {
         console.log("Refreshing list...");
-        const col = firebase.firestore()
-            .collection("roles");
-
         setRolesList([]);
-        col.get()
-            .then(result => {
-                const newList = result.docs.map((doc) => {
-                    const docData = doc.data();
 
-                    return {
-                        type: doc.id,
-                        users: docData.users ? docData.users : [],
-                    }
-                });
-
-                console.log(`Got ${newList.length} roles!`);
-
-                setRolesList(newList);
-            }).catch(e => {
-                console.log("Could not get list of roles: " + e.message);
-            });
+        database.roles.getAll().then(results => {
+            setRolesList(results);
+        }).catch(e => {
+            console.log("Could not get list of roles: " + e.message);
+        });
     }, [refreshIndicator]);
 
     return (
@@ -71,14 +52,14 @@ const DevelopmentTools: React.FC = () => {
                 <ul className="px-2">
                     {
                         rolesList?.map((role) => {
-                            return role && role.type && (
-                                <li key={role.type}>
+                            return role && role.id && (
+                                <li key={role.id}>
                                     <div className="flex flex-row items-center border-b border-black">
-                                        <h3>{role.type}</h3>
+                                        <h3>{role.id}</h3>
                                         <Spacer />
                                         <button
                                             className="border border-black p-1 m-1 rounded bg-green-600"
-                                            onClick={_ => handleShowAddUserPopup(role.type)}
+                                            onClick={_ => handleShowAddUserPopup(role.id)}
                                         >
                                             <p className="text-white">add user</p>
                                         </button>

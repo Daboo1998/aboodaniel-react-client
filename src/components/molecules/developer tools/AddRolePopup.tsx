@@ -1,8 +1,7 @@
 import React, {FormEventHandler, useState} from "react";
 import {Popup, PopupProps} from "../../../hooks/usePopup";
 import Spacer from "../../atoms/Spacer";
-import firebase from "firebase/app";
-import "firebase/firestore";
+import database from "../../../data/database";
 
 interface AddRolePopupProps extends PopupProps {
     hide: () => void;
@@ -17,8 +16,9 @@ const AddRolePopup: React.FC<AddRolePopupProps> = ({isPopupShown, hide, onAdded}
         e.preventDefault();
         setErrorMessage(undefined);
 
-        firebase.firestore().collection("roles").doc(newRole).set({
-           users: []
+        database.roles.post({
+            id: newRole,
+            users: []
         }).catch(e => {
             setErrorMessage(e.message);
         }).then(() => {

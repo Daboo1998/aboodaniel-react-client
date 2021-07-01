@@ -22,11 +22,11 @@ const Experience: React.FC<ExperienceProps> = ({experience}) => {
         const className = "text-gray-600 border-b border-black p-0.5 mt-1 pl-2 pr-2";
 
         if (experience.endDate === "ongoing") {
-            return <h4 className={className}>{`Ongoing, started in ${stringRepresentation(experience.startingDate)}`}</h4>;
+            return <h4 className={className}>{`Ongoing, started in ${stringRepresentation(experience.startingDate?.toDate())}`}</h4>;
         }
 
-        const startingDate = new Date(experience.startingDate);
-        const endDate = new Date(experience.endDate);
+        const startingDate = experience.startingDate.toDate();
+        const endDate = experience.endDate.toDate();
 
         const startingMonth = startingDate.getUTCMonth() + 1;
         const startingYear = startingDate.getUTCFullYear();
@@ -40,7 +40,7 @@ const Experience: React.FC<ExperienceProps> = ({experience}) => {
         if (monthsDifference === 1) {
             if (monthsDifference < 12) {
                 return <h4 className={className}>
-                    {`${stringRepresentation(experience.startingDate)} 
+                    {`${stringRepresentation(experience.startingDate.toDate())} 
                 (${monthsDifference} month${monthsDifference === 1 ? "" : "s"})`}
                 </h4>;
             }
@@ -48,7 +48,7 @@ const Experience: React.FC<ExperienceProps> = ({experience}) => {
 
         if (monthsDifference < 12) {
             return <h4 className={className}>
-                {`${stringRepresentation(experience.startingDate)} - ${stringRepresentation(experience.endDate)} 
+                {`${stringRepresentation(experience.startingDate.toDate())} - ${stringRepresentation(experience.endDate.toDate())} 
                 (${monthsDifference} month${monthsDifference === 1 ? "" : "s"})`}
             </h4>;
         }
@@ -57,7 +57,7 @@ const Experience: React.FC<ExperienceProps> = ({experience}) => {
         let months = monthsDifference - Math.floor(monthsDifference / 12);
 
         return <h4 className={className}>
-            {`${stringRepresentation(experience.startingDate)} - ${stringRepresentation(experience.endDate)} 
+            {`${stringRepresentation(experience.startingDate.toDate())} - ${stringRepresentation(experience.endDate.toDate())} 
             (${years} year${years === 1 ? "" : "s"} and ${months} month${months === 1 ? "" : "s"})`}
         </h4>;
     };

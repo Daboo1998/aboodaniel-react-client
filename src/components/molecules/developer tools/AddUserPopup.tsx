@@ -1,8 +1,7 @@
 import React, {FormEventHandler, useState} from "react";
 import {Popup, PopupProps} from "../../../hooks/usePopup";
 import Spacer from "../../atoms/Spacer";
-import firebase from "firebase/app";
-import "firebase/firestore";
+import database from "../../../data/database";
 
 interface AddUserPopupProps extends PopupProps {
     hide: () => void,
@@ -18,24 +17,9 @@ const AddUserPopup: React.FC<AddUserPopupProps> = ({isPopupShown, hide, role, on
         e.preventDefault();
         setErrorMessage(undefined);
 
-        const documentReference = firebase.firestore()
-            .collection("roles")
-            .doc(role);
-
-        firebase.firestore()
-            .runTransaction(transaction => {
-                return transaction
-                    .get(documentReference)
-                    .then(document => {
-                        if (!document.exists) {
-                            throw Error("Document does not exist!");
-                        }
-                        const users = document.data()?.users;
-                        const newUsers = [...users, user];
-
-                        transaction.update(documentReference, { users: newUsers });
-                    });
-            }).then(() => {
+        database.roles
+            .pushToArray<string>(role, "users", user)
+            .then(() => {
                 console.log("Transaction successfully committed!");
                 onAdded?.();
                 hide();

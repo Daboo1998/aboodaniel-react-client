@@ -2,8 +2,7 @@ import React, {useEffect, useState} from "react";
 import PageLayout, {PageLayoutProps} from "../PageLayout";
 import ExperienceModel from "../../../data/experience";
 import Experience from "../../molecules/experience/Experience";
-import firebase from "firebase/app";
-import "firebase/firestore";
+import database from "../../../data/database";
 
 export interface ExperiencePageLayoutProps extends PageLayoutProps {}
 
@@ -12,30 +11,11 @@ const ExperiencePageLayout: React.FC<ExperiencePageLayoutProps> = () => {
 
     useEffect(() => {
         setExperiences([]);
-
-        firebase.firestore()
-            .collection("experiences")
-            .get()
-            .then(result => {
-                const newList = result.docs.map<ExperienceModel>(experienceDocument => {
-                    const startingDate = experienceDocument.get("startingDate");
-                    const endDate = experienceDocument.get("endDate");
-                    return {
-                        importance: experienceDocument.get("importance"),
-                        title: experienceDocument.get("title"),
-                        description: experienceDocument.get("description"),
-                        startingDate: startingDate.toDate(),
-                        endDate: endDate === "ongoing" ? endDate : endDate.toDate(),
-                        link: experienceDocument.get("link"),
-                        linkText: experienceDocument.get("linkText"),
-                    }
-                });
-
-                setExperiences(newList);
-                console.log(`${newList.length} experiences retrieved!`)
-            }).catch(error => {
-                console.log("Could not get list of experiences: " + error.message);
-            });
+        database.experiences.getAll().then(results => {
+            setExperiences(results)
+        }).catch(error => {
+            console.log("Could not get list of experiences: " + error.message);
+        });
     }, []);
 
     return (
