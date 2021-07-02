@@ -101,7 +101,7 @@ const RegisterPageLayout: React.FC = () => {
                         <p className="pl-2">Remember me</p>
                     </div>
                     <div className="pt-2">
-                        <button type="submit" className="border border-black rounded bg-gray-200 p-1">Submit</button>
+                        <button type="submit" className="border border-black rounded bg-gray-200 dark:bg-black dark:hover:bg-gray-700 hover:bg-white p-1">Submit</button>
                     </div>
                     <div className="pt-2">
                         <div className="pt-2">

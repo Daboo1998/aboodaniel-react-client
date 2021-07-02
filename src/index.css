@@ -2,28 +2,48 @@
 
 h1 {
   @apply text-3xl text-gray-500 w-full font-bold;
+  @apply dark:text-white;
 }
 h2 {
   @apply font-bold text-2xl;
+  @apply dark:text-white;
 }
 h3 {
   @apply font-bold text-xl;
+  @apply dark:text-white;
 }
 
 h4 {
   @apply font-semibold text-lg;
+  @apply dark:text-white;
 }
 
 h5 {
   @apply font-semibold text-base;
+  @apply dark:text-white;
 }
 
 a {
   @apply text-blue-600 underline;
+  @apply dark:text-blue-800;
 }
 
 p {
   @apply text-base;
+  @apply dark:text-white;
+}
+
+svg {
+  @apply dark:text-white;
+  @apply fill-current;
+}
+
+label, input, textarea, button {
+  @apply dark:text-white;
+}
+
+input, textarea {
+  @apply dark:bg-black;
 }
 
 @tailwind components;
