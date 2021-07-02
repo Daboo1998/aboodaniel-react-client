@@ -22,18 +22,20 @@ const MessagesPageLayout: React.FC = () => {
 
     const handleMessageDetailsClose = () => {
         setSelectedMessage(null);
+        document.body.style.overflow = 'unset';
     };
 
     const handleMessageClick = (e: React.MouseEvent<HTMLDivElement>, message: Message) => {
         e.preventDefault();
         setSelectedMessage(message);
+        document.body.style.overflow = 'hidden';
     };
     
     return (
         <PageLayout>
             <MessageDetailsPopup message={selectedMessage} isPopupShown={!!selectedMessage} onClose={handleMessageDetailsClose} />
             <h1>Messages</h1>
-            <div className="pt-4">
+            <div className={(messages.length > 0 ? " border-t border-black mt-4" : "")}>
                 {
                     messages.map((message) => {
                         return (<div className="pb-2 border-b border-black" onClick={e => handleMessageClick(e, message)}>
@@ -44,7 +46,7 @@ const MessagesPageLayout: React.FC = () => {
                             </div>
                             <h5>{message.subject}</h5>
                             {/* - TODO: Make message body preview instead of showing the whole message */}
-                            <p>{message.message}</p>
+                            <p className="line-clamp-3">{message.message}</p>
                         </div>)
                     })
                 }
