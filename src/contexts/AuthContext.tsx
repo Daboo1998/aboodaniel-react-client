@@ -7,6 +7,7 @@ interface AuthContextInterface {
     loginSource: string;
     isLoggedIn: boolean | undefined;
     isDeveloper: boolean;
+    isOwner: boolean;
     user: firebase.User | null;
     wentToLogin: (source: string) => void;
     login: (email: string, password: string, shouldRememberUser: boolean) => Promise<void | firebase.auth.UserCredential>,
@@ -21,6 +22,7 @@ const AuthContext = React.createContext<AuthContextInterface>({
     loginSource: "",
     isLoggedIn: undefined,
     isDeveloper: false,
+    isOwner: false,
     wentToLogin: (source: string) => {},
     user: null,
     login: (email: string, password: string, shouldRememberUser: boolean) => { return Promise.reject() },
@@ -33,27 +35,45 @@ export const useAuth = () => {
     return useContext(AuthContext);
 };
 
+const checkForRole = async (role: string) => {
+    try {
+        await firebase.firestore()
+            .collection("roles")
+            .doc(role)
+            .get();
+
+        return true;
+    } catch (error) {
+        console.error(error.message);
+        return false;
+    }
+};
+
 export const AuthContextProvider: React.FC = ({children}) => {
     const [loginSource, setLoginSource] = useState<string>("");
     const [isLoggedIn, setIsLoggedIn] = useState<boolean| undefined>(undefined);
     const [user, setUser] = useState<firebase.User | null>(null);
     const [isDeveloper, setIsDeveloper] = useState(false);
+    const [isOwner, setIsOwner] = useState(false);
+
+    const checkRoles = async () => {
+        const isDeveloper = await checkForRole("developer");
+        console.log(isDeveloper ? "Is developer" : "Is not a developer");
+
+        if (isDeveloper) {
+            setIsDeveloper(isDeveloper);
+        }
+
+        const isOwner = await checkForRole("owner");
+        console.log(isOwner ? "Is owner" : "Is not an owner");
+
+        setIsOwner(isOwner);
+    };
 
     useEffect(() => {
         const unsubscribe = firebase.auth().onAuthStateChanged(function(newUser) {
             if (newUser && !newUser.isAnonymous) {
-                firebase.firestore()
-                    .collection("roles")
-                    .doc("developer")
-                    .get()
-                    .then(_ => {
-                        console.log("Is a developer.");
-                        setIsDeveloper(true);
-                    }).catch(e => {
-                        console.error("Is not developer.");
-                        setIsDeveloper(false);
-                    });
-                console.log(newUser);
+                checkRoles().then();
                 setIsLoggedIn(true);
                 setUser(newUser);
             } else {
@@ -119,7 +139,8 @@ export const AuthContextProvider: React.FC = ({children}) => {
             logout: handleLogout, wentToLogin,
             register: handleRegister,
             loginSource,
-            isDeveloper}}>
+            isDeveloper,
+            isOwner}}>
             {children}
         </AuthContext.Provider>
     );

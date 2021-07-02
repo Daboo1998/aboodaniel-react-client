@@ -3,9 +3,8 @@ import PageLayout from "../PageLayout";
 import TextInput from "../../atoms/TextInput";
 import TextAreaInput from "../../atoms/TextAreaInput";
 import validator from "validator";
-import firebase from "firebase";
-import "firebase/firestore";
 import {useAuth} from "../../../contexts/AuthContext";
+import database, {Timestamp} from "../../../data/database";
 
 const ContactPageLayout: React.FC = () => {
     const [email, setEmail] = useState("");
@@ -44,18 +43,15 @@ const ContactPageLayout: React.FC = () => {
       } else if (!validator.isEmail(email)) {
           setErrorMessage("Email is badly formatted! Example email: email@example.com");
       } else {
-          firebase.firestore()
-              .collection("messages")
-              .add({
-                  timestamp: firebase.firestore.Timestamp.now(),
+          database.messages
+              .post({
+                  timestamp: Timestamp.now(),
                   email, name, subject, message
-              })
-              .then(_ => {
+              }).then(_ => {
                   setInformation("Message sent!");
-              })
-              .catch(error => {
+              }).catch(error => {
                   setErrorMessage(error.message);
-              })
+              });
       }
     };
 

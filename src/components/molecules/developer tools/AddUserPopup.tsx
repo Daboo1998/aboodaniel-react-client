@@ -1,8 +1,7 @@
 import React, {FormEventHandler, useState} from "react";
 import {Popup, PopupProps} from "../../../hooks/usePopup";
 import Spacer from "../../atoms/Spacer";
-import firebase from "firebase/app";
-import "firebase/firestore";
+import database from "../../../data/database";
 
 interface AddUserPopupProps extends PopupProps {
     hide: () => void,
@@ -18,24 +17,9 @@ const AddUserPopup: React.FC<AddUserPopupProps> = ({isPopupShown, hide, role, on
         e.preventDefault();
         setErrorMessage(undefined);
 
-        const documentReference = firebase.firestore()
-            .collection("roles")
-            .doc(role);
-
-        firebase.firestore()
-            .runTransaction(transaction => {
-                return transaction
-                    .get(documentReference)
-                    .then(document => {
-                        if (!document.exists) {
-                            throw Error("Document does not exist!");
-                        }
-                        const users = document.data()?.users;
-                        const newUsers = [...users, user];
-
-                        transaction.update(documentReference, { users: newUsers });
-                    });
-            }).then(() => {
+        database.roles
+            .pushToArray<string>(role, "users", user)
+            .then(() => {
                 console.log("Transaction successfully committed!");
                 onAdded?.();
                 hide();
@@ -46,18 +30,22 @@ const AddUserPopup: React.FC<AddUserPopupProps> = ({isPopupShown, hide, role, on
 
     return (
         <Popup isPopupShown={isPopupShown}>
-            <div className="flex flex-row">
-                <Spacer />
-                <button className="self-end" onClick={hide}>Close</button>
+            <Spacer />
+            <div className="bg-white">
+                <div className="flex flex-row">
+                    <Spacer />
+                    <button className="self-end" onClick={hide}>Close</button>
+                </div>
+                <form onSubmit={handleSubmit}>
+                    <label>
+                        <h3>Add user</h3>
+                        <input type="text" onChange={e => setUser(e.target.value)} className="border border-black rounded px-2"/>
+                    </label>
+                    {!!errorMessage && <p className="text-red-600 text-sm">{errorMessage}</p>}
+                    <button type="submit">Add</button>
+                </form>
             </div>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    <h3>Add user</h3>
-                    <input type="text" onChange={e => setUser(e.target.value)} className="border border-black rounded px-2"/>
-                </label>
-                {!!errorMessage && <p className="text-red-600 text-sm">{errorMessage}</p>}
-                <button type="submit">Add</button>
-            </form>
+            <Spacer />
         </Popup>
     );
 };

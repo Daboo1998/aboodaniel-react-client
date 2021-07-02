@@ -1,4 +1,6 @@
-export const stringRepresentation = (date: Date) => {
+import {Timestamp} from "./database";
+
+export const stringRepresentation = (date: Date, withDay: boolean = false) => {
     const newDate = new Date(date);
     const month = newDate.getUTCMonth() + 1;
     const year = newDate.getUTCFullYear();
@@ -33,11 +35,12 @@ export const stringRepresentation = (date: Date) => {
 };
 
 interface Experience {
+    id: string;
     importance: number,
     title: string,
     description: string,
-    startingDate?: Date,
-    endDate?: Date | "ongoing",
+    startingDate?: Timestamp,
+    endDate?: Timestamp | "ongoing",
     link?: string,
     linkText?: string,
 }
