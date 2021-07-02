@@ -4,6 +4,7 @@ import Spacer from "../../atoms/Spacer";
 import {useAuth} from "../../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
 import Link from "../../atoms/Link";
+import SignInWithGoogleButton from "../../atoms/SignInWithGoogleButton";
 
 const LoginPageLayout: React.FC = () => {
     const [email, setEmail] = useState("");
@@ -11,7 +12,7 @@ const LoginPageLayout: React.FC = () => {
     const [shouldRememberUser, setShouldRememberUser] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
-    const {login, loginSource} = useAuth();
+    const {login, loginSource, loginWithGoogle} = useAuth();
     const history = useHistory();
 
     const handleSubmit: FormEventHandler = async (e) => {
@@ -39,6 +40,23 @@ const LoginPageLayout: React.FC = () => {
                 setErrorMessage(error.message);
             }
         });
+    };
+
+    const handleLoginWithGoogle: FormEventHandler = (e) => {
+        e.preventDefault();
+
+        loginWithGoogle(shouldRememberUser)
+            .then(user => {
+                if (user) {
+                    console.log(`Logged in with uid="${user.user?.uid}"`);
+                    history.push(loginSource === "/register" ? "/" : loginSource);
+                } else {
+                    setErrorMessage("Something was wrong while logging in!");
+                }
+            }).catch(error => {
+                console.log("something is wrong!");
+                console.log(error);
+            });
     };
 
     return (
@@ -74,6 +92,9 @@ const LoginPageLayout: React.FC = () => {
                     </div>
                     <div className="pt-2">
                         <button type="submit" className="border border-black rounded bg-gray-200 p-1">Submit</button>
+                    </div>
+                    <div className="pt-2">
+                        <SignInWithGoogleButton onClick={handleLoginWithGoogle} />
                     </div>
                     <Link to="/register" className="text-blue-500 pt-2">
                         Register instead

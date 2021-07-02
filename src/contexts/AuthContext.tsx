@@ -11,10 +11,12 @@ interface AuthContextInterface {
     user: firebase.User | null;
     wentToLogin: (source: string) => void;
     login: (email: string, password: string, shouldRememberUser: boolean) => Promise<void | firebase.auth.UserCredential>,
+    loginWithGoogle: (shouldRememberUser: boolean) => Promise<void | firebase.auth.UserCredential>;
     register: (email: string, password: string, shouldRememberUser: boolean) => Promise<void | firebase.auth.UserCredential>,
     logout: () => Promise<any>
 }
 
+var provider = new firebase.auth.GoogleAuthProvider();
 
 const AuthContext = React.createContext<AuthContextInterface>({
     loginSource: "",
@@ -24,6 +26,7 @@ const AuthContext = React.createContext<AuthContextInterface>({
     wentToLogin: (source: string) => {},
     user: null,
     login: (email: string, password: string, shouldRememberUser: boolean) => { return Promise.reject() },
+    loginWithGoogle: (shouldRememberUser: boolean) => { return Promise.reject() },
     register: (email: string, password: string, shouldRememberUser: boolean) => { return Promise.reject() },
     logout: () => { return Promise.reject() }
 });
@@ -95,6 +98,18 @@ export const AuthContextProvider: React.FC = ({children}) => {
         });
     };
 
+    const handleLoginWithGoogle = async (shouldRememberUser: boolean) => {
+        let persistence = firebase.auth.Auth.Persistence.SESSION;
+
+        if (shouldRememberUser) {
+            persistence = firebase.auth.Auth.Persistence.LOCAL;
+        }
+
+        return firebase.auth().setPersistence(persistence).then(() => {
+            return firebase.auth().signInWithPopup(provider);
+        });
+    };
+
     const handleRegister = async (email: string, password: string, shouldRememberUser: boolean) => {
         let persistence = firebase.auth.Auth.Persistence.SESSION;
 
@@ -120,6 +135,7 @@ export const AuthContextProvider: React.FC = ({children}) => {
             user,
             isLoggedIn,
             login: handleLogin,
+            loginWithGoogle: handleLoginWithGoogle,
             logout: handleLogout, wentToLogin,
             register: handleRegister,
             loginSource,

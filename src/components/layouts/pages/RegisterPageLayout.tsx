@@ -4,6 +4,7 @@ import Spacer from "../../atoms/Spacer";
 import {useAuth} from "../../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
 import "firebase/auth";
+import SignInWithGoogleButton from "../../atoms/SignInWithGoogleButton";
 
 const RegisterPageLayout: React.FC = () => {
     const [displayName, setDisplayName] = useState("");
@@ -13,7 +14,7 @@ const RegisterPageLayout: React.FC = () => {
     const [shouldRememberUser, setShouldRememberUser] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
-    const {register, loginSource} = useAuth();
+    const {register, loginSource, loginWithGoogle} = useAuth();
     const history = useHistory();
 
     const handleSubmit: FormEventHandler = async (event) => {
@@ -52,6 +53,23 @@ const RegisterPageLayout: React.FC = () => {
         });
     };
 
+    const handleRegisterWithGoogle: FormEventHandler = (e) => {
+        e.preventDefault();
+
+        loginWithGoogle(shouldRememberUser)
+            .then(user => {
+                if (user) {
+                    console.log(`Logged in with uid="${user.user?.uid}"`);
+                    history.push(loginSource === "/register" ? "/" : loginSource);
+                } else {
+                    setErrorMessage("Something was wrong while logging in!");
+                }
+            }).catch(error => {
+            console.log("something is wrong!");
+            console.log(error);
+        });
+    };
+
     return (
         <PageLayout>
             <h1>Register</h1>
@@ -84,6 +102,11 @@ const RegisterPageLayout: React.FC = () => {
                     </div>
                     <div className="pt-2">
                         <button type="submit" className="border border-black rounded bg-gray-200 p-1">Submit</button>
+                    </div>
+                    <div className="pt-2">
+                        <div className="pt-2">
+                            <SignInWithGoogleButton onClick={handleRegisterWithGoogle} />
+                        </div>
                     </div>
                 </form>
                 <Spacer />
