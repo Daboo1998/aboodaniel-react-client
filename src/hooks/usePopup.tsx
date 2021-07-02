@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import Spacer from "../components/atoms/Spacer";
 
 export interface PopupProps extends React.HTMLProps<any> {
     isPopupShown: boolean;
