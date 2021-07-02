@@ -11,8 +11,13 @@ h3 {
 }
 
 h4 {
-  @apply text-lg;
+  @apply font-semibold text-lg;
 }
+
+h5 {
+  @apply font-semibold text-base;
+}
+
 a {
   @apply text-blue-600 underline;
 }

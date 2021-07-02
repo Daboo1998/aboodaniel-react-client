@@ -1,6 +1,6 @@
 import {Timestamp} from "./database";
 
-export const stringRepresentation = (date: Date) => {
+export const stringRepresentation = (date: Date, withDay: boolean = false) => {
     const newDate = new Date(date);
     const month = newDate.getUTCMonth() + 1;
     const year = newDate.getUTCFullYear();

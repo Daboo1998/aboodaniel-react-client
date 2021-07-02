@@ -40,7 +40,8 @@ const checkForRole = async (role: string) => {
             .get();
 
         return true;
-    } catch (_) {
+    } catch (error) {
+        console.error(error.message);
         return false;
     }
 };
@@ -54,13 +55,14 @@ export const AuthContextProvider: React.FC = ({children}) => {
 
     const checkRoles = async () => {
         const isDeveloper = await checkForRole("developer");
+        console.log(isDeveloper ? "Is developer" : "Is not a developer");
 
         if (isDeveloper) {
             setIsDeveloper(isDeveloper);
-            return;
         }
 
         const isOwner = await checkForRole("owner");
+        console.log(isOwner ? "Is owner" : "Is not an owner");
 
         setIsOwner(isOwner);
     };

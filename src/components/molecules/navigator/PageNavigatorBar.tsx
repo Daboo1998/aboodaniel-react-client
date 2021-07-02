@@ -49,8 +49,8 @@ const PageNavigatorBar: React.FC = ({children}) => {
           }>
               {children}
               <Spacer />
-              { user && <p className="<md:py-2 text-center text-blue-800">{user?.displayName ? user.displayName : user?.uid}</p> }
-              <button className=">md:px-4 <md:py-4" onClick={handleLogin}>{isLoggedIn ? "Log Out" : "Log In"}</button>
+              { user && <p className="<md:py-2 text-center text-blue-800 >md:pl-4">{user?.displayName ? user.displayName : user?.uid}</p> }
+              <button className=">md:px-4 <md:py-4 flex-shrink-0" onClick={handleLogin}>{isLoggedIn ? "Log Out" : "Log In"}</button>
           </div>
       </div>
     </PageNavigatorBarContext.Provider>);

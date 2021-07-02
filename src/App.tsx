@@ -1,20 +1,29 @@
 import React, {useEffect} from 'react';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+
+// Page imports
 import HomePageLayout from "./components/layouts/pages/HomePageLayout";
 import ExperiencePageLayout from "./components/layouts/pages/ExperiencePageLayout";
 import ContactPageLayout from "./components/layouts/pages/ContactPageLayout";
+import NotFoundPageLayout from "./components/layouts/pages/NotFoundPageLayout";
+import DevelopmentToolsPageLayout from "./components/layouts/pages/DevelopmentToolsPageLayout";
+import LoginPageLayout from "./components/layouts/pages/LoginPageLayout";
+import RegisterPageLayout from "./components/layouts/pages/RegisterPageLayout";
+import MessagesPageLayout from "./components/layouts/pages/MessagesPageLayout";
+
+// Main elements imports
 import PageNavigatorBar from "./components/molecules/navigator/PageNavigatorBar";
 import PageNavigatorBarLink from "./components/atoms/PageNavigatorBarLink";
 import Footer from "./components/molecules/Footer";
-import NotFoundPageLayout from "./components/layouts/pages/NotFoundPageLayout";
+
+// utils imports
 import Spacer from "./components/atoms/Spacer";
-import DevelopmentToolsPageLayout from "./components/layouts/pages/DevelopmentToolsPageLayout";
-import LoginPageLayout from "./components/layouts/pages/LoginPageLayout";
+
+// Authentication
 import {useAuth} from "./contexts/AuthContext";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import RegisterPageLayout from "./components/layouts/pages/RegisterPageLayout";
 
 function App() {
-    const {isDeveloper, user} = useAuth();
+    const {isDeveloper, isOwner, user} = useAuth();
 
     useEffect(() => {
         user?.getIdToken().then(token => {
@@ -36,6 +45,11 @@ function App() {
                   		Contact
               		</PageNavigatorBarLink>
                     {
+                        isOwner && <PageNavigatorBarLink to="/messages" pageTitle="Messages">
+                            Messages
+                        </PageNavigatorBarLink>
+                    }
+                    {
                         isDeveloper && <PageNavigatorBarLink to="/developerTools" pageTitle="Developer Tools">
                             Developer Tools
                         </PageNavigatorBarLink>
@@ -53,6 +67,9 @@ function App() {
                     </Route>
                     <Route exact path="/developerTools">
                         <DevelopmentToolsPageLayout />
+                    </Route>
+                    <Route exact path="/messages">
+                        <MessagesPageLayout />
                     </Route>
                     <Route exact path="/login">
                         <LoginPageLayout />

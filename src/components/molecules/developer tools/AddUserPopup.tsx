@@ -30,18 +30,22 @@ const AddUserPopup: React.FC<AddUserPopupProps> = ({isPopupShown, hide, role, on
 
     return (
         <Popup isPopupShown={isPopupShown}>
-            <div className="flex flex-row">
-                <Spacer />
-                <button className="self-end" onClick={hide}>Close</button>
+            <Spacer />
+            <div className="bg-white">
+                <div className="flex flex-row">
+                    <Spacer />
+                    <button className="self-end" onClick={hide}>Close</button>
+                </div>
+                <form onSubmit={handleSubmit}>
+                    <label>
+                        <h3>Add user</h3>
+                        <input type="text" onChange={e => setUser(e.target.value)} className="border border-black rounded px-2"/>
+                    </label>
+                    {!!errorMessage && <p className="text-red-600 text-sm">{errorMessage}</p>}
+                    <button type="submit">Add</button>
+                </form>
             </div>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    <h3>Add user</h3>
-                    <input type="text" onChange={e => setUser(e.target.value)} className="border border-black rounded px-2"/>
-                </label>
-                {!!errorMessage && <p className="text-red-600 text-sm">{errorMessage}</p>}
-                <button type="submit">Add</button>
-            </form>
+            <Spacer />
         </Popup>
     );
 };

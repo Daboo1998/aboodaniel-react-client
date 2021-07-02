@@ -93,5 +93,69 @@ const database = {
 
 export class Timestamp extends firebase.firestore.Timestamp {}
 
+export const timestampToString = (timestamp: Timestamp) => {
+    const messageDate = timestamp.toDate();
+    const today = new Date(Date.now());
+
+    let hours = `${messageDate.getHours()}`;
+    let minutes = `${messageDate.getMinutes()}`;
+
+    if (hours === "0") {
+        hours = "00";
+    }
+
+    if (minutes === "0") {
+        minutes = "00";
+    }
+
+    if (today.getFullYear() === messageDate.getFullYear())  {
+        if (today.getMonth() === messageDate.getMonth() && today.getDate() === messageDate.getDate()) {
+            return `${hours}:${minutes}`;
+        }
+
+        let yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+
+        if (messageDate.getDate() === yesterday.getDate()) {
+            return `Yesterday at ${hours}:${minutes}`;
+        }
+
+        let firstDayOfTheWeek = new Date();
+        firstDayOfTheWeek.setDate(firstDayOfTheWeek.getDate() - 7);
+
+        // if date is equal or within the first and last dates of the week
+        if (messageDate >= firstDayOfTheWeek) {
+            const dayUTC = messageDate.getDay();
+
+            let description = "";
+
+            if (dayUTC === 1) {
+                description = "Monday";
+            } else if (dayUTC === 2) {
+                description = "Tuesday";
+            } else if (dayUTC === 3) {
+                description = "Wednesday";
+            } else if (dayUTC === 4) {
+                description = "Thursday";
+            } else if (dayUTC === 5) {
+                description = "Friday"
+            } else if (dayUTC === 6) {
+                description = "Saturday"
+            } else {
+                description = "Sunday";
+            }
+
+            description += ` at ${hours}:${minutes}`;
+
+            return description;
+        }
+    }
+    const day = messageDate.getDate();
+    const month = messageDate.getMonth();
+    const year = messageDate.getFullYear();
+
+    return `${day}/${month}/${year}`;
+};
+
 export default database;
 
