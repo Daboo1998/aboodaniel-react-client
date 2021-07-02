@@ -39,6 +39,12 @@ module.exports = {
       },
       maxHeight: {
         'inf': `10000px`,
+      },
+      backgroundColor: {
+        "submit": "#3b3b3b"
+      },
+      textColor: {
+        "error": "rgba(220, 38, 38, 1)"
       }
     },
   },
