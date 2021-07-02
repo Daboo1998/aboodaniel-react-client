@@ -25,7 +25,7 @@ h5 {
 
 a {
   @apply text-blue-600 underline;
-  @apply dark:text-blue-800;
+  @apply dark:text-blue-300;
 }
 
 p {
