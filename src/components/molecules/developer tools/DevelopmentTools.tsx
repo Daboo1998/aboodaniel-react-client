@@ -5,6 +5,8 @@ import AddUserPopup from "../popups/developer tools/AddUserPopup";
 import Spacer from "../../atoms/utilities/Spacer";
 import database from "../../../data/database";
 import Role from "../../../data/Role";
+import RoleComponent from "./RoleComponent";
+import AddButton from "../../atoms/buttons and links/AddButton";
 
 const DevelopmentTools: React.FC = () => {
     const [rolesList, setRolesList] = useState<Role []>([]);
@@ -42,43 +44,12 @@ const DevelopmentTools: React.FC = () => {
                 <div className="flex flex-row border-b border-black dark:border-white items-center px-2">
                     <h2 className="">Roles list</h2>
                     <Spacer />
-                    <button
-                        className="border border-black p-1 m-1 rounded bg-green-600"
-                        onClick={_ => showAddRolePopup()
-                        }>
-                        <p className="text-white">Add Role</p>
-                    </button>
+                    <AddButton onClick={showAddRolePopup} text="Add Role"/>
                 </div>
                 <ul className="px-2">
                     {
                         rolesList?.map((role) => {
-                            return role && role.id && (
-                                <li key={role.id}>
-                                    <div className="flex flex-row items-center border-b border-black dark:border-white">
-                                        <h3>{role.id}</h3>
-                                        <Spacer />
-                                        <button
-                                            className="border border-black p-1 m-1 rounded bg-green-600"
-                                            onClick={_ => handleShowAddUserPopup(role.id)}
-                                        >
-                                            <p className="text-white">add user</p>
-                                        </button>
-                                    </div>
-                                    {
-                                        role.users && <ol className="pl-4">
-                                            {
-                                                role.users?.map((user, idx) => {
-                                                    return <li key={user}>
-                                                        <p>
-                                                            {`${idx + 1}. ${user}`}
-                                                        </p>
-                                                    </li>
-                                                })
-                                            }
-                                        </ol>
-                                    }
-                                </li>
-                            );
+                            return <RoleComponent role={role} onShowAddUserPopup={handleShowAddUserPopup}/>
                         })
                     }
                 </ul>
