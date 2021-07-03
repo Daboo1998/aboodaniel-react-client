@@ -78,6 +78,7 @@ export const AuthContextProvider: React.FC = ({children}) => {
                 setUser(newUser);
             } else {
                 setIsLoggedIn(false);
+                setIsOwner(false);
                 setIsDeveloper(false);
                 setUser(null);
             }
