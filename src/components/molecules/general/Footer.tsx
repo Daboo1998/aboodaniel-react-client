@@ -1,6 +1,6 @@
 import React from "react";
-import { ReactComponent as FacebookIcon } from "../../images/icons/facebookIcon.svg";
-import { ReactComponent as LinkedInIcon } from "../../images/icons/linkedInIcon.svg";
+import { ReactComponent as FacebookIcon } from "../../../images/icons/facebookIcon.svg";
+import { ReactComponent as LinkedInIcon } from "../../../images/icons/linkedInIcon.svg";
 
 const Footer: React.FC = () => {
     return (

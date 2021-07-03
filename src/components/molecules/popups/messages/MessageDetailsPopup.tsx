@@ -1,9 +1,9 @@
 import React from "react";
-import {Popup, PopupProps} from "../../hooks/usePopup";
-import Message from "../../data/Message";
-import Spacer from "../atoms/Spacer";
-import {timestampToString} from "../../data/database";
-import { ReactComponent as CloseIcon} from "../../images/icons/closeIcon.svg";
+import {Popup, PopupProps} from "../../../../hooks/usePopup";
+import Message from "../../../../data/Message";
+import Spacer from "../../../atoms/utilities/Spacer";
+import {timestampToString} from "../../../../data/database";
+import { ReactComponent as CloseIcon} from "../../../../images/icons/closeIcon.svg";
 
 export interface MessageDetailsPopupProps extends PopupProps {
     message: Message | null;

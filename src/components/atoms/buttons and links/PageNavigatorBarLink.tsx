@@ -1,17 +1,22 @@
 import React, {useContext, useEffect} from "react";
 import Link, {LinkProps} from "./Link";
-import { PageNavigatorBarContext } from "../molecules/navigator/PageNavigatorBar";
+import { PageNavigatorBarContext } from "../../molecules/general/PageNavigatorBar";
 import { useHistory } from 'react-router-dom'
 
 export interface PageNavigatorBarLinkProps extends LinkProps {
     pageTitle: string
 }
 
-const PageNavigatorBarLink: React.FC<PageNavigatorBarLinkProps> = ({to, children, pageTitle}) => {
+const PageNavigatorBarLink: React.FC<PageNavigatorBarLinkProps> = ({
+    to,
+    children,
+    pageTitle
+}) => {
     const pageNavigatorBar = useContext(PageNavigatorBarContext);
     const history = useHistory();
 
     const handleClick = (e: React.MouseEvent) => {
+        e.preventDefault();
         pageNavigatorBar.hide();
         pageNavigatorBar.setCurrentTitle(pageTitle);
     };

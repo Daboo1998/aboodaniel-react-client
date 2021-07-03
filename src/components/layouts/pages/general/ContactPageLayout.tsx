@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from "react";
 import PageLayout from "../PageLayout";
-import TextInput from "../../atoms/TextInput";
-import TextAreaInput from "../../atoms/TextAreaInput";
+import TextInput from "../../../atoms/input/TextInput";
+import TextAreaInput from "../../../atoms/input/TextAreaInput";
 import validator from "validator";
-import {useAuth} from "../../../contexts/AuthContext";
-import database, {Timestamp} from "../../../data/database";
+import {useAuth} from "../../../../contexts/AuthContext";
+import database, {Timestamp} from "../../../../data/database";
+import SubmitButton from "../../../atoms/buttons and links/SubmitButton";
 
 const ContactPageLayout: React.FC = () => {
     const [email, setEmail] = useState("");
@@ -56,24 +57,16 @@ const ContactPageLayout: React.FC = () => {
     };
 
     return (
-        <PageLayout className="pt-10 items-center">
-            <h1>Contact</h1>
-            <div className="h-8" />
-            <form className="flex flex-col items-start w-full" onSubmit={handleSubmit}>
-                <TextInput name="email" value={email} onChange={setEmail}>Email (required)</TextInput>
-                <div className="h-6" />
-                <TextInput name="name" value={name} onChange={setName}>Name (required)</TextInput>
-                <div className="h-6" />
-                <TextInput name="subject" value={subject} onChange={setSubject}>Subject (required)</TextInput>
-                <div className="h-6" />
-                <TextAreaInput name="message" value={message} onChange={setMessage}>Message (required)</TextAreaInput>
-                <div className="h-6" />
-                <p className="text-green-600">{ information }</p>
+        <PageLayout className="pt-10 flex flex-col place-items-center">
+            <h1 className="text-center">Contact</h1>
+            <form onSubmit={handleSubmit}>
+                <TextInput label="Email (required)" name="email" value={email} onChange={setEmail} />
+                <TextInput label="Name (required)" name="name" value={name} onChange={setName} />
+                <TextInput label="Subject (required)" name="subject" value={subject} onChange={setSubject} />
+                <TextAreaInput label="Message (required)" name="message" value={message} onChange={setMessage} />
+                <p className="text-green-600">{information}</p>
                 <p className="text-error bold">{errorMessage}</p>
-                <div className="h-6" />
-                <button type="submit" className="bg-submit text-white rounded py-3 px-5 uppercase <md:w-full">
-                    Send
-                </button>
+                <SubmitButton label="submit" />
             </form>
 
         </PageLayout>

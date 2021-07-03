@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { ReactComponent as MenuIcon } from "../../../images/icons/menuIcon.svg";
 import { ReactComponent as CloseIcon } from "../../../images/icons/closeIcon.svg"
 import {useAuth} from "../../../contexts/AuthContext";
-import Spacer from "../../atoms/Spacer";
+import Spacer from "../../atoms/utilities/Spacer";
 import {useHistory} from "react-router-dom";
 
 export const PageNavigatorBarContext = React.createContext({
