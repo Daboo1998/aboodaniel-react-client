@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react";
 import PageLayout from "../PageLayout";
 import Message from "../../../../data/Message";
-import database, {timestampToString} from "../../../../data/database";
-import Spacer from "../../../atoms/utilities/Spacer";
+import database from "../../../../data/database";
 import MessageDetailsPopup from "../../../molecules/popups/messages/MessageDetailsPopup";
+import MessageComponent from "../../../atoms/messages/MessageComponent";
 
 const MessagesPageLayout: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);
@@ -38,16 +38,7 @@ const MessagesPageLayout: React.FC = () => {
             <div className={(messages.length > 0 ? " border-t border-black dark:border-white mt-4" : "")}>
                 {
                     messages.map((message) => {
-                        return (<div className="pb-2 border-b border-black dark:border-white" onClick={e => handleMessageClick(e, message)}>
-                            <div className="flex flex-row">
-                                <h4>{message.name}</h4>
-                                <Spacer />
-                                <p className="flex-shrink-0">{timestampToString(message.timestamp)}</p>
-                            </div>
-                            <h5>{message.subject}</h5>
-                            {/* - TODO: Make message body preview instead of showing the whole message */}
-                            <p className="line-clamp-3">{message.message}</p>
-                        </div>)
+                        return <MessageComponent message={message} onMessageClick={handleMessageClick}/>;
                     })
                 }
             </div>
