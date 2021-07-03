@@ -5,6 +5,9 @@ import {useAuth} from "../../../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
 import Link from "../../../atoms/buttons and links/Link";
 import SignInWithGoogleButton from "../../../atoms/buttons and links/SignInWithGoogleButton";
+import TextInput from "../../../atoms/input/TextInput";
+import ShouldRememberUserCheckbox from "../../../atoms/input/ShouldRememberUserCheckbox";
+import SubmitButton from "../../../atoms/buttons and links/SubmitButton";
 
 const LoginPageLayout: React.FC = () => {
     const [email, setEmail] = useState("");
@@ -61,46 +64,19 @@ const LoginPageLayout: React.FC = () => {
 
     return (
         <PageLayout>
-            <h1>Login</h1>
-            <div className="flex flex-col items-center h-full">
-                <Spacer />
-                <form className="w-min" onSubmit={handleSubmit}>
-                    <label>
-                        <p>Email</p>
-                        <input
-                            type="text"
-                            onChange={e => setEmail(e.target.value)}
-                            className="border border-black rounded px-1"
-                        />
-                    </label>
-                    <label>
-                        <p>Password</p>
-                        <input
-                            type="password"
-                            onChange={e => setPassword(e.target.value)}
-                            className="border border-black rounded px-1"
-                        />
-                    </label>
+            <h1 className="text-center">Login</h1>
+            <div className="flex flex-col items-center h-full pt-2">
+                <form className="w-min <md:w-full flex flex-col place-items-center space-y-4" onSubmit={handleSubmit}>
+                    <TextInput label="Email" name="email" onChange={setEmail} />
+                    <TextInput label="Password" name="password" onChange={setPassword} isPassword />
                     {!!errorMessage && <p className="text-red-600 text-sm">{errorMessage}</p>}
-                    <div className="flex flex-row items-center">
-                        <input
-                            type="checkbox"
-                            checked={shouldRememberUser}
-                            onChange={e => setShouldRememberUser(e.target.checked)}
-                        />
-                        <p className="pl-2">Remember me</p>
-                    </div>
-                    <div className="pt-2">
-                        <button type="submit" className="border border-black rounded bg-gray-200 dark:bg-black dark:hover:bg-gray-700 hover:bg-white p-1">Submit</button>
-                    </div>
-                    <div className="pt-2">
-                        <SignInWithGoogleButton onClick={handleLoginWithGoogle} />
-                    </div>
+                    <ShouldRememberUserCheckbox shouldRememberUser={shouldRememberUser} setShouldRememberUser={setShouldRememberUser}/>
+                    <SubmitButton label="log in" />
+                    <SignInWithGoogleButton onClick={handleLoginWithGoogle} />
                     <Link to="/register" className="text-blue-500 pt-2">
                         Register instead
                     </Link>
                 </form>
-                <Spacer />
             </div>
         </PageLayout>
     );

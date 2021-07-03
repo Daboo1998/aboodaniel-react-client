@@ -60,13 +60,13 @@ const ContactPageLayout: React.FC = () => {
             <h1>Contact</h1>
             <div className="h-8" />
             <form className="flex flex-col items-start w-full" onSubmit={handleSubmit}>
-                <TextInput name="email" value={email} onChange={setEmail}>Email (required)</TextInput>
+                <TextInput label="Email (required)" name="email" value={email} onChange={setEmail} />
                 <div className="h-6" />
-                <TextInput name="name" value={name} onChange={setName}>Name (required)</TextInput>
+                <TextInput label="Name (required)" name="name" value={name} onChange={setName} />
                 <div className="h-6" />
-                <TextInput name="subject" value={subject} onChange={setSubject}>Subject (required)</TextInput>
+                <TextInput label="Subject (required)" name="subject" value={subject} onChange={setSubject} />
                 <div className="h-6" />
-                <TextAreaInput name="message" value={message} onChange={setMessage}>Message (required)</TextAreaInput>
+                <TextAreaInput label="Message (required)" name="message" value={message} onChange={setMessage} />
                 <div className="h-6" />
                 <p className="text-green-600">{ information }</p>
                 <p className="text-error bold">{errorMessage}</p>

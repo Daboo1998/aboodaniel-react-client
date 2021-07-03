@@ -6,8 +6,7 @@ export interface SignInWithGoogleButtonProps {
 
 const SignInWithGoogleButton: React.FC<SignInWithGoogleButtonProps> = ({ onClick }) => (
     <button
-        className="flex flex-row items-center p-2 border border-gray-200 rounded-lg w-max shadow-sm
-                             hover:border-blue-800"
+        className="flex flex-row items-center p-2 border border-gray-200 rounded-lg w-max shadow-sm hover:border-blue-800"
         onClick={onClick}
     >
         <img className="w-5" src="images/googleIcon.png" alt="" />

@@ -7,11 +7,16 @@ export interface PageNavigatorBarLinkProps extends LinkProps {
     pageTitle: string
 }
 
-const PageNavigatorBarLink: React.FC<PageNavigatorBarLinkProps> = ({to, children, pageTitle}) => {
+const PageNavigatorBarLink: React.FC<PageNavigatorBarLinkProps> = ({
+    to,
+    children,
+    pageTitle
+}) => {
     const pageNavigatorBar = useContext(PageNavigatorBarContext);
     const history = useHistory();
 
     const handleClick = (e: React.MouseEvent) => {
+        e.preventDefault();
         pageNavigatorBar.hide();
         pageNavigatorBar.setCurrentTitle(pageTitle);
     };

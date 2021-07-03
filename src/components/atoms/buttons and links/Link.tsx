@@ -9,7 +9,12 @@ export interface LinkProps {
     onMouseLeave?: React.MouseEventHandler
 }
 
-const Link: React.FC<LinkProps> = ({ children, to, onClick, ...props }) => {
+const Link: React.FC<LinkProps> = ({
+    children,
+    to,
+    onClick,
+    ...props
+}) => {
     const history = useHistory();
 
     const handleClick = (e: React.MouseEvent) => {
