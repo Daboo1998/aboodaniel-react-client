@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react";
 import PageLayout from "../PageLayout";
-import Message from "../../../data/Message";
-import database, {timestampToString} from "../../../data/database";
-import Spacer from "../../atoms/Spacer";
-import MessageDetailsPopup from "../../molecules/MessageDetailsPopup";
+import Message from "../../../../data/Message";
+import database, {timestampToString} from "../../../../data/database";
+import Spacer from "../../../atoms/utilities/Spacer";
+import MessageDetailsPopup from "../../../molecules/popups/messages/MessageDetailsPopup";
 
 const MessagesPageLayout: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);

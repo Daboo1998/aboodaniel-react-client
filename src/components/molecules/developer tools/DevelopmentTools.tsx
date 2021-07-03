@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import usePopup from "../../../hooks/usePopup";
-import AddRolePopup from "./AddRolePopup";
-import AddUserPopup from "./AddUserPopup";
-import Spacer from "../../atoms/Spacer";
+import AddRolePopup from "../popups/developer tools/AddRolePopup";
+import AddUserPopup from "../popups/developer tools/AddUserPopup";
+import Spacer from "../../atoms/utilities/Spacer";
 import database from "../../../data/database";
 import Role from "../../../data/Role";
 

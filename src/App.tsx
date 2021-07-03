@@ -2,22 +2,22 @@ import React, {useEffect} from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 // Page imports
-import HomePageLayout from "./components/layouts/pages/HomePageLayout";
-import ExperiencePageLayout from "./components/layouts/pages/ExperiencePageLayout";
-import ContactPageLayout from "./components/layouts/pages/ContactPageLayout";
-import NotFoundPageLayout from "./components/layouts/pages/NotFoundPageLayout";
-import DevelopmentToolsPageLayout from "./components/layouts/pages/DevelopmentToolsPageLayout";
-import LoginPageLayout from "./components/layouts/pages/LoginPageLayout";
-import RegisterPageLayout from "./components/layouts/pages/RegisterPageLayout";
-import MessagesPageLayout from "./components/layouts/pages/MessagesPageLayout";
+import HomePageLayout from "./components/layouts/pages/general/HomePageLayout";
+import ExperiencePageLayout from "./components/layouts/pages/general/ExperiencePageLayout";
+import ContactPageLayout from "./components/layouts/pages/general/ContactPageLayout";
+import NotFoundPageLayout from "./components/layouts/pages/general/NotFoundPageLayout";
+import DevelopmentToolsPageLayout from "./components/layouts/pages/development and administration/DevelopmentToolsPageLayout";
+import LoginPageLayout from "./components/layouts/pages/authentication/LoginPageLayout";
+import RegisterPageLayout from "./components/layouts/pages/authentication/RegisterPageLayout";
+import MessagesPageLayout from "./components/layouts/pages/development and administration/MessagesPageLayout";
 
 // Main elements imports
-import PageNavigatorBar from "./components/molecules/navigator/PageNavigatorBar";
-import PageNavigatorBarLink from "./components/atoms/PageNavigatorBarLink";
-import Footer from "./components/molecules/Footer";
+import PageNavigatorBar from "./components/molecules/general/PageNavigatorBar";
+import PageNavigatorBarLink from "./components/atoms/buttons and links/PageNavigatorBarLink";
+import Footer from "./components/molecules/general/Footer";
 
 // utils imports
-import Spacer from "./components/atoms/Spacer";
+import Spacer from "./components/atoms/utilities/Spacer";
 
 // Authentication
 import {useAuth} from "./contexts/AuthContext";

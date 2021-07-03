@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from "react";
 import Link, {LinkProps} from "./Link";
-import { PageNavigatorBarContext } from "../molecules/navigator/PageNavigatorBar";
+import { PageNavigatorBarContext } from "../../molecules/general/PageNavigatorBar";
 import { useHistory } from 'react-router-dom'
 
 export interface PageNavigatorBarLinkProps extends LinkProps {

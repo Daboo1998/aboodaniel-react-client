@@ -1,8 +1,8 @@
 import React, {FormEventHandler, useState} from "react";
-import {Popup, PopupProps} from "../../../hooks/usePopup";
-import Spacer from "../../atoms/Spacer";
-import database from "../../../data/database";
-import {ReactComponent as CloseIcon} from "../../../images/icons/closeIcon.svg";
+import {Popup, PopupProps} from "../../../../hooks/usePopup";
+import Spacer from "../../../atoms/utilities/Spacer";
+import database from "../../../../data/database";
+import {ReactComponent as CloseIcon} from "../../../../images/icons/closeIcon.svg";
 
 interface AddRolePopupProps extends PopupProps {
     hide: () => void;

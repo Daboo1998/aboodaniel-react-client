@@ -1,6 +1,6 @@
 import ExperienceModel, { stringRepresentation } from "../../../data/experience";
 import React, { useState } from "react";
-import Spacer from "../../atoms/Spacer";
+import Spacer from "../../atoms/utilities/Spacer";
 
 export interface ExperienceProps {
     experience: ExperienceModel

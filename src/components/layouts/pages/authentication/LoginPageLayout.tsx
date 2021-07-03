@@ -1,10 +1,10 @@
 import React, {FormEventHandler, useState} from "react";
 import PageLayout from "../PageLayout";
-import Spacer from "../../atoms/Spacer";
-import {useAuth} from "../../../contexts/AuthContext";
+import Spacer from "../../../atoms/utilities/Spacer";
+import {useAuth} from "../../../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
-import Link from "../../atoms/Link";
-import SignInWithGoogleButton from "../../atoms/SignInWithGoogleButton";
+import Link from "../../../atoms/buttons and links/Link";
+import SignInWithGoogleButton from "../../../atoms/buttons and links/SignInWithGoogleButton";
 
 const LoginPageLayout: React.FC = () => {
     const [email, setEmail] = useState("");

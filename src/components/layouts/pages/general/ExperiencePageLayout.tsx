@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import PageLayout, {PageLayoutProps} from "../PageLayout";
-import ExperienceModel from "../../../data/experience";
-import Experience from "../../molecules/experience/Experience";
-import database from "../../../data/database";
+import ExperienceModel from "../../../../data/experience";
+import Experience from "../../../molecules/experience/Experience";
+import database from "../../../../data/database";
 
 export interface ExperiencePageLayoutProps extends PageLayoutProps {}
 

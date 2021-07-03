@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from "react";
 import PageLayout from "../PageLayout";
-import TextInput from "../../atoms/TextInput";
-import TextAreaInput from "../../atoms/TextAreaInput";
+import TextInput from "../../../atoms/input/TextInput";
+import TextAreaInput from "../../../atoms/input/TextAreaInput";
 import validator from "validator";
-import {useAuth} from "../../../contexts/AuthContext";
-import database, {Timestamp} from "../../../data/database";
+import {useAuth} from "../../../../contexts/AuthContext";
+import database, {Timestamp} from "../../../../data/database";
 
 const ContactPageLayout: React.FC = () => {
     const [email, setEmail] = useState("");
