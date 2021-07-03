@@ -27,10 +27,18 @@ export class Collection<T extends CollectionData> {
         this.collectionReference = firebase.firestore().collection(collectionPath);
     }
 
-    async getAll(): Promise<T []> {
+    async getAll(sort?: {field: string, direction: OrderDirection}): Promise<T []> {
         try {
-            const results = await this.collectionReference
-                .get();
+            let results;
+
+            if (sort) {
+                results = await this.collectionReference
+                    .orderBy(sort.field, sort.direction)
+                    .get()
+            } else {
+                results = await this.collectionReference
+                    .get()
+            }
 
             return results.docs.map<T>((doc) => {
                 return {
@@ -92,8 +100,9 @@ const database = {
 };
 
 export class Timestamp extends firebase.firestore.Timestamp {}
+export type OrderDirection = firebase.firestore.OrderByDirection;
 
-export const timestampToString = (timestamp: Timestamp) => {
+export const timestampToString = (timestamp: Timestamp, showTimeOnFullDate?: boolean) => {
     const messageDate = timestamp.toDate();
     const today = new Date(Date.now());
 
@@ -108,53 +117,56 @@ export const timestampToString = (timestamp: Timestamp) => {
         minutes = "00";
     }
 
-    if (today.getFullYear() === messageDate.getFullYear())  {
-        if (today.getMonth() === messageDate.getMonth() && today.getDate() === messageDate.getDate()) {
-            return `${hours}:${minutes}`;
-        }
-
-        let yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1);
-
-        if (messageDate.getDate() === yesterday.getDate()) {
-            return `Yesterday at ${hours}:${minutes}`;
-        }
-
-        let firstDayOfTheWeek = new Date();
-        firstDayOfTheWeek.setDate(firstDayOfTheWeek.getDate() - 7);
-
-        // if date is equal or within the first and last dates of the week
-        if (messageDate >= firstDayOfTheWeek) {
-            const dayUTC = messageDate.getDay();
-
-            let description = "";
-
-            if (dayUTC === 1) {
-                description = "Monday";
-            } else if (dayUTC === 2) {
-                description = "Tuesday";
-            } else if (dayUTC === 3) {
-                description = "Wednesday";
-            } else if (dayUTC === 4) {
-                description = "Thursday";
-            } else if (dayUTC === 5) {
-                description = "Friday"
-            } else if (dayUTC === 6) {
-                description = "Saturday"
-            } else {
-                description = "Sunday";
-            }
-
-            description += ` at ${hours}:${minutes}`;
-
-            return description;
-        }
+    if (today.getFullYear() === messageDate.getFullYear() &&
+        today.getMonth() === messageDate.getMonth() &&
+        today.getDate() === messageDate.getDate()) {
+        return `${hours}:${minutes}`;
     }
+
+    let yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    if (messageDate.getDate() === yesterday.getDate() &&
+        messageDate.getMonth() === yesterday.getMonth() &&
+        messageDate.getFullYear() === yesterday.getFullYear()) {
+        return `Yesterday at ${hours}:${minutes}`;
+    }
+
+    let firstDayOfTheWeek = new Date();
+    firstDayOfTheWeek.setDate(firstDayOfTheWeek.getDate() - 7);
+
+    // if date is equal or within the first and last dates of the week
+    if (messageDate >= firstDayOfTheWeek) {
+        const dayUTC = messageDate.getDay();
+
+        let description = "";
+
+        if (dayUTC === 1) {
+            description = "Monday";
+        } else if (dayUTC === 2) {
+            description = "Tuesday";
+        } else if (dayUTC === 3) {
+            description = "Wednesday";
+        } else if (dayUTC === 4) {
+            description = "Thursday";
+        } else if (dayUTC === 5) {
+            description = "Friday"
+        } else if (dayUTC === 6) {
+            description = "Saturday"
+        } else {
+            description = "Sunday";
+        }
+
+        description += ` at ${hours}:${minutes}`;
+
+        return description;
+    }
+
     const day = messageDate.getDate();
-    const month = messageDate.getMonth();
+    const month = messageDate.getMonth() + 1;
     const year = messageDate.getFullYear();
 
-    return `${day}/${month}/${year}`;
+    return `${showTimeOnFullDate ? `${hours}:${minutes} ` : ""}${day}/${month}/${year}`;
 };
 
 export default database;

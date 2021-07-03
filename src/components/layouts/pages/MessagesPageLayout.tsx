@@ -11,7 +11,7 @@ const MessagesPageLayout: React.FC = () => {
 
     useEffect(() => {
         database.messages
-            .getAll()
+            .getAll({field: "timestamp", direction: "desc"})
             .then((results) => {
                 setMessages(results);
             })
