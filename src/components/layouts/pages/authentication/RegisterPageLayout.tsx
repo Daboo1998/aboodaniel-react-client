@@ -1,6 +1,5 @@
 import React, {FormEventHandler, useState} from "react";
 import PageLayout from "../PageLayout";
-import Spacer from "../../../atoms/utilities/Spacer";
 import {useAuth} from "../../../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
 import "firebase/auth";
@@ -17,7 +16,7 @@ const RegisterPageLayout: React.FC = () => {
     const [shouldRememberUser, setShouldRememberUser] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
-    const {register, loginSource, loginWithGoogle} = useAuth();
+    const {register, loginSource} = useAuth();
     const history = useHistory();
 
     const handleSubmit: FormEventHandler = async (event) => {
@@ -56,23 +55,6 @@ const RegisterPageLayout: React.FC = () => {
         });
     };
 
-    const handleRegisterWithGoogle: FormEventHandler = (e) => {
-        e.preventDefault();
-
-        loginWithGoogle(shouldRememberUser)
-            .then(user => {
-                if (user) {
-                    console.log(`Logged in with uid="${user.user?.uid}"`);
-                    history.push(loginSource === "/register" ? "/" : loginSource);
-                } else {
-                    setErrorMessage("Something was wrong while logging in!");
-                }
-            }).catch(error => {
-            console.log("something is wrong!");
-            console.log(error);
-        });
-    };
-
     return (
         <PageLayout>
             <h1 className="text-center">Register</h1>
@@ -85,7 +67,7 @@ const RegisterPageLayout: React.FC = () => {
                     {!!errorMessage && <p className="text-red-600 text-sm">{errorMessage}</p>}
                     <ShouldRememberUserCheckbox shouldRememberUser={shouldRememberUser} setShouldRememberUser={setShouldRememberUser}/>
                     <SubmitButton label="register" />
-                    <SignInWithGoogleButton onClick={handleRegisterWithGoogle} />
+                    <SignInWithGoogleButton onError={setErrorMessage} shouldRememberUser={shouldRememberUser} />
                 </form>
             </div>
         </PageLayout>
