@@ -21,7 +21,7 @@ const MessageDetailsPopup: React.FC<MessageDetailsPopupProps> = ({message, isPop
                         <div className="flex flex-row">
                             <h4 className="flex-shrink-0">{message.subject}</h4>
                             <Spacer />
-                            <p className="flex-shrink-0 pl-2">{timestampToString(message.timestamp)}</p>
+                            <p className="flex-shrink-0 pl-2">{timestampToString(message.timestamp, true)}</p>
                         </div>
                         <p>Name: <span className="text-gray-600 dark:text-gray-400">{message.name}</span></p>
                         <p>Email: <span className="text-gray-600 dark:text-gray-400">{message.email}</span></p>
