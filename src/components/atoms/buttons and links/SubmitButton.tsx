@@ -5,7 +5,7 @@ export interface SubmitButtonProps {
 }
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({label}) => (
-    <button type="submit" className="bg-submit text-white rounded py-3 px-5 uppercase <md:w-full">
+    <button type="submit" className="bg-submit text-white rounded py-3 px-5 uppercase w-full hover:bg-submit-hover">
         {label}
     </button>
 );
