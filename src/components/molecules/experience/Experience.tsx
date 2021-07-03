@@ -19,7 +19,7 @@ const Experience: React.FC<ExperienceProps> = ({experience}) => {
             return null;
         }
 
-        const className = "text-gray-600 border-b border-black p-0.5 mt-1 pl-2 pr-2";
+        const className = "text-gray-600 border-b border-black dark:border-white dark:text-white p-0.5 mt-1 pl-2 pr-2";
 
         if (experience.endDate === "ongoing") {
             return <h4 className={className}>{`Ongoing, started in ${stringRepresentation(experience.startingDate?.toDate())}`}</h4>;
@@ -64,7 +64,7 @@ const Experience: React.FC<ExperienceProps> = ({experience}) => {
 
     return (
         <div className="pb-12">
-            <div className="flex flex-row sticky bg-white top-12 border-t-2 border-black p-2" onClick={handleHeaderClick}>
+            <div className="flex flex-row sticky bg-white dark:bg-gray-900 top-12 border-t-2 border-black dark:border-white p-2" onClick={handleHeaderClick}>
                 <h3>
                     {experience.title}
                 </h3>

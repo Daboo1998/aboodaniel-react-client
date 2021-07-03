@@ -35,10 +35,10 @@ const MessagesPageLayout: React.FC = () => {
         <PageLayout>
             <MessageDetailsPopup message={selectedMessage} isPopupShown={!!selectedMessage} onClose={handleMessageDetailsClose} />
             <h1>Messages</h1>
-            <div className={(messages.length > 0 ? " border-t border-black mt-4" : "")}>
+            <div className={(messages.length > 0 ? " border-t border-black dark:border-white mt-4" : "")}>
                 {
                     messages.map((message) => {
-                        return (<div className="pb-2 border-b border-black" onClick={e => handleMessageClick(e, message)}>
+                        return (<div className="pb-2 border-b border-black dark:border-white" onClick={e => handleMessageClick(e, message)}>
                             <div className="flex flex-row">
                                 <h4>{message.name}</h4>
                                 <Spacer />

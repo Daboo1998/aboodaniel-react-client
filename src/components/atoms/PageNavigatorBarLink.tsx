@@ -25,8 +25,8 @@ const PageNavigatorBarLink: React.FC<PageNavigatorBarLinkProps> = ({to, children
     return (
         <Link to={to}
               className = {
-                "bg-white hover:bg-gray-200 >md:border-r <md:border-b border-black p-2 pb-6 pt-6 >md:p-4 >md:flex-shrink-0" +
-                ((to === history.location.pathname) ? " bg-gray-200" : "")
+                "bg-white dark:bg-black hover:bg-gray-200 dark:text-white dark:hover:bg-gray-900 >md:border-r <md:border-b border-black p-2 pb-6 pt-6 >md:p-4 >md:flex-shrink-0" +
+                ((to === history.location.pathname) ? " bg-gray-200 dark:bg-gray-900" : "")
               }
               onClick={handleClick}
         >

@@ -38,8 +38,8 @@ const DevelopmentTools: React.FC = () => {
             <h1>Development Tools</h1>
             <AddRolePopup isPopupShown={isAddRolePopupShown} hide={hideAddRolePopup} onAdded={handleChange}/>
             <AddUserPopup role={selectedRoleType} isPopupShown={isAddUserPopupShown} hide={hideAddUserPopup} onAdded={handleChange} />
-            <div className="mt-4 border border-black w-max">
-                <div className="flex flex-row border-b border-black items-center px-2">
+            <div className="mt-4 border border-black dark:border-white w-max">
+                <div className="flex flex-row border-b border-black dark:border-white items-center px-2">
                     <h2 className="">Roles list</h2>
                     <Spacer />
                     <button
@@ -54,7 +54,7 @@ const DevelopmentTools: React.FC = () => {
                         rolesList?.map((role) => {
                             return role && role.id && (
                                 <li key={role.id}>
-                                    <div className="flex flex-row items-center border-b border-black">
+                                    <div className="flex flex-row items-center border-b border-black dark:border-white">
                                         <h3>{role.id}</h3>
                                         <Spacer />
                                         <button
