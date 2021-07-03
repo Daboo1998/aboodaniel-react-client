@@ -49,9 +49,11 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      fill: ['dark']
+    },
   },
   plugins: [
     require('@tailwindcss/line-clamp'),
   ],
-}
+};

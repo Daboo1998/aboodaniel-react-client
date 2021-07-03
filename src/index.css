@@ -35,7 +35,7 @@ p {
 
 svg {
   @apply dark:text-white;
-  @apply fill-current;
+  @apply dark:fill-current;
 }
 
 label, input, textarea, button {
