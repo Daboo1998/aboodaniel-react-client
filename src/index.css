@@ -46,6 +46,13 @@ input, textarea {
   @apply dark:bg-black;
 }
 
+form {
+  @apply flex;
+  @apply flex-col;
+  @apply >md:w-96 <md:w-full pt-6 space-y-4;
+  @apply items-center;
+}
+
 @tailwind components;
 @tailwind utilities;
 

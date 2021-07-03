@@ -47,8 +47,8 @@ const LoginPageLayout: React.FC = () => {
     return (
         <PageLayout>
             <h1 className="text-center">Login</h1>
-            <div className="flex flex-col items-center h-full pt-2">
-                <form className="w-min <md:w-full flex flex-col place-items-center space-y-4" onSubmit={handleSubmit}>
+            <div className="flex flex-col place-items-center h-full pt-2">
+                <form onSubmit={handleSubmit}>
                     <TextInput label="Email" name="email" onChange={setEmail} />
                     <TextInput label="Password" name="password" onChange={setPassword} isPassword />
                     {!!errorMessage && <p className="text-red-600 text-sm">{errorMessage}</p>}

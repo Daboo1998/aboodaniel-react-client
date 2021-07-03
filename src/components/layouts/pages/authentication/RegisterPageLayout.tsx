@@ -58,8 +58,8 @@ const RegisterPageLayout: React.FC = () => {
     return (
         <PageLayout>
             <h1 className="text-center">Register</h1>
-            <div className="flex flex-col items-center pt-2">
-                <form className="w-min <md:w-full flex flex-col place-items-center space-y-4" onSubmit={handleSubmit}>
+            <div className="flex flex-col place-items-center h-full pt-2">
+                <form onSubmit={handleSubmit}>
                     <TextInput label="Display Name" name="displayName" onChange={setDisplayName} />
                     <TextInput label="Email" name="email" onChange={setEmail} />
                     <TextInput label="Password" name="password" onChange={setPassword} isPassword />

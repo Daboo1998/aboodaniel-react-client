@@ -21,11 +21,11 @@ const AuthContext = React.createContext<AuthContextInterface>({
     isLoggedIn: undefined,
     isDeveloper: false,
     isOwner: false,
-    wentToLogin: (source: string) => {},
+    wentToLogin: () => {},
     user: null,
-    login: (email: string, password: string, shouldRememberUser: boolean) => { return Promise.reject() },
-    loginWithGoogle: (shouldRememberUser: boolean) => { return Promise.reject() },
-    register: (email: string, password: string, shouldRememberUser: boolean) => { return Promise.reject() },
+    login: () => { return Promise.reject() },
+    loginWithGoogle: () => { return Promise.reject() },
+    register: () => { return Promise.reject() },
     logout: () => { return Promise.reject() }
 });
 

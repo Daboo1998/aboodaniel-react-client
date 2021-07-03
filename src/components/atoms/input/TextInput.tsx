@@ -24,7 +24,7 @@ const TextInput: React.FC<TextInputProps> = ({
         <label htmlFor={name} className="mb-2">
             {label}<br/>
             <input type={isPassword ? "password" : "text"} value={value} aria-invalid onChange={handleChange} name={name}
-                   className="border rounded transition border-gray-200 box-shadow-inner py-2 px-4 mb-2 >md:w-96 <md:w-full" />
+                   className="border rounded transition border-gray-200 box-shadow-inner py-2 px-4 mb-2 w-full" />
         </label>
     </p>;
 };

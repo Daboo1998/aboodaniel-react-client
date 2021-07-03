@@ -2,10 +2,6 @@ import React from "react";
 import PageLayout from "../PageLayout";
 
 const HomePageLayout: React.FC = () => {
-    // const handleScroll: React.MouseEventHandler = () => {
-    //
-    // };
-
     return (
         <PageLayout className="pt-10">
             <h1 className="text-center">Welcome to my kingdom!</h1>
