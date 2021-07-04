@@ -1,8 +1,8 @@
-import React from "react";
+import React, {useState} from "react";
 import {Popup, PopupProps} from "../../../../hooks/usePopup";
 import Message from "../../../../data/Message";
 import Spacer from "../../../atoms/utilities/Spacer";
-import {timestampToString} from "../../../../data/database";
+import database, {timestampToString} from "../../../../data/database";
 import { ReactComponent as CloseIcon} from "../../../../images/icons/closeIcon.svg";
 
 export interface MessageDetailsPopupProps extends PopupProps {
@@ -11,12 +11,34 @@ export interface MessageDetailsPopupProps extends PopupProps {
 }
 
 const MessageDetailsPopup: React.FC<MessageDetailsPopupProps> = ({message, isPopupShown, onClose}) => {
+    const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+
+    const handleMessageDelete: React.MouseEventHandler = (event) => {
+        event.preventDefault();
+
+        if (message && message.id) {
+            database.messages
+                .delete(message.id)
+                .catch(error => {
+                    setErrorMessage(error.message);
+                })
+                .then(() => {
+                    alert("Message deleted!");
+                    onClose();
+                });
+        }
+    };
     return (
         <Popup isPopupShown={isPopupShown}>
             <Spacer />
             {message && (
                 <div className="max-h-full rounded-xl <md:w-screen <md:h-screen p-8 bg-white dark:bg-black overflow-y-scroll">
-                    <button onClick={_ => onClose()}><CloseIcon /></button>
+                    <div className="flex flex-row">
+                        <button onClick={_ => onClose()}><CloseIcon /></button>
+                        <Spacer />
+                        {/* - TODO: Change to a bin icon and check if deleting works */}
+                        <button onClick={handleMessageDelete} className="text-danger">Delete</button>
+                    </div>
                     <div className="border-b border-black dark:border-white p-2">
                         <div className="flex flex-row">
                             <h4 className="flex-shrink-0">{message.subject}</h4>
