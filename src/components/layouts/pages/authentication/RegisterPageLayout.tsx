@@ -46,6 +46,8 @@ const RegisterPageLayout: React.FC = () => {
                 setErrorMessage("Email is already in use!");
             } else if (error.code === "auth/invalid-email") {
                 setErrorMessage("Email is wrongly formatted!");
+            } else if (error.code === "auth/network-request-failed") {
+                setErrorMessage("Problem with internet connection.");
             } else if (error.code === "auth/weak-password") {
                 // To change in future
                 setErrorMessage(error.message);
