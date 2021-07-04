@@ -1,9 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import {Popup, PopupProps} from "../../../../hooks/usePopup";
 import Message from "../../../../data/Message";
 import Spacer from "../../../atoms/utilities/Spacer";
 import database, {timestampToString} from "../../../../data/database";
 import { ReactComponent as CloseIcon} from "../../../../images/icons/closeIcon.svg";
+import { ReactComponent as TrashIcon } from "../../../../images/icons/trash.svg";
 
 export interface MessageDetailsPopupProps extends PopupProps {
     message: Message | null;
@@ -11,8 +12,6 @@ export interface MessageDetailsPopupProps extends PopupProps {
 }
 
 const MessageDetailsPopup: React.FC<MessageDetailsPopupProps> = ({message, isPopupShown, onClose}) => {
-    const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
-
     const handleMessageDelete: React.MouseEventHandler = (event) => {
         event.preventDefault();
 
@@ -20,7 +19,7 @@ const MessageDetailsPopup: React.FC<MessageDetailsPopupProps> = ({message, isPop
             database.messages
                 .delete(message.id)
                 .catch(error => {
-                    setErrorMessage(error.message);
+                    alert(error.message);
                 })
                 .then(() => {
                     alert("Message deleted!");
@@ -36,8 +35,8 @@ const MessageDetailsPopup: React.FC<MessageDetailsPopupProps> = ({message, isPop
                     <div className="flex flex-row">
                         <button onClick={_ => onClose()}><CloseIcon /></button>
                         <Spacer />
-                        {/* - TODO: Change to a bin icon and check if deleting works */}
-                        <button onClick={handleMessageDelete} className="text-danger">Delete</button>
+                        {/* - TODO: Check if deleting works */}
+                        <button onClick={handleMessageDelete} className="text-danger"><TrashIcon /></button>
                     </div>
                     <div className="border-b border-black dark:border-white p-2">
                         <div className="flex flex-row">
