@@ -37,8 +37,11 @@ const LoginPageLayout: React.FC = () => {
             } else if (error.code === "auth/wrong-password") {
                 setErrorMessage("Wrong password!");
             } else if (error.code === "auth/invalid-email") {
-                setErrorMessage("Email is wrongly formatted!")
+                setErrorMessage("Email is wrongly formatted!");
+            } else if (error.code === "auth/network-request-failed") {
+                setErrorMessage("Problem with internet connection.");
             } else {
+                console.error(error);
                 setErrorMessage(error.message);
             }
         });

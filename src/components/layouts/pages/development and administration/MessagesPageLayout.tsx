@@ -4,10 +4,20 @@ import Message from "../../../../data/Message";
 import database from "../../../../data/database";
 import MessageDetailsPopup from "../../../molecules/popups/messages/MessageDetailsPopup";
 import MessageComponent from "../../../atoms/messages/MessageComponent";
+import {useHistory} from "react-router-dom";
+import {useAuth} from "../../../../contexts/AuthContext";
 
 const MessagesPageLayout: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
+
+    const {wentToLogin, isLoggedIn} = useAuth();
+    const history = useHistory();
+
+    if (isLoggedIn !== undefined && !isLoggedIn) {
+        history.push("/login");
+        wentToLogin("/messages");
+    }
 
     useEffect(() => {
         database.messages
