@@ -5,6 +5,7 @@ import Spacer from "../../../atoms/utilities/Spacer";
 import database, {timestampToString} from "../../../../data/database";
 import { ReactComponent as CloseIcon} from "../../../../images/icons/closeIcon.svg";
 import { ReactComponent as TrashIcon } from "../../../../images/icons/trash.svg";
+import SubmitButton from "../../../atoms/buttons and links/SubmitButton";
 
 export interface MessageDetailsPopupProps extends PopupProps {
     message: Message | null;
@@ -27,6 +28,11 @@ const MessageDetailsPopup: React.FC<MessageDetailsPopupProps> = ({message, isPop
                 });
         }
     };
+
+    const handleReplyClick = () => {
+        // - TODO: Add opening mail.
+    };
+
     return (
         <Popup isPopupShown={isPopupShown}>
             <Spacer />
@@ -48,6 +54,7 @@ const MessageDetailsPopup: React.FC<MessageDetailsPopupProps> = ({message, isPop
                         <p>Email: <span className="text-gray-600 dark:text-gray-400">{message.email}</span></p>
                     </div>
                     <p className="max-w-prose p-4 whitespace-pre-wrap">{message.message}</p>
+                    <SubmitButton label={"reply"} onSubmit={handleReplyClick}/>
                 </div>
             )}
             <Spacer />
