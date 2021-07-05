@@ -40,7 +40,7 @@ const DevelopmentTools: React.FC = () => {
             <h1>Development Tools</h1>
             <AddRolePopup isPopupShown={isAddRolePopupShown} hide={hideAddRolePopup} onAdded={handleChange}/>
             <AddUserPopup role={selectedRoleType} isPopupShown={isAddUserPopupShown} hide={hideAddUserPopup} onAdded={handleChange} />
-            <div className="mt-4 border border-black dark:border-white w-max">
+            <div className="mt-4 border border-black dark:border-white w-full">
                 <div className="flex flex-row border-b border-black dark:border-white items-center px-2">
                     <h2 className="">Roles list</h2>
                     <Spacer />
