@@ -86,7 +86,26 @@ export class Collection<T extends CollectionData> {
                         const array = data ? data[field] : [];
                         const newArray = [...array, newElement];
 
-                        transaction.update(documentReference, { users: newArray });
+                        transaction.update(documentReference, { [field]: newArray });
+                    });
+            })
+    }
+
+    async removeManyFromArray<Element>(id: string, field: string, elements: Element []) {
+        const documentReference = this.collectionReference.doc(id);
+
+        return firebase.firestore()
+            .runTransaction(transaction => {
+                return transaction
+                    .get(documentReference)
+                    .then(document => {
+                        if (!document.exists) {
+                            throw Error("Document does not exist!");
+                        }
+                        const data = document.data();
+                        const array = data ? data[field].filter((e: Element) => !elements.includes(e)) : [];
+
+                        transaction.update(documentReference, {[field]: array});
                     });
             })
     }
@@ -99,6 +118,17 @@ export class Collection<T extends CollectionData> {
         } catch (error) {
             return Promise.reject(error);
         }
+    }
+
+    async deleteMany(ids: string[]) {
+        const batchDelete = firebase.firestore().batch();
+
+        ids.forEach(id => {
+            let ref = this.collectionReference.doc(id);
+            batchDelete.delete(ref);
+        });
+
+        return batchDelete.commit();
     }
 }
 
