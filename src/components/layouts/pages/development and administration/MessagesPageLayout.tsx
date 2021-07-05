@@ -40,10 +40,19 @@ const MessagesPageLayout: React.FC = () => {
         setSelectedMessage(message);
         document.body.style.overflow = 'hidden';
     };
+
+    const handleMessageDelete = (message: Message) => {
+        setMessages(messages.filter(m => m.id !== message.id));
+    };
     
     return (
         <PageLayout>
-            <MessageDetailsPopup message={selectedMessage} isPopupShown={!!selectedMessage} onClose={handleMessageDetailsClose} />
+            <MessageDetailsPopup
+                message={selectedMessage}
+                isPopupShown={!!selectedMessage}
+                onClose={handleMessageDetailsClose}
+                onMessageDelete={handleMessageDelete}
+            />
             <h1>Messages</h1>
             <div className={(messages.length > 0 ? " border-t border-black dark:border-white mt-4" : "")}>
                 {

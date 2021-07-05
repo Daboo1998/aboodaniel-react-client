@@ -90,6 +90,16 @@ export class Collection<T extends CollectionData> {
                     });
             })
     }
+
+    async delete(id: string) {
+        try {
+            await this.collectionReference
+                .doc(id)
+                .delete();
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
 }
 
 const database = {
