@@ -5,10 +5,10 @@ import TextAreaInput from "../../../atoms/input/TextAreaInput";
 import NumberInput from "../../../atoms/input/NumberInput";
 import Spacer from "../../../atoms/utilities/Spacer";
 import DateInput from "../../../atoms/input/DateInput";
-import SubmitButton, {SubmitButtonType} from "../../../atoms/buttons and links/SubmitButton";
+import Button, {ButtonSize, ButtonType} from "../../../atoms/buttons and links/Button";
 import database, {Timestamp} from "../../../../data/database";
 import Experience from "../../../../data/experience";
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 
 export interface AddExperiencePopupProps extends PopupProps {
     onClose: (addedExperience?: Experience) => void
@@ -101,8 +101,8 @@ const AddExperiencePopup: React.FC<AddExperiencePopupProps> = (props) => {
                     <TextInput name="link" label="Link (optional)" onChange={setLink}/>
                     <TextInput name="linkText" label="Link text (optional)" onChange={setLinkText} />
                     <p className="text-red-800">{errorMessage}</p>
-                    <SubmitButton label="Add" type={SubmitButtonType.constructive} onSubmit={e => handleAddExperience(e)} />
-                    <SubmitButton label="Cancel" onSubmit={handleCancel} />
+                    <Button label="Add" size={ButtonSize.bigFullWidth} type={ButtonType.constructive} action={e => handleAddExperience(e)} />
+                    <Button label="Cancel" size={ButtonSize.bigFullWidth} action={handleCancel} />
                 </form>
             </div>
             <Spacer />

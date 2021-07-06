@@ -6,7 +6,7 @@ import Spacer from "../../atoms/utilities/Spacer";
 import database from "../../../data/database";
 import Role from "../../../data/Role";
 import RoleComponent from "./RoleComponent";
-import AddButton from "../../atoms/buttons and links/AddButton";
+import Button, {ButtonType} from "../../atoms/buttons and links/Button";
 import {ReactComponent as TrashIcon} from "../../../images/icons/trash.svg";
 
 const DevelopmentTools: React.FC = () => {
@@ -103,13 +103,13 @@ const DevelopmentTools: React.FC = () => {
             <AddRolePopup isPopupShown={isAddRolePopupShown} hide={hideAddRolePopup} onAdded={handleChange}/>
             <AddUserPopup role={selectedRoleType} isPopupShown={isAddUserPopupShown} hide={hideAddUserPopup} onAdded={handleChange} />
             <div className="mt-4 border border-black dark:border-white w-full">
-                <div className="flex flex-row border-b border-black dark:border-white items-center px-2">
+                <div className="flex flex-row border-b border-black dark:border-white items-center px-2 space-x-2">
                     <h2 className="">Roles list</h2>
                     <Spacer />
+                    <Button action={showAddRolePopup} label="Add Role" type={ButtonType.constructive}/>
                     <button onClick={handleDelete} >
                         <TrashIcon className="w-5 text-red-600 hover:text-red-900 fill-current" />
                     </button>
-                    <AddButton onClick={showAddRolePopup} text="Add Role"/>
                 </div>
                 <ul className="px-2">
                     {

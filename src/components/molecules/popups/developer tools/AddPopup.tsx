@@ -2,7 +2,7 @@ import Popup, {PopupProps} from "../Popup";
 import React, {FormEventHandler, useState} from "react";
 import Spacer from "../../../atoms/utilities/Spacer";
 import {ReactComponent as CloseIcon} from "../../../../images/icons/closeIcon.svg";
-import SubmitButton, {SubmitButtonType} from "../../../atoms/buttons and links/SubmitButton";
+import Button, {ButtonType} from "../../../atoms/buttons and links/Button";
 import TextInput from "../../../atoms/input/TextInput";
 
 interface AddStringPopupProps extends PopupProps {
@@ -31,7 +31,7 @@ const AddStringPopup: React.FC<AddStringPopupProps> = ({fieldName, isPopupShown,
                 <form onSubmit={handleSubmit} className="items-center">
                     <TextInput name={fieldName} onChange={setNewString} label={fieldName} />
                     {!!errorMessage && <p className="text-red-600 text-sm">{errorMessage}</p>}
-                    <SubmitButton label="Add" type={SubmitButtonType.constructive} />
+                    <Button className="w-full px-5 py-2" label="Add" type={ButtonType.constructive} />
                 </form>
             </div>
             <Spacer />

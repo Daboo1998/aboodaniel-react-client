@@ -4,7 +4,7 @@ import {useAuth} from "../../../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
 import "firebase/auth";
 import SignInWithGoogleButton from "../../../atoms/buttons and links/SignInWithGoogleButton";
-import SubmitButton from "../../../atoms/buttons and links/SubmitButton";
+import Button from "../../../atoms/buttons and links/Button";
 import TextInput from "../../../atoms/input/TextInput";
 import ShouldRememberUserCheckbox from "../../../atoms/input/ShouldRememberUserCheckbox";
 
@@ -68,7 +68,7 @@ const RegisterPageLayout: React.FC = () => {
                     <TextInput label="Confirm password" name="passwordConfirmation" onChange={setPasswordConfirmation} isPassword />
                     {!!errorMessage && <p className="text-red-600 text-sm">{errorMessage}</p>}
                     <ShouldRememberUserCheckbox shouldRememberUser={shouldRememberUser} setShouldRememberUser={setShouldRememberUser}/>
-                    <SubmitButton label="register" />
+                    <Button className="w-full px-5 py-2" label="register" submit/>
                     <SignInWithGoogleButton onError={setErrorMessage} shouldRememberUser={shouldRememberUser} />
                 </form>
             </div>

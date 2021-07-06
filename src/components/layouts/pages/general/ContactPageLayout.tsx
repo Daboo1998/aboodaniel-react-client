@@ -5,7 +5,7 @@ import TextAreaInput from "../../../atoms/input/TextAreaInput";
 import validator from "validator";
 import {useAuth} from "../../../../contexts/AuthContext";
 import database, {Timestamp} from "../../../../data/database";
-import SubmitButton from "../../../atoms/buttons and links/SubmitButton";
+import Button, {ButtonSize} from "../../../atoms/buttons and links/Button";
 
 const ContactPageLayout: React.FC = () => {
     const [email, setEmail] = useState("");
@@ -66,9 +66,8 @@ const ContactPageLayout: React.FC = () => {
                 <TextAreaInput label="Message (required)" name="message" value={message} onChange={setMessage} />
                 <p className="text-green-600">{information}</p>
                 <p className="text-error bold">{errorMessage}</p>
-                <SubmitButton label="submit" />
+                <Button label="submit" size={ButtonSize.bigFullWidth} />
             </form>
-
         </PageLayout>
     );
 };

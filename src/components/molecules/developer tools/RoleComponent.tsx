@@ -1,7 +1,7 @@
 import Role from "../../../data/Role";
 import React, {useState} from "react";
 import Spacer from "../../atoms/utilities/Spacer";
-import AddButton from "../../atoms/buttons and links/AddButton";
+import Button, {ButtonType} from "../../atoms/buttons and links/Button"
 
 interface RoleComponentProps {
     role: Role;
@@ -41,11 +41,11 @@ const RoleComponent: React.FC<RoleComponentProps> = ({role, onShowAddUserPopup, 
         {
             role && role.id && (
                 <li key={role.id}>
-                    <div className="flex flex-row items-center border-b border-black dark:border-white">
+                    <div className="flex flex-row items-center border-b border-t-4 border-black dark:border-white">
                         <input type="checkbox" onChange={e => handleRoleCheckboxChange(e.target.checked)} checked={isRoleChecked}/>
                         <h3 className="pl-2">{role.id}</h3>
                         <Spacer />
-                        <AddButton onClick={() => onShowAddUserPopup(role.id)} text="Add User"/>
+                        <Button action={() => onShowAddUserPopup(role.id)} label="Add User" type={ButtonType.constructive}/>
                     </div>
                     {
                         role.users && <ol className="pl-4">

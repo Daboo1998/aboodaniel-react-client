@@ -7,7 +7,7 @@ import {useAuth} from "../../../../contexts/AuthContext";
 import AddExperiencePopup from "../../../molecules/popups/experience/AddExperiencePopup";
 import usePopup from "../../../../hooks/usePopup";
 import RemoveExperiencesPopup from "../../../molecules/popups/experience/RemoveExperiencesPopup";
-import SubmitButton, {SubmitButtonType} from "../../../atoms/buttons and links/SubmitButton";
+import Button, {ButtonSize, ButtonType} from "../../../atoms/buttons and links/Button";
 
 export interface ExperiencePageLayoutProps extends PageLayoutProps {}
 
@@ -53,23 +53,29 @@ const ExperiencePageLayout: React.FC<ExperiencePageLayoutProps> = () => {
             <AddExperiencePopup isPopupShown={isAddExperiencePopupShown} onClose={onAddExperienceClose} />
             <RemoveExperiencesPopup experiences={experiences} onClose={onRemoveExperiencesClose} isPopupShown={isRemoveExperiencesPopupShown} />
             <div className="flex flex-row space-x-2">
-                <h1>My experience</h1>
-                {
-                    auth.isOwner && <SubmitButton
-                        className="w-max flex-shrink-0"
-                        onSubmit={onAddButtonClick}
-                        label="Add experience"
-                        type={SubmitButtonType.constructive}
-                    />
-                }
-                {
-                    auth.isOwner && <SubmitButton
-                        className="w-max flex-shrink-0"
-                        label="Remove experiences"
-                        onSubmit={onRemoveButtonClick}
-                        type={SubmitButtonType.destructive}
-                    />
-                }
+                <div className="flex flex-col w-full space-y-2">
+                    <h1>My experience</h1>
+                    <div className="flex flex-row space-x-2 w-full">
+                        {
+                            auth.isOwner && <Button
+                                className="flex-shrink-0"
+                                size={ButtonSize.medium}
+                                action={onAddButtonClick}
+                                label="Add experience"
+                                type={ButtonType.constructive}
+                            />
+                        }
+                        {
+                            auth.isOwner && <Button
+                                className="flex-shrink-0"
+                                size={ButtonSize.medium}
+                                label="Remove experiences"
+                                action={onRemoveButtonClick}
+                                type={ButtonType.destructive}
+                            />
+                        }
+                    </div>
+                </div>
             </div>
             <div className=" rounded-md border-black mt-4 mb-4">
                 {

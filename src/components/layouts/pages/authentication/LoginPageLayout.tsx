@@ -6,7 +6,7 @@ import Link from "../../../atoms/buttons and links/Link";
 import SignInWithGoogleButton from "../../../atoms/buttons and links/SignInWithGoogleButton";
 import TextInput from "../../../atoms/input/TextInput";
 import ShouldRememberUserCheckbox from "../../../atoms/input/ShouldRememberUserCheckbox";
-import SubmitButton from "../../../atoms/buttons and links/SubmitButton";
+import Button from "../../../atoms/buttons and links/Button";
 
 const LoginPageLayout: React.FC = () => {
     const [email, setEmail] = useState("");
@@ -56,7 +56,7 @@ const LoginPageLayout: React.FC = () => {
                     <TextInput label="Password" name="password" onChange={setPassword} isPassword />
                     {!!errorMessage && <p className="text-red-600 text-sm">{errorMessage}</p>}
                     <ShouldRememberUserCheckbox shouldRememberUser={shouldRememberUser} setShouldRememberUser={setShouldRememberUser}/>
-                    <SubmitButton label="log in" />
+                    <Button className="w-full px-5 py-2" label="log in" submit />
                     <SignInWithGoogleButton onError={setErrorMessage} shouldRememberUser={shouldRememberUser} />
                     <Link to="/register" className="text-blue-500 pt-2">
                         Register instead

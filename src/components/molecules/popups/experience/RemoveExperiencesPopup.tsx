@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Popup, {PopupProps} from "../Popup";
 import Experience from "../../../../data/experience";
-import SubmitButton, {SubmitButtonType} from "../../../atoms/buttons and links/SubmitButton";
+import Button, {ButtonType} from "../../../atoms/buttons and links/Button";
 import Spacer from "../../../atoms/utilities/Spacer";
 import database from "../../../../data/database";
 
@@ -63,8 +63,8 @@ const RemoveExperiencesPopup: React.FC<RemoveExperiencesPopupProps> = ({isPopupS
                     }
                 </ol>
                 <p className="text-red-800">{errorMessage}</p>
-                <SubmitButton label="Remove selected" type={SubmitButtonType.destructive} onSubmit={handleRemove}/>
-                <SubmitButton label="Cancel" onSubmit={() => onClose(experiences)}/>
+                <Button className="w-full px-5 py-2" label="Remove selected" type={ButtonType.destructive} action={handleRemove}/>
+                <Button className="w-full px-5 py-2" label="Cancel" action={() => onClose(experiences)}/>
             </div>
             <Spacer />
         </Popup>
