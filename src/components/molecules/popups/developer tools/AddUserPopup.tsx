@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {PopupProps} from "../../../../hooks/usePopup";
+import {PopupProps} from "../Popup";
 import database from "../../../../data/database";
 import AddPopup from "./AddPopup";
 

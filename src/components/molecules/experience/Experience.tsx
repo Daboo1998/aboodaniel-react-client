@@ -75,7 +75,7 @@ const Experience: React.FC<ExperienceProps> = ({experience}) => {
             </div>
             <div onClick={handleHeaderClick}>{timeDescription()}</div>
             <div className={`${areDetailsHidden ? "max-h-0" : "max-h-inf"} overflow-hidden transition-max-h duration-1000 ease-in-out`}>
-                <p className="p-2">
+                <p className="p-2 whitespace-pre-wrap">
                     {experience.description + " "}
                     {
                         experience.link && <a href={experience.link} target="_blank" rel="noopener noreferrer">

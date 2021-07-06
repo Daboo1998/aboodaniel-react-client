@@ -1,5 +1,5 @@
 import React from "react";
-import {Popup, PopupProps} from "../../../../hooks/usePopup";
+import Popup, {PopupProps} from "../Popup";
 import Message from "../../../../data/Message";
 import Spacer from "../../../atoms/utilities/Spacer";
 import database, {timestampToString} from "../../../../data/database";

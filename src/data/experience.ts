@@ -35,7 +35,7 @@ export const stringRepresentation = (date: Date, withDay: boolean = false) => {
 };
 
 interface Experience {
-    id: string;
+    id?: string;
     importance: number,
     title: string,
     description: string,

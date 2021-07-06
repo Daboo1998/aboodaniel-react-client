@@ -1,35 +1,39 @@
 import React from "react";
 
-export interface TextInputProps {
+export interface NumberInputProps {
     name: string;
-    value?: string;
-    onChange?: (value: string) => void;
-    isPassword?: boolean;
+    value?: number;
+    onChange?: (value: number) => void;
     label: string;
     placeholder?: string;
+    min: number;
+    max: number;
 }
 
-const TextInput: React.FC<TextInputProps> = ({
+const NumberInput: React.FC<NumberInputProps> = ({
+    min,
+    max,
     name ,
     label,
     value,
     onChange,
-    isPassword,
     placeholder
 }) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        onChange?.(e.target.value);
+        onChange?.(e.target.valueAsNumber);
     };
 
     return <p className="text-gray-800 font-sans font-bold w-full">
         <label htmlFor={name} className="mb-2">
             {label}<br/>
-            <input type={isPassword ? "password" : "text"} value={value} aria-invalid onChange={handleChange} name={name}
+            <input type="number" value={value} aria-invalid onChange={handleChange} name={name}
                    placeholder={placeholder ? placeholder : ""}
+                   min={min}
+                   max={max}
                    className="border rounded transition border-gray-200 box-shadow-inner py-2 px-4 mb-2 w-full" />
         </label>
     </p>;
 };
 
-export default TextInput;
+export default NumberInput;

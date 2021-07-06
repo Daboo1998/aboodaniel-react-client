@@ -65,6 +65,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

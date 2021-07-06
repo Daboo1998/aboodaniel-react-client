@@ -1,4 +1,4 @@
-import {Popup, PopupProps} from "../../../../hooks/usePopup";
+import Popup, {PopupProps} from "../Popup";
 import React, {FormEventHandler, useState} from "react";
 import Spacer from "../../../atoms/utilities/Spacer";
 import {ReactComponent as CloseIcon} from "../../../../images/icons/closeIcon.svg";
