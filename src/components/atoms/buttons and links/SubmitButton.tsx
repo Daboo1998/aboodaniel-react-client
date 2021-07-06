@@ -10,9 +10,10 @@ export interface SubmitButtonProps {
     label: string;
     onSubmit?: (e: any) => void;
     type?: SubmitButtonType;
+    className?: string;
 }
 
-const SubmitButton: React.FC<SubmitButtonProps> = ({label, onSubmit, type = SubmitButtonType.primary}) => {
+const SubmitButton: React.FC<SubmitButtonProps> = ({className, label, onSubmit, type = SubmitButtonType.primary}) => {
     const theme = () => {
         switch (type) {
             case SubmitButtonType.primary: return "bg-gray-600 hover:bg-gray-900";
@@ -23,7 +24,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({label, onSubmit, type = Subm
 
     return (
         <button type="submit" onClick={e => onSubmit?.(e)}
-                className={`${theme()} text-white rounded py-3 px-5 uppercase w-full`}>
+                className={`${theme()} ${className ? className : ""} text-white rounded py-3 px-5 uppercase w-full`}>
             {label}
         </button>
     );
