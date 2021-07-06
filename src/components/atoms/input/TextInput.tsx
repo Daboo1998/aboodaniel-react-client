@@ -6,6 +6,7 @@ export interface TextInputProps {
     onChange?: (value: string) => void;
     isPassword?: boolean;
     label: string;
+    placeholder?: string;
 }
 
 const TextInput: React.FC<TextInputProps> = ({
@@ -13,7 +14,8 @@ const TextInput: React.FC<TextInputProps> = ({
     label,
     value,
     onChange,
-    isPassword
+    isPassword,
+    placeholder
 }) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -24,6 +26,7 @@ const TextInput: React.FC<TextInputProps> = ({
         <label htmlFor={name} className="mb-2">
             {label}<br/>
             <input type={isPassword ? "password" : "text"} value={value} aria-invalid onChange={handleChange} name={name}
+                   placeholder={placeholder ? placeholder : ""}
                    className="border rounded transition border-gray-200 box-shadow-inner py-2 px-4 mb-2 w-full" />
         </label>
     </p>;
