@@ -8,6 +8,7 @@ export interface NumberInputProps {
     placeholder?: string;
     min: number;
     max: number;
+    required?: boolean;
 }
 
 const NumberInput: React.FC<NumberInputProps> = ({
@@ -17,7 +18,8 @@ const NumberInput: React.FC<NumberInputProps> = ({
     label,
     value,
     onChange,
-    placeholder
+    placeholder,
+    required
 }) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -26,7 +28,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
 
     return <p className="text-gray-800 font-sans font-bold w-full">
         <label htmlFor={name} className="mb-2">
-            {label}<br/>
+            <p>{label} {required && <span className="text-red-600">*</span>}</p><br/>
             <input type="number" value={value} aria-invalid onChange={handleChange} name={name}
                    placeholder={placeholder ? placeholder : ""}
                    min={min}

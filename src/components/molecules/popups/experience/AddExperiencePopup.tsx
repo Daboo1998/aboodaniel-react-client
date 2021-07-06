@@ -83,21 +83,21 @@ const AddExperiencePopup: React.FC<AddExperiencePopupProps> = (props) => {
             <div className="bg-white dark:bg-gray-800 p-4 rounded-xl <md:w-5/6 overflow-y-scroll">
                 <h2>Add Experience</h2>
                 <form>
-                    <NumberInput min={0} max={1000} name="importance" label="Importance [0-1000] (default 0)" value={importance} onChange={setImportance} />
-                    <TextInput name="title" label="Title (required)" onChange={setTitle} />
+                    <NumberInput min={0} max={1000} name="importance" label="Importance [0-1000] (default 0)" value={importance} onChange={setImportance} required/>
+                    <TextInput name="title" label="Title" required onChange={setTitle} />
                     <div className="flex flex-row w-full items-center">
                         <p className="pr-4">Is ongoing</p>
                         <input type="checkbox" name="ongoing" onChange={e => setIsOngoing(e.target.checked)} />
                         <Spacer />
                     </div>
                     <div className="flex flex-row w-full space-x-2">
-                        <DateInput label="Start date (required)" name="startDate" onChange={setStartDate} />
+                        <DateInput label="Start date" required name="startDate" onChange={setStartDate} />
                         {
-                            !isOngoing ? <DateInput label="End date (required)" name="endDate" onChange={setEndDate} /> :
+                            !isOngoing ? <DateInput label="End date" name="endDate" onChange={setEndDate} required/> :
                                 <div className="w-full" />
                         }
                     </div>
-                    <TextAreaInput name="description" label="Description (required)" onChange={setDescription} />
+                    <TextAreaInput name="description" label="Description" onChange={setDescription} required />
                     <TextInput name="link" label="Link (optional)" onChange={setLink}/>
                     <TextInput name="linkText" label="Link text (optional)" onChange={setLinkText} />
                     <p className="text-red-800">{errorMessage}</p>
