@@ -34,10 +34,8 @@ const MessageDetailsPopup: React.FC<MessageDetailsPopupProps> = ({message, isPop
     };
 
     const handleReplyClick = () => {
-        const regardsBody = "%0D%0AKind Regards,%0D%0ADaniel%20Richard%20Aboo";
-
         if (message) {
-            window.open(`mailto:${message.email}?subject=Re:%20${message.subject}&body=${regardsBody}`);
+            window.open(`mailto:${message.email}?subject=Re:%20${message.subject}`);
         }
     };
 
