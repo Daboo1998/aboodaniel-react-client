@@ -1,9 +1,12 @@
 import React, {FormEventHandler, useState} from "react";
 import PageLayout from "../PageLayout";
-import Spacer from "../../atoms/Spacer";
-import {useAuth} from "../../../contexts/AuthContext";
+import {useAuth} from "../../../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
-import Link from "../../atoms/Link";
+import Link from "../../../atoms/buttons and links/Link";
+import SignInWithGoogleButton from "../../../atoms/buttons and links/SignInWithGoogleButton";
+import TextInput from "../../../atoms/input/TextInput";
+import ShouldRememberUserCheckbox from "../../../atoms/input/ShouldRememberUserCheckbox";
+import Button from "../../../atoms/buttons and links/Button";
 
 const LoginPageLayout: React.FC = () => {
     const [email, setEmail] = useState("");
@@ -34,8 +37,11 @@ const LoginPageLayout: React.FC = () => {
             } else if (error.code === "auth/wrong-password") {
                 setErrorMessage("Wrong password!");
             } else if (error.code === "auth/invalid-email") {
-                setErrorMessage("Email is wrongly formatted!")
+                setErrorMessage("Email is wrongly formatted!");
+            } else if (error.code === "auth/network-request-failed") {
+                setErrorMessage("Problem with internet connection.");
             } else {
+                console.error(error);
                 setErrorMessage(error.message);
             }
         });
@@ -43,43 +49,19 @@ const LoginPageLayout: React.FC = () => {
 
     return (
         <PageLayout>
-            <h1>Login</h1>
-            <div className="flex flex-col items-center h-full">
-                <Spacer />
-                <form className="w-min" onSubmit={handleSubmit}>
-                    <label>
-                        <p>Email</p>
-                        <input
-                            type="text"
-                            onChange={e => setEmail(e.target.value)}
-                            className="border border-black rounded px-1"
-                        />
-                    </label>
-                    <label>
-                        <p>Password</p>
-                        <input
-                            type="password"
-                            onChange={e => setPassword(e.target.value)}
-                            className="border border-black rounded px-1"
-                        />
-                    </label>
+            <h1 className="text-center">Login</h1>
+            <div className="flex flex-col place-items-center h-full pt-2">
+                <form onSubmit={handleSubmit}>
+                    <TextInput label="Email" name="email" onChange={setEmail} />
+                    <TextInput label="Password" name="password" onChange={setPassword} isPassword />
                     {!!errorMessage && <p className="text-red-600 text-sm">{errorMessage}</p>}
-                    <div className="flex flex-row items-center">
-                        <input
-                            type="checkbox"
-                            checked={shouldRememberUser}
-                            onChange={e => setShouldRememberUser(e.target.checked)}
-                        />
-                        <p className="pl-2">Remember me</p>
-                    </div>
-                    <div className="pt-2">
-                        <button type="submit" className="border border-black rounded bg-gray-200 p-1">Submit</button>
-                    </div>
+                    <ShouldRememberUserCheckbox shouldRememberUser={shouldRememberUser} setShouldRememberUser={setShouldRememberUser}/>
+                    <Button className="w-full px-5 py-2" label="log in" submit />
+                    <SignInWithGoogleButton onError={setErrorMessage} shouldRememberUser={shouldRememberUser} />
                     <Link to="/register" className="text-blue-500 pt-2">
                         Register instead
                     </Link>
                 </form>
-                <Spacer />
             </div>
         </PageLayout>
     );

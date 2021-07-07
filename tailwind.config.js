@@ -41,7 +41,8 @@ module.exports = {
         'inf': `10000px`,
       },
       backgroundColor: {
-        "submit": "#3b3b3b"
+        "submit": "#3b3b3b",
+        "submit-hover": "#6b6b6b"
       },
       textColor: {
         "error": "rgba(220, 38, 38, 1)"
@@ -49,7 +50,11 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      fill: ['dark']
+    },
   },
-  plugins: [],
-}
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+  ],
+};

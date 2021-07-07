@@ -1,9 +1,12 @@
 import React, {FormEventHandler, useState} from "react";
 import PageLayout from "../PageLayout";
-import Spacer from "../../atoms/Spacer";
-import {useAuth} from "../../../contexts/AuthContext";
+import {useAuth} from "../../../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
 import "firebase/auth";
+import SignInWithGoogleButton from "../../../atoms/buttons and links/SignInWithGoogleButton";
+import Button from "../../../atoms/buttons and links/Button";
+import TextInput from "../../../atoms/input/TextInput";
+import ShouldRememberUserCheckbox from "../../../atoms/input/ShouldRememberUserCheckbox";
 
 const RegisterPageLayout: React.FC = () => {
     const [displayName, setDisplayName] = useState("");
@@ -43,6 +46,8 @@ const RegisterPageLayout: React.FC = () => {
                 setErrorMessage("Email is already in use!");
             } else if (error.code === "auth/invalid-email") {
                 setErrorMessage("Email is wrongly formatted!");
+            } else if (error.code === "auth/network-request-failed") {
+                setErrorMessage("Problem with internet connection.");
             } else if (error.code === "auth/weak-password") {
                 // To change in future
                 setErrorMessage(error.message);
@@ -54,39 +59,18 @@ const RegisterPageLayout: React.FC = () => {
 
     return (
         <PageLayout>
-            <h1>Register</h1>
-            <div className="flex flex-col items-center">
-                <form className="w-min" onSubmit={handleSubmit}>
-                    <label>
-                        <p>Display name: </p>
-                        <input type="text" onChange={e => setDisplayName(e.target.value)} className="border border-black rounded px-1" />
-                    </label>
-                    <label>
-                        <p>Email</p>
-                        <input type="text" onChange={e => setEmail(e.target.value)} className="border border-black rounded px-1" />
-                    </label>
-                    <label>
-                        <p>Password</p>
-                        <input type="password" onChange={e => setPassword(e.target.value)} className="border border-black rounded px-1" />
-                    </label>
-                    <label>
-                        <p>Confirm password</p>
-                        <input type="password" onChange={e => setPasswordConfirmation(e.target.value)} className="border border-black rounded px-1" />
-                    </label>
+            <h1 className="text-center">Register</h1>
+            <div className="flex flex-col place-items-center h-full pt-2">
+                <form onSubmit={handleSubmit}>
+                    <TextInput label="Display Name" name="displayName" onChange={setDisplayName} />
+                    <TextInput label="Email" name="email" onChange={setEmail} />
+                    <TextInput label="Password" name="password" onChange={setPassword} isPassword />
+                    <TextInput label="Confirm password" name="passwordConfirmation" onChange={setPasswordConfirmation} isPassword />
                     {!!errorMessage && <p className="text-red-600 text-sm">{errorMessage}</p>}
-                    <div className="flex flex-row items-center">
-                        <input
-                            type="checkbox"
-                            checked={shouldRememberUser}
-                            onChange={e => setShouldRememberUser(e.target.checked)}
-                        />
-                        <p className="pl-2">Remember me</p>
-                    </div>
-                    <div className="pt-2">
-                        <button type="submit" className="border border-black rounded bg-gray-200 p-1">Submit</button>
-                    </div>
+                    <ShouldRememberUserCheckbox shouldRememberUser={shouldRememberUser} setShouldRememberUser={setShouldRememberUser}/>
+                    <Button className="w-full px-5 py-2" label="register" submit/>
+                    <SignInWithGoogleButton onError={setErrorMessage} shouldRememberUser={shouldRememberUser} />
                 </form>
-                <Spacer />
             </div>
         </PageLayout>
     );
