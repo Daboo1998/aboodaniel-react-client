@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
         <div className="flex flex-col bg-gray-200 dark:bg-black pb-6">
             <div className="flex flex-row">
                 <a href="https://facebook.com/danny.aboo.5" target="_blank" rel="noopener noreferrer" className="p-2"><FacebookIcon /></a>
-                <a href="https://www.linkedin.com/in/daniel-a-1124399b" target="_blank" rel="noopener noreferrer" className="p-2"><LinkedInIcon /></a>
+                <a href="https://www.linkedin.com/in/danielaboo" target="_blank" rel="noopener noreferrer" className="p-2"><LinkedInIcon /></a>
             </div>
             <br />
             <p className="text-center">Aboo Daniel - All rights reserved</p>
