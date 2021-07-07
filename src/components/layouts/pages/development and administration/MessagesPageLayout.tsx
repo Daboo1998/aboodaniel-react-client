@@ -57,7 +57,7 @@ const MessagesPageLayout: React.FC = () => {
             <div className={(messages.length > 0 ? " border-t border-black dark:border-white mt-4" : "")}>
                 {
                     messages.map((message) => {
-                        return <MessageComponent message={message} onMessageClick={handleMessageClick}/>;
+                        return <MessageComponent key={message.id} message={message} onMessageClick={handleMessageClick}/>;
                     })
                 }
             </div>
