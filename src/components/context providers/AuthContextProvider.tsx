@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from "react";
-import firebase from "firebase";
+import firebase from "firebase/app";
 import AuthContext from "../../contexts/AuthContext";
+
+import "firebase/auth";
+import database from "../../data/database";
 
 const provider = new firebase.auth.GoogleAuthProvider();
 
 const checkForRole = async (role: string) => {
     try {
-        await firebase.firestore()
-            .collection("roles")
-            .doc(role)
-            .get();
+        await database.roles.get(role);
 
         return true;
     } catch (error) {
