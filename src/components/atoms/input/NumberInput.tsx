@@ -28,7 +28,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
 
     return <p className="text-gray-800 font-sans font-bold w-full">
         <label htmlFor={name} className="mb-2">
-            <p>{label} {required && <span className="text-red-600">*</span>}</p><br/>
+            <p>{label} {required && <span className="text-red-600">*</span>}</p>
             <input type="number" value={value} aria-invalid onChange={handleChange} name={name}
                    placeholder={placeholder ? placeholder : ""}
                    min={min}
