@@ -26,7 +26,7 @@ const TextInput: React.FC<TextInputProps> = ({
 
     return <p className="text-gray-800 font-sans font-bold w-full">
         <label htmlFor={name} className="mb-2">
-            <p>{label} {required && <span className="text-red-600">*</span>}</p><br/>
+            <p>{label} {required && <span className="text-red-600">*</span>}</p>
             <input type={isPassword ? "password" : "text"} value={value} aria-invalid onChange={handleChange} name={name}
                    placeholder={placeholder ? placeholder : ""}
                    className="border rounded transition border-gray-200 box-shadow-inner py-2 px-4 mb-2 w-full" />

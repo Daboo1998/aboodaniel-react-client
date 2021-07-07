@@ -49,7 +49,7 @@ const RemoveExperiencesPopup: React.FC<RemoveExperiencesPopupProps> = ({isPopupS
     return (
         <Popup isPopupShown={isPopupShown}>
             <Spacer />
-            <div className="flex flex-col space-y-2 bg-white dark:bg-gray-800 p-4 rounded-xl max-h-full">
+            <div className="flex flex-col space-y-2 bg-white dark:bg-gray-800 p-4 rounded-xl max-h-full <md:w-full <md:h-full">
                 <ol className="overflow-y-scroll">
                     {
                         experiences.map(experience => {
@@ -62,6 +62,7 @@ const RemoveExperiencesPopup: React.FC<RemoveExperiencesPopupProps> = ({isPopupS
                         })
                     }
                 </ol>
+                <Spacer />
                 <p className="text-red-800">{errorMessage}</p>
                 <Button className="w-full px-5 py-2" label="Remove selected" type={ButtonType.destructive} action={handleRemove}/>
                 <Button className="w-full px-5 py-2" label="Cancel" action={() => onClose(experiences)}/>

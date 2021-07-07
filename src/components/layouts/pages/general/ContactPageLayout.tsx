@@ -60,10 +60,11 @@ const ContactPageLayout: React.FC = () => {
         <PageLayout className="pt-10 flex flex-col place-items-center">
             <h1 className="text-center">Contact</h1>
             <form onSubmit={handleSubmit}>
-                <TextInput label="Email (required)" name="email" value={email} onChange={setEmail} />
-                <TextInput label="Name (required)" name="name" value={name} onChange={setName} />
-                <TextInput label="Subject (required)" name="subject" value={subject} onChange={setSubject} />
-                <TextAreaInput label="Message (required)" name="message" value={message} onChange={setMessage} />
+                <TextInput label="Email" name="email" value={email} onChange={setEmail} required/>
+                <TextInput label="Name" name="name" value={name} onChange={setName} required/>
+                <TextInput label="Subject" name="subject" value={subject} onChange={setSubject} required/>
+                <TextAreaInput label="Message" name="message" value={message} onChange={setMessage} required/>
+                <p className="w-full"><span className="text-red-600">*</span> Required fields</p>
                 <p className="text-green-600">{information}</p>
                 <p className="text-error bold">{errorMessage}</p>
                 <Button label="submit" size={ButtonSize.bigFullWidth} />

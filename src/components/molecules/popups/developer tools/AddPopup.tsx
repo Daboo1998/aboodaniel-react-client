@@ -23,7 +23,7 @@ const AddStringPopup: React.FC<AddStringPopupProps> = ({fieldName, isPopupShown,
     return (
         <Popup isPopupShown={isPopupShown}>
             <Spacer />
-            <div className="bg-white dark:bg-gray-800 p-4 rounded-xl <md:w-5/6">
+            <div className="bg-white dark:bg-gray-800 p-4 rounded-xl <md:w-full <md:h-full">
                 <div className="flex flex-row items-center">
                     <Spacer />
                     <button className="self-end" onClick={hide}><CloseIcon /></button>

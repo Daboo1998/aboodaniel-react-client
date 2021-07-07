@@ -80,7 +80,7 @@ const AddExperiencePopup: React.FC<AddExperiencePopupProps> = (props) => {
     return (
         <Popup isPopupShown={props.isPopupShown}>
             <Spacer />
-            <div className="bg-white dark:bg-gray-800 p-4 rounded-xl <md:w-5/6 overflow-y-scroll">
+            <div className="bg-white dark:bg-gray-800 p-4 rounded-xl <md:w-full overflow-y-scroll">
                 <h2>Add Experience</h2>
                 <form>
                     <NumberInput min={0} max={1000} name="importance" label="Importance [0-1000] (default 0)" value={importance} onChange={setImportance} required/>
@@ -100,6 +100,7 @@ const AddExperiencePopup: React.FC<AddExperiencePopupProps> = (props) => {
                     <TextAreaInput name="description" label="Description" onChange={setDescription} required />
                     <TextInput name="link" label="Link (optional)" onChange={setLink}/>
                     <TextInput name="linkText" label="Link text (optional)" onChange={setLinkText} />
+                    <p className="w-full"><span className="text-red-600">*</span> Required fields</p>
                     <p className="text-red-800">{errorMessage}</p>
                     <Button label="Add" size={ButtonSize.bigFullWidth} type={ButtonType.constructive} action={e => handleAddExperience(e)} />
                     <Button label="Cancel" size={ButtonSize.bigFullWidth} action={handleCancel} />
