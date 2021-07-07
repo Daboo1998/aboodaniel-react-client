@@ -27,9 +27,9 @@ export interface ButtonProps {
 const Button: React.FC<ButtonProps> = ({submit = false, className, label, action, type = ButtonType.primary, size = ButtonSize.small}) => {
     const theme = () => {
         switch (type) {
-            case ButtonType.primary: return "bg-gray-600 hover:bg-gray-900";
-            case ButtonType.constructive: return "bg-green-600 hover:bg-green-900";
-            case ButtonType.destructive: return "bg-red-600 hover:bg-red-900";
+            case ButtonType.primary: return "bg-gray-600 >md:hover:bg-gray-900";
+            case ButtonType.constructive: return "bg-green-600 >md:hover:bg-green-900";
+            case ButtonType.destructive: return "bg-red-600 >md:hover:bg-red-900";
         }
     };
 

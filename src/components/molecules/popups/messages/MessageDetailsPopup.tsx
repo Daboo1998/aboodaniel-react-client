@@ -45,10 +45,10 @@ const MessageDetailsPopup: React.FC<MessageDetailsPopupProps> = ({message, isPop
             {message && (
                 <div className="max-h-full rounded-xl <md:w-screen <md:h-screen p-8 bg-white dark:bg-black overflow-y-scroll">
                     <div className="flex flex-row">
-                        <button onClick={_ => onClose()}><CloseIcon className="hover:text-gray-600 fill-current"/></button>
+                        <button onClick={_ => onClose()}><CloseIcon className=">md:hover:text-gray-600 fill-current"/></button>
                         <Spacer />
                         <button onClick={handleMessageDelete}>
-                            <TrashIcon className="w-5 text-red-600 hover:text-red-900 fill-current" />
+                            <TrashIcon className="w-5 text-red-600 >md:hover:text-red-900 fill-current" />
                         </button>
                     </div>
                     <div className="border-b border-black dark:border-white p-2">

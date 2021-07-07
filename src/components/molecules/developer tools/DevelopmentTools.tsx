@@ -108,7 +108,7 @@ const DevelopmentTools: React.FC = () => {
                     <Spacer />
                     <Button action={showAddRolePopup} label="Add Role" type={ButtonType.constructive}/>
                     <button onClick={handleDelete} >
-                        <TrashIcon className="w-5 text-red-600 hover:text-red-900 fill-current" />
+                        <TrashIcon className="w-5 text-red-600 >md:hover:text-red-900 fill-current" />
                     </button>
                 </div>
                 <ul className="px-2">
