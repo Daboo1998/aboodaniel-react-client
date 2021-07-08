@@ -103,10 +103,10 @@ const MyCVPageLayout: React.FC = () => {
                     </div>
                 </div>
                 <Spacer />
-                <div className="flex <md:flex-row >md:flex-col >md:pl-4 <md:pb-4 flex-shrink-0 >md:self-start >md:sticky >md:top-16 <md:w-full">
-                    <img src="/images/me.jpg" className="w-48 object-contain self-start" alt=""/>
+                <div className="flex flex-col pb-4 flex-shrink-0 >md:self-start >md:sticky >md:top-16 <md:w-full items-center">
+                    <img src="/images/me.jpg" className="w-48 object-contain" alt=""/>
                     <div className="w-full self-center">
-                        <h4 className="text-center >md:pt-8 <md:w-full <md:self-center">Daniel Richard Aboo</h4>
+                        <h4 className="text-center pt-2 <md:w-full <md:self-center">Daniel Richard Aboo</h4>
                         <h5 className="text-center pt-2 <md:w-full <md:self-center">Front-end Developer</h5>
                         <p className="w-full pt-2 <md:text-center">Mobile: <a href="tel:+48601951169">+48 601 951 169</a></p>
                         <p className="<md:text-center">Email: <a href="mailto:daboo1998@gmail.com">daboo1998@gmail.com</a></p>
