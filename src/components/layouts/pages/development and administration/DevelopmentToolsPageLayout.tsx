@@ -1,22 +1,21 @@
 import React from "react";
-import PageLayout, {PageLayoutProps} from "../PageLayout";
+import PageLayout from "../PageLayout";
 import {useAuth} from "../../../../contexts/AuthContext";
-import {useHistory} from "react-router-dom";
 import DevelopmentTools from "../../../molecules/developer tools/DevelopmentTools";
+import useNavigation from "../../../../hooks/useNavigation";
 
-export interface DevelopmentToolsPageLayoutProps extends PageLayoutProps {}
+export interface DevelopmentToolsPageLayoutProps {}
 
 const DevelopmentToolsPageLayout: React.FC<DevelopmentToolsPageLayoutProps> = () => {
-    const {wentToLogin, isLoggedIn, isDeveloper} = useAuth();
-    const history = useHistory();
+    const {isLoggedIn, isDeveloper} = useAuth();
+    const {goToLogin} = useNavigation();
 
     if (isLoggedIn !== undefined && !isLoggedIn) {
-        history.push("/login");
-        wentToLogin("/developerTools");
+        goToLogin("/developerTools");
     }
 
     return (
-        <PageLayout>
+        <PageLayout title="Developer Tools">
             {isLoggedIn && (isDeveloper ? <DevelopmentTools /> : <h1>You are not a developer! Its dangerous here!</h1>)}
         </PageLayout>
     );

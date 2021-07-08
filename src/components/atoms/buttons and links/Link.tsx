@@ -1,5 +1,5 @@
 import React from "react";
-import {useHistory} from "react-router-dom";
+import useNavigation from "../../../hooks/useNavigation";
 
 export interface LinkProps {
     to: string,
@@ -15,7 +15,7 @@ const Link: React.FC<LinkProps> = ({
     onClick,
     ...props
 }) => {
-    const history = useHistory();
+    const navigation = useNavigation();
 
     const handleClick = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -24,7 +24,7 @@ const Link: React.FC<LinkProps> = ({
             onClick(e);
         }
 
-        history.push(to);
+        navigation.navigateTo(to);
     };
 
     return (

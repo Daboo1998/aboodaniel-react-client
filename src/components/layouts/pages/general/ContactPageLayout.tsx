@@ -57,7 +57,7 @@ const ContactPageLayout: React.FC = () => {
     };
 
     return (
-        <PageLayout className="pt-10 flex flex-col place-items-center">
+        <PageLayout title="Contact" className="pt-10 flex flex-col place-items-center">
             <h1 className="text-center">Contact</h1>
             <form onSubmit={handleSubmit}>
                 <TextInput label="Email" name="email" value={email} onChange={setEmail} required/>

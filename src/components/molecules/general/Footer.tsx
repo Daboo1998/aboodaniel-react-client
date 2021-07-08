@@ -46,6 +46,12 @@ const Footer: React.FC = () => {
                 <Link to="/cv" className="text-gray-600 text-center >md:hover:text-gray-800">
                     Curriculum Vitae
                 </Link>
+                <Link to="/developerTools" className="text-gray-600 text-center >md:hover:text-gray-800">
+                    Developer Tools
+                </Link>
+                <Link to="/messages" className="text-gray-600 text-center >md:hover:text-gray-800">
+                    Messages
+                </Link>
             </div>
             <p className="text-center text-xs">Aboo Daniel - All rights reserved</p>
         </div>

@@ -3,7 +3,7 @@ import PageLayout from "../PageLayout";
 
 const HomePageLayout: React.FC = () => {
     return (
-        <PageLayout className="pt-10">
+        <PageLayout title="Home" className="pt-10">
             <h1 className="text-center">Welcome to my kingdom!</h1>
             <div className="p-8">
                 <img src="/images/me.jpg" className="w-48 float-left pr-4 pb-4" alt=""/>

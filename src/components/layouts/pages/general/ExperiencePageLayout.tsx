@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import PageLayout, {PageLayoutProps} from "../PageLayout";
+import PageLayout from "../PageLayout";
 import ExperienceModel from "../../../../data/experience";
 import Experience from "../../../molecules/experience/Experience";
 import database from "../../../../data/database";
@@ -9,7 +9,7 @@ import usePopup from "../../../../hooks/usePopup";
 import RemoveExperiencesPopup from "../../../molecules/popups/experience/RemoveExperiencesPopup";
 import Button, {ButtonSize, ButtonType} from "../../../atoms/buttons and links/Button";
 
-export interface ExperiencePageLayoutProps extends PageLayoutProps {}
+export interface ExperiencePageLayoutProps {}
 
 const ExperiencePageLayout: React.FC<ExperiencePageLayoutProps> = () => {
     const [experiences, setExperiences] = useState<ExperienceModel[]>([]);
@@ -49,7 +49,7 @@ const ExperiencePageLayout: React.FC<ExperiencePageLayoutProps> = () => {
     }, []);
 
     return (
-        <PageLayout className="pt-10">
+        <PageLayout title="Experience" className="pt-10">
             <AddExperiencePopup isPopupShown={isAddExperiencePopupShown} onClose={onAddExperienceClose} />
             <RemoveExperiencesPopup experiences={experiences} onClose={onRemoveExperiencesClose} isPopupShown={isRemoveExperiencesPopupShown} />
             <div className="flex flex-row space-x-2">
