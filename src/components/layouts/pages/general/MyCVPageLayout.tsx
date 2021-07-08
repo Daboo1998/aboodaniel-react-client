@@ -35,10 +35,10 @@ const MyCVPageLayout: React.FC = () => {
                 <div className="flex flex-col space-y-8">
                     <div className="flex flex-col space-y-2">
                         <h2 className="pb2">About Me</h2>
-                        <p> I have been always, looking into the future, wanting to create new solutions
-                            using technology to change how we live our everyday lives. My mission is to innovate, while
-                            also make my work to be understood by others and be able to work together with people.
-                            Creativity, my persuit after my goals and my determination are my main attributes. I always
+                        <p> I have been always, looking into the future, wanting to create new solutions using technology
+                            to change how we live our everyday lives. My mission is to innovate, while also make my work
+                            to be understood by others and be able to work together with people. Creativity, my pursuit
+                            after my goals and my determination are my main attributes. I always try my best to
                             understand the needs of people I work with, and find a way for all parties to be happy.</p>
                     </div>
                     <div className="flex flex-col space-y-2">
