@@ -21,6 +21,7 @@ import Spacer from "./components/atoms/utilities/Spacer";
 
 // Authentication
 import {useAuth} from "./contexts/AuthContext";
+import MyCVPageLayout from "./components/layouts/pages/general/MyCVPageLayout";
 
 function App() {
     const {isDeveloper, isOwner, user} = useAuth();
@@ -40,6 +41,9 @@ function App() {
                     </PageNavigatorBarLink>
                     <PageNavigatorBarLink to="/experience" pageTitle="Experience">
                         Experience
+                    </PageNavigatorBarLink>
+                    <PageNavigatorBarLink pageTitle="CV" to="/cv">
+                        CV
                     </PageNavigatorBarLink>
 					<PageNavigatorBarLink to="/contact" pageTitle="Contact">
                   		Contact
@@ -61,6 +65,9 @@ function App() {
                     </Route>
                     <Route exact path="/experience">
                         <ExperiencePageLayout />
+                    </Route>
+                    <Route exact path="/cv">
+                        <MyCVPageLayout />
                     </Route>
                     <Route exact path="/contact">
                         <ContactPageLayout />

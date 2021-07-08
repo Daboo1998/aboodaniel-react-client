@@ -4,6 +4,8 @@ import Experience from "./experience";
 import Role from "./Role";
 import Message from "./Message";
 import User from "./User";
+import SkillSet from "./SkillSet";
+import EducationItem from "./EducationItem";
 
 export interface CollectionData {
     id?: string;
@@ -137,12 +139,14 @@ const database = {
     messages: new Collection<Message>("messages"),
     roles: new Collection<Role>("roles"),
     users: new Collection<User>("users"),
+    skillSets: new Collection<SkillSet>("skillSets"),
+    education: new Collection<EducationItem>("education"),
 };
 
 export class Timestamp extends firebase.firestore.Timestamp {}
 export type OrderDirection = firebase.firestore.OrderByDirection;
 
-export const timestampToString = (timestamp: Timestamp, showTimeOnFullDate?: boolean) => {
+export const timestampToString = (timestamp: Timestamp, showTimeOnFullDate?: boolean, showDate: boolean = true) => {
     const messageDate = timestamp.toDate();
     const today = new Date(Date.now());
 
@@ -206,7 +210,7 @@ export const timestampToString = (timestamp: Timestamp, showTimeOnFullDate?: boo
     const month = messageDate.getMonth() + 1;
     const year = messageDate.getFullYear();
 
-    return `${showTimeOnFullDate ? `${hours}:${minutes} ` : ""}${day}/${month}/${year}`;
+    return `${showTimeOnFullDate ? `${hours}:${minutes} ` : ""}${showDate ? (day + "/") : ""}${month}/${year}`;
 };
 
 export default database;
