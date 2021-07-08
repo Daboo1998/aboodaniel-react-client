@@ -30,7 +30,7 @@ const MyCVPageLayout: React.FC = () => {
 
     return (
         <PageLayout className="pt-10 space-y-8">
-            <h1 className="text-center">My CV</h1>
+            <h1 className="text-center">Curriculum Vitae</h1>
             <div className="flex flex-row <md:flex-col-reverse">
                 <div className="flex flex-col space-y-8">
                     <div className="flex flex-col space-y-2">
