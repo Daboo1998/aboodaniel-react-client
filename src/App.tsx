@@ -42,9 +42,6 @@ function App() {
                     <PageNavigatorBarLink to="/experience" pageTitle="Experience">
                         Experience
                     </PageNavigatorBarLink>
-                    <PageNavigatorBarLink pageTitle="CV" to="/cv">
-                        CV
-                    </PageNavigatorBarLink>
 					<PageNavigatorBarLink to="/contact" pageTitle="Contact">
                   		Contact
               		</PageNavigatorBarLink>

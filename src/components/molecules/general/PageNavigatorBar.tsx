@@ -1,9 +1,6 @@
 import React, {useState} from "react";
 import { ReactComponent as MenuIcon } from "../../../images/icons/menuIcon.svg";
 import { ReactComponent as CloseIcon } from "../../../images/icons/closeIcon.svg"
-import {useAuth} from "../../../contexts/AuthContext";
-import Spacer from "../../atoms/utilities/Spacer";
-import {useHistory} from "react-router-dom";
 
 export const PageNavigatorBarContext = React.createContext({
     isHidden: false,
@@ -15,24 +12,6 @@ export const PageNavigatorBarContext = React.createContext({
 const PageNavigatorBar: React.FC = ({children}) => {
     const [isHidden, setIsHidden] = useState(true);
     const [currentTitle, setCurrentTitle] = useState("Home");
-    const history = useHistory();
-
-    const {logout, wentToLogin, isLoggedIn, user} = useAuth();
-
-    const handleLogin = (e: React.MouseEvent) => {
-        e.preventDefault();
-        if (isLoggedIn) {
-            logout().then(_ => {
-                console.log("Signed Out");
-                history.push("/");
-            });
-        } else {
-            wentToLogin(history.location.pathname);
-            history.push("/login");
-        }
-
-        setIsHidden(true);
-    };
 
     return (<PageNavigatorBarContext.Provider value={{isHidden, currentTitle, hide: () => setIsHidden(true), setCurrentTitle}}>
       <div className={`flex flex-col >md:flex-row ${isHidden ? "" : "border-b <md:h-full"} >md:border-b border-black fixed w-full top-0 z-10`}>
@@ -48,9 +27,6 @@ const PageNavigatorBar: React.FC = ({children}) => {
               <md:overflow-hidden <md:transition-height <md:duration-500 <md:ease-in-out`
           }>
               {children}
-              <Spacer />
-              { user && <p className="<md:py-2 text-center text-blue-800 dark:text-blue-300 >md:pl-4">{user?.displayName ? user.displayName : user?.uid}</p> }
-              <button className=">md:px-4 <md:py-4 flex-shrink-0" onClick={handleLogin}>{isLoggedIn ? "Log Out" : "Log In"}</button>
           </div>
       </div>
     </PageNavigatorBarContext.Provider>);
