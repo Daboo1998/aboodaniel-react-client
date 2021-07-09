@@ -14,7 +14,7 @@ const MessagesPageLayout: React.FC = () => {
     const {wentToLogin, isLoggedIn, isOwner} = useAuth();
     const navigation = useNavigation();
 
-    if (isLoggedIn !== undefined && !isLoggedIn) {
+    if (isLoggedIn !== undefined && !isLoggedIn && isOwner !== undefined && !isOwner) {
         navigation.navigateTo("/login");
         wentToLogin("/messages");
     }

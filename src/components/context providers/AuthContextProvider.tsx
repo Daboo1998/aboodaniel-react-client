@@ -7,11 +7,16 @@ import database from "../../data/database";
 
 const provider = new firebase.auth.GoogleAuthProvider();
 
-const checkForRole = async (role: string) => {
-    try {
-        await database.roles.get(role);
+const checkForRole = async (role: string, userId: string | undefined) => {
+    if (!userId) {
+        return false;
+    }
 
-        return true;
+    try {
+        const roleRes = await database.roles.get(role);
+        console.log(roleRes.users);
+
+        return roleRes.users.includes(userId);
     } catch (error) {
         console.error(error.message);
         return false;
@@ -25,15 +30,13 @@ export const AuthContextProvider: React.FC = ({children}) => {
     const [isDeveloper, setIsDeveloper] = useState(false);
     const [isOwner, setIsOwner] = useState(false);
 
-    const checkRoles = async () => {
-        const isDeveloper = await checkForRole("developer");
+    const checkRoles = async (userId: string | undefined) => {
+        const isDeveloper = await checkForRole("developer", userId);
         console.log(isDeveloper ? "Is developer" : "Is not a developer");
 
-        if (isDeveloper) {
-            setIsDeveloper(isDeveloper);
-        }
+        setIsDeveloper(isDeveloper);
 
-        const isOwner = await checkForRole("owner");
+        const isOwner = await checkForRole("owner", userId);
         console.log(isOwner ? "Is owner" : "Is not an owner");
 
         setIsOwner(isOwner);
@@ -42,9 +45,9 @@ export const AuthContextProvider: React.FC = ({children}) => {
     useEffect(() => {
         const unsubscribe = firebase.auth().onAuthStateChanged(function(newUser) {
             if (newUser && !newUser.isAnonymous) {
-                checkRoles().then();
-                setIsLoggedIn(true);
                 setUser(newUser);
+                checkRoles(newUser?.uid).then();
+                setIsLoggedIn(true);
             } else {
                 setIsLoggedIn(false);
                 setIsOwner(false);
