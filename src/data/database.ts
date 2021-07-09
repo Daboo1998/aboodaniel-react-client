@@ -6,6 +6,8 @@ import Message from "./Message";
 import User from "./User";
 import SkillSet from "./SkillSet";
 import EducationItem from "./EducationItem";
+import Comment from "./Comment";
+import Announcement from "./Announcement";
 
 export interface CollectionData {
     id?: string;
@@ -141,6 +143,8 @@ const database = {
     users: new Collection<User>("users"),
     skillSets: new Collection<SkillSet>("skillSets"),
     education: new Collection<EducationItem>("education"),
+    announcements: new Collection<Announcement>("announcements"),
+    comments: new Collection<Comment>("comments"),
 };
 
 export class Timestamp extends firebase.firestore.Timestamp {}
