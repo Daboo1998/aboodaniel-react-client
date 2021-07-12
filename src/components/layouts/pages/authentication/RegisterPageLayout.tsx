@@ -58,7 +58,7 @@ const RegisterPageLayout: React.FC = () => {
     };
 
     return (
-        <PageLayout>
+        <PageLayout title="Register">
             <h1 className="text-center">Register</h1>
             <div className="flex flex-col place-items-center h-full pt-2">
                 <form onSubmit={handleSubmit}>

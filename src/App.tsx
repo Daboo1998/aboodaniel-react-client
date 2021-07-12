@@ -22,9 +22,10 @@ import Spacer from "./components/atoms/utilities/Spacer";
 // Authentication
 import {useAuth} from "./contexts/AuthContext";
 import MyCVPageLayout from "./components/layouts/pages/general/MyCVPageLayout";
+import NavigationProvider from "./components/context providers/NavigationProvider";
 
 function App() {
-    const {isDeveloper, isOwner, user} = useAuth();
+    const {user} = useAuth();
 
     useEffect(() => {
         user?.getIdToken().then(token => {
@@ -34,63 +35,52 @@ function App() {
 
     return (
         <BrowserRouter basename="/">
-            <div className="flex flex-col h-screen">
-                <PageNavigatorBar>
-                    <PageNavigatorBarLink to="/" pageTitle="Home">
-                        Home
-                    </PageNavigatorBarLink>
-                    <PageNavigatorBarLink to="/experience" pageTitle="Experience">
-                        Experience
-                    </PageNavigatorBarLink>
-                    <PageNavigatorBarLink pageTitle="CV" to="/cv">
-                        CV
-                    </PageNavigatorBarLink>
-					<PageNavigatorBarLink to="/contact" pageTitle="Contact">
-                  		Contact
-              		</PageNavigatorBarLink>
-                    {
-                        isOwner && <PageNavigatorBarLink to="/messages" pageTitle="Messages">
-                            Messages
+            <NavigationProvider>
+                <div className="flex flex-col h-screen">
+                    <PageNavigatorBar>
+                        <PageNavigatorBarLink to="/">
+                            Home
                         </PageNavigatorBarLink>
-                    }
-                    {
-                        isDeveloper && <PageNavigatorBarLink to="/developerTools" pageTitle="Developer Tools">
-                            Developer Tools
+                        <PageNavigatorBarLink to="/experience">
+                            Experience
                         </PageNavigatorBarLink>
-                    }
-                </PageNavigatorBar>
-                <Switch>
-                    <Route exact path="/">
-                        <HomePageLayout />
-                    </Route>
-                    <Route exact path="/experience">
-                        <ExperiencePageLayout />
-                    </Route>
-                    <Route exact path="/cv">
-                        <MyCVPageLayout />
-                    </Route>
-                    <Route exact path="/contact">
-                        <ContactPageLayout />
-                    </Route>
-                    <Route exact path="/developerTools">
-                        <DevelopmentToolsPageLayout />
-                    </Route>
-                    <Route exact path="/messages">
-                        <MessagesPageLayout />
-                    </Route>
-                    <Route exact path="/login">
-                        <LoginPageLayout />
-                    </Route>
-                    <Route exact path="/register">
-                        <RegisterPageLayout />
-                    </Route>
-                    <Route>
-                        <NotFoundPageLayout />
-                    </Route>
-                </Switch>
-                <Spacer />
-                <Footer />
-            </div>
+                        <PageNavigatorBarLink to="/contact">
+                            Contact
+                        </PageNavigatorBarLink>
+                    </PageNavigatorBar>
+                    <Switch>
+                        <Route exact path="/">
+                            <HomePageLayout />
+                        </Route>
+                        <Route exact path="/experience">
+                            <ExperiencePageLayout />
+                        </Route>
+                        <Route exact path="/cv">
+                            <MyCVPageLayout />
+                        </Route>
+                        <Route exact path="/contact">
+                            <ContactPageLayout />
+                        </Route>
+                        <Route exact path="/developerTools">
+                            <DevelopmentToolsPageLayout />
+                        </Route>
+                        <Route exact path="/messages">
+                            <MessagesPageLayout />
+                        </Route>
+                        <Route exact path="/login">
+                            <LoginPageLayout />
+                        </Route>
+                        <Route exact path="/register">
+                            <RegisterPageLayout />
+                        </Route>
+                        <Route>
+                            <NotFoundPageLayout />
+                        </Route>
+                    </Switch>
+                    <Spacer />
+                    <Footer />
+                </div>
+            </NavigationProvider>
         </BrowserRouter>
     );
 }

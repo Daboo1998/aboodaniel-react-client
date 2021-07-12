@@ -4,18 +4,18 @@ import Message from "../../../../data/Message";
 import database from "../../../../data/database";
 import MessageDetailsPopup from "../../../molecules/popups/messages/MessageDetailsPopup";
 import MessageComponent from "../../../atoms/messages/MessageComponent";
-import {useHistory} from "react-router-dom";
 import {useAuth} from "../../../../contexts/AuthContext";
+import useNavigation from "../../../../hooks/useNavigation";
 
 const MessagesPageLayout: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
 
-    const {wentToLogin, isLoggedIn} = useAuth();
-    const history = useHistory();
+    const {wentToLogin, isLoggedIn, isOwner} = useAuth();
+    const navigation = useNavigation();
 
-    if (isLoggedIn !== undefined && !isLoggedIn) {
-        history.push("/login");
+    if (isLoggedIn !== undefined && !isLoggedIn && isOwner !== undefined && !isOwner) {
+        navigation.navigateTo("/login");
         wentToLogin("/messages");
     }
 
@@ -44,9 +44,18 @@ const MessagesPageLayout: React.FC = () => {
     const handleMessageDelete = (message: Message) => {
         setMessages(messages.filter(m => m.id !== message.id));
     };
+
+    if (!isOwner) {
+        return (<PageLayout title="Messages">
+              <div className="flex flex-col space-y-4">
+                  <h1>Messages</h1>
+                  <p>You are not authorised to be here! Contact the administrator to get access to messages.</p>
+              </div>
+        </PageLayout>);
+    }
     
     return (
-        <PageLayout>
+        <PageLayout title="Messages">
             <MessageDetailsPopup
                 message={selectedMessage}
                 isPopupShown={!!selectedMessage}

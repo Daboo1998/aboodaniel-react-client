@@ -22,9 +22,10 @@ export interface ButtonProps {
     size?: ButtonSize;
     className?: string;
     submit?: boolean;
+    nonUppercase?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({submit = false, className, label, action, type = ButtonType.primary, size = ButtonSize.small}) => {
+const Button: React.FC<ButtonProps> = ({nonUppercase, submit = false, className, label, action, type = ButtonType.primary, size = ButtonSize.small}) => {
     const theme = () => {
         switch (type) {
             case ButtonType.primary: return "bg-gray-600 >md:hover:bg-gray-900";
@@ -46,7 +47,7 @@ const Button: React.FC<ButtonProps> = ({submit = false, className, label, action
 
     return (
         <button type={submit ? "submit": undefined} onClick={e => action?.(e)}
-                className={`${theme()} ${sizeAttributes()} ${className ? className : ""} text-white rounded px-1 uppercase`}>
+                className={`${theme()} ${sizeAttributes()} ${className ? className : ""} text-white rounded px-1 ${nonUppercase ? "" : "uppercase"}`}>
             {label}
         </button>
     );
