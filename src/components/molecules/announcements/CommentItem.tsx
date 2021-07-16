@@ -43,7 +43,7 @@ const CommentItem: React.FC<CommentItemProps> = ({comment}) => {
     };
 
     return (
-        <div className="bg-white rounded p-2 shadow-md w-full">
+        <div className="bg-white dark:bg-gray-800 rounded p-2 shadow-md w-full">
             <div className="flex flex-row">
                 <h4>{comment.isGuest ? "Guest" : comment.userDisplayName}</h4>
                 <Spacer />
@@ -52,7 +52,7 @@ const CommentItem: React.FC<CommentItemProps> = ({comment}) => {
             <p>{comment.content}</p>
             {
                 comments.length > 0 && (
-                    <button className="text-blue-800 w-max" onClick={() => setShowComments(b => !b)}>
+                    <button className="text-blue-800 dark:text-blue-200 w-max" onClick={() => setShowComments(b => !b)}>
                         {comments.length} Comment{comments.length > 1 && "s"}
                     </button>
                 )

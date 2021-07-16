@@ -52,7 +52,7 @@ const AnnouncementItem: React.FC<AnnouncementItemProps> = ({announcement}) => {
                 <p>{timestampToString(announcement.timestamp)}</p>
             </div>
             <ReactMarkdown className="whitespace-pre-wrap">{announcement.content}</ReactMarkdown>
-            <button className="text-blue-800 w-max" onClick={() => setShowComments(b => !b)}>
+            <button className="text-blue-800 dark:text-blue-200 w-max" onClick={() => setShowComments(b => !b)}>
                 {comments.length} Comment{comments.length > 1 && "s"}
             </button>
 
