@@ -23,6 +23,7 @@ import Spacer from "./components/atoms/utilities/Spacer";
 import {useAuth} from "./contexts/AuthContext";
 import MyCVPageLayout from "./components/layouts/pages/general/MyCVPageLayout";
 import NavigationProvider from "./components/context providers/NavigationProvider";
+import AnnouncementsPageLayout from "./components/layouts/pages/general/AnnouncementsPageLayout";
 
 function App() {
     const {user} = useAuth();
@@ -47,6 +48,9 @@ function App() {
                         <PageNavigatorBarLink to="/contact">
                             Contact
                         </PageNavigatorBarLink>
+                        <PageNavigatorBarLink to="/announcements">
+                            Announcements
+                        </PageNavigatorBarLink>
                     </PageNavigatorBar>
                     <Switch>
                         <Route exact path="/">
@@ -60,6 +64,9 @@ function App() {
                         </Route>
                         <Route exact path="/contact">
                             <ContactPageLayout />
+                        </Route>
+                        <Route exact path="/announcements">
+                            <AnnouncementsPageLayout />
                         </Route>
                         <Route exact path="/developerTools">
                             <DevelopmentToolsPageLayout />
