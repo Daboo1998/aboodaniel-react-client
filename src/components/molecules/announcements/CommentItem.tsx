@@ -4,6 +4,7 @@ import Spacer from "../../atoms/utilities/Spacer";
 import database, {Timestamp, timestampToString} from "../../../data/database";
 import TextAreaInput from "../../atoms/input/TextAreaInput";
 import Button, {ButtonSize, ButtonType} from "../../atoms/buttons and links/Button";
+import {useAuth} from "../../../contexts/AuthContext";
 
 export interface CommentItemProps {
     comment: Comment;
@@ -14,6 +15,8 @@ const CommentItem: React.FC<CommentItemProps> = ({comment}) => {
     const [showComments, setShowComments] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string>();
     const [newCommentText, setNewCommentText] = useState("");
+
+    const auth = useAuth();
 
     const reload = () => {
         if (comment.id)
@@ -31,7 +34,9 @@ const CommentItem: React.FC<CommentItemProps> = ({comment}) => {
         setErrorMessage(undefined);
         database.comments
             .post({
-                isGuest: true,
+                isGuest: auth.isLoggedIn === undefined || !auth.isLoggedIn,
+                userDisplayName: auth.user?.displayName ? auth.user.displayName : undefined,
+                userId: auth.user?.uid,
                 content: newCommentText,
                 timestamp: Timestamp.now(),
                 parent: database.comments.collectionReference.doc(comment.id),

@@ -7,6 +7,7 @@ import Comment from "../../../data/Comment";
 import CommentItem from "./CommentItem";
 import TextAreaInput from "../../atoms/input/TextAreaInput";
 import Button, {ButtonSize, ButtonType} from "../../atoms/buttons and links/Button";
+import {useAuth} from "../../../contexts/AuthContext";
 
 export interface AnnouncementItemProps {
     announcement: Announcement;
@@ -17,6 +18,8 @@ const AnnouncementItem: React.FC<AnnouncementItemProps> = ({announcement}) => {
     const [newCommentText, setNewCommentText] = useState("");
     const [showComments, setShowComments] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string>();
+
+    const auth = useAuth();
 
     const reload = () => {
         database.comments
@@ -33,7 +36,9 @@ const AnnouncementItem: React.FC<AnnouncementItemProps> = ({announcement}) => {
         setErrorMessage(undefined);
         database.comments
             .post({
-                isGuest: true,
+                isGuest: auth.isLoggedIn === undefined || !auth.isLoggedIn,
+                userDisplayName: auth.user?.displayName ? auth.user.displayName : undefined,
+                userId: auth.user?.uid,
                 content: newCommentText,
                 timestamp: Timestamp.now(),
                 parent: database.announcements.collectionReference.doc(announcement.id),
