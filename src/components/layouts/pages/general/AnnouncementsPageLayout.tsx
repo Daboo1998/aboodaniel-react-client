@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from "react";
 import PageLayout from "../PageLayout";
-import database, {timestampToString} from "../../../../data/database";
+import database from "../../../../data/database";
 import Announcement from "../../../../data/Announcement";
-import Spacer from "../../../atoms/utilities/Spacer";
-import ReactMarkdown from "react-markdown";
+import AnnouncementItem from "../../../molecules/announcements/AnnoucementItem";
 
 const AnnouncementsPageLayout: React.FC = () => {
     const [announcements, setAnnouncements] = useState<Announcement []>([]);
@@ -19,19 +18,10 @@ const AnnouncementsPageLayout: React.FC = () => {
     return (
         <PageLayout title="Announcements" className="space-y-4">
             <h1>Announcements</h1>
-            <div className="border-t border-black dark:border-white">
+            <div>
                 {
                     announcements.map(announcement => {
-                        return (
-                            <div key={announcement.id} className="flex flex-col space-y-2 border-b border-black dark:border-white">
-                                <div className="flex flex-row">
-                                    <h2>{announcement.title}</h2>
-                                    <Spacer />
-                                    <p>{timestampToString(announcement.timestamp)}</p>
-                                </div>
-                                <ReactMarkdown className="whitespace-pre-wrap">{announcement.content}</ReactMarkdown>
-                            </div>
-                        );
+                        return <AnnouncementItem announcement={announcement} key={announcement.id}/>;
                     })
                 }
             </div>

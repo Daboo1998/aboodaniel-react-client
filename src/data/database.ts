@@ -31,6 +31,21 @@ export class Collection<T extends CollectionData> {
         this.collectionReference = firebase.firestore().collection(collectionPath);
     }
 
+    async getUsingReferenceField<ReferenceCollection>(referenceField: string, referenceCollection: Collection<ReferenceCollection>, parentId: string) {
+        return this.collectionReference
+            .where(referenceField, "==", referenceCollection.collectionReference.doc(parentId))
+            .get()
+            .then(results => {
+                console.log(results.docs);
+                return results.docs.map<T>((doc) => {
+                    return {
+                        id: doc.id,
+                        ...doc.data()
+                    } as T;
+                })
+            });
+    }
+
     async getAll(sort?: {field: string, direction: OrderDirection}): Promise<T []> {
         try {
             let results;
@@ -149,6 +164,7 @@ const database = {
 
 export class Timestamp extends firebase.firestore.Timestamp {}
 export type OrderDirection = firebase.firestore.OrderByDirection;
+export type Reference = firebase.firestore.DocumentReference;
 
 export const timestampToString = (timestamp: Timestamp, showTimeOnFullDate?: boolean, showDate: boolean = true) => {
     const messageDate = timestamp.toDate();

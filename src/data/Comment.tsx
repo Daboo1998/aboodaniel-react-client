@@ -1,10 +1,10 @@
-import firebase from 'firebase/app';
-import "firebase/firestore/";
+import {Timestamp, Reference} from "./database";
 
 interface Comment {
-    id: string;
+    id?: string;
+    timestamp: Timestamp;
     userId?: string;
-    parent: firebase.firestore.DocumentReference;
+    parent: Reference;
     userDisplayName?: string;
     isGuest: boolean;
     content: string;
