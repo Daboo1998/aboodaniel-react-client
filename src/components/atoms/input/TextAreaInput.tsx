@@ -1,4 +1,4 @@
-import React, {KeyboardEventHandler, useEffect} from "react";
+import React from "react";
 import {TextInputProps} from "./TextInput";
 
 export interface TextAreaInputProps extends TextInputProps {

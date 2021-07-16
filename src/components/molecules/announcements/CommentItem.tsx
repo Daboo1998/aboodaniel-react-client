@@ -27,7 +27,7 @@ const CommentItem: React.FC<CommentItemProps> = ({comment}) => {
         setNewCommentText("");
     };
 
-    useEffect(reload, []);
+    useEffect(reload, [comment.id]);
 
     const handleCommentSubmit: React.FormEventHandler = (event) => {
         event.preventDefault();

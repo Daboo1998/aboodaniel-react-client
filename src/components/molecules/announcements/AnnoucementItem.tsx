@@ -29,7 +29,7 @@ const AnnouncementItem: React.FC<AnnouncementItemProps> = ({announcement}) => {
         setNewCommentText("");
     };
 
-    useEffect(reload, []);
+    useEffect(reload, [announcement.id]);
 
     const handleCommentSubmit: React.FormEventHandler = (event) => {
         event.preventDefault();
