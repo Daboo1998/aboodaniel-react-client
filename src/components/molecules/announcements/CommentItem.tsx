@@ -48,7 +48,7 @@ const CommentItem: React.FC<CommentItemProps> = ({comment}) => {
     };
 
     return (
-        <div className="bg-white dark:bg-gray-800 rounded p-2 shadow-md w-full">
+        <div className="bg-white dark:bg-gray-800 rounded p-2 shadow-md w-full border border-gray-100 dark:border-gray-900">
             <div className="flex flex-row">
                 <h4>{comment.isGuest ? "Guest" : comment.userDisplayName}</h4>
                 <Spacer />
@@ -62,24 +62,28 @@ const CommentItem: React.FC<CommentItemProps> = ({comment}) => {
                     </button>
                 )
             }
-            {showComments && (
-                comments.map((comment) => {
-                    return (
-                        <div className="flex flex-row items-center">
-                            <CommentItem comment={comment} key={comment.id} />
-                        </div>
-                    );
-                })
-            )}
+
+            {
+                showComments && (
+                    <div className="flex flex-col space-y-1 py-3">
+                        {
+                            comments.map((comment) => {
+                                return (
+                                    <CommentItem comment={comment} key={comment.id} />
+                                );
+                            })
+                        }
+                    </div>
+                )
+            }
             <form className="w-full flex flex-row items-start" onSubmit={handleCommentSubmit}>
                 <TextAreaInput
                     name="comment"
-                    label="Comment"
                     placeholder="Enter comment..."
                     onChange={setNewCommentText}
                     value={newCommentText}
                     automaticHeight/>
-                <Button label="Send" size={ButtonSize.small} type={ButtonType.constructive} className="top-2 relative ml-2"/>
+                <Button label="Send" size={ButtonSize.small} type={ButtonType.constructive} className="ml-2 relative bottom-4"/>
             </form>
             {errorMessage && <p className="text-red-700">{errorMessage}</p>}
         </div>

@@ -50,7 +50,7 @@ const AnnouncementItem: React.FC<AnnouncementItemProps> = ({announcement}) => {
     };
 
     return (
-        <div className="flex flex-col space-y-2 rounded-xl p-3 bg-gray-200 dark:bg-gray-700 shadow-md">
+        <div className="flex flex-col space-y-2 rounded-xl p-3 bg-gray-200 dark:bg-gray-700 shadow-md border border-gray-300 dark:border-black">
             <div className="flex flex-row">
                 <h2>{announcement.title}</h2>
                 <Spacer />
@@ -71,12 +71,11 @@ const AnnouncementItem: React.FC<AnnouncementItemProps> = ({announcement}) => {
             <form className="w-full flex flex-row items-start" onSubmit={handleCommentSubmit}>
                 <TextAreaInput
                     name="comment"
-                    label="Comment"
                     placeholder="Enter comment..."
                     value={newCommentText}
                     onChange={setNewCommentText}
                     automaticHeight/>
-                <Button label="Send" size={ButtonSize.small} type={ButtonType.constructive} className="top-2 relative ml-2"/>
+                <Button label="Send" size={ButtonSize.small} type={ButtonType.constructive} className="relative bottom-4 ml-2"/>
             </form>
             {errorMessage && <p className="text-red-700">{errorMessage}</p>}
         </div>

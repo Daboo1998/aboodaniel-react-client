@@ -27,7 +27,10 @@ const TextAreaInput: React.FC<TextAreaInputProps> = ({
     };
 
     return <p className="text-gray-800 font-sans font-bold w-full">
-        <label htmlFor={name} className="mb-2"><p>{label} {required && <span className="text-red-600">*</span>}</p>
+        <label htmlFor={name} className="mb-2">
+            {
+                label && <p>{label} {required && <span className="text-red-600">*</span>}</p>
+            }
             <textarea
                 placeholder={placeholder}
                 name={name} value={value} rows={automaticHeight ? 1 : rows} aria-invalid onChange={handleChange}
