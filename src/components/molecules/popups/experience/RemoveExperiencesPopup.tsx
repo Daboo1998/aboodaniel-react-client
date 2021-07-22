@@ -1,9 +1,9 @@
-import React, {useState} from "react";
+import React from "react";
 import Popup, {PopupProps} from "../Popup";
 import Experience from "../../../../data/experience";
 import Button, {ButtonType} from "../../../atoms/buttons and links/Button";
 import Spacer from "../../../atoms/utilities/Spacer";
-import database from "../../../../data/database";
+import {useRemoveExperiences} from "../../../../hooks/useExperiences";
 
 export interface RemoveExperiencesPopupProps extends PopupProps {
     experiences: Experience[],
@@ -12,20 +12,13 @@ export interface RemoveExperiencesPopupProps extends PopupProps {
 
 
 const RemoveExperiencesPopup: React.FC<RemoveExperiencesPopupProps> = ({isPopupShown, experiences, onClose}) => {
-    const [selectedExperienceIds, setSelectedExperienceIds] = useState<string[]>([]);
-    const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+    const {removeSelectedExperiences, toggleExperience, errorMessage} = useRemoveExperiences(onClose);
 
     const handleRemove = () => {
         const userIsSure = window.confirm("Are you sure you want to delete selected experiences? You cannot undo that!");
 
         if (userIsSure) {
-            database.experiences
-                .deleteMany(selectedExperienceIds)
-                .then(() => {
-                    onClose(experiences.filter(experience => experience.id && !selectedExperienceIds.includes(experience.id)));
-                }).catch(error => {
-                   setErrorMessage(error.message);
-                });
+            removeSelectedExperiences(experiences);
         }
     };
 
@@ -37,13 +30,7 @@ const RemoveExperiencesPopup: React.FC<RemoveExperiencesPopupProps> = ({isPopupS
             return;
         }
 
-        if (isChecked) {
-           if (!selectedExperienceIds.includes(experience.id)) {
-               setSelectedExperienceIds([...selectedExperienceIds, experience.id])
-           }
-        } else {
-            setSelectedExperienceIds(selectedExperienceIds.filter(id => id !== experience.id));
-        }
+        toggleExperience(experience, isChecked);
     };
 
     return (

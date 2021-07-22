@@ -9,6 +9,7 @@ import Button, {ButtonSize, ButtonType} from "../../../atoms/buttons and links/B
 import database, {Timestamp} from "../../../../data/database";
 import Experience from "../../../../data/experience";
 import {v4 as uuidv4} from 'uuid';
+import {useAddExperience} from "../../../../hooks/useExperiences";
 
 export interface AddExperiencePopupProps extends PopupProps {
     onClose: (addedExperience?: Experience) => void
@@ -23,7 +24,7 @@ const AddExperiencePopup: React.FC<AddExperiencePopupProps> = (props) => {
     const [description, setDescription] = useState("");
     const [link, setLink] = useState("");
     const [linkText, setLinkText] = useState("");
-    const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+    const { addExperience, isAddingExperience, errorMessage, setErrorMessage } = useAddExperience(props.onClose);
 
     const handleCancel: React.MouseEventHandler = (e) => {
         e.preventDefault();
@@ -70,11 +71,7 @@ const AddExperiencePopup: React.FC<AddExperiencePopupProps> = (props) => {
             linkText
         };
 
-        database.experiences.post(newExperience).then(() => {
-            props.onClose(newExperience);
-        }).catch(error => {
-            setErrorMessage(error.message);
-        })
+        addExperience(newExperience);
     };
 
     return (
@@ -82,29 +79,33 @@ const AddExperiencePopup: React.FC<AddExperiencePopupProps> = (props) => {
             <Spacer />
             <div className="bg-white dark:bg-gray-800 p-4 rounded-xl <md:w-full overflow-y-scroll">
                 <h2>Add Experience</h2>
-                <form>
-                    <NumberInput min={0} max={1000} name="importance" label="Importance [0-1000] (default 0)" value={importance} onChange={setImportance} required/>
-                    <TextInput name="title" label="Title" required onChange={setTitle} />
-                    <div className="flex flex-row w-full items-center">
-                        <p className="pr-4">Is ongoing</p>
-                        <input type="checkbox" name="ongoing" onChange={e => setIsOngoing(e.target.checked)} />
-                        <Spacer />
-                    </div>
-                    <div className="flex flex-row w-full space-x-2">
-                        <DateInput label="Start date" required name="startDate" onChange={setStartDate} />
-                        {
-                            !isOngoing ? <DateInput label="End date" name="endDate" onChange={setEndDate} required/> :
-                                <div className="w-full" />
-                        }
-                    </div>
-                    <TextAreaInput name="description" label="Description" onChange={setDescription} required />
-                    <TextInput name="link" label="Link (optional)" onChange={setLink}/>
-                    <TextInput name="linkText" label="Link text (optional)" onChange={setLinkText} />
-                    <p className="w-full"><span className="text-red-600">*</span> Required fields</p>
-                    <p className="text-red-800">{errorMessage}</p>
-                    <Button label="Add" size={ButtonSize.bigFullWidth} type={ButtonType.constructive} action={e => handleAddExperience(e)} />
-                    <Button label="Cancel" size={ButtonSize.bigFullWidth} action={handleCancel} />
-                </form>
+                {
+                    isAddingExperience ? <p className="text-gray-600 text-center">Adding...</p> : (
+                        <form>
+                            <NumberInput min={0} max={1000} name="importance" label="Importance [0-1000] (default 0)" value={importance} onChange={setImportance} required/>
+                            <TextInput name="title" label="Title" required onChange={setTitle} />
+                            <div className="flex flex-row w-full items-center">
+                                <p className="pr-4">Is ongoing</p>
+                                <input type="checkbox" name="ongoing" onChange={e => setIsOngoing(e.target.checked)} />
+                                <Spacer />
+                            </div>
+                            <div className="flex flex-row w-full space-x-2">
+                                <DateInput label="Start date" required name="startDate" onChange={setStartDate} />
+                                {
+                                    !isOngoing ? <DateInput label="End date" name="endDate" onChange={setEndDate} required/> :
+                                        <div className="w-full" />
+                                }
+                            </div>
+                            <TextAreaInput name="description" label="Description" onChange={setDescription} required />
+                            <TextInput name="link" label="Link (optional)" onChange={setLink}/>
+                            <TextInput name="linkText" label="Link text (optional)" onChange={setLinkText} />
+                            <p className="w-full"><span className="text-red-600">*</span> Required fields</p>
+                            <p className="text-red-800">{errorMessage}</p>
+                            <Button label="Add" size={ButtonSize.bigFullWidth} type={ButtonType.constructive} action={e => handleAddExperience(e)} />
+                            <Button label="Cancel" size={ButtonSize.bigFullWidth} action={handleCancel} />
+                        </form>
+                    )
+                }
             </div>
             <Spacer />
         </Popup>

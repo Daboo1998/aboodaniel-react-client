@@ -8,7 +8,7 @@ import {ReactComponent as TrashIcon} from "../../../../images/icons/trash.svg";
 import Button, {ButtonType} from "../../../atoms/buttons and links/Button";
 
 export interface MessageDetailsPopupProps extends PopupProps {
-    message: Message | null;
+    message: Message | undefined;
     onClose: () => void;
     onMessageDelete?: (message: Message) => void;
 }

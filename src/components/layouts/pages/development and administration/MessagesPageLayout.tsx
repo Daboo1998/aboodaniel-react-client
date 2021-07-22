@@ -1,15 +1,14 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import PageLayout from "../PageLayout";
 import Message from "../../../../data/Message";
-import database from "../../../../data/database";
 import MessageDetailsPopup from "../../../molecules/popups/messages/MessageDetailsPopup";
 import MessageComponent from "../../../atoms/messages/MessageComponent";
 import {useAuth} from "../../../../contexts/AuthContext";
 import useNavigation from "../../../../hooks/useNavigation";
+import useMessages from "../../../../hooks/useMessages";
 
 const MessagesPageLayout: React.FC = () => {
-    const [messages, setMessages] = useState<Message[]>([]);
-    const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
+    const {messages, messagesAreLoading, removeMessageOffline, selectedMessage, selectMessage} = useMessages();
 
     const {wentToLogin, isLoggedIn, isOwner} = useAuth();
     const navigation = useNavigation();
@@ -19,31 +18,25 @@ const MessagesPageLayout: React.FC = () => {
         wentToLogin("/messages");
     }
 
-    useEffect(() => {
-        database.messages
-            .getAll({field: "timestamp", direction: "desc"})
-            .then((results) => {
-                setMessages(results);
-            })
-            .catch(error => {
-                console.error(error.message);
-            })
-    }, []);
-
     const handleMessageDetailsClose = () => {
-        setSelectedMessage(null);
+        selectMessage();
         document.body.style.overflow = 'unset';
     };
 
     const handleMessageClick = (e: React.MouseEvent<HTMLDivElement>, message: Message) => {
         e.preventDefault();
-        setSelectedMessage(message);
+        selectMessage(message);
         document.body.style.overflow = 'hidden';
     };
 
-    const handleMessageDelete = (message: Message) => {
-        setMessages(messages.filter(m => m.id !== message.id));
-    };
+    if (messagesAreLoading) {
+        return (<PageLayout title="Messages">
+            <div className="flex flex-col space-y-4">
+                <h1>Messages</h1>
+                <p className="text-gray-600 text-center">Loading...</p>
+            </div>
+        </PageLayout>);
+    }
 
     if (!isOwner) {
         return (<PageLayout title="Messages">
@@ -60,7 +53,7 @@ const MessagesPageLayout: React.FC = () => {
                 message={selectedMessage}
                 isPopupShown={!!selectedMessage}
                 onClose={handleMessageDetailsClose}
-                onMessageDelete={handleMessageDelete}
+                onMessageDelete={removeMessageOffline}
             />
             <h1>Messages</h1>
             <div className={(messages.length > 0 ? " border-t border-black dark:border-white mt-4" : "")}>
