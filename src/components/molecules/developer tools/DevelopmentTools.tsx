@@ -1,49 +1,26 @@
-import React, {MouseEventHandler, useEffect, useState} from "react";
+import React, {MouseEventHandler, useState} from "react";
 import usePopup from "../../../hooks/usePopup";
 import AddRolePopup from "../popups/developer tools/AddRolePopup";
 import AddUserPopup from "../popups/developer tools/AddUserPopup";
 import Spacer from "../../atoms/utilities/Spacer";
-import database from "../../../data/database";
-import Role from "../../../data/Role";
 import RoleComponent from "./RoleComponent";
 import Button, {ButtonType} from "../../atoms/buttons and links/Button";
 import {ReactComponent as TrashIcon} from "../../../images/icons/trash.svg";
+import useRoles, {useDeleteRoles} from "../../../hooks/useRoles";
 
 const DevelopmentTools: React.FC = () => {
-    const [rolesList, setRolesList] = useState<Role []>([]);
     const [isAddRolePopupShown, showAddRolePopup, hideAddRolePopup] = usePopup();
     const [isAddUserPopupShown, showAddUserPopup, hideAddUserPopup] = usePopup();
     const [selectedRoleType, setSelectedRoleType] = useState("");
-    const [refreshIndicator, refresh] = useState<boolean>();
     const [rolesToDelete, setRolesToDelete] = useState<string []>([]);
     const [usersFromRoleToDelete, setUsersFromRoleToDelete] = useState<{role: string, users: string[]} []>([]);
+    const { roles, reloadRoles, rolesAreLoading } = useRoles();
+    const {deleteRoles} = useDeleteRoles(() => setRolesToDelete([]));
 
     const handleDelete: MouseEventHandler = (e) => {
         e.preventDefault();
         if (rolesToDelete.length !== 0) {
-            database.roles.deleteMany(rolesToDelete).then(() => {
-                refresh(!refreshIndicator);
-                setRolesToDelete([]);
-            }).catch((error) => {
-                alert(error.message);
-            });
-        }
-
-        if (usersFromRoleToDelete.length !== 0) {
-            let rolesProcessed = 0;
-            usersFromRoleToDelete.forEach(roleAndUsers => {
-                database.roles
-                    .removeManyFromArray(roleAndUsers.role, "users", roleAndUsers.users)
-                    .then(() => {
-                        rolesProcessed += 1;
-                        if (rolesProcessed === usersFromRoleToDelete.length) {
-                            setUsersFromRoleToDelete([]);
-                            refresh(!refreshIndicator);
-                        }
-                    }).catch((error) => {
-                        alert(error.message);
-                    });
-            })
+            deleteRoles(rolesToDelete)
         }
     };
 
@@ -83,19 +60,8 @@ const DevelopmentTools: React.FC = () => {
     };
 
     const handleChange = () => {
-        refresh(!refreshIndicator);
+        reloadRoles();
     };
-
-    useEffect(() => {
-        console.log("Refreshing list...");
-        setRolesList([]);
-
-        database.roles.getAll().then(results => {
-            setRolesList(results);
-        }).catch(e => {
-            console.log("Could not get list of roles: " + e.message);
-        });
-    }, [refreshIndicator]);
 
     return (
         <div>
@@ -111,13 +77,17 @@ const DevelopmentTools: React.FC = () => {
                         <TrashIcon className="w-5 text-red-600 >md:hover:text-red-900 fill-current" />
                     </button>
                 </div>
-                <ul className="px-2">
-                    {
-                        rolesList?.map((role) => {
-                            return <RoleComponent role={role} onRoleCheck={handleRoleCheck} onUserCheck={handleUserCheck} onShowAddUserPopup={handleShowAddUserPopup}/>
-                        })
-                    }
-                </ul>
+                {
+                    rolesAreLoading ? <p className="text-gray-600 text-center">Loading...</p> : (
+                        <ul className="px-2">
+                            {
+                                roles.map((role) => {
+                                    return <RoleComponent role={role} onRoleCheck={handleRoleCheck} onUserCheck={handleUserCheck} onShowAddUserPopup={handleShowAddUserPopup}/>
+                                })
+                            }
+                        </ul>
+                    )
+                }
             </div>
         </div>
     );

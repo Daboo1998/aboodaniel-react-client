@@ -1,7 +1,7 @@
-import React, {useState} from "react";
+import React from "react";
 import {PopupProps} from "../Popup";
-import database from "../../../../data/database";
 import AddPopup from "./AddPopup";
+import {useAddUserToRole} from "../../../../hooks/useRoles";
 
 interface AddUserPopupProps extends PopupProps {
     hide: () => void,
@@ -10,23 +10,13 @@ interface AddUserPopupProps extends PopupProps {
 }
 
 const AddUserPopup: React.FC<AddUserPopupProps> = ({isPopupShown, hide, role, onAdded}) => {
-    const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+    const {addUserToRole, addUserToRoleError} = useAddUserToRole(onAdded);
 
     const handleSubmit = (user: string) => {
-        setErrorMessage(undefined);
-
-        database.roles
-            .pushToArray<string>(role, "users", user)
-            .then(() => {
-                console.log("Transaction successfully committed!");
-                onAdded?.();
-                hide();
-            }).catch((error) => {
-                console.log("Transaction failed: ", error);
-            });
+        addUserToRole(role, user);
     };
 
-    return <AddPopup fieldName={"user"} hide={hide} isPopupShown={isPopupShown} onAdd={handleSubmit} errorMessage={errorMessage} />;
+    return <AddPopup fieldName={"user"} hide={hide} isPopupShown={isPopupShown} onAdd={handleSubmit} errorMessage={addUserToRoleError?.message} />;
 };
 
 export default AddUserPopup;
