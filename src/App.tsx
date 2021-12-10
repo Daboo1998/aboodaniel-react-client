@@ -1,15 +1,11 @@
 import React, {useEffect} from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
+// routes
+import routes from './Routes';
+
 // Page imports
-import HomePageLayout from "./components/layouts/pages/general/HomePageLayout";
-import ExperiencePageLayout from "./components/layouts/pages/general/ExperiencePageLayout";
-import ContactPageLayout from "./components/layouts/pages/general/ContactPageLayout";
 import NotFoundPageLayout from "./components/layouts/pages/general/NotFoundPageLayout";
-import DevelopmentToolsPageLayout from "./components/layouts/pages/development and administration/DevelopmentToolsPageLayout";
-import LoginPageLayout from "./components/layouts/pages/authentication/LoginPageLayout";
-import RegisterPageLayout from "./components/layouts/pages/authentication/RegisterPageLayout";
-import MessagesPageLayout from "./components/layouts/pages/development and administration/MessagesPageLayout";
 
 // Main elements imports
 import PageNavigatorBar from "./components/molecules/general/PageNavigatorBar";
@@ -21,9 +17,7 @@ import Spacer from "./components/atoms/utilities/Spacer";
 
 // Authentication
 import {useAuth} from "./contexts/AuthContext";
-import MyCVPageLayout from "./components/layouts/pages/general/MyCVPageLayout";
 import NavigationProvider from "./components/context providers/NavigationProvider";
-import AnnouncementsPageLayout from "./components/layouts/pages/general/AnnouncementsPageLayout";
 
 function App() {
     const {user} = useAuth();
@@ -48,38 +42,13 @@ function App() {
                         <PageNavigatorBarLink to="/contact">
                             Contact
                         </PageNavigatorBarLink>
-                        <PageNavigatorBarLink to="/announcements">
-                            Announcements
-                        </PageNavigatorBarLink>
                     </PageNavigatorBar>
                     <Switch>
-                        <Route exact path="/">
-                            <HomePageLayout />
-                        </Route>
-                        <Route exact path="/experience">
-                            <ExperiencePageLayout />
-                        </Route>
-                        <Route exact path="/cv">
-                            <MyCVPageLayout />
-                        </Route>
-                        <Route exact path="/contact">
-                            <ContactPageLayout />
-                        </Route>
-                        <Route exact path="/announcements">
-                            <AnnouncementsPageLayout />
-                        </Route>
-                        <Route exact path="/developerTools">
-                            <DevelopmentToolsPageLayout />
-                        </Route>
-                        <Route exact path="/messages">
-                            <MessagesPageLayout />
-                        </Route>
-                        <Route exact path="/login">
-                            <LoginPageLayout />
-                        </Route>
-                        <Route exact path="/register">
-                            <RegisterPageLayout />
-                        </Route>
+                        {routes.map(route => (
+                            <Route exact path={route.path}>
+                                {route.page()}
+                            </Route>
+                        ))}
                         <Route>
                             <NotFoundPageLayout />
                         </Route>
