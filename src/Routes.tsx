@@ -11,7 +11,7 @@ import MyCVPageLayout from "./components/layouts/pages/general/MyCVPageLayout";
 
 export interface Route {
     path: string;
-    page: React.FC;
+    page: () => React.FC;
 }
 
 const routes: Route[] = [
