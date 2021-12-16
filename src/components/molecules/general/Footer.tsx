@@ -61,7 +61,11 @@ const Footer: React.FC = () => {
                     )
                 }
             </div>
-            <p className="text-center text-xs">© Aboo Daniel - All rights reserved</p>
+            <p className="text-center text-xs">
+                © Daniel Aboo - All rights reserved<br/>
+                NIP: 9512530817<br/>
+                REGON: 520629209
+            </p>
         </div>
     );
 };
