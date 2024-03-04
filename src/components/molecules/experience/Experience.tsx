@@ -62,7 +62,7 @@ const Experience: React.FC<ExperienceProps> = ({ experience }) => {
   return (
     <div className="pb-12">
       <div
-        className="flex flex-row sticky bg-white dark:bg-gray-900 top-12 border-t-2 border-black dark:border-white p-2"
+        className="flex flex-row sticky top-12 border-t-2 border-black dark:border-white p-2"
         onClick={handleHeaderClick}
       >
         <h3>{experience.title}</h3>
