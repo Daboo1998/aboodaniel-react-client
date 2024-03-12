@@ -10,6 +10,7 @@ import DevelopmentToolsPageLayout from "./components/layouts/pages/development a
 import LoginPageLayout from "./components/layouts/pages/authentication/LoginPageLayout";
 import RegisterPageLayout from "./components/layouts/pages/authentication/RegisterPageLayout";
 import MessagesPageLayout from "./components/layouts/pages/development and administration/MessagesPageLayout";
+import AskMeAnythingLayout from "./components/layouts/pages/general/AskMeAnything";
 
 // Main elements imports
 import PageNavigatorBar from "./components/molecules/general/PageNavigatorBar";
@@ -58,6 +59,9 @@ function App() {
             </Route>
             <Route exact path="/register">
               <RegisterPageLayout />
+            </Route>
+            <Route exact path="/askMeAnything">
+              <AskMeAnythingLayout />
             </Route>
             <Route>
               <NotFoundPageLayout />

@@ -9,7 +9,9 @@ export const PageNavigatorBarContext = React.createContext({
   hide: () => {},
 });
 
-const PageNavigatorBar: React.FC = ({ children }) => {
+const PageNavigatorBar: React.FC<React.DOMAttributes<HTMLDivElement>> = ({
+  children,
+}) => {
   const [isHidden, setIsHidden] = useState(true);
   const navigation = useNavigation();
 
