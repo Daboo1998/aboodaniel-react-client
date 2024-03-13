@@ -82,6 +82,14 @@ export const dots = styled.div`
   }
 `;
 
+export const Form = styled.form`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 10px;
+  padding-top: 5px !important;
+`;
+
 export const TextMarkdown = styled(ReactMarkdown)`
   * {
     color: black;
@@ -237,7 +245,6 @@ export const messageInput = styled.textarea`
   opacity: 1;
   color: white;
   cursor: text;
-  height: fit-content;
 
   &:disabled {
     opacity: 0.2;

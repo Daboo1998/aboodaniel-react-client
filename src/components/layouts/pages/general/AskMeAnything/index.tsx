@@ -6,8 +6,31 @@ import * as styles from "./AskmeAnything.styles";
 import { useAskMeAnythingContext } from "./context";
 
 const AskMeAnythingPage: React.FC = () => {
-  const { messages, message, isLoading, setMessage, handleSendMessage } =
-    useAskMeAnythingContext();
+  const {
+    messages,
+    message,
+    isLoading,
+    messageInputRef,
+    maxMessages,
+    messageCount,
+    setMessage,
+    handleSendMessage,
+  } = useAskMeAnythingContext();
+
+  const handleInputChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
+    event
+  ) => {
+    setMessage(event.target.value);
+  };
+
+  const handleKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = (
+    event
+  ) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      handleSendMessage();
+    }
+  };
 
   return (
     <PageLayout
@@ -50,16 +73,22 @@ const AskMeAnythingPage: React.FC = () => {
             </styles.dotsContainer>
           )}
         </styles.messagesList>
+        {/* Add messages/maxMessages */}
+        <p className="text-right text-gray-600 pt-10">
+          {messageCount}/{maxMessages}
+        </p>
         {/* Here show input for the user and on the right a send button which triggers the handleSendMessage */}
-        <form
-          className="flex flex-row w-full py-10 gap-10"
+        <styles.Form
+          className="flex flex-row w-full gap-10 !pt-[5px]"
           onSubmit={handleSendMessage}
         >
           <styles.messageInput
-            onChange={(e) => setMessage(e.target.value)}
-            disabled={isLoading}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            disabled={isLoading || messageCount >= maxMessages}
             value={message}
             rows={1}
+            ref={messageInputRef}
           />
           {isLoading ? (
             <styles.dotsContainer className="buttonLoader">
@@ -67,15 +96,15 @@ const AskMeAnythingPage: React.FC = () => {
             </styles.dotsContainer>
           ) : (
             <button
+              type="submit"
               style={{ marginTop: 0 }}
               className="w-1/4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors disabled:bg-gray-300 disabled:text-gray-600 disabled:cursor-not-allowed"
-              onClick={handleSendMessage}
-              disabled={isLoading}
+              disabled={isLoading || messageCount >= maxMessages}
             >
               Send
             </button>
           )}
-        </form>
+        </styles.Form>
       </div>
     </PageLayout>
   );

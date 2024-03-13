@@ -4,6 +4,7 @@ import {
   useEffect,
   useMemo,
   useState,
+  createRef,
 } from "react";
 
 type Message = {
@@ -17,6 +18,9 @@ export interface AskMeAnythingContextProps {
   assistant_id: string | undefined;
   message: string;
   isLoading: boolean;
+  messageInputRef: React.RefObject<HTMLTextAreaElement>;
+  messageCount: number;
+  maxMessages: number;
   setMessage: (message: string) => void;
   handleSendMessage: () => void;
 }
@@ -31,12 +35,20 @@ export const useAskMeAnythingContext = () => {
   const [assistant_id, setAssistantId] = useState<string | undefined>();
   const [message, setMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [messageCount, setMessageCount] = useState<number>(0);
 
-  const apiKey = useMemo(() => "rTOh74DudC6YNCKEtYAjb34c8fjN0v7s5N3e3kko", []);
+  const messageInputRef = useMemo(() => createRef<HTMLTextAreaElement>(), []);
+  const maxMessages = parseInt(
+    process.env.REACT_APP_MAX_MESSAGES_PER_CONVERSATION ?? "0"
+  );
+
+  const apiKey = useMemo(() => process.env.REACT_APP_AWS_LAMBDA_API_KEY, []);
 
   const handleStartConversation = useCallback(async () => {
-    // POST https://api.aboodaniel.pl/start_conversation_with_me
-    // empty body returns {"thread_id": "1234", "assistant_id": "5678"}
+    if (!apiKey) {
+      alert("API key is not set");
+      return;
+    }
 
     try {
       setIsLoading(true);
@@ -67,6 +79,11 @@ export const useAskMeAnythingContext = () => {
 
   const handleIsConversationLoading = useCallback(
     async (run_id) => {
+      if (!apiKey) {
+        alert("API key is not set");
+        return false;
+      }
+
       try {
         const response = await fetch(
           `https://api.aboodaniel.pl/is_conversation_running?run_id=${run_id}&thread_id=${thread_id}`,
@@ -96,6 +113,11 @@ export const useAskMeAnythingContext = () => {
 
   const handleLoadConversation = useCallback(async () => {
     try {
+      if (!apiKey) {
+        alert("API key is not set");
+        return messages;
+      }
+
       const response = await fetch(
         `https://api.aboodaniel.pl/load_conversation_with_me?thread_id=${thread_id}`,
         {
@@ -109,7 +131,6 @@ export const useAskMeAnythingContext = () => {
       if (response.ok) {
         const parsedMessages = await response.json();
 
-        // you have to map the messages to {"role": "assistant", "message": "Hello!"}
         const messages = parsedMessages.map((message: any) => ({
           role: message.role,
           message: message.content[0].text.value,
@@ -127,8 +148,19 @@ export const useAskMeAnythingContext = () => {
   }, [apiKey, messages, thread_id]);
 
   const handleSendMessage = useCallback(async () => {
-    // POST https://api.aboodaniel.pl/ask_me_anything
-    // body: {"thread_id": "1234", "message": "Hello!"}
+    if (messageCount >= maxMessages) {
+      alert("Max messages reached");
+      return;
+    }
+
+    if (!apiKey) {
+      alert("API key is not set");
+      return;
+    }
+
+    const oldMessageCount = messageCount;
+    setMessageCount(oldMessageCount + 1);
+
     setMessages([
       ...messages,
       {
@@ -169,17 +201,24 @@ export const useAskMeAnythingContext = () => {
         setMessages(messages.reverse());
       } else {
         alert("Failed to send message");
+        setMessageCount(oldMessageCount);
       }
     } catch (error) {
       console.error(error);
+      setMessageCount(oldMessageCount);
     }
+
     setIsLoading(false);
+    messageInputRef.current?.focus();
   }, [
     apiKey,
     assistant_id,
     handleIsConversationLoading,
     handleLoadConversation,
+    maxMessages,
     message,
+    messageCount,
+    messageInputRef,
     messages,
     thread_id,
   ]);
@@ -187,8 +226,10 @@ export const useAskMeAnythingContext = () => {
   const handleEndConversation = useCallback(async () => {
     setIsLoading(true);
     try {
-      // POST https://api.aboodaniel.pl/end_conversation_with_me
-      // body: {"thread_id": "1234"}
+      if (!apiKey) {
+        alert("API key is not set");
+        return;
+      }
 
       const response = await fetch(
         "https://api.aboodaniel.pl/end_conversation_with_me",
@@ -219,10 +260,13 @@ export const useAskMeAnythingContext = () => {
 
   useEffect(() => {
     // start conversation when thread_id is set
-    if (!thread_id) {
-      handleStartConversation();
-      console.log("start conversation");
-    }
+    (async () => {
+      if (!thread_id) {
+        await handleStartConversation();
+        messageInputRef.current?.focus();
+        console.log("start conversation");
+      }
+    })();
 
     return () => {
       // end conversation when thread_id is unset
@@ -231,7 +275,12 @@ export const useAskMeAnythingContext = () => {
         console.log("end conversation");
       }
     };
-  }, [handleEndConversation, handleStartConversation, thread_id]);
+  }, [
+    handleEndConversation,
+    handleStartConversation,
+    messageInputRef,
+    thread_id,
+  ]);
 
   return {
     messages,
@@ -239,6 +288,9 @@ export const useAskMeAnythingContext = () => {
     assistant_id,
     message,
     isLoading,
+    messageInputRef,
+    messageCount,
+    maxMessages,
     setMessage,
     handleSendMessage,
   };
