@@ -93,6 +93,8 @@ export const submitButton = styled.button`
   transition: background-color 0.3s;
   margin-top: 0 !important;
   width: 100%;
+  overflow-wrap: break-word;
+  text-overflow: ellipsis;
 
   &:hover {
     background-color: #319795;
