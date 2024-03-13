@@ -67,7 +67,6 @@ function App() {
               <NotFoundPageLayout />
             </Route>
           </Switch>
-          <Spacer />
           <Footer />
         </div>
       </NavigationProvider>

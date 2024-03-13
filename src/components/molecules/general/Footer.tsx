@@ -4,11 +4,13 @@ import { ReactComponent as LinkedInIcon } from "../../../images/icons/linkedInIc
 import Link from "../../atoms/buttons and links/Link";
 import { useAuth } from "../../../contexts/AuthContext";
 
+import * as styled from "./Footer.styled";
+
 const Footer: React.FC = () => {
   const auth = useAuth();
 
   return (
-    <div className="flex flex-col bg-background-light dark:bg-background-dark pb-6 space-y-4">
+    <styled.FooterStyled className="flex flex-col bg-background-light dark:bg-background-dark pb-6 space-y-4">
       <div className="flex flex-row">
         <a
           href="https://facebook.com/danny.aboo.5"
@@ -94,7 +96,7 @@ const Footer: React.FC = () => {
         )}
       </div>
       <p className="text-center text-xs">© Aboo Daniel - All rights reserved</p>
-    </div>
+    </styled.FooterStyled>
   );
 };
 

@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import useNavigation from "../../../hooks/useNavigation";
 
+import * as styled from "./PageLayout.styled";
+
 export interface PageLayoutProps extends React.HTMLProps<any> {
   title: string;
 }
@@ -18,14 +20,9 @@ const PageLayout: React.FC<PageLayoutProps> = ({
   });
 
   return (
-    <div
-      className={
-        "flex flex-col w-full p-10 bg-background-light dark:bg-background-dark pt-20"
-      }
-      {...props}
-    >
+    <styled.PageStyled {...props}>
       <div className={(className ?? "") + " w-full"}>{children}</div>
-    </div>
+    </styled.PageStyled>
   );
 };
 

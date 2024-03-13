@@ -13,7 +13,6 @@ export const dotsContainer = styled.div`
   &.buttonLoader {
     justify-content: center;
     color: white;
-    height: 100%;
     margin-top: 0 !important;
     background-color: rgb(59 130 246);
 
@@ -279,6 +278,7 @@ export const messagesList = styled.div`
   gap: 40px;
 
   margin-top: 40px;
+  flex-grow: 1;
 `;
 
 export const messageInput = styled(TextareaAutosize)`
@@ -287,7 +287,7 @@ export const messageInput = styled(TextareaAutosize)`
   border: 1px solid #d2d6dc;
   border-radius: 5px;
   opacity: 1;
-  color: white;
+  color: black;
   cursor: text;
 
   &:disabled {
@@ -298,5 +298,10 @@ export const messageInput = styled(TextareaAutosize)`
 
   @media screen and (min-width: 430px) {
     width: 75%;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    border: 1px solid #9ca3af;
+    color: white;
   }
 `;

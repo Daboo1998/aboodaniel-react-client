@@ -6,8 +6,8 @@ import * as styles from "./AskmeAnything.styles";
 import { useAskMeAnythingContext } from "./context";
 
 const AskMeAnythingPage: React.FC = () => {
-  const minTextareaRows = 1;
-  const maxTextareaRows = 4;
+  const minTextareaRows = 2;
+  const maxTextareaRows = 5;
   const maxMessageLength = parseInt(
     process.env.REACT_APP_MAX_MESSAGE_LENGTH ?? "0"
   );
@@ -51,10 +51,13 @@ const AskMeAnythingPage: React.FC = () => {
   return (
     <PageLayout
       title="Home"
-      className="py-10 flex flex-col items-center"
+      className="py-10 flex flex-col items-center h-full"
       style={{ maxWidth: 820, alignSelf: "center" }}
     >
-      <div className="w-full">
+      <div
+        className="w-full h-full"
+        style={{ display: "flex", flexDirection: "column" }}
+      >
         <h1
           className="text-center pb-20"
           style={{ fontSize: "50px", lineHeight: "60px" }}
