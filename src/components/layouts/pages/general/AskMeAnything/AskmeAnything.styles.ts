@@ -1,5 +1,6 @@
 import ReactMarkdown from "react-markdown";
 import styled from "styled-components";
+import TextareaAutosize from "react-textarea-autosize";
 
 // px-4 py-2 rounded-md bg-gray-200 dark:bg-green-300 self-end
 export const dotsContainer = styled.div`
@@ -11,11 +12,14 @@ export const dotsContainer = styled.div`
 
   &.buttonLoader {
     justify-content: center;
-    width: 25%;
     color: white;
     height: 100%;
     margin-top: 0 !important;
     background-color: rgb(59 130 246);
+
+    @media screen and (min-width: 430px) {
+      width: 25%;
+    }
   }
 
   //px-4 py-2 rounded-md
@@ -26,7 +30,7 @@ export const dotsContainer = styled.div`
     width: fit-content;
 
     @media (prefers-color-scheme: dark) {
-      background-color: rgb(74 222 128);
+      background-color: rgb(134 239 172);
     }
   }
 `;
@@ -82,12 +86,52 @@ export const dots = styled.div`
   }
 `;
 
+export const submitButton = styled.button`
+  padding: 0.5rem 1rem;
+  background-color: #3182ce;
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  margin-top: 0 !important;
+  width: 100%;
+
+  &:hover {
+    background-color: #319795;
+  }
+
+  &:disabled {
+    background-color: #d2d6dc;
+    color: #d2d6dc;
+    cursor: not-allowed;
+  }
+
+  @media screen and (min-width: 430px) {
+    width: 25%;
+  }
+`;
+
 export const Form = styled.form`
+  position: relative;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
   gap: 10px;
   padding-top: 5px !important;
+
+  @media screen and (min-width: 430px) {
+    flex-direction: row;
+  }
+
+  p {
+    position: absolute;
+    top: -40px;
+    left: 5px;
+
+    @media screen and (min-width: 430px) {
+      right: calc(26% + 5px);
+      left: unset;
+    }
+  }
 `;
 
 export const TextMarkdown = styled(ReactMarkdown)`
@@ -237,8 +281,8 @@ export const messagesList = styled.div`
   margin-top: 40px;
 `;
 
-export const messageInput = styled.textarea`
-  width: 75%;
+export const messageInput = styled(TextareaAutosize)`
+  width: 100%;
   padding: 0.5rem 1rem;
   border: 1px solid #d2d6dc;
   border-radius: 5px;
@@ -250,5 +294,9 @@ export const messageInput = styled.textarea`
     opacity: 0.2;
     color: #d2d6dc;
     cursor: not-allowed;
+  }
+
+  @media screen and (min-width: 430px) {
+    width: 75%;
   }
 `;

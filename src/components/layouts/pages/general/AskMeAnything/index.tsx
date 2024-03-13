@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import PageLayout from "../../PageLayout";
 import { cx } from "../../../../../utils";
 
@@ -6,6 +6,12 @@ import * as styles from "./AskmeAnything.styles";
 import { useAskMeAnythingContext } from "./context";
 
 const AskMeAnythingPage: React.FC = () => {
+  const minTextareaRows = 1;
+  const maxTextareaRows = 4;
+  const maxMessageLength = parseInt(
+    process.env.REACT_APP_MAX_MESSAGE_LENGTH ?? "0"
+  );
+
   const {
     messages,
     message,
@@ -15,12 +21,15 @@ const AskMeAnythingPage: React.FC = () => {
     messageCount,
     setMessage,
     handleSendMessage,
+    handleStartConversation,
   } = useAskMeAnythingContext();
 
   const handleInputChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
     event
   ) => {
-    setMessage(event.target.value);
+    if (event.target.value.length <= maxMessageLength) {
+      setMessage(event.target.value);
+    }
   };
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = (
@@ -34,7 +43,9 @@ const AskMeAnythingPage: React.FC = () => {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    handleSendMessage();
+    messageCount >= maxMessages
+      ? handleStartConversation()
+      : handleSendMessage();
   };
 
   return (
@@ -83,31 +94,28 @@ const AskMeAnythingPage: React.FC = () => {
           {messageCount}/{maxMessages}
         </p>
         {/* Here show input for the user and on the right a send button which triggers the handleSendMessage */}
-        <styles.Form
-          className="flex flex-row w-full gap-10 !pt-[5px]"
-          onSubmit={handleSubmit}
-        >
+        <styles.Form onSubmit={handleSubmit}>
           <styles.messageInput
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             disabled={isLoading || messageCount >= maxMessages}
             value={message}
-            rows={1}
             ref={messageInputRef}
+            minRows={minTextareaRows}
+            maxRows={maxTextareaRows}
           />
+          <p>
+            {message.length}/{maxMessageLength}
+          </p>
+
           {isLoading ? (
             <styles.dotsContainer className="buttonLoader">
               <styles.dots />
             </styles.dotsContainer>
           ) : (
-            <button
-              type="submit"
-              style={{ marginTop: 0 }}
-              className="w-1/4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors disabled:bg-gray-300 disabled:text-gray-600 disabled:cursor-not-allowed"
-              disabled={isLoading || messageCount >= maxMessages}
-            >
-              Send
-            </button>
+            <styles.submitButton type="submit" disabled={isLoading}>
+              {messageCount >= maxMessages ? "Start new conversation" : "Send"}
+            </styles.submitButton>
           )}
         </styles.Form>
       </div>
@@ -115,4 +123,4 @@ const AskMeAnythingPage: React.FC = () => {
   );
 };
 
-export default memo(AskMeAnythingPage);
+export default AskMeAnythingPage;

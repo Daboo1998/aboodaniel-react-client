@@ -23,6 +23,7 @@ export interface AskMeAnythingContextProps {
   maxMessages: number;
   setMessage: (message: string) => void;
   handleSendMessage: () => void;
+  handleStartConversation: () => void;
 }
 
 export const AskMeAnythingContext = createContext<AskMeAnythingContextProps>(
@@ -45,6 +46,8 @@ export const useAskMeAnythingContext = () => {
   const apiKey = useMemo(() => process.env.REACT_APP_AWS_LAMBDA_API_KEY, []);
 
   const handleStartConversation = useCallback(async () => {
+    setMessages([]);
+    setMessageCount(0);
     if (!apiKey) {
       alert("API key is not set");
       return;
@@ -76,6 +79,37 @@ export const useAskMeAnythingContext = () => {
     }
     setIsLoading(false);
   }, [apiKey]);
+
+  const handleEndConversation = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      if (!apiKey) {
+        alert("API key is not set");
+        return;
+      }
+
+      const response = await fetch(
+        "https://api.aboodaniel.pl/end_conversation_with_me",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": apiKey,
+          },
+          body: JSON.stringify({
+            thread_id,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        alert("Failed to end conversation");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    setIsLoading(false);
+  }, [apiKey, thread_id]);
 
   const handleIsConversationLoading = useCallback(
     async (run_id) => {
@@ -159,7 +193,8 @@ export const useAskMeAnythingContext = () => {
     }
 
     const oldMessageCount = messageCount;
-    setMessageCount(oldMessageCount + 1);
+    const newMessageCount = oldMessageCount + 1;
+    setMessageCount(newMessageCount);
 
     setMessages([
       ...messages,
@@ -184,6 +219,7 @@ export const useAskMeAnythingContext = () => {
             thread_id,
             assistant_id,
             message,
+            isLastMessage: newMessageCount === maxMessages,
           }),
         }
       );
@@ -199,6 +235,9 @@ export const useAskMeAnythingContext = () => {
 
         // set messages to reversed messages
         setMessages(messages.reverse());
+        if (newMessageCount === maxMessages) {
+          await handleEndConversation();
+        }
       } else {
         alert("Failed to send message");
         setMessageCount(oldMessageCount);
@@ -213,6 +252,7 @@ export const useAskMeAnythingContext = () => {
   }, [
     apiKey,
     assistant_id,
+    handleEndConversation,
     handleIsConversationLoading,
     handleLoadConversation,
     maxMessages,
@@ -223,41 +263,6 @@ export const useAskMeAnythingContext = () => {
     thread_id,
   ]);
 
-  const handleEndConversation = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      if (!apiKey) {
-        alert("API key is not set");
-        return;
-      }
-
-      const response = await fetch(
-        "https://api.aboodaniel.pl/end_conversation_with_me",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": apiKey,
-          },
-          body: JSON.stringify({
-            thread_id,
-          }),
-        }
-      );
-
-      if (response.ok) {
-        setThreadId(undefined);
-        setAssistantId(undefined);
-        setMessages([]);
-      } else {
-        alert("Failed to end conversation");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-    setIsLoading(false);
-  }, [apiKey, thread_id]);
-
   useEffect(() => {
     // start conversation when thread_id is set
     (async () => {
@@ -267,20 +272,7 @@ export const useAskMeAnythingContext = () => {
         console.log("start conversation");
       }
     })();
-
-    return () => {
-      // end conversation when thread_id is unset
-      if (thread_id) {
-        handleEndConversation();
-        console.log("end conversation");
-      }
-    };
-  }, [
-    handleEndConversation,
-    handleStartConversation,
-    messageInputRef,
-    thread_id,
-  ]);
+  }, [handleStartConversation, messageInputRef, thread_id]);
 
   return {
     messages,
@@ -293,6 +285,7 @@ export const useAskMeAnythingContext = () => {
     maxMessages,
     setMessage,
     handleSendMessage,
+    handleStartConversation,
   };
 };
 
