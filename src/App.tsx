@@ -17,9 +17,6 @@ import PageNavigatorBar from "./components/molecules/general/PageNavigatorBar";
 import PageNavigatorBarLink from "./components/atoms/buttons and links/PageNavigatorBarLink";
 import Footer from "./components/molecules/general/Footer";
 
-// utils imports
-import Spacer from "./components/atoms/utilities/Spacer";
-
 import MyCVPageLayout from "./components/layouts/pages/general/MyCVPageLayout";
 import NavigationProvider from "./components/context providers/NavigationProvider";
 
