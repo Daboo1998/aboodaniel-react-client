@@ -32,6 +32,11 @@ const AskMeAnythingPage: React.FC = () => {
     }
   };
 
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    handleSendMessage();
+  };
+
   return (
     <PageLayout
       title="Home"
@@ -80,7 +85,7 @@ const AskMeAnythingPage: React.FC = () => {
         {/* Here show input for the user and on the right a send button which triggers the handleSendMessage */}
         <styles.Form
           className="flex flex-row w-full gap-10 !pt-[5px]"
-          onSubmit={handleSendMessage}
+          onSubmit={handleSubmit}
         >
           <styles.messageInput
             onChange={handleInputChange}
