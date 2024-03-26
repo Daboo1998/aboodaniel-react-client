@@ -251,7 +251,28 @@ export const useAskMeAnythingContext = ({
           await new Promise((resolve) => setTimeout(resolve, 6000));
         }
 
-        const messages = await handleLoadConversation();
+        let messages = await handleLoadConversation();
+
+        if (
+          messages[0]?.message.includes(
+            "[ASSISTANT_MESSAGE]Stop Conversation[/ASSISTANT_MESSAGE]"
+          )
+        ) {
+          console.log("Stop Conversation by assistant");
+          setThreadId(undefined);
+        }
+
+        messages = messages
+          .map((msg: Message) => {
+            return {
+              ...msg,
+              message: msg.message.replace(
+                /\[ASSISTANT_MESSAGE\].*?\[\/ASSISTANT_MESSAGE\]/gs,
+                ""
+              ),
+            };
+          })
+          .filter((msg: Message) => msg.message.trim() !== "");
 
         // set messages to reversed messages
         setMessages(messages.reverse());
@@ -271,6 +292,7 @@ export const useAskMeAnythingContext = ({
     assistant_id,
     handleIsConversationLoading,
     handleLoadConversation,
+    setThreadId,
     isDeveloper,
     maxMessages,
     message,
