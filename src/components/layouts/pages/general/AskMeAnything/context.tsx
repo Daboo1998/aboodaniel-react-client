@@ -115,6 +115,10 @@ export const useAskMeAnythingContext = () => {
 
   const handleIsConversationLoading = useCallback(
     async (run_id) => {
+      if (!thread_id) {
+        return false;
+      }
+
       if (!apiKey) {
         alert("API key is not set");
         return false;
@@ -136,7 +140,6 @@ export const useAskMeAnythingContext = () => {
 
           return isRunning;
         } else {
-          alert("Failed to check if conversation is loading");
           return false;
         }
       } catch (error) {
@@ -149,6 +152,10 @@ export const useAskMeAnythingContext = () => {
 
   const handleLoadConversation = useCallback(async () => {
     try {
+      if (!thread_id) {
+        return messages;
+      }
+
       if (!apiKey) {
         alert("API key is not set");
         return messages;
@@ -174,7 +181,6 @@ export const useAskMeAnythingContext = () => {
 
         return messages;
       } else {
-        alert("Failed to load conversation");
         return messages;
       }
     } catch (error) {
@@ -273,19 +279,21 @@ export const useAskMeAnythingContext = () => {
 
     return () => {
       if (messageCount === 0 && thread_id) {
+        console.log("end conversation");
         handleEndConversation();
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     handleEndConversation,
     handleStartConversation,
-    messageCount,
     messageInputRef,
     thread_id,
   ]);
 
   useEffect(() => {
     window.onbeforeunload = function () {
+      console.log("onbeforeunload");
       if (messageCount === 0 && thread_id) {
         handleEndConversation();
       }
