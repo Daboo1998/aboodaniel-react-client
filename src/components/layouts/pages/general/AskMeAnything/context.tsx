@@ -24,13 +24,18 @@ export interface AskMeAnythingContextProps {
   setMessage: (message: string) => void;
   handleSendMessage: () => void;
   handleStartConversation: () => void;
+  handleEndConversation: (threadId: string | undefined) => void;
 }
 
 export const AskMeAnythingContext = createContext<AskMeAnythingContextProps>(
   {} as AskMeAnythingContextProps
 );
 
-export const useAskMeAnythingContext = () => {
+export const useAskMeAnythingContext = ({
+  isDeveloper,
+}: {
+  isDeveloper: boolean;
+}) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [thread_id, setThreadId] = useState<string | undefined>();
   const [assistant_id, setAssistantId] = useState<string | undefined>();
@@ -80,38 +85,45 @@ export const useAskMeAnythingContext = () => {
     setIsLoading(false);
   }, [apiKey]);
 
-  const handleEndConversation = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      if (!apiKey) {
-        alert("API key is not set");
+  const handleEndConversation = useCallback(
+    async (threadId: string | undefined = thread_id) => {
+      if (!threadId) {
         return;
       }
 
-      const response = await fetch(
-        "https://api.aboodaniel.pl/end_conversation_with_me",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": apiKey,
-          },
-          body: JSON.stringify({
-            thread_id,
-          }),
+      setIsLoading(true);
+      try {
+        if (!apiKey) {
+          alert("API key is not set");
+          return;
         }
-      );
 
-      setThreadId(undefined);
+        const response = await fetch(
+          "https://api.aboodaniel.pl/end_conversation_with_me",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": apiKey,
+            },
+            body: JSON.stringify({
+              thread_id: threadId,
+            }),
+          }
+        );
 
-      if (!response.ok) {
-        alert("Failed to end conversation");
+        setThreadId(undefined);
+
+        if (!response.ok) {
+          alert("Failed to end conversation");
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
-    setIsLoading(false);
-  }, [apiKey, thread_id]);
+      setIsLoading(false);
+    },
+    [apiKey, thread_id]
+  );
 
   const handleIsConversationLoading = useCallback(
     async (run_id) => {
@@ -190,7 +202,7 @@ export const useAskMeAnythingContext = () => {
   }, [apiKey, messages, thread_id]);
 
   const handleSendMessage = useCallback(async () => {
-    if (messageCount >= maxMessages) {
+    if (!isDeveloper && messageCount >= maxMessages) {
       alert("Max messages reached");
       return;
     }
@@ -259,35 +271,12 @@ export const useAskMeAnythingContext = () => {
     assistant_id,
     handleIsConversationLoading,
     handleLoadConversation,
+    isDeveloper,
     maxMessages,
     message,
     messageCount,
     messageInputRef,
     messages,
-    thread_id,
-  ]);
-
-  useEffect(() => {
-    // start conversation when thread_id is set
-    (async () => {
-      if (!thread_id) {
-        await handleStartConversation();
-        messageInputRef.current?.focus();
-        console.log("start conversation");
-      }
-    })();
-
-    return () => {
-      if (messageCount === 0 && thread_id) {
-        console.log("end conversation");
-        handleEndConversation();
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    handleEndConversation,
-    handleStartConversation,
-    messageInputRef,
     thread_id,
   ]);
 
@@ -317,11 +306,12 @@ export const useAskMeAnythingContext = () => {
     setMessage,
     handleSendMessage,
     handleStartConversation,
+    handleEndConversation,
   };
 };
 
 export const AskMeAnythingProvider: React.FC = ({ children }) => {
-  const askMeAnything = useAskMeAnythingContext();
+  const askMeAnything = useAskMeAnythingContext({ isDeveloper: false });
 
   return (
     <AskMeAnythingContext.Provider value={askMeAnything}>

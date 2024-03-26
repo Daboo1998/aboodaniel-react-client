@@ -119,6 +119,10 @@ export const Form = styled.form`
   gap: 10px;
   padding-top: 5px !important;
 
+  &.isDeveloper {
+    margin-top: 40px;
+  }
+
   @media screen and (min-width: 430px) {
     flex-direction: row;
   }
@@ -151,6 +155,27 @@ export const copyButton = styled.button`
   @media screen and (min-width: 768px) {
     height: 15px;
     width: 15px;
+  }
+`;
+
+export const developerInformation = styled.div`
+  font-size: 0.75rem;
+  align-self: flex-end;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  * {
+    color: red;
+  }
+
+  button {
+    align-self: flex-start;
+    color: #3182ce;
+
+    &:hover {
+      color: #319795;
+    }
   }
 `;
 

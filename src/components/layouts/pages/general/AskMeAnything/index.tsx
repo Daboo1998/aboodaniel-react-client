@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PageLayout from "../../PageLayout";
 import { cx } from "../../../../../utils";
 
+import { useAuth } from "../../../../../contexts/AuthContext";
 import * as styles from "./AskmeAnything.styles";
 import { useAskMeAnythingContext } from "./context";
 
@@ -12,6 +13,8 @@ const AskMeAnythingPage: React.FC = () => {
     process.env.REACT_APP_MAX_MESSAGE_LENGTH ?? "0"
   );
 
+  const { isLoggedIn, isDeveloper } = useAuth();
+
   const {
     messages,
     message,
@@ -19,10 +22,16 @@ const AskMeAnythingPage: React.FC = () => {
     messageInputRef,
     maxMessages,
     messageCount,
+    thread_id,
+    assistant_id,
     setMessage,
     handleSendMessage,
     handleStartConversation,
-  } = useAskMeAnythingContext();
+    handleEndConversation,
+  } = useAskMeAnythingContext({ isDeveloper });
+
+  const threadIdRef = useRef(thread_id);
+  const messagesCountRef = useRef(messageCount);
 
   const [copiedMessageIndex, setCopiedMessageIndex] = useState<number | null>(
     null
@@ -47,14 +56,32 @@ const AskMeAnythingPage: React.FC = () => {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    messageCount >= maxMessages
-      ? handleStartConversation()
-      : handleSendMessage();
+    if (messageCount < maxMessages && thread_id) {
+      handleSendMessage();
+    } else {
+      handleStartConversation();
+    }
   };
 
   const copyToClipboard = (message: string) => {
     navigator.clipboard.writeText(message);
   };
+
+  useEffect(() => {
+    threadIdRef.current = thread_id;
+    messagesCountRef.current = messageCount;
+  }, [thread_id, messageCount]);
+
+  useEffect(() => {
+    handleStartConversation();
+
+    return () => {
+      if (threadIdRef.current && messagesCountRef.current === 0) {
+        handleEndConversation(threadIdRef.current);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <PageLayout
@@ -72,6 +99,25 @@ const AskMeAnythingPage: React.FC = () => {
         >
           Ask me anything!
         </h1>
+        {isLoggedIn && isDeveloper && (
+          <styles.developerInformation>
+            <p>
+              <b>Assistant:</b> {assistant_id}
+            </p>
+            <p>
+              <b>Thread:</b> {thread_id}
+            </p>
+            {thread_id ? (
+              <button onClick={() => handleEndConversation()}>
+                End Conversation
+              </button>
+            ) : (
+              <button onClick={() => handleStartConversation()}>
+                Start Conversation
+              </button>
+            )}
+          </styles.developerInformation>
+        )}
         <p>
           You can ask me anything about Daniel Aboo. I will try to answer your
           questions as best as I can 😁
@@ -130,15 +176,20 @@ const AskMeAnythingPage: React.FC = () => {
           )}
         </styles.messagesList>
         {/* Add messages/maxMessages */}
-        <p className="text-right text-gray-600 pt-10">
-          {messageCount}/{maxMessages}
-        </p>
+        {!isDeveloper && (
+          <p className="text-right text-gray-600 pt-10">
+            {messageCount}/{maxMessages}
+          </p>
+        )}
         {/* Here show input for the user and on the right a send button which triggers the handleSendMessage */}
-        <styles.Form onSubmit={handleSubmit}>
+        <styles.Form
+          onSubmit={handleSubmit}
+          className={cx(isDeveloper && "isDeveloper")}
+        >
           <styles.messageInput
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            disabled={isLoading || messageCount >= maxMessages}
+            disabled={isLoading || messageCount >= maxMessages || !thread_id}
             value={message}
             ref={messageInputRef}
             minRows={minTextareaRows}
@@ -154,7 +205,9 @@ const AskMeAnythingPage: React.FC = () => {
             </styles.dotsContainer>
           ) : (
             <styles.submitButton type="submit" disabled={isLoading}>
-              {messageCount >= maxMessages ? "Start new conversation" : "Send"}
+              {messageCount >= maxMessages || !thread_id
+                ? "Start new conversation"
+                : "Send"}
             </styles.submitButton>
           )}
         </styles.Form>
