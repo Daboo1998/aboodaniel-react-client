@@ -31,6 +31,9 @@ function App() {
                     Experience
                 </PageNavigatorBarLink> */}
             <PageNavigatorBarLink to="/contact">Contact</PageNavigatorBarLink>
+            <PageNavigatorBarLink to="/assistant">
+              My Assistant (Beta)
+            </PageNavigatorBarLink>
           </PageNavigatorBar>
           <Switch>
             <Route exact path="/">
@@ -57,14 +60,14 @@ function App() {
             <Route exact path="/register">
               <RegisterPageLayout />
             </Route>
-            <Route exact path="/askMeAnything">
+            <Route exact path="/assistant">
               <AskMeAnythingLayout />
             </Route>
             <Route>
               <NotFoundPageLayout />
             </Route>
           </Switch>
-          <Footer />
+          <Footer isInsideMenu={false} />
         </div>
       </NavigationProvider>
     </BrowserRouter>

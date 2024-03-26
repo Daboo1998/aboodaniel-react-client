@@ -13,8 +13,4 @@ export const PageStyled = styled.div`
   @media (prefers-color-scheme: dark) {
     background-color: #1f1f1f;
   }
-
-  @media screen and (min-width: 768px) {
-    flex-grow: unset;
-  }
 `;

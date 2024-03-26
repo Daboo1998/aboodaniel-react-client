@@ -5,12 +5,22 @@ import Link from "../../atoms/buttons and links/Link";
 import { useAuth } from "../../../contexts/AuthContext";
 
 import * as styled from "./Footer.styled";
+import { cx } from "../../../utils";
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  isInsideMenu: boolean;
+}
+
+const Footer: React.FC<FooterProps> = ({ isInsideMenu }) => {
   const auth = useAuth();
 
   return (
-    <styled.FooterStyled className="flex flex-col bg-background-light dark:bg-background-dark pb-6 space-y-4">
+    <styled.FooterStyled
+      className={cx(
+        "flex flex-col bg-background-light dark:bg-background-dark pb-6 space-y-4",
+        isInsideMenu ? "Menu" : ""
+      )}
+    >
       <div className="flex flex-row">
         <a
           href="https://facebook.com/danny.aboo.5"

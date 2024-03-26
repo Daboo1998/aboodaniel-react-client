@@ -3,6 +3,7 @@ import { ReactComponent as MenuIcon } from "../../../images/icons/menuIcon.svg";
 import { ReactComponent as CloseIcon } from "../../../images/icons/closeIcon.svg";
 import useNavigation from "../../../hooks/useNavigation";
 import { cx } from "../../../utils";
+import Footer from "./Footer";
 
 export const PageNavigatorBarContext = React.createContext({
   isHidden: false,
@@ -49,6 +50,7 @@ const PageNavigatorBar: React.FC<React.DOMAttributes<HTMLDivElement>> = ({
           )}
         >
           {children}
+          {!isHidden && <Footer isInsideMenu={true} />}
         </div>
       </div>
     </PageNavigatorBarContext.Provider>
