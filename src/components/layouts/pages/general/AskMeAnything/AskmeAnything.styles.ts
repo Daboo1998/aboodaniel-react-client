@@ -135,6 +135,39 @@ export const Form = styled.form`
   }
 `;
 
+export const copyButton = styled.button`
+  align-self: flex-end;
+  height: 24px;
+  width: 24px;
+
+  svg {
+    color: black;
+
+    &:hover {
+      color: #3182ce;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    height: 15px;
+    width: 15px;
+  }
+`;
+
+export const copiedText = styled.p`
+  color: #3182ce;
+  font-size: 0.75rem; /* Adjusted to prevent UI jumps across various breakpoints */
+  align-self: flex-end;
+  height: 24px;
+  display: flex;
+  align-items: center;
+
+  @media screen and (min-width: 768px) {
+    font-size: 0.5rem;
+    height: 15px;
+  }
+`;
+
 export const TextMarkdown = styled(ReactMarkdown)`
   * {
     color: black;

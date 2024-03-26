@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PageLayout from "../../PageLayout";
 import { cx } from "../../../../../utils";
 
@@ -24,6 +24,10 @@ const AskMeAnythingPage: React.FC = () => {
     handleStartConversation,
   } = useAskMeAnythingContext();
 
+  const [copiedMessageIndex, setCopiedMessageIndex] = useState<number | null>(
+    null
+  );
+
   const handleInputChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
     event
   ) => {
@@ -46,6 +50,10 @@ const AskMeAnythingPage: React.FC = () => {
     messageCount >= maxMessages
       ? handleStartConversation()
       : handleSendMessage();
+  };
+
+  const copyToClipboard = (message: string) => {
+    navigator.clipboard.writeText(message);
   };
 
   return (
@@ -76,13 +84,42 @@ const AskMeAnythingPage: React.FC = () => {
               style={{ maxWidth: "70%" }}
               className={cx(
                 // I want you to style differently the messages from the user and the assistant so that the user messages are on the left and the assistant messages are on the right and also make sure to make background different and text different. remember about the dark and light theme
-                "px-4 py-2 rounded-md",
+                "px-4 py-2 rounded-md flex flex-col space-y-2",
                 message.role === "user"
                   ? "bg-blue-500 text-white self-start"
                   : "bg-gray-200 dark:bg-green-300 self-end"
               )}
             >
               <styles.TextMarkdown>{message.message}</styles.TextMarkdown>
+              {message.role !== "user" &&
+                (copiedMessageIndex !== index ? (
+                  <styles.copyButton
+                    onClick={() => {
+                      copyToClipboard(message.message);
+                      setCopiedMessageIndex(index);
+                      setTimeout(() => setCopiedMessageIndex(null), 2000);
+                    }}
+                    style={{ cursor: "pointer" }}
+                    title="Copy to clipboard"
+                  >
+                    <svg
+                      clipRule="evenodd"
+                      fillRule="evenodd"
+                      strokeLinejoin="round"
+                      strokeMiterlimit="2"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                    >
+                      <path
+                        d="m6 19v2c0 .621.52 1 1 1h2v-1.5h-1.5v-1.5zm7.5 3h-3.5v-1.5h3.5zm4.5 0h-3.5v-1.5h3.5zm4-3h-1.5v1.5h-1.5v1.5h2c.478 0 1-.379 1-1zm-1.5-1v-3.363h1.5v3.363zm0-4.363v-3.637h1.5v3.637zm-13-3.637v3.637h-1.5v-3.637zm11.5-4v1.5h1.5v1.5h1.5v-2c0-.478-.379-1-1-1zm-10 0h-2c-.62 0-1 .519-1 1v2h1.5v-1.5h1.5zm4.5 1.5h-3.5v-1.5h3.5zm3-1.5v-2.5h-13v13h2.5v-1.863h1.5v3.363h-4.5c-.48 0-1-.379-1-1v-14c0-.481.38-1 1-1h14c.621 0 1 .522 1 1v4.5h-3.5v-1.5z"
+                        fillRule="nonzero"
+                      />
+                    </svg>
+                  </styles.copyButton>
+                ) : (
+                  <styles.copiedText>Copied to clipboard!</styles.copiedText>
+                ))}
             </div>
           ))}
           {/* If loading and last message is with .role == "user", add a message with three dots loader animated */}
