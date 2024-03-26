@@ -8,7 +8,6 @@ export const PageStyled = styled.div`
   background-color: #f3f3f3;
   padding-top: 5rem;
   flex-grow: 1;
-  max-height: calc(100vh - 2rem);
 
   @media (prefers-color-scheme: dark) {
     background-color: #1f1f1f;
