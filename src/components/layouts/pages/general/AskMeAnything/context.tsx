@@ -102,6 +102,8 @@ export const useAskMeAnythingContext = () => {
         }
       );
 
+      setThreadId(undefined);
+
       if (!response.ok) {
         alert("Failed to end conversation");
       }
@@ -235,9 +237,6 @@ export const useAskMeAnythingContext = () => {
 
         // set messages to reversed messages
         setMessages(messages.reverse());
-        if (newMessageCount === maxMessages) {
-          await handleEndConversation();
-        }
       } else {
         alert("Failed to send message");
         setMessageCount(oldMessageCount);
@@ -252,7 +251,6 @@ export const useAskMeAnythingContext = () => {
   }, [
     apiKey,
     assistant_id,
-    handleEndConversation,
     handleIsConversationLoading,
     handleLoadConversation,
     maxMessages,
@@ -272,7 +270,32 @@ export const useAskMeAnythingContext = () => {
         console.log("start conversation");
       }
     })();
-  }, [handleStartConversation, messageInputRef, thread_id]);
+
+    return () => {
+      if (messageCount === 0 && thread_id) {
+        handleEndConversation();
+      }
+    };
+  }, [
+    handleEndConversation,
+    handleStartConversation,
+    messageCount,
+    messageInputRef,
+    thread_id,
+  ]);
+
+  useEffect(() => {
+    window.onbeforeunload = function () {
+      if (messageCount === 0 && thread_id) {
+        handleEndConversation();
+      }
+      return true;
+    };
+
+    return () => {
+      window.onbeforeunload = null;
+    };
+  }, [handleEndConversation, messageCount, thread_id]);
 
   return {
     messages,
