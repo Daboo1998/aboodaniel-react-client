@@ -112,9 +112,14 @@ const AskMeAnythingPage: React.FC = () => {
                 End Conversation
               </button>
             ) : (
-              <button onClick={() => handleStartConversation()}>
-                Start Conversation
-              </button>
+              <>
+                <button onClick={() => handleStartConversation()}>
+                  Start Conversation
+                </button>
+                <button onClick={() => handleStartConversation(true)}>
+                  Start Conversation with Personal Assistant
+                </button>
+              </>
             )}
           </styles.developerInformation>
         )}

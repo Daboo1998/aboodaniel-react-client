@@ -50,40 +50,43 @@ export const useAskMeAnythingContext = ({
 
   const apiKey = useMemo(() => process.env.REACT_APP_AWS_LAMBDA_API_KEY, []);
 
-  const handleStartConversation = useCallback(async () => {
-    setMessages([]);
-    setMessageCount(0);
-    if (!apiKey) {
-      alert("API key is not set");
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-      const response = await fetch(
-        "https://api.aboodaniel.pl/start_conversation_with_me",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": apiKey,
-          },
-        }
-      );
-
-      if (response.ok) {
-        const { thread_id, assistant_id } = await response.json();
-
-        setThreadId(thread_id);
-        setAssistantId(assistant_id);
-      } else {
-        alert("Failed to start conversation");
+  const handleStartConversation = useCallback(
+    async (isPersonal: boolean = false) => {
+      setMessages([]);
+      setMessageCount(0);
+      if (!apiKey) {
+        alert("API key is not set");
+        return;
       }
-    } catch (error) {
-      console.error(error);
-    }
-    setIsLoading(false);
-  }, [apiKey]);
+
+      try {
+        setIsLoading(true);
+        const response = await fetch(
+          `https://api.aboodaniel.pl/start_conversation_with_me?isPrivate=${isPersonal}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": apiKey,
+            },
+          }
+        );
+
+        if (response.ok) {
+          const { thread_id, assistant_id } = await response.json();
+
+          setThreadId(thread_id);
+          setAssistantId(assistant_id);
+        } else {
+          alert("Failed to start conversation");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+      setIsLoading(false);
+    },
+    [apiKey]
+  );
 
   const handleEndConversation = useCallback(
     async (threadId: string | undefined = thread_id) => {

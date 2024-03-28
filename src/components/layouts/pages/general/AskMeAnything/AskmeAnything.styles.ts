@@ -16,7 +16,7 @@ export const dotsContainer = styled.div`
     margin-top: 0 !important;
     background-color: rgb(59 130 246);
 
-    @media screen and (min-width: 430px) {
+    @media screen and (min-width: 768px) {
       width: 25%;
     }
   }
@@ -106,7 +106,7 @@ export const submitButton = styled.button`
     cursor: not-allowed;
   }
 
-  @media screen and (min-width: 430px) {
+  @media screen and (min-width: 768px) {
     width: 25%;
   }
 `;
@@ -123,7 +123,7 @@ export const Form = styled.form`
     margin-top: 40px;
   }
 
-  @media screen and (min-width: 430px) {
+  @media screen and (min-width: 768px) {
     flex-direction: row;
   }
 
@@ -132,7 +132,7 @@ export const Form = styled.form`
     top: -40px;
     left: 5px;
 
-    @media screen and (min-width: 430px) {
+    @media screen and (min-width: 768px) {
       right: calc(26% + 5px);
       left: unset;
     }
@@ -356,7 +356,7 @@ export const messageInput = styled(TextareaAutosize)`
     cursor: not-allowed;
   }
 
-  @media screen and (min-width: 430px) {
+  @media screen and (min-width: 768px) {
     width: 75%;
   }
 
