@@ -13,7 +13,7 @@ const AskMeAnythingPage: React.FC = () => {
     process.env.REACT_APP_MAX_MESSAGE_LENGTH ?? "0"
   );
 
-  const { isLoggedIn, isDeveloper } = useAuth();
+  const { isLoggedIn, isDeveloper, isOwner } = useAuth();
 
   const {
     messages,
@@ -59,7 +59,7 @@ const AskMeAnythingPage: React.FC = () => {
     if (messageCount < maxMessages && thread_id) {
       handleSendMessage();
     } else {
-      handleStartConversation();
+      handleStartConversation(isLoggedIn && isOwner);
     }
   };
 
@@ -73,7 +73,7 @@ const AskMeAnythingPage: React.FC = () => {
   }, [thread_id, messageCount]);
 
   useEffect(() => {
-    handleStartConversation();
+    handleStartConversation(isLoggedIn && isOwner);
 
     return () => {
       if (threadIdRef.current && messagesCountRef.current === 0) {
@@ -99,34 +99,49 @@ const AskMeAnythingPage: React.FC = () => {
         >
           Ask me anything!
         </h1>
-        {isLoggedIn && isDeveloper && (
-          <styles.developerInformation>
-            <p>
-              <b>Assistant:</b> {assistant_id}
-            </p>
-            <p>
-              <b>Thread:</b> {thread_id}
-            </p>
-            {thread_id ? (
-              <button onClick={() => handleEndConversation()}>
-                End Conversation
-              </button>
-            ) : (
-              <>
-                <button onClick={() => handleStartConversation()}>
-                  Start Conversation
+        {isLoggedIn &&
+          isDeveloper &&
+          new URLSearchParams(window.location.search).get("debug_mode") ===
+            "true" && (
+            <styles.developerInformation>
+              <p>
+                <b>Assistant:</b> {assistant_id}
+              </p>
+              <p>
+                <b>Thread:</b> {thread_id}
+              </p>
+              {thread_id ? (
+                <button onClick={() => handleEndConversation()}>
+                  End Conversation
                 </button>
-                <button onClick={() => handleStartConversation(true)}>
-                  Start Conversation with Personal Assistant
-                </button>
-              </>
-            )}
-          </styles.developerInformation>
+              ) : (
+                <>
+                  <button
+                    onClick={() =>
+                      handleStartConversation(isLoggedIn && isOwner)
+                    }
+                  >
+                    Start Conversation
+                  </button>
+                  {isLoggedIn && isOwner && (
+                    <button onClick={() => handleStartConversation(false)}>
+                      Start Conversation with General Assistant
+                    </button>
+                  )}
+                </>
+              )}
+            </styles.developerInformation>
+          )}
+        {isOwner ? (
+          <p>
+            Hi Daniel, I'm your personal assistant. How can I help you today?
+          </p>
+        ) : (
+          <p>
+            You can ask me anything about Daniel Aboo. I will try to answer your
+            questions as best as I can 😁
+          </p>
         )}
-        <p>
-          You can ask me anything about Daniel Aboo. I will try to answer your
-          questions as best as I can 😁
-        </p>
         {/* List messages */}
         <styles.messagesList>
           {messages.map((message, index) => (
