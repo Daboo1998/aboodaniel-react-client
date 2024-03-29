@@ -137,9 +137,11 @@ const AskMeAnythingPage: React.FC = () => {
             Hi Daniel, I'm your personal assistant. How can I help you today?
           </p>
         ) : (
-          <p>
+          <p className="text-center">
             You can ask me anything about Daniel Aboo. I will try to answer your
-            questions as best as I can 😁
+            questions as best as I can 😁 <br />
+            <br />I can also inform Daniel about anything, if you have any
+            questions to him directly.
           </p>
         )}
         {/* List messages */}

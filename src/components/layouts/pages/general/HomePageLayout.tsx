@@ -13,8 +13,9 @@ const HomePageLayout: React.FC = () => {
       <p className="text-center px-20">
         I'm building a new experience, which will take time. After experience I
         have gained and am still gaining, I can do better and will do better.
-        Please feel free to explore this old website, but in the future it will
-        be, well... better :)
+        Please feel free to explore this website, but in the future it will be,
+        well... better :) You can also ask my (virtual) assistant about anything
+        in My Assistant tab, just note its in Beta :)
       </p>
     </PageLayout>
   );
