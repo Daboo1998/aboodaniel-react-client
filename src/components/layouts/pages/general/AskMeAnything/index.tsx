@@ -145,9 +145,8 @@ const AskMeAnythingPage: React.FC = () => {
         {/* List messages */}
         <styles.messagesList>
           {messages.map((message, index) => (
-            <div
+            <styles.Message
               key={index}
-              style={{ maxWidth: "70%" }}
               className={cx(
                 // I want you to style differently the messages from the user and the assistant so that the user messages are on the left and the assistant messages are on the right and also make sure to make background different and text different. remember about the dark and light theme
                 "px-4 py-2 rounded-md flex flex-col space-y-2",
@@ -186,7 +185,7 @@ const AskMeAnythingPage: React.FC = () => {
                 ) : (
                   <styles.copiedText>Copied to clipboard!</styles.copiedText>
                 ))}
-            </div>
+            </styles.Message>
           ))}
           {/* If loading and last message is with .role == "user", add a message with three dots loader animated */}
           {isLoading && messages[messages.length - 1]?.role === "user" && (

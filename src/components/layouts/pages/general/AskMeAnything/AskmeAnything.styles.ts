@@ -196,6 +196,9 @@ export const copiedText = styled.p`
 export const TextMarkdown = styled(ReactMarkdown)`
   * {
     color: black;
+
+    overflow-wrap: break-word;
+    hyphens: manual;
   }
 
   li {
@@ -339,6 +342,10 @@ export const messagesList = styled.div`
 
   margin-top: 40px;
   flex-grow: 1;
+`;
+
+export const Message = styled.div`
+  max-width: 70%;
 `;
 
 export const messageInput = styled(TextareaAutosize)`
