@@ -82,12 +82,12 @@ const Footer: React.FC<FooterProps> = ({ isInsideMenu }) => {
             </>
           )}
         </div>
-        <Link
+        {/* <Link
           to="/cv"
           className="text-gray-600 text-center >md:hover:text-gray-800"
         >
           Curriculum Vitae
-        </Link>
+        </Link> */}
         {auth.isDeveloper && (
           <Link
             to="/developerTools"
