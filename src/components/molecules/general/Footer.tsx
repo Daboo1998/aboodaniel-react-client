@@ -36,7 +36,7 @@ const Footer: React.FC<FooterProps> = ({ isInsideMenu }) => {
       </S.SocialIcons>
       <br />
       <S.Content>
-        <S.AuthLinksWrapper $column={auth.isLoggedIn}>
+        <S.AuthLinksWrapper $column={!!auth.isLoggedIn}>
           {!auth.isLoggedIn ? (
             <>
               <FooterNavLink to="/login">Login</FooterNavLink>
@@ -96,7 +96,6 @@ const FooterButton = styled.button`
 
 const HighlightSpan = styled.span`
   color: #1e40af; /* blue-800 */
-  ${media.down && media.down('dark') ? '' : ''};
 `;
 
 const SmallText = styled.p`
