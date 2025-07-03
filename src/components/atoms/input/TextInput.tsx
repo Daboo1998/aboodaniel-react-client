@@ -1,4 +1,32 @@
 import React from "react";
+import styled from "styled-components";
+
+// --- Styled components ----------------------------------------------------
+
+const Wrapper = styled.div`
+  width: 100%;
+  color: ${({ theme }) => theme.colors.gray900};
+  font-family: sans-serif;
+  font-weight: bold;
+`;
+
+const StyledLabel = styled.label`
+  display: block;
+  margin-bottom: 0.5rem;
+`;
+
+const StyledInput = styled.input`
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  border: 1px solid ${({ theme }) => theme.colors.gray600};
+  transition: box-shadow 0.2s ease;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+  }
+`;
 
 export interface TextInputProps {
     name: string;
@@ -24,14 +52,21 @@ const TextInput: React.FC<TextInputProps> = ({
         onChange?.(e.target.value);
     };
 
-    return <p className="text-gray-800 font-sans font-bold w-full">
-        <label htmlFor={name} className="mb-2">
-            <p>{label} {required && <span className="text-red-600">*</span>}</p>
-            <input type={isPassword ? "password" : "text"} value={value} aria-invalid onChange={handleChange} name={name}
-                   placeholder={placeholder ? placeholder : ""}
-                   className="border rounded transition border-gray-200 box-shadow-inner py-2 px-4 mb-2 w-full" />
-        </label>
-    </p>;
+    return (
+        <Wrapper>
+            <StyledLabel htmlFor={name}>
+                {label} {required && <span style={{ color: "#dc2626" }}>*</span>}
+                <StyledInput
+                    type={isPassword ? "password" : "text"}
+                    value={value}
+                    aria-invalid
+                    onChange={handleChange}
+                    name={name}
+                    placeholder={placeholder || ""}
+                />
+            </StyledLabel>
+        </Wrapper>
+    );
 };
 
 export default TextInput;
