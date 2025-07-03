@@ -303,6 +303,8 @@ export const TextMarkdown = styled(ReactMarkdown)`
     background-color: #f3f4f6;
     padding: 15px;
     border-radius: 5px;
+    white-space: pre-wrap;
+    word-break: break-word;
     overflow-x: auto;
     margin-top: 15px;
   }
