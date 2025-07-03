@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 import useNavigation from "../../../hooks/useNavigation";
 
 export interface LinkProps {
@@ -28,12 +29,19 @@ const Link: React.FC<LinkProps> = ({
     };
 
     return (
-        <>
-            <button {...props} onClick={handleClick}>
-                {children}
-            </button>
-        </>
+        <StyledButton {...props} onClick={handleClick}>
+            {children}
+        </StyledButton>
     );
 };
+
+// basic unstyled button wrapper (inherit color etc.). Extra className still supported via props.
+const StyledButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+`;
 
 export default Link;

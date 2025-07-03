@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import Link, { LinkProps } from "./Link";
 import { PageNavigatorBarContext } from "../../molecules/general/PageNavigatorBar";
-import { cx } from "../../../utils";
+import styled from "styled-components";
+import { media } from "../../../utils/media";
 import useNavigation from "../../../hooks/useNavigation";
 
 export interface PageNavigatorBarLinkProps extends LinkProps {}
@@ -19,19 +20,38 @@ const PageNavigatorBarLink: React.FC<PageNavigatorBarLinkProps> = ({
   };
 
   return (
-    <Link
-      to={to}
-      className={cx(
-        ">md:hover:bg-gray-200 >md:dark:hover:bg-black <md:border-b border-black p-2 pb-6 pt-6 >md:p-4 >md:flex-shrink-0",
-        to === currentPage
-          ? "bg-gray-200 dark:bg-black"
-          : "bg-background-light dark:bg-background-dark"
-      )}
-      onClick={handleClick}
-    >
+    <StyledNavLink onClick={handleClick} to={to} $active={to === currentPage}>
       {children}
-    </Link>
+    </StyledNavLink>
   );
 };
+
+// ----------------------------- styled components ---------------------------
+
+interface StyledProps {
+  $active: boolean;
+}
+
+const StyledNavLink = styled(Link)<StyledProps>`
+  display: block;
+  padding: 0.5rem; /* p-2 */
+  padding-top: 1.5rem; /* pt-6 */
+  padding-bottom: 1.5rem; /* pb-6 */
+  border-bottom: 1px solid black;
+  background: ${({ $active, theme }) =>
+    $active ? "#e5e7eb" : theme.colors.backgroundLight || "#f3f3f3"};
+
+  ${media.up("md")}{
+    border-bottom: none;
+    padding: 1rem; /* p-4 */
+    flex-shrink: 0;
+    background: ${({ $active, theme }) =>
+      $active ? "#e5e7eb" : theme.colors.backgroundLight || "#f3f3f3"};
+
+    &:hover {
+      background: #e5e7eb;
+    }
+  }
+`;
 
 export default PageNavigatorBarLink;
