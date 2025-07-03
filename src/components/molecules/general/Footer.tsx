@@ -4,8 +4,10 @@ import { ReactComponent as LinkedInIcon } from "../../../images/icons/linkedInIc
 import Link from "../../atoms/buttons and links/Link";
 import { useAuth } from "../../../contexts/AuthContext";
 
-import * as styled from "./Footer.styled";
-import { cx } from "../../../utils";
+import * as S from "./Footer.styled";
+import styled from "styled-components";
+import { media } from "../../../utils/media";
+import { css } from "styled-components";
 
 interface FooterProps {
   isInsideMenu: boolean;
@@ -15,99 +17,91 @@ const Footer: React.FC<FooterProps> = ({ isInsideMenu }) => {
   const auth = useAuth();
 
   return (
-    <styled.FooterStyled
-      className={cx(
-        "flex flex-col bg-background-light dark:bg-background-dark pb-6 space-y-4",
-        isInsideMenu ? "Menu" : ""
-      )}
-    >
-      <div className="flex flex-row">
-        <a
+    <S.FooterStyled $insideMenu={isInsideMenu}>
+      <S.SocialIcons>
+        <S.IconLink
           href="https://facebook.com/danny.aboo.5"
           target="_blank"
           rel="noopener noreferrer"
-          className="p-2"
         >
           <FacebookIcon />
-        </a>
-        <a
+        </S.IconLink>
+        <S.IconLink
           href="https://www.linkedin.com/in/danielaboo"
           target="_blank"
           rel="noopener noreferrer"
-          className="p-2"
         >
           <LinkedInIcon />
-        </a>
-      </div>
+        </S.IconLink>
+      </S.SocialIcons>
       <br />
-      <div className="flex flex-col items-center">
-        <div
-          className={`flex ${
-            auth.isLoggedIn ? "flex-col" : "flex-row"
-          } space-x-2`}
-        >
+      <S.Content>
+        <S.AuthLinksWrapper $column={auth.isLoggedIn}>
           {!auth.isLoggedIn ? (
             <>
-              <Link
-                to="/login"
-                className="text-gray-600 text-center >md:hover:text-gray-800"
-              >
-                Login
-              </Link>
-              <Link
-                to="/register"
-                className="text-gray-600 text-center >md:hover:text-gray-800"
-              >
-                Register
-              </Link>
+              <FooterNavLink to="/login">Login</FooterNavLink>
+              <FooterNavLink to="/register">Register</FooterNavLink>
             </>
           ) : (
             <>
               <p>
-                Logged in as{" "}
+                Logged in as{' '}
                 {auth.user && (
-                  <span className="text-center text-blue-800 dark:text-blue-300">
-                    {auth.user?.displayName
-                      ? auth.user.displayName
-                      : auth.user?.uid}
-                  </span>
+                  <HighlightSpan>
+                    {auth.user?.displayName || auth.user?.uid}
+                  </HighlightSpan>
                 )}
               </p>
-              <button
-                className="text-gray-600 text-center >md:hover:text-gray-800"
-                onClick={auth.logout}
-              >
+              <FooterButton type="button" onClick={auth.logout}>
                 Logout
-              </button>
+              </FooterButton>
             </>
           )}
-        </div>
-        <Link
-          to="/cv"
-          className="text-gray-600 text-center >md:hover:text-gray-800"
-        >
-          Curriculum Vitae
-        </Link>
+        </S.AuthLinksWrapper>
+        <FooterNavLink to="/cv">Curriculum Vitae</FooterNavLink>
         {auth.isDeveloper && (
-          <Link
-            to="/developerTools"
-            className="text-gray-600 text-center >md:hover:text-gray-800"
-          >
-            Developer Tools
-          </Link>
+          <FooterNavLink to="/developerTools">Developer Tools</FooterNavLink>
         )}
         {auth.isOwner && (
-          <Link
-            to="/messages"
-            className="text-gray-600 text-center >md:hover:text-gray-800"
-          >
-            Messages
-          </Link>
+          <FooterNavLink to="/messages">Messages</FooterNavLink>
         )}
-      </div>
-      <p className="text-center text-xs">© Aboo Daniel - All rights reserved</p>
-    </styled.FooterStyled>
+      </S.Content>
+      <SmallText>© Aboo Daniel - All rights reserved</SmallText>
+    </S.FooterStyled>
   );
 };
+
+// ----------------------- styled helpers inside footer ----------------------
+
+const baseInteractiveStyles = css`
+  color: #4b5563; /* gray-600 */
+  text-align: center;
+  ${media.up('md')} {
+    &:hover {
+      color: #1f2937; /* gray-800 */
+    }
+  }
+`;
+
+const FooterNavLink = styled(Link)`
+  ${baseInteractiveStyles}
+`;
+
+const FooterButton = styled.button`
+  ${baseInteractiveStyles}
+  background: none;
+  border: none;
+  cursor: pointer;
+`;
+
+const HighlightSpan = styled.span`
+  color: #1e40af; /* blue-800 */
+  ${media.down && media.down('dark') ? '' : ''};
+`;
+
+const SmallText = styled.p`
+  text-align: center;
+  font-size: 0.75rem; /* text-xs */
+`;
 
 export default Footer;
