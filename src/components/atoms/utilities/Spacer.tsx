@@ -1,7 +1,8 @@
 import React from 'react';
+import { StyledSpacer } from './Spacer.styled';
 
 const Spacer: React.FC = () => {
-    return <div className="flex-grow"/>
+    return <StyledSpacer />
 };
 
 export default Spacer;

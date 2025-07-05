@@ -1,6 +1,11 @@
 import React, {FormEventHandler} from 'react';
 import {useAuth} from "../../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
+import {
+    GoogleSignInButton,
+    GoogleIcon,
+    ButtonText
+} from "./SignInWithGoogleButton.styled";
 
 export interface SignInWithGoogleButtonProps {
     onError: (message: string) => void;
@@ -28,13 +33,10 @@ const SignInWithGoogleButton: React.FC<SignInWithGoogleButtonProps> = ({ onError
     };
 
     return (
-        <button
-            className="flex flex-row items-center p-2 border border-gray-200 rounded-lg w-max shadow-sm >md:hover:border-blue-800"
-            onClick={handleLoginWithGoogle}
-        >
-            <img className="w-5" src="images/googleIcon.png" alt="" />
-            <p className="flex-shrink-0 pl-2 font-light">Sign In with Google</p>
-        </button>
+        <GoogleSignInButton onClick={handleLoginWithGoogle}>
+            <GoogleIcon src="images/googleIcon.png" alt="" />
+            <ButtonText>Sign In with Google</ButtonText>
+        </GoogleSignInButton>
     );
 };
 

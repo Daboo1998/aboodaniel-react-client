@@ -8,6 +8,15 @@ import Role from "../../../data/Role";
 import RoleComponent from "./RoleComponent";
 import Button, {ButtonType} from "../../atoms/buttons and links/Button";
 import {ReactComponent as TrashIcon} from "../../../images/icons/trash.svg";
+import {
+    DevelopmentToolsContainer,
+    DevelopmentToolsTitle,
+    RolesListContainer,
+    RolesListHeader,
+    RolesListTitle,
+    DeleteButton,
+    RolesList
+} from "./DevelopmentTools.styled";
 
 const DevelopmentTools: React.FC = () => {
     const [rolesList, setRolesList] = useState<Role []>([]);
@@ -98,28 +107,28 @@ const DevelopmentTools: React.FC = () => {
     }, [refreshIndicator]);
 
     return (
-        <div>
-            <h1>Development Tools</h1>
+        <DevelopmentToolsContainer>
+            <DevelopmentToolsTitle>Development Tools</DevelopmentToolsTitle>
             <AddRolePopup isPopupShown={isAddRolePopupShown} hide={hideAddRolePopup} onAdded={handleChange}/>
             <AddUserPopup role={selectedRoleType} isPopupShown={isAddUserPopupShown} hide={hideAddUserPopup} onAdded={handleChange} />
-            <div className="mt-4 border border-black dark:border-white w-full">
-                <div className="flex flex-row border-b border-black dark:border-white items-center px-2 space-x-2">
-                    <h2 className="">Roles list</h2>
+            <RolesListContainer>
+                <RolesListHeader>
+                    <RolesListTitle>Roles list</RolesListTitle>
                     <Spacer />
                     <Button action={showAddRolePopup} label="Add Role" type={ButtonType.constructive}/>
-                    <button onClick={handleDelete} >
-                        <TrashIcon className="w-5 text-red-600 >md:hover:text-red-900 fill-current" />
-                    </button>
-                </div>
-                <ul className="px-2">
+                    <DeleteButton onClick={handleDelete}>
+                        <TrashIcon />
+                    </DeleteButton>
+                </RolesListHeader>
+                <RolesList>
                     {
                         rolesList?.map((role) => {
-                            return <RoleComponent role={role} onRoleCheck={handleRoleCheck} onUserCheck={handleUserCheck} onShowAddUserPopup={handleShowAddUserPopup}/>
+                            return <RoleComponent key={role.id} role={role} onRoleCheck={handleRoleCheck} onUserCheck={handleUserCheck} onShowAddUserPopup={handleShowAddUserPopup}/>
                         })
                     }
-                </ul>
-            </div>
-        </div>
+                </RolesList>
+            </RolesListContainer>
+        </DevelopmentToolsContainer>
     );
 };
 

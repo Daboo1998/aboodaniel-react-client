@@ -1,7 +1,17 @@
 import Role from "../../../data/Role";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Spacer from "../../atoms/utilities/Spacer";
-import Button, {ButtonType} from "../../atoms/buttons and links/Button"
+import Button, { ButtonType } from "../../atoms/buttons and links/Button";
+import {
+    RoleItem,
+    RoleHeader,
+    RoleCheckbox,
+    RoleTitle,
+    UsersList,
+    UserItem,
+    UserCheckbox,
+    UserText
+} from "./RoleComponent.styled";
 
 interface RoleComponentProps {
     role: Role;
@@ -10,8 +20,8 @@ interface RoleComponentProps {
     onUserCheck?: (isChecked: boolean, roleId: string, userId: string) => void;
 }
 
-const RoleComponent: React.FC<RoleComponentProps> = ({role, onShowAddUserPopup, onRoleCheck, onUserCheck}) => {
-    const [checkedUsers, setCheckedUsers] = useState<string []>([]);
+const RoleComponent: React.FC<RoleComponentProps> = ({ role, onShowAddUserPopup, onRoleCheck, onUserCheck }) => {
+    const [checkedUsers, setCheckedUsers] = useState<string[]>([]);
     const [isRoleChecked, setIsRoleChecked] = useState(false);
 
     const handleRoleCheckboxChange = (isChecked: boolean) => {
@@ -37,34 +47,46 @@ const RoleComponent: React.FC<RoleComponentProps> = ({role, onShowAddUserPopup, 
         }
     };
 
-    return (<>
-        {
-            role && role.id && (
-                <li key={role.id}>
-                    <div className="flex flex-row items-center border-b border-t-4 border-black dark:border-white">
-                        <input type="checkbox" onChange={e => handleRoleCheckboxChange(e.target.checked)} checked={isRoleChecked}/>
-                        <h3 className="pl-2">{role.id}</h3>
-                        <Spacer />
-                        <Button action={() => onShowAddUserPopup(role.id)} label="Add User" type={ButtonType.constructive}/>
-                    </div>
-                    {
-                        role.users && <ol className="pl-4">
-                            {
-                                role.users?.map((user) => {
-                                    return <li key={user} className="flex flex-row items-center">
-                                        <input type="checkbox" onChange={e => handleUserCheckboxChange(e.target.checked, user)} checked={checkedUsers.includes(user)}/>
-                                        <p className="pl-2">
-                                            {`${user}`}
-                                        </p>
-                                    </li>
-                                })
-                            }
-                        </ol>
-                    }
-                </li>
-            )
-        }
-    </>)
+    return (
+        <>
+            {
+                role && role.id && (
+                    <RoleItem>
+                        <RoleHeader>
+                            <RoleCheckbox
+                                type="checkbox"
+                                onChange={e => handleRoleCheckboxChange(e.target.checked)}
+                                checked={isRoleChecked}
+                            />
+                            <RoleTitle>{role.id}</RoleTitle>
+                            <Spacer />
+                            <Button action={() => onShowAddUserPopup(role.id)} label="Add User" type={ButtonType.constructive}/>
+                        </RoleHeader>
+                        {
+                            role.users && (
+                                <UsersList>
+                                    {
+                                        role.users?.map((user) => {
+                                            return (
+                                                <UserItem key={user}>
+                                                    <UserCheckbox
+                                                        type="checkbox"
+                                                        onChange={e => handleUserCheckboxChange(e.target.checked, user)}
+                                                        checked={checkedUsers.includes(user)}
+                                                    />
+                                                    <UserText>{user}</UserText>
+                                                </UserItem>
+                                            )
+                                        })
+                                    }
+                                </UsersList>
+                            )
+                        }
+                    </RoleItem>
+                )
+            }
+        </>
+    );
 };
 
 export default RoleComponent;
