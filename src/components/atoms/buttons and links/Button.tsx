@@ -1,4 +1,5 @@
 import React from "react";
+import { StyledButton } from "./Button.styled";
 
 export enum ButtonType {
     primary = "primary",
@@ -25,31 +26,26 @@ export interface ButtonProps {
     nonUppercase?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({nonUppercase, submit = false, className, label, action, type = ButtonType.primary, size = ButtonSize.small}) => {
-    const theme = () => {
-        switch (type) {
-            case ButtonType.primary: return "bg-gray-600 >md:hover:bg-gray-900";
-            case ButtonType.constructive: return "bg-green-600 >md:hover:bg-green-900";
-            case ButtonType.destructive: return "bg-red-600 >md:hover:bg-red-900";
-        }
-    };
-
-    const sizeAttributes = () => {
-        switch(size) {
-            case ButtonSize.bigFullWidth: return "w-full px-5 py-2";
-            case ButtonSize.big: return "px-5 py-2";
-            case ButtonSize.mediumFullWidth: return "w-full p-2";
-            case ButtonSize.medium: return "p-2";
-            case ButtonSize.smallFullWidth: return "w-full";
-            case ButtonSize.small: return "";
-        }
-    };
-
+const Button: React.FC<ButtonProps> = ({
+    nonUppercase, 
+    submit = false, 
+    className, 
+    label, 
+    action, 
+    type = ButtonType.primary, 
+    size = ButtonSize.small
+}) => {
     return (
-        <button type={submit ? "submit": undefined} onClick={e => action?.(e)}
-                className={`${theme()} ${sizeAttributes()} ${className ? className : ""} text-white rounded px-1 ${nonUppercase ? "" : "uppercase"}`}>
+        <StyledButton 
+            type={submit ? "submit" : "button"} 
+            onClick={e => action?.(e)}
+            $buttonType={type}
+            $buttonSize={size}
+            $nonUppercase={nonUppercase}
+            className={className}
+        >
             {label}
-        </button>
+        </StyledButton>
     );
 };
 

@@ -19,12 +19,13 @@ import Footer from "./components/molecules/general/Footer";
 
 import MyCVPageLayout from "./components/layouts/pages/general/MyCVPageLayout";
 import NavigationProvider from "./components/context providers/NavigationProvider";
+import { AppContainer } from "./App.styled";
 
 function App() {
   return (
     <BrowserRouter basename="/">
       <NavigationProvider>
-        <div className="flex flex-col h-screen">
+        <AppContainer>
           <PageNavigatorBar>
             <PageNavigatorBarLink to="/">Home</PageNavigatorBarLink>
             {/* <PageNavigatorBarLink to="/experience">
@@ -68,7 +69,7 @@ function App() {
             </Route>
           </Switch>
           <Footer isInsideMenu={false} />
-        </div>
+        </AppContainer>
       </NavigationProvider>
     </BrowserRouter>
   );

@@ -1,5 +1,6 @@
 import React from "react";
 import useNavigation from "../../../hooks/useNavigation";
+import { StyledLink } from "./Link.styled";
 
 export interface LinkProps {
     to: string,
@@ -28,11 +29,9 @@ const Link: React.FC<LinkProps> = ({
     };
 
     return (
-        <>
-            <button {...props} onClick={handleClick}>
-                {children}
-            </button>
-        </>
+        <StyledLink {...props} onClick={handleClick}>
+            {children}
+        </StyledLink>
     );
 };
 
