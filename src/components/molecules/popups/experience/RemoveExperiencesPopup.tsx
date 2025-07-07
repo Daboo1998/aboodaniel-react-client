@@ -4,14 +4,22 @@ import Experience from "../../../../data/experience";
 import Button, {ButtonType} from "../../../atoms/buttons and links/Button";
 import Spacer from "../../../atoms/utilities/Spacer";
 import database from "../../../../data/database";
+import {
+    PopupContent,
+    ExperiencesList,
+    ExperienceItem,
+    ExperienceCheckbox,
+    ExperienceTitle,
+    ErrorMessage,
+    ButtonContainer
+} from "./RemoveExperiencesPopup.styled";
 
 export interface RemoveExperiencesPopupProps extends PopupProps {
     experiences: Experience[],
     onClose: (experiencesAfterDelete: Experience[]) => void;
 }
 
-
-const RemoveExperiencesPopup: React.FC<RemoveExperiencesPopupProps> = ({isPopupShown, experiences, onClose}) => {
+const RemoveExperiencesPopup: React.FC<RemoveExperiencesPopupProps> = ({ isPopupShown, experiences, onClose }) => {
     const [selectedExperienceIds, setSelectedExperienceIds] = useState<string[]>([]);
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
@@ -49,24 +57,29 @@ const RemoveExperiencesPopup: React.FC<RemoveExperiencesPopupProps> = ({isPopupS
     return (
         <Popup isPopupShown={isPopupShown}>
             <Spacer />
-            <div className="flex flex-col space-y-2 bg-white dark:bg-gray-800 p-4 rounded-xl max-h-full <md:w-full <md:h-full">
-                <ol className="overflow-y-scroll">
+            <PopupContent>
+                <ExperiencesList>
                     {
                         experiences.map(experience => {
                             return (
-                                <li key={experience.id} className="flex flex-row space-x-2 items-center">
-                                    <input type="checkbox" onChange={e => handleSelect(experience, e)}/>
-                                    <p>{experience.title} ({experience.id})</p>
-                                </li>
+                                <ExperienceItem key={experience.id}>
+                                    <ExperienceCheckbox 
+                                        type="checkbox" 
+                                        onChange={e => handleSelect(experience, e)}
+                                    />
+                                    <ExperienceTitle>{experience.title} ({experience.id})</ExperienceTitle>
+                                </ExperienceItem>
                             );
                         })
                     }
-                </ol>
+                </ExperiencesList>
                 <Spacer />
-                <p className="text-red-800">{errorMessage}</p>
-                <Button className="w-full px-5 py-2" label="Remove selected" type={ButtonType.destructive} action={handleRemove}/>
-                <Button className="w-full px-5 py-2" label="Cancel" action={() => onClose(experiences)}/>
-            </div>
+                <ErrorMessage>{errorMessage}</ErrorMessage>
+                <ButtonContainer>
+                    <Button label="Remove selected" type={ButtonType.destructive} action={handleRemove}/>
+                    <Button label="Cancel" action={() => onClose(experiences)}/>
+                </ButtonContainer>
+            </PopupContent>
             <Spacer />
         </Popup>
     );

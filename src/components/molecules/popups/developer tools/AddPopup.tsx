@@ -1,9 +1,17 @@
-import Popup, {PopupProps} from "../Popup";
-import React, {FormEventHandler, useState} from "react";
+import Popup, { PopupProps } from "../Popup";
+import React, { FormEventHandler, useState } from "react";
 import Spacer from "../../../atoms/utilities/Spacer";
-import {ReactComponent as CloseIcon} from "../../../../images/icons/closeIcon.svg";
-import Button, {ButtonType} from "../../../atoms/buttons and links/Button";
+import { ReactComponent as CloseIcon } from "../../../../images/icons/closeIcon.svg";
+import Button, { ButtonType } from "../../../atoms/buttons and links/Button";
 import TextInput from "../../../atoms/input/TextInput";
+import {
+    PopupContent,
+    HeaderRow,
+    CloseButton,
+    StyledForm,
+    ErrorMessage,
+    SubmitButtonContainer
+} from "./AddPopup.styled";
 
 interface AddStringPopupProps extends PopupProps {
     fieldName: string;
@@ -12,7 +20,7 @@ interface AddStringPopupProps extends PopupProps {
     errorMessage?: string
 }
 
-const AddStringPopup: React.FC<AddStringPopupProps> = ({fieldName, isPopupShown, hide, onAdd, errorMessage}) => {
+const AddStringPopup: React.FC<AddStringPopupProps> = ({ fieldName, isPopupShown, hide, onAdd, errorMessage }) => {
     const [newString, setNewString] = useState<string>("");
 
     const handleSubmit: FormEventHandler = (e) => {
@@ -23,17 +31,21 @@ const AddStringPopup: React.FC<AddStringPopupProps> = ({fieldName, isPopupShown,
     return (
         <Popup isPopupShown={isPopupShown}>
             <Spacer />
-            <div className="bg-white dark:bg-gray-800 p-4 rounded-xl <md:w-full <md:h-full">
-                <div className="flex flex-row items-center">
+            <PopupContent>
+                <HeaderRow>
                     <Spacer />
-                    <button className="self-end" onClick={hide}><CloseIcon /></button>
-                </div>
-                <form onSubmit={handleSubmit} className="items-center">
+                    <CloseButton onClick={hide}>
+                        <CloseIcon />
+                    </CloseButton>
+                </HeaderRow>
+                <StyledForm onSubmit={handleSubmit}>
                     <TextInput name={fieldName} onChange={setNewString} label={fieldName} />
-                    {!!errorMessage && <p className="text-red-600 text-sm">{errorMessage}</p>}
-                    <Button className="w-full px-5 py-2" label="Add" type={ButtonType.constructive} />
-                </form>
-            </div>
+                    {!!errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                    <SubmitButtonContainer>
+                        <Button label="Add" type={ButtonType.constructive} submit />
+                    </SubmitButtonContainer>
+                </StyledForm>
+            </PopupContent>
             <Spacer />
         </Popup>
     );
