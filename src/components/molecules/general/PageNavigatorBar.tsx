@@ -27,9 +27,13 @@ const PageNavigatorBar: React.FC<React.DOMAttributes<HTMLDivElement>> = ({
     setIsHidden(!isHidden);
   };
 
+  const hide = () => {
+    setIsHidden(true);
+  };
+
   return (
     <PageNavigatorBarContext.Provider
-      value={{ isHidden, hide: () => setIsHidden(true) }}
+      value={{ isHidden, hide }}
     >
       <NavigatorContainer $isHidden={isHidden}>
         <MobileHeader>

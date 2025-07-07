@@ -101,8 +101,9 @@ export const NavigationContent = styled.div<{ $isHidden: boolean }>`
   flex-direction: column;
   background-color: ${theme.background.light};
   width: 100%;
-  overflow: hidden;
-  transition: height 0.5s ease-in-out;
+  overflow: ${({ $isHidden }) => $isHidden ? 'hidden' : 'visible'};
+  transition: height 0.3s ease-in-out;
+  pointer-events: ${({ $isHidden }) => $isHidden ? 'none' : 'auto'};
 
   @media (prefers-color-scheme: dark) {
     background-color: ${theme.background.dark};
@@ -114,6 +115,8 @@ export const NavigationContent = styled.div<{ $isHidden: boolean }>`
     align-items: center;
     justify-content: center;
     height: auto !important;
+    overflow: visible;
+    pointer-events: auto;
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
