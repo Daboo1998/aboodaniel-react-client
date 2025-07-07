@@ -1,4 +1,11 @@
 import React from "react";
+import {
+  InputContainer,
+  InputLabel,
+  LabelText,
+  RequiredAsterisk,
+  StyledInput
+} from "./TextInput.styled";
 
 export interface TextInputProps {
     name: string;
@@ -11,7 +18,7 @@ export interface TextInputProps {
 }
 
 const TextInput: React.FC<TextInputProps> = ({
-    name ,
+    name,
     label,
     value,
     onChange,
@@ -24,14 +31,22 @@ const TextInput: React.FC<TextInputProps> = ({
         onChange?.(e.target.value);
     };
 
-    return <p className="text-gray-800 font-sans font-bold w-full">
-        <label htmlFor={name} className="mb-2">
-            <p>{label} {required && <span className="text-red-600">*</span>}</p>
-            <input type={isPassword ? "password" : "text"} value={value} aria-invalid onChange={handleChange} name={name}
-                   placeholder={placeholder ? placeholder : ""}
-                   className="border rounded transition border-gray-200 box-shadow-inner py-2 px-4 mb-2 w-full" />
-        </label>
-    </p>;
+    return (
+        <InputContainer>
+            <InputLabel htmlFor={name}>
+                <LabelText>
+                    {label} {required && <RequiredAsterisk>*</RequiredAsterisk>}
+                </LabelText>
+                <StyledInput
+                    type={isPassword ? "password" : "text"}
+                    value={value}
+                    onChange={handleChange}
+                    name={name}
+                    placeholder={placeholder || ""}
+                />
+            </InputLabel>
+        </InputContainer>
+    );
 };
 
 export default TextInput;

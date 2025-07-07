@@ -9,6 +9,20 @@ import Button, {ButtonSize, ButtonType} from "../../../atoms/buttons and links/B
 import database, {Timestamp} from "../../../../data/database";
 import Experience from "../../../../data/experience";
 import {v4 as uuidv4} from 'uuid';
+import {
+    PopupContent,
+    PopupTitle,
+    StyledForm,
+    OngoingContainer,
+    OngoingLabel,
+    OngoingCheckbox,
+    DateInputsContainer,
+    DateInputSpacer,
+    RequiredFieldsText,
+    RequiredAsterisk,
+    ErrorMessage,
+    ButtonContainer
+} from "./AddExperiencePopup.styled";
 
 export interface AddExperiencePopupProps extends PopupProps {
     onClose: (addedExperience?: Experience) => void
@@ -80,32 +94,34 @@ const AddExperiencePopup: React.FC<AddExperiencePopupProps> = (props) => {
     return (
         <Popup isPopupShown={props.isPopupShown}>
             <Spacer />
-            <div className="bg-white dark:bg-gray-800 p-4 rounded-xl <md:w-full overflow-y-scroll">
-                <h2>Add Experience</h2>
-                <form>
-                    <NumberInput min={0} max={1000} name="importance" label="Importance [0-1000] (default 0)" value={importance} onChange={setImportance} required/>
+            <PopupContent>
+                <PopupTitle>Add Experience</PopupTitle>
+                <StyledForm>
+                    <NumberInput min={0} max={1000} name="importance" label="Importance [0-1000] (default 0)" value={importance} onChange={setImportance} required />
                     <TextInput name="title" label="Title" required onChange={setTitle} />
-                    <div className="flex flex-row w-full items-center">
-                        <p className="pr-4">Is ongoing</p>
-                        <input type="checkbox" name="ongoing" onChange={e => setIsOngoing(e.target.checked)} />
+                    <OngoingContainer>
+                        <OngoingLabel>Is ongoing</OngoingLabel>
+                        <OngoingCheckbox type="checkbox" name="ongoing" onChange={e => setIsOngoing(e.target.checked)} />
                         <Spacer />
-                    </div>
-                    <div className="flex flex-row w-full space-x-2">
+                    </OngoingContainer>
+                    <DateInputsContainer>
                         <DateInput label="Start date" required name="startDate" onChange={setStartDate} />
                         {
-                            !isOngoing ? <DateInput label="End date" name="endDate" onChange={setEndDate} required/> :
-                                <div className="w-full" />
+                            !isOngoing ? <DateInput label="End date" name="endDate" onChange={setEndDate} required /> :
+                                <DateInputSpacer />
                         }
-                    </div>
+                    </DateInputsContainer>
                     <TextAreaInput name="description" label="Description" onChange={setDescription} required />
-                    <TextInput name="link" label="Link (optional)" onChange={setLink}/>
+                    <TextInput name="link" label="Link (optional)" onChange={setLink} />
                     <TextInput name="linkText" label="Link text (optional)" onChange={setLinkText} />
-                    <p className="w-full"><span className="text-red-600">*</span> Required fields</p>
-                    <p className="text-red-800">{errorMessage}</p>
-                    <Button label="Add" size={ButtonSize.bigFullWidth} type={ButtonType.constructive} action={e => handleAddExperience(e)} />
-                    <Button label="Cancel" size={ButtonSize.bigFullWidth} action={handleCancel} />
-                </form>
-            </div>
+                    <RequiredFieldsText><RequiredAsterisk>*</RequiredAsterisk> Required fields</RequiredFieldsText>
+                    <ErrorMessage>{errorMessage}</ErrorMessage>
+                    <ButtonContainer>
+                        <Button label="Add" size={ButtonSize.bigFullWidth} type={ButtonType.constructive} action={e => handleAddExperience(e)} />
+                        <Button label="Cancel" size={ButtonSize.bigFullWidth} action={handleCancel} />
+                    </ButtonContainer>
+                </StyledForm>
+            </PopupContent>
             <Spacer />
         </Popup>
     );

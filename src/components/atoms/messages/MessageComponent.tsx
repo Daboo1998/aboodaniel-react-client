@@ -2,6 +2,14 @@ import React from "react";
 import Spacer from "../utilities/Spacer";
 import {timestampToString} from "../../../data/database";
 import Message from "../../../data/Message";
+import {
+    MessageContainer,
+    MessageHeader,
+    MessageName,
+    MessageTimestamp,
+    MessageSubject,
+    MessagePreview
+} from "./MessageComponent.styled";
 
 export interface MessageComponentProps {
     message: Message;
@@ -9,15 +17,15 @@ export interface MessageComponentProps {
 }
 
 const MessageComponent: React.FC<MessageComponentProps> = ({message, onMessageClick}) => (
-    <div className="pb-2 border-b border-black dark:border-white" onClick={e => onMessageClick(e, message)}>
-        <div className="flex flex-row">
-            <h4>{message.name}</h4>
+    <MessageContainer onClick={e => onMessageClick(e, message)}>
+        <MessageHeader>
+            <MessageName>{message.name}</MessageName>
             <Spacer />
-            <p className="flex-shrink-0">{timestampToString(message.timestamp)}</p>
-        </div>
-        <h5>{message.subject}</h5>
-        <p className="line-clamp-3 whitespace-pre-wrap">{message.message}</p>
-    </div>
+            <MessageTimestamp>{timestampToString(message.timestamp)}</MessageTimestamp>
+        </MessageHeader>
+        <MessageSubject>{message.subject}</MessageSubject>
+        <MessagePreview>{message.message}</MessagePreview>
+    </MessageContainer>
 );
 
 export default MessageComponent;

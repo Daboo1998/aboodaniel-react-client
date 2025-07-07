@@ -1,15 +1,23 @@
 import styled from "styled-components";
+import { theme } from '../../../styles/theme';
 
 export const PageStyled = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 2.5rem;
-  background-color: #f3f3f3;
-  padding-top: 5rem;
+  padding: ${theme.spacing[10]};
+  background-color: ${theme.background.light};
+  padding-top: ${theme.spacing[20]};
   flex-grow: 1;
 
   @media (prefers-color-scheme: dark) {
-    background-color: #1f1f1f;
+    background-color: ${theme.background.dark};
   }
+`;
+
+export const ContentWrapper = styled.div<{ $hasCustomPadding?: boolean }>`
+  width: 100%;
+  ${({ $hasCustomPadding }) => $hasCustomPadding && `
+    padding: ${theme.spacing[6]};
+  `}
 `;

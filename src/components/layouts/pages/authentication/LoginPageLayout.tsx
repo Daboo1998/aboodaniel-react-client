@@ -7,6 +7,14 @@ import SignInWithGoogleButton from "../../../atoms/buttons and links/SignInWithG
 import TextInput from "../../../atoms/input/TextInput";
 import ShouldRememberUserCheckbox from "../../../atoms/input/ShouldRememberUserCheckbox";
 import Button from "../../../atoms/buttons and links/Button";
+import {
+    LoginTitle,
+    LoginContainer,
+    LoginForm,
+    ErrorMessage,
+    SubmitButtonContainer,
+    RegisterLinkContainer
+} from "./LoginPageLayout.styled";
 
 const LoginPageLayout: React.FC = () => {
     const [email, setEmail] = useState("");
@@ -49,20 +57,24 @@ const LoginPageLayout: React.FC = () => {
 
     return (
         <PageLayout title="Login">
-            <h1 className="text-center">Login</h1>
-            <div className="flex flex-col place-items-center h-full pt-2">
-                <form onSubmit={handleSubmit}>
+            <LoginTitle>Login</LoginTitle>
+            <LoginContainer>
+                <LoginForm onSubmit={handleSubmit}>
                     <TextInput label="Email" name="email" onChange={setEmail} />
                     <TextInput label="Password" name="password" onChange={setPassword} isPassword />
-                    {!!errorMessage && <p className="text-red-600 text-sm">{errorMessage}</p>}
-                    <ShouldRememberUserCheckbox shouldRememberUser={shouldRememberUser} setShouldRememberUser={setShouldRememberUser}/>
-                    <Button className="w-full px-5 py-2" label="log in" submit />
+                    {!!errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                    <ShouldRememberUserCheckbox shouldRememberUser={shouldRememberUser} setShouldRememberUser={setShouldRememberUser} />
+                    <SubmitButtonContainer>
+                        <Button label="log in" submit />
+                    </SubmitButtonContainer>
                     <SignInWithGoogleButton onError={setErrorMessage} shouldRememberUser={shouldRememberUser} />
-                    <Link to="/register" className="text-blue-500 pt-2">
-                        Register instead
-                    </Link>
-                </form>
-            </div>
+                    <RegisterLinkContainer>
+                        <Link to="/register">
+                            Register instead
+                        </Link>
+                    </RegisterLinkContainer>
+                </LoginForm>
+            </LoginContainer>
         </PageLayout>
     );
 };

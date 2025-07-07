@@ -1,4 +1,9 @@
 import React from "react";
+import {
+  CheckboxContainer,
+  StyledCheckbox,
+  CheckboxLabel
+} from "./ShouldRememberUserCheckbox.styled";
 
 export interface ShouldRememberUserCheckboxProps {
     shouldRememberUser: boolean;
@@ -6,14 +11,14 @@ export interface ShouldRememberUserCheckboxProps {
 }
 
 const ShouldRememberUserCheckbox: React.FC<ShouldRememberUserCheckboxProps> = (props) => (
-    <div className="flex flex-row items-center">
-        <input
+    <CheckboxContainer>
+        <StyledCheckbox
             type="checkbox"
             checked={props.shouldRememberUser}
             onChange={e => props.setShouldRememberUser(e.target.checked)}
         />
-        <p className="pl-2">Remember me</p>
-    </div>
+        <CheckboxLabel>Remember me</CheckboxLabel>
+    </CheckboxContainer>
 );
 
 export default ShouldRememberUserCheckbox;

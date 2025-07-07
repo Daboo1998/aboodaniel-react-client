@@ -3,6 +3,16 @@ import ExperienceModel, {
 } from "../../../data/experience";
 import React, { useState } from "react";
 import Spacer from "../../atoms/utilities/Spacer";
+import {
+  ExperienceContainer,
+  ExperienceHeader,
+  ExperienceTitle,
+  ToggleButton,
+  TimeDescription,
+  TimeDescriptionText,
+  DetailsContainer,
+  DetailsText
+} from "./Experience.styled";
 
 export interface ExperienceProps {
   experience: ExperienceModel;
@@ -21,14 +31,13 @@ const Experience: React.FC<ExperienceProps> = ({ experience }) => {
       return null;
     }
 
-    const className =
-      "text-gray-600 border-b border-black dark:border-white dark:text-white p-0.5 mt-1 pl-2 pr-2";
-
     if (experience.endDate === "ongoing") {
       return (
-        <h4 className={className}>{`Ongoing, started in ${stringRepresentation(
-          experience.startingDate?.toDate()
-        )}`}</h4>
+        <TimeDescriptionText>
+          {`Ongoing, started in ${stringRepresentation(
+            experience.startingDate?.toDate()
+          )}`}
+        </TimeDescriptionText>
       );
     }
 
@@ -48,45 +57,40 @@ const Experience: React.FC<ExperienceProps> = ({ experience }) => {
     let months = (monthsDifference % 12) - 1;
 
     return (
-      <h4 className={className}>
+      <TimeDescriptionText>
         {`${stringRepresentation(
           experience.startingDate.toDate()
         )} - ${stringRepresentation(experience.endDate.toDate())} 
             (${
               years > 0 ? `${years} year${years === 1 ? "" : "s"} and ` : ""
             }${months} month${months === 1 ? "" : "s"})`}
-      </h4>
+      </TimeDescriptionText>
     );
   };
 
   return (
-    <div className="pb-12">
-      <div
-        className="flex flex-row sticky top-12 border-t-2 border-black dark:border-white p-2"
-        onClick={handleHeaderClick}
-      >
-        <h3>{experience.title}</h3>
+    <ExperienceContainer>
+      <ExperienceHeader onClick={handleHeaderClick}>
+        <ExperienceTitle>{experience.title}</ExperienceTitle>
         <Spacer />
-        <button onClick={(_) => setAreDetailsHidden(!areDetailsHidden)}>
+        <ToggleButton onClick={(_) => setAreDetailsHidden(!areDetailsHidden)}>
           {areDetailsHidden ? "More" : "Less"}
-        </button>
-      </div>
-      <div onClick={handleHeaderClick}>{timeDescription()}</div>
-      <div
-        className={`${
-          areDetailsHidden ? "max-h-0" : "max-h-inf"
-        } overflow-hidden transition-max-h duration-1000 ease-in-out`}
-      >
-        <p className="p-2 whitespace-pre-wrap">
+        </ToggleButton>
+      </ExperienceHeader>
+      <TimeDescription onClick={handleHeaderClick}>
+        {timeDescription()}
+      </TimeDescription>
+      <DetailsContainer $isHidden={areDetailsHidden}>
+        <DetailsText>
           {experience.description + " "}
           {experience.link && (
             <a href={experience.link} target="_blank" rel="noopener noreferrer">
               {experience.linkText || "More"}
             </a>
           )}
-        </p>
-      </div>
-    </div>
+        </DetailsText>
+      </DetailsContainer>
+    </ExperienceContainer>
   );
 };
 

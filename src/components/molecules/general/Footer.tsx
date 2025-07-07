@@ -3,9 +3,18 @@ import { ReactComponent as FacebookIcon } from "../../../images/icons/facebookIc
 import { ReactComponent as LinkedInIcon } from "../../../images/icons/linkedInIcon.svg";
 import Link from "../../atoms/buttons and links/Link";
 import { useAuth } from "../../../contexts/AuthContext";
-
-import * as styled from "./Footer.styled";
-import { cx } from "../../../utils";
+import {
+  FooterStyled,
+  SocialIconsContainer,
+  SocialLink,
+  Spacer,
+  LinksContainer,
+  AuthLinksContainer,
+  FooterLink,
+  UserInfo,
+  UserName,
+  CopyrightText
+} from "./Footer.styled";
 
 interface FooterProps {
   isInsideMenu: boolean;
@@ -15,98 +24,75 @@ const Footer: React.FC<FooterProps> = ({ isInsideMenu }) => {
   const auth = useAuth();
 
   return (
-    <styled.FooterStyled
-      className={cx(
-        "flex flex-col bg-background-light dark:bg-background-dark pb-6 space-y-4",
-        isInsideMenu ? "Menu" : ""
-      )}
-    >
-      <div className="flex flex-row">
-        <a
+    <FooterStyled $isInsideMenu={isInsideMenu}>
+      <SocialIconsContainer>
+        <SocialLink
           href="https://facebook.com/danny.aboo.5"
           target="_blank"
           rel="noopener noreferrer"
-          className="p-2"
         >
           <FacebookIcon />
-        </a>
-        <a
+        </SocialLink>
+        <SocialLink
           href="https://www.linkedin.com/in/danielaboo"
           target="_blank"
           rel="noopener noreferrer"
-          className="p-2"
         >
           <LinkedInIcon />
-        </a>
-      </div>
-      <br />
-      <div className="flex flex-col items-center">
-        <div
-          className={`flex ${
-            auth.isLoggedIn ? "flex-col" : "flex-row"
-          } space-x-2`}
-        >
+        </SocialLink>
+      </SocialIconsContainer>
+      
+      <Spacer />
+      
+      <LinksContainer>
+        <AuthLinksContainer $isLoggedIn={!!auth.isLoggedIn}>
           {!auth.isLoggedIn ? (
             <>
-              <Link
-                to="/login"
-                className="text-gray-600 text-center >md:hover:text-gray-800"
-              >
-                Login
+              <Link to="/login">
+                <FooterLink as="span">Login</FooterLink>
               </Link>
-              <Link
-                to="/register"
-                className="text-gray-600 text-center >md:hover:text-gray-800"
-              >
-                Register
+              <Link to="/register">
+                <FooterLink as="span">Register</FooterLink>
               </Link>
             </>
           ) : (
             <>
-              <p>
+              <UserInfo>
                 Logged in as{" "}
                 {auth.user && (
-                  <span className="text-center text-blue-800 dark:text-blue-300">
+                  <UserName>
                     {auth.user?.displayName
                       ? auth.user.displayName
                       : auth.user?.uid}
-                  </span>
+                  </UserName>
                 )}
-              </p>
-              <button
-                className="text-gray-600 text-center >md:hover:text-gray-800"
-                onClick={auth.logout}
-              >
+              </UserInfo>
+              <FooterLink onClick={auth.logout}>
                 Logout
-              </button>
+              </FooterLink>
             </>
           )}
-        </div>
-        <Link
-          to="/cv"
-          className="text-gray-600 text-center >md:hover:text-gray-800"
-        >
-          Curriculum Vitae
+        </AuthLinksContainer>
+        
+        <Link to="/cv">
+          <FooterLink as="span">Curriculum Vitae</FooterLink>
         </Link>
+        
         {auth.isDeveloper && (
-          <Link
-            to="/developerTools"
-            className="text-gray-600 text-center >md:hover:text-gray-800"
-          >
-            Developer Tools
+          <Link to="/developerTools">
+            <FooterLink as="span">Developer Tools</FooterLink>
           </Link>
         )}
+        
         {auth.isOwner && (
-          <Link
-            to="/messages"
-            className="text-gray-600 text-center >md:hover:text-gray-800"
-          >
-            Messages
+          <Link to="/messages">
+            <FooterLink as="span">Messages</FooterLink>
           </Link>
         )}
-      </div>
-      <p className="text-center text-xs">© Aboo Daniel - All rights reserved</p>
-    </styled.FooterStyled>
+      </LinksContainer>
+      
+      <CopyrightText>© Aboo Daniel - All rights reserved</CopyrightText>
+    </FooterStyled>
   );
 };
 
