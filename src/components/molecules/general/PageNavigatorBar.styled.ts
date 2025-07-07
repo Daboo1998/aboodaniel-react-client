@@ -8,7 +8,7 @@ export const NavigatorContainer = styled.div<{ $isHidden: boolean }>`
   position: fixed;
   width: 100%;
   top: 0;
-  z-index: ${theme.zIndices.docked};
+  z-index: ${theme.zIndices.overlay};
   
   ${({ $isHidden }) => !$isHidden && `
     border-bottom: ${theme.borderWidths[1]} solid ${theme.colors.black};
@@ -31,12 +31,14 @@ export const MobileHeader = styled.div`
   display: flex;
   flex-direction: row;
   background-color: ${theme.background.light};
-  width: 2.5rem;
-  height: 3.5rem;
   width: 100%;
+  height: 3.5rem;
+  min-height: 3.5rem;
+  border-bottom: 1px solid ${theme.colors.black};
 
   @media (prefers-color-scheme: dark) {
     background-color: ${theme.background.dark};
+    border-bottom-color: ${theme.colors.white};
   }
 
   @media (min-width: ${theme.breakpoints.md}) {
@@ -46,11 +48,19 @@ export const MobileHeader = styled.div`
 
 export const MenuButton = styled.button`
   border: none;
-  padding: ${theme.spacing[2]};
-  width: 2.5rem;
-  padding-left: ${theme.spacing[6]};
+  padding: ${theme.spacing[4]} ${theme.spacing[6]};
+  min-width: 2.5rem;
+  height: 100%;
   background: transparent;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  svg {
+    width: ${theme.spacing[6]};
+    height: ${theme.spacing[6]};
+  }
 
   &:focus {
     outline: 2px solid ${theme.colors.blue[500]};
@@ -60,9 +70,13 @@ export const MenuButton = styled.button`
 
 export const PageTitle = styled.h3`
   height: 100%;
-  padding: ${theme.spacing[3]} ${theme.spacing[6]};
-  padding-left: ${theme.spacing[6]};
+  padding: ${theme.spacing[4]} ${theme.spacing[6]};
   margin: 0;
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  font-size: ${theme.fontSizes.lg};
+  font-weight: ${theme.fontWeights.semibold};
 `;
 
 export const BrandTitle = styled.h3`
@@ -87,8 +101,6 @@ export const NavigationContent = styled.div<{ $isHidden: boolean }>`
   flex-direction: column;
   background-color: ${theme.background.light};
   width: 100%;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
   transition: height 0.5s ease-in-out;
 
@@ -101,9 +113,13 @@ export const NavigationContent = styled.div<{ $isHidden: boolean }>`
     width: 100%;
     align-items: center;
     justify-content: center;
+    height: auto !important;
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
-    height: ${({ $isHidden }) => $isHidden ? '0' : '100vh'};
+    height: ${({ $isHidden }) => $isHidden ? '0' : 'calc(100vh - 3.5rem)'};
+    align-items: stretch;
+    justify-content: flex-start;
+    padding-top: ${({ $isHidden }) => $isHidden ? '0' : theme.spacing[2]};
   }
 `;

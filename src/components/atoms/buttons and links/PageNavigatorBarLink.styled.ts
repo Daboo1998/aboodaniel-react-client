@@ -9,13 +9,15 @@ export const StyledPageNavigatorBarLink = styled.button<{ $isActive: boolean }>`
   };
   border: none;
   border-bottom: 1px solid ${theme.colors.black};
-  padding: ${theme.spacing[2]} ${theme.spacing[2]} ${theme.spacing[6]} ${theme.spacing[6]};
+  padding: ${theme.spacing[4]} ${theme.spacing[6]};
   cursor: pointer;
   text-decoration: none;
   color: inherit;
   font: inherit;
   width: 100%;
   text-align: left;
+  font-size: ${theme.fontSizes.base};
+  min-height: ${theme.spacing[12]};
 
   @media (prefers-color-scheme: dark) {
     background-color: ${({ $isActive }) => 
@@ -26,11 +28,13 @@ export const StyledPageNavigatorBarLink = styled.button<{ $isActive: boolean }>`
   }
 
   @media (min-width: ${theme.breakpoints.md}) {
-    padding: ${theme.spacing[4]};
+    padding: ${theme.spacing[4]} ${theme.spacing[8]};
     flex-shrink: 0;
     border-bottom: none;
     width: auto;
     text-align: center;
+    min-width: max-content;
+    white-space: nowrap;
 
     &:hover {
       background-color: ${theme.colors.gray[200]};
