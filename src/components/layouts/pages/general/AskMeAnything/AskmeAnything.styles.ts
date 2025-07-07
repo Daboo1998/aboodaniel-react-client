@@ -3,7 +3,7 @@ import styled from "styled-components";
 import TextareaAutosize from "react-textarea-autosize";
 import { theme } from '../../../../../styles/theme';
 
-// New styled-components to replace remaining Tailwind classes
+// Styled-components for AskMeAnything page
 export const PageContainer = styled.div`
   padding: ${theme.spacing[10]} 0;
   display: flex;

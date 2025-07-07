@@ -1,60 +1,4 @@
-@tailwind base;
-
-h1 {
-  @apply text-3xl text-gray-500 w-full font-bold;
-  @apply dark:text-white;
-}
-h2 {
-  @apply font-bold text-2xl;
-  @apply dark:text-white;
-}
-h3 {
-  @apply font-bold text-xl;
-  @apply dark:text-white;
-}
-
-h4 {
-  @apply font-semibold text-lg;
-  @apply dark:text-white;
-}
-
-h5 {
-  @apply font-semibold text-base;
-  @apply dark:text-white;
-}
-
-a {
-  @apply text-blue-600 underline;
-  @apply dark:text-blue-300;
-}
-
-p {
-  @apply text-base;
-  @apply dark:text-white;
-}
-
-svg {
-  @apply dark:text-white;
-  @apply dark:fill-current;
-}
-
-label, input, textarea, button {
-  @apply dark:text-white;
-}
-
-input, textarea {
-  @apply dark:bg-black;
-}
-
-form {
-  @apply flex;
-  @apply flex-col;
-  @apply >md:w-96 <md:w-full pt-6 space-y-4;
-  @apply items-center;
-}
-
-@tailwind components;
-@tailwind utilities;
+/* Essential CSS not handled by styled-components */
 
 body {
   margin: 0;
@@ -65,11 +9,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-}
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Date picker styling for WebKit browsers */
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
 }
