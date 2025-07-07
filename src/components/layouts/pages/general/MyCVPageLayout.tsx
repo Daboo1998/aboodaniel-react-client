@@ -5,6 +5,37 @@ import database, {timestampToString} from "../../../../data/database";
 import Experience from "../../../../data/experience";
 import Spacer from "../../../atoms/utilities/Spacer";
 import EducationItem from "../../../../data/EducationItem";
+import {
+    CVContainer,
+    CVTitle,
+    CVMainContainer,
+    ContentColumn,
+    Section,
+    SectionTitle,
+    AboutText,
+    SkillSetContainer,
+    SkillSetTitle,
+    SkillsList,
+    SkillItem,
+    HobbiesContainer,
+    HobbyItem,
+    ExperienceSection,
+    ExperienceItem,
+    ExperienceTitle,
+    ExperienceDate,
+    ExperienceDescription,
+    EducationSection,
+    EducationItem as StyledEducationItem,
+    EducationTitle,
+    EducationPlace,
+    EducationYears,
+    ProfileColumn,
+    ProfileImage,
+    ProfileInfo,
+    ProfileName,
+    ProfileTitle,
+    ContactInfo
+} from "./MyCVPageLayout.styled";
 
 const MyCVPageLayout: React.FC = () => {
     const [skillSets, setSkillSets] = useState<SkillSet []>([]);
@@ -29,90 +60,100 @@ const MyCVPageLayout: React.FC = () => {
     }, []);
 
     return (
-        <PageLayout title="CV" className="pt-10 space-y-8">
-            <h1 className="text-center">Curriculum Vitae</h1>
-            <div className="flex flex-row <md:flex-col-reverse">
-                <div className="flex flex-col space-y-8">
-                    <div className="flex flex-col space-y-2">
-                        <h2 className="pb2">About Me</h2>
-                        <p> I have been always, looking into the future, wanting to create new solutions using technology
-                            to change how we live our everyday lives. My mission is to innovate, while also make my work
-                            to be understood by others and be able to work together with people. Creativity, my pursuit
-                            after my goals and my determination are my main attributes. I always try my best to
-                            understand the needs of people I work with, and find a way for all parties to be happy.</p>
-                    </div>
-                    <div className="flex flex-col space-y-2">
-                        <h2 className="pb-2">Skills</h2>
-                        {
-                            skillSets.map((skillSet) => {
+        <PageLayout title="CV">
+            <CVContainer>
+                <CVTitle>Curriculum Vitae</CVTitle>
+                <CVMainContainer>
+                    <ContentColumn>
+                        <Section>
+                            <SectionTitle>About Me</SectionTitle>
+                            <AboutText>
+                                I have been always, looking into the future, wanting to create new solutions using technology
+                                to change how we live our everyday lives. My mission is to innovate, while also make my work
+                                to be understood by others and be able to work together with people. Creativity, my pursuit
+                                after my goals and my determination are my main attributes. I always try my best to
+                                understand the needs of people I work with, and find a way for all parties to be happy.
+                            </AboutText>
+                        </Section>
+                        
+                        <Section>
+                            <SectionTitle>Skills</SectionTitle>
+                            {skillSets.map((skillSet) => {
                                 return (
-                                    <div>
-                                        <h3>{skillSet.name}</h3>
-                                        <ul className="flex flex-row space-x-2">
+                                    <SkillSetContainer key={skillSet.name}>
+                                        <SkillSetTitle>{skillSet.name}</SkillSetTitle>
+                                        <SkillsList>
                                             {skillSet.skills.map((skill) => {
                                                 return (
-                                                    <li key={skill}>
+                                                    <SkillItem key={skill}>
                                                         <p>{skill}</p>
-                                                    </li>
+                                                    </SkillItem>
                                                 );
                                             })}
-                                        </ul>
-                                    </div>
+                                        </SkillsList>
+                                    </SkillSetContainer>
                                 );
-                            })
-                        }
-                    </div>
-                    <div>
-                        <h2 className="pt-5 pb-2">Hobbies</h2>
-                        <div className="flex flex-row space-x-2">
-                            <p>Programming</p>
-                            <p>Piano</p>
-                            <p>Traveling</p>
-                            <p>Photography</p>
-                        </div>
-                    </div>
-                    <div className="flex flex-col space-y-4">
-                        <h2 className="pt-5 pb-2">Experience</h2>
-                        {
-                            experiences.map((experience) => {
+                            })}
+                        </Section>
+                        
+                        <Section>
+                            <SectionTitle className="with-top-padding">Hobbies</SectionTitle>
+                            <HobbiesContainer>
+                                <HobbyItem>Programming</HobbyItem>
+                                <HobbyItem>Piano</HobbyItem>
+                                <HobbyItem>Traveling</HobbyItem>
+                                <HobbyItem>Photography</HobbyItem>
+                            </HobbiesContainer>
+                        </Section>
+                        
+                        <ExperienceSection>
+                            <SectionTitle className="with-top-padding">Experience</SectionTitle>
+                            {experiences.map((experience) => {
                                 return (
-                                    <div>
-                                        <h3>{experience.title}</h3>
-                                        <p className="font-bold">{experience.endDate === "ongoing" && "Started in "}{experience?.startingDate && timestampToString(experience.startingDate, false, false)} {
-                                            experience.endDate && (experience.endDate === "ongoing" ? "(ongoing)" : ("- " + timestampToString(experience.endDate, false, false)))
-                                        }</p>
-                                        <p className="whitespace-pre-wrap">{experience.description}</p>
-                                    </div>
+                                    <ExperienceItem key={experience.title}>
+                                        <ExperienceTitle>{experience.title}</ExperienceTitle>
+                                        <ExperienceDate>
+                                            {experience.endDate === "ongoing" && "Started in "}
+                                            {experience?.startingDate && timestampToString(experience.startingDate, false, false)} 
+                                            {experience.endDate && (experience.endDate === "ongoing" ? "(ongoing)" : ("- " + timestampToString(experience.endDate, false, false)))}
+                                        </ExperienceDate>
+                                        <ExperienceDescription>{experience.description}</ExperienceDescription>
+                                    </ExperienceItem>
                                 )
-                            })
-                        }
-                    </div>
-                    <div className="flex flex-col space-y-2">
-                        <h2 className="pt-5 pb-2">Education</h2>
-                        {
-                            education.map(item => {
+                            })}
+                        </ExperienceSection>
+                        
+                        <EducationSection>
+                            <SectionTitle className="with-top-padding">Education</SectionTitle>
+                            {education.map(item => {
                                 return (
-                                    <div>
-                                        <h3>{item.qualification}</h3>
-                                        <h4>{item.place}</h4>
-                                        <p>{item.startYear} - {item.endYear}</p>
-                                    </div>
+                                    <StyledEducationItem key={item.qualification}>
+                                        <EducationTitle>{item.qualification}</EducationTitle>
+                                        <EducationPlace>{item.place}</EducationPlace>
+                                        <EducationYears>{item.startYear} - {item.endYear}</EducationYears>
+                                    </StyledEducationItem>
                                 );
-                            })
-                        }
-                    </div>
-                </div>
-                <Spacer />
-                <div className="flex flex-col pb-4 flex-shrink-0 >md:self-start >md:sticky >md:top-16 <md:w-full items-center">
-                    <img src="/images/me.jpg" className="w-48 object-contain" alt=""/>
-                    <div className="w-full self-center">
-                        <h4 className="text-center pt-2 <md:w-full <md:self-center">Daniel Richard Aboo</h4>
-                        <h5 className="text-center pt-2 <md:w-full <md:self-center">Front-end Developer</h5>
-                        <p className="w-full pt-2 <md:text-center">Mobile: <a href="tel:+48601951169">+48 601 951 169</a></p>
-                        <p className="<md:text-center">Email: <a href="mailto:daboo1998@gmail.com">daboo1998@gmail.com</a></p>
-                    </div>
-                </div>
-            </div>
+                            })}
+                        </EducationSection>
+                    </ContentColumn>
+                    
+                    <Spacer />
+                    
+                    <ProfileColumn>
+                        <ProfileImage src="/images/me.jpg" alt="Daniel Richard Aboo" />
+                        <ProfileInfo>
+                            <ProfileName>Daniel Richard Aboo</ProfileName>
+                            <ProfileTitle>Front-end Developer</ProfileTitle>
+                            <ContactInfo>
+                                Mobile: <a href="tel:+48601951169">+48 601 951 169</a>
+                            </ContactInfo>
+                            <ContactInfo className="email-only">
+                                Email: <a href="mailto:daboo1998@gmail.com">daboo1998@gmail.com</a>
+                            </ContactInfo>
+                        </ProfileInfo>
+                    </ProfileColumn>
+                </CVMainContainer>
+            </CVContainer>
         </PageLayout>
     );
 };
