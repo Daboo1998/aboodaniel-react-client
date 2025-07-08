@@ -158,10 +158,38 @@ export const ExperienceItem = styled.div`
   background-color: ${theme.colors.gray[50]};
   padding: ${theme.spacing[4]};
   border-radius: ${theme.borderRadius.md};
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: ${theme.spacing[3]};
 
   @media (prefers-color-scheme: dark) {
     background-color: ${theme.colors.gray[800]};
     border-left-color: ${theme.colors.blue[400]};
+  }
+
+  .experience-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .experience-edit-button {
+    flex-shrink: 0;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: ${theme.breakpoints.sm}) {
+    flex-direction: column;
+    gap: ${theme.spacing[2]};
+
+    .experience-edit-button {
+      align-self: flex-end;
+    }
   }
 `;
 
