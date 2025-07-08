@@ -74,7 +74,9 @@ const MyCVPageLayout: React.FC = () => {
     const onAddExperienceClose = (addedExperience?: Experience) => {
         hideAddExperiencePopup();
         if (addedExperience) {
-            setExperiences([...experiences, addedExperience]);
+            // Add new experience and sort by importance in descending order
+            const updatedExperiences = [...experiences, addedExperience].sort((a, b) => b.importance - a.importance);
+            setExperiences(updatedExperiences);
         }
         window.document.body.style.overflow = "unset";
     };
@@ -83,9 +85,11 @@ const MyCVPageLayout: React.FC = () => {
         hideEditExperiencePopup();
         setSelectedExperience(null);
         if (updatedExperience) {
-            setExperiences(experiences.map(exp => 
+            // Update experience and re-sort by importance in descending order
+            const updatedExperiences = experiences.map(exp => 
                 exp.id === updatedExperience.id ? updatedExperience : exp
-            ));
+            ).sort((a, b) => b.importance - a.importance);
+            setExperiences(updatedExperiences);
         }
         window.document.body.style.overflow = "unset";
     };
