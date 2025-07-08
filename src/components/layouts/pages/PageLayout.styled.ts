@@ -8,6 +8,7 @@ export const PageStyled = styled.div`
   padding: ${theme.spacing[10]};
   background-color: ${theme.background.light};
   padding-top: ${theme.spacing[20]};
+  padding-bottom: calc(${theme.spacing[10]} + env(safe-area-inset-bottom));
   flex-grow: 1;
 
   @media (prefers-color-scheme: dark) {
