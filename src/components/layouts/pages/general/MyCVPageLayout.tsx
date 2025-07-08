@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 import PageLayout from "../PageLayout";
 import SkillSet from "../../../../data/SkillSet";
-import database, {timestampToString} from "../../../../data/database";
+import database, { timestampToString } from "../../../../data/database";
 import Experience from "../../../../data/experience";
 import Spacer from "../../../atoms/utilities/Spacer";
 import EducationItem from "../../../../data/EducationItem";
@@ -44,9 +44,9 @@ import {
 } from "./MyCVPageLayout.styled";
 
 const MyCVPageLayout: React.FC = () => {
-    const [skillSets, setSkillSets] = useState<SkillSet []>([]);
-    const [education, setEducation] = useState<EducationItem []>([]);
-    const [experiences, setExperiences] = useState<Experience []>([]);
+    const [skillSets, setSkillSets] = useState<SkillSet[]>([]);
+    const [education, setEducation] = useState<EducationItem[]>([]);
+    const [experiences, setExperiences] = useState<Experience[]>([]);
     
     // Experience management functionality
     const auth = useAuth();
@@ -100,22 +100,23 @@ const MyCVPageLayout: React.FC = () => {
         window.document.body.style.overflow = "unset";
     };
 
-    useEffect(() => {
-        database.skillSets.getAll()
-            .then(skillSets => {
-                setSkillSets(skillSets);
-            });
+  useEffect(() => {
+    database.skillSets.getAll().then((skillSets) => {
+      setSkillSets(skillSets);
+    });
 
-        database.experiences.getAll({field: "importance", direction: "desc"})
-            .then(experiences => {
-                setExperiences(experiences);
-            });
+    database.experiences
+      .getAll({ field: "importance", direction: "desc" })
+      .then((experiences) => {
+        setExperiences(experiences);
+      });
 
-        database.education.getAll({field: "endYear", direction: "desc"})
-            .then(items => {
-               setEducation(items);
-            });
-    }, []);
+    database.education
+      .getAll({ field: "endYear", direction: "desc" })
+      .then((items) => {
+        setEducation(items);
+      });
+  }, []);
 
     return (
         <PageLayout title="CV">
@@ -238,12 +239,12 @@ const MyCVPageLayout: React.FC = () => {
                         <ProfileImage src="/images/me.jpg" alt="Daniel Richard Aboo" />
                         <ProfileInfo>
                             <ProfileName>Daniel Richard Aboo</ProfileName>
-                            <ProfileTitle>Front-end Developer</ProfileTitle>
+                            <ProfileTitle>Full-stack Developer, Prompt Engineer</ProfileTitle>
                             <ContactInfo>
                                 Mobile: <a href="tel:+48601951169">+48 601 951 169</a>
                             </ContactInfo>
                             <ContactInfo className="email-only">
-                                Email: <a href="mailto:daboo1998@gmail.com">daboo1998@gmail.com</a>
+                                Email: <a href="mailto:me@aboodaniel.pl">me@aboodaniel.pl</a>
                             </ContactInfo>
                         </ProfileInfo>
                     </ProfileColumn>
