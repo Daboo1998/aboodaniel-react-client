@@ -205,7 +205,7 @@ const MyCVPageLayout: React.FC = () => {
                                                     size={ButtonSize.small}
                                                     action={() => onEditButtonClick(experience)}
                                                     label="Edit"
-                                                    type={ButtonType.neutral}
+                                                    type={ButtonType.primary}
                                                 />
                                             </div>
                                         )}
