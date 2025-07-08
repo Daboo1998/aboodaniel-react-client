@@ -63,9 +63,15 @@ const NewHomePageLayout: React.FC = () => {
             </AboutText>
             <AboutText>
               From 2019-2021 at Sigbar, I worked on diverse projects from iOS/tvOS narrowcasting systems for healthcare 
-              to AR shop applications and React web development. I contributed significantly to Odyssey Momentum, 
-              implementing features like Social UI, Stage Mode, and Token Gated Access while transitioning the platform 
-              to modern technologies like MobX and styled-components.
+              to AR shop applications and React web development. I then moved into consulting at Usprawniacze Firm, 
+              helping companies like Planeta Soni, ZIO-MAX, and SteelProfil improve their processes through automation 
+              and software solutions, including developing AI agents for customer-facing applications.
+            </AboutText>
+            <AboutText>
+              Alongside my consulting work, I contributed to BrainGym.AI's learning platform and Blue Owl's Shopify 
+              commerce solutions, before transitioning fully into prompt engineering at LivePerson. This diverse 
+              experience across industries and technologies has shaped my approach to building AI solutions that 
+              solve real-world business challenges.
             </AboutText>
             <AboutHighlight>
               "Passionate about leveraging AI to transform everyday life, I'm always eager to learn and explore emerging technologies."
@@ -160,6 +166,17 @@ const NewHomePageLayout: React.FC = () => {
                 Worked in Agile environment with git flow and kanban methodologies.
               </ProjectDescription>
               <ProjectTech>SwiftUI • iOS/tvOS • React • Node.js • AR • MobX • Styled-Components • Agile</ProjectTech>
+            </ProjectCard>
+            
+            <ProjectCard>
+              <ProjectTitle>AI Agent for SteelProfil - Usprawniacze Firm</ProjectTitle>
+              <ProjectDescription>
+                Developed a customer-facing AI agent for SteelProfil as part of consulting services at Usprawniacze Firm. 
+                The AI agent provides estimated quotations and company information to customers, improving their sales 
+                process through automation. Also worked with companies like Planeta Soni and ZIO-MAX on process improvement 
+                and software solutions.
+              </ProjectDescription>
+              <ProjectTech>AI Agents • Customer Service • Automation • Process Improvement • Consulting</ProjectTech>
             </ProjectCard>
             
             <ProjectCard>
