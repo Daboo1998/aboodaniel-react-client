@@ -39,7 +39,7 @@ const AskMeAnythingPage: React.FC = () => {
   const handleInputChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
     event
   ) => {
-    if (event.target.value.length <= maxMessageLength) {
+    if (isOwner || event.target.value.length <= maxMessageLength) {
       setMessage(event.target.value);
     }
   };
@@ -200,9 +200,11 @@ const AskMeAnythingPage: React.FC = () => {
               minRows={minTextareaRows}
               maxRows={maxTextareaRows}
             />
-            <p>
-              {message.length}/{maxMessageLength}
-            </p>
+            {!isOwner && (
+              <p>
+                {message.length}/{maxMessageLength}
+              </p>
+            )}
 
             {isLoading ? (
               <styles.dotsContainer className="buttonLoader">

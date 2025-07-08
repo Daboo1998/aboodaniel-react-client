@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 // Page imports
 import HomePageLayout from "./components/layouts/pages/general/HomePageLayout";
 import NewHomePageLayout from "./components/layouts/pages/general/NewHomePageLayout";
-// import ExperiencePageLayout from "./components/layouts/pages/general/ExperiencePageLayout";
+import ExperiencePageLayout from "./components/layouts/pages/general/ExperiencePageLayout";
 import ContactPageLayout from "./components/layouts/pages/general/ContactPageLayout";
 import NotFoundPageLayout from "./components/layouts/pages/general/NotFoundPageLayout";
 import DevelopmentToolsPageLayout from "./components/layouts/pages/development and administration/DevelopmentToolsPageLayout";
@@ -28,30 +28,30 @@ function App() {
       <NavigationProvider>
         <AppContainer>
           <PageNavigatorBar>
-            <PageNavigatorBarLink to="/">Home</PageNavigatorBarLink>
+            <PageNavigatorBarLink to="/">My CV</PageNavigatorBarLink>
             {/* <PageNavigatorBarLink to="/experience">
                     Experience
                 </PageNavigatorBarLink> */}
-            <PageNavigatorBarLink to="/contact">Contact</PageNavigatorBarLink>
             <PageNavigatorBarLink to="/assistant">
               My Assistant (Beta)
             </PageNavigatorBarLink>
+            <PageNavigatorBarLink to="/contact">Contact</PageNavigatorBarLink>
           </PageNavigatorBar>
           <Switch>
             <Route exact path="/">
+              <MyCVPageLayout />
+            </Route>
+            <Route exact path="/home">
               <HomePageLayout />
             </Route>
             <Route exact path="/new-home">
               <NewHomePageLayout />
             </Route>
-            {/* <Route exact path="/experience">
-                    <ExperiencePageLayout />
-                </Route> */}
+            <Route exact path="/experience">
+              <ExperiencePageLayout />
+            </Route>
             <Route exact path="/cv">
               <MyCVPageLayout />
-            </Route>
-            <Route exact path="/contact">
-              <ContactPageLayout />
             </Route>
             <Route exact path="/developerTools">
               <DevelopmentToolsPageLayout />
@@ -67,6 +67,9 @@ function App() {
             </Route>
             <Route exact path="/assistant">
               <AskMeAnythingLayout />
+            </Route>
+            <Route exact path="/contact">
+              <ContactPageLayout />
             </Route>
             <Route>
               <NotFoundPageLayout />
