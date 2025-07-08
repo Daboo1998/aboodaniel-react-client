@@ -39,9 +39,9 @@ const NewHomePageLayout: React.FC = () => {
       
       <HeroSection>
         <HeroTitle>Daniel Aboo</HeroTitle>
-        <HeroSubtitle>Prompt Engineer at LivePerson</HeroSubtitle>
+        <HeroSubtitle>Prompt Engineer II at LivePerson</HeroSubtitle>
         <HeroDescription>
-          Bridging the gap between human creativity and AI potential through thoughtful prompt engineering and technical expertise.
+          Designing and developing AI agents and prompt architectures that enhance customer engagement through advanced conversational AI solutions.
         </HeroDescription>
       </HeroSection>
 
@@ -50,17 +50,19 @@ const NewHomePageLayout: React.FC = () => {
         <SectionContent>
           <AboutGrid>
             <AboutText>
-              Welcome to my digital space! I'm a prompt engineer at LivePerson who transitioned from 
-              full-stack development into the fascinating world of AI and language models. I believe in 
-              the power of well-crafted prompts to unlock AI's potential and create meaningful solutions.
+              Welcome to my digital space! I'm a Prompt Engineer II at LivePerson, where I design and develop 
+              AI agents and prompt architectures for various companies. My expertise in artificial intelligence, 
+              machine learning, and natural language processing helps me build advanced conversational AI solutions 
+              that enhance customer engagement.
             </AboutText>
             <AboutText>
-              My journey began in full-stack development with React, TypeScript, Node.js, and modern web 
-              technologies. This technical foundation now empowers me to approach prompt engineering with 
-              a deep understanding of how systems work, enabling me to design more effective AI interactions.
+              My journey began with a BSc in Artificial Intelligence from the University of Groningen, studying 
+              AI fundamentals including computer vision, neural networks, and robotics. I've worked across diverse 
+              roles - from frontend development at Blue Owl (Shopify headless commerce) to AI engineering at 
+              BrainGym.AI, always passionate about leveraging AI to transform everyday life.
             </AboutText>
             <AboutHighlight>
-              "Prompts are the bridge between human intention and AI capability – every word matters in crafting that connection."
+              "Passionate about leveraging AI to transform everyday life, I'm always eager to learn and explore emerging technologies."
             </AboutHighlight>
           </AboutGrid>
         </SectionContent>
@@ -72,37 +74,37 @@ const NewHomePageLayout: React.FC = () => {
           <SkillsGrid>
             <SkillCard>
               <SkillIcon>🤖</SkillIcon>
-              <SkillTitle>Prompt Engineering</SkillTitle>
+              <SkillTitle>AI Agent Development</SkillTitle>
               <SkillDescription>
-                Designing and optimizing prompts for various AI models to achieve precise, reliable outputs. 
-                I specialize in crafting instructions that maximize model performance and user satisfaction.
+                Designing and developing AI agents and prompt architectures for various companies at LivePerson. 
+                Creating conversational AI solutions that enhance customer engagement and experience.
               </SkillDescription>
             </SkillCard>
             
             <SkillCard>
-              <SkillIcon>🔗</SkillIcon>
-              <SkillTitle>AI Integration</SkillTitle>
+              <SkillIcon>🧠</SkillIcon>
+              <SkillTitle>Machine Learning & NLP</SkillTitle>
               <SkillDescription>
-                Building seamless connections between AI capabilities and real-world applications. 
-                My full-stack background enables me to implement AI solutions end-to-end.
+                Expertise in artificial intelligence, machine learning, and natural language processing. 
+                Applied knowledge from University of Groningen AI studies including neural networks and computer vision.
               </SkillDescription>
             </SkillCard>
             
             <SkillCard>
-              <SkillIcon>🚀</SkillIcon>
-              <SkillTitle>Full-Stack Development</SkillTitle>
+              <SkillIcon>💻</SkillIcon>
+              <SkillTitle>Frontend Development</SkillTitle>
               <SkillDescription>
-                Strong foundation in React, TypeScript, Node.js, and modern web technologies. 
-                This technical background informs my approach to AI system design and implementation.
+                Experience building fast and optimized Shopify websites using React and Outsmartly at Blue Owl. 
+                Contributed to Odyssey Momentum with social UI, stage mode, and token-gated access features.
               </SkillDescription>
             </SkillCard>
             
             <SkillCard>
-              <SkillIcon>�</SkillIcon>
-              <SkillTitle>AI Strategy & Analysis</SkillTitle>
+              <SkillIcon>⚡</SkillIcon>
+              <SkillTitle>Process Automation</SkillTitle>
               <SkillDescription>
-                Analyzing AI model behavior, optimizing performance, and developing strategies for 
-                effective human-AI collaboration in various business contexts.
+                Automated repetitive tasks and developed AI agents for clients at Usprawniacze Firm. 
+                Optimized prompt engineering processes and algorithms for AI-powered learning platforms at BrainGym.AI.
               </SkillDescription>
             </SkillCard>
           </SkillsGrid>
@@ -114,33 +116,33 @@ const NewHomePageLayout: React.FC = () => {
         <SectionContent>
           <ProjectsGrid>
             <ProjectCard>
-              <ProjectTitle>AI Conversation Optimization Framework</ProjectTitle>
+              <ProjectTitle>AI Agent Architecture at LivePerson</ProjectTitle>
               <ProjectDescription>
-                Developed a comprehensive prompt engineering framework for optimizing AI conversations at LivePerson. 
-                Created standardized templates and testing methodologies that improved response quality by 40% 
-                across various use cases.
+                Design and develop AI agents and prompt architectures for various companies as a Prompt Engineer II. 
+                Build advanced conversational AI solutions that enhance customer engagement using cutting-edge 
+                artificial intelligence, machine learning, and natural language processing.
               </ProjectDescription>
-              <ProjectTech>GPT Models • Prompt Templates • Testing Frameworks • Analytics</ProjectTech>
+              <ProjectTech>AI Agents • Prompt Engineering • NLP • Conversational AI • GPT</ProjectTech>
             </ProjectCard>
             
             <ProjectCard>
-              <ProjectTitle>Full-Stack Web Applications</ProjectTitle>
+              <ProjectTitle>AI-Powered Learning Platform - BrainGym.AI</ProjectTitle>
               <ProjectDescription>
-                Built multiple enterprise-grade web applications during my full-stack development career. 
-                Focused on scalable architectures, responsive design, and seamless user experiences using 
-                modern technologies and best practices.
+                Worked as a Prompt Engineer on an AI-powered learning platform that used GPT to generate 
+                personalized prompts for learners. Optimized prompt engineering processes and algorithms 
+                to enhance learning experiences and outcomes.
               </ProjectDescription>
-              <ProjectTech>React • TypeScript • Node.js • PostgreSQL • AWS</ProjectTech>
+              <ProjectTech>GPT • Prompt Engineering • AI/ML • Learning Platforms • Optimization</ProjectTech>
             </ProjectCard>
             
             <ProjectCard>
-              <ProjectTitle>AI-Human Collaboration Tools</ProjectTitle>
+              <ProjectTitle>Shopify Headless Commerce - Blue Owl</ProjectTitle>
               <ProjectDescription>
-                Designed and implemented tools that enhance human-AI collaboration workflows. 
-                Combined technical development skills with prompt engineering expertise to create 
-                intuitive interfaces for AI-powered business processes.
+                Built fast and optimized Shopify websites using React and Outsmartly as a Frontend Web Developer. 
+                Contributed to Odyssey Momentum, developing key features including social UI, stage mode, 
+                and token-gated access using MobX and styled-components.
               </ProjectDescription>
-              <ProjectTech>AI APIs • React • Prompt Engineering • UX Design</ProjectTech>
+              <ProjectTech>React • Shopify • Outsmartly • MobX • Styled-Components • Testing</ProjectTech>
             </ProjectCard>
           </ProjectsGrid>
         </SectionContent>
@@ -150,17 +152,19 @@ const NewHomePageLayout: React.FC = () => {
         <SectionTitle>Beyond Code</SectionTitle>
         <PersonalContent>
           <AboutText>
-            My transition from full-stack development to prompt engineering has been one of the most rewarding 
-            career moves I've made. It combines my love for technical precision with the art of communication, 
-            allowing me to explore how language shapes AI behavior and capabilities.
+            My journey from studying AI fundamentals at the University of Groningen to working with cutting-edge 
+            conversational AI at LivePerson has been incredibly fulfilling. The combination of computer vision, 
+            neural networks, and robotics studies with real-world prompt engineering creates a unique perspective 
+            on how AI can transform everyday experiences.
           </AboutText>
           <AboutText>
-            I'm fascinated by the evolving relationship between humans and AI systems. When I'm not designing 
-            prompts, I enjoy reading about cognitive science, linguistics, and the philosophy of artificial 
-            intelligence. These interests directly inform my approach to creating more intuitive AI interactions.
+            Fluent in both Polish and English, I bring a multilingual perspective to AI development that helps 
+            create more inclusive and globally accessible solutions. I'm always eager to learn and explore 
+            emerging technologies, completing additional specializations like Machine Learning on Coursera to 
+            stay at the forefront of AI innovation.
           </AboutText>
           <PersonalQuote>
-            "The most powerful AI interactions happen when technical precision meets human understanding."
+            "Passionate about leveraging AI to transform everyday life, one conversation at a time."
           </PersonalQuote>
         </PersonalContent>
       </PersonalSection>
@@ -168,8 +172,8 @@ const NewHomePageLayout: React.FC = () => {
       <ConnectSection>
         <ConnectTitle>Let's Build Something Amazing</ConnectTitle>
         <ConnectDescription>
-          Whether you have a project in mind, need technical consultation, or just want to chat about 
-          the latest in web development, I'd love to connect. Every great project starts with a conversation.
+          Whether you have an AI project in mind, need prompt engineering consultation, or just want to chat about 
+          the latest in conversational AI and machine learning, I'd love to connect. Every great innovation starts with a conversation.
         </ConnectDescription>
       </ConnectSection>
     </PageLayout>
