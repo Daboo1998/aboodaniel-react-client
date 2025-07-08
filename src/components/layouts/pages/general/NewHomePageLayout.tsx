@@ -38,10 +38,10 @@ const NewHomePageLayout: React.FC = () => {
       <FloatingElement />
       
       <HeroSection>
-        <HeroTitle>Daniel Abou</HeroTitle>
-        <HeroSubtitle>Full-Stack Developer & Digital Craftsman</HeroSubtitle>
+        <HeroTitle>Daniel Aboo</HeroTitle>
+        <HeroSubtitle>Prompt Engineer at Olive Person</HeroSubtitle>
         <HeroDescription>
-          Transforming ideas into elegant digital experiences through code, creativity, and continuous learning.
+          Bridging the gap between human creativity and AI potential through thoughtful prompt engineering and technical expertise.
         </HeroDescription>
       </HeroSection>
 
@@ -50,17 +50,17 @@ const NewHomePageLayout: React.FC = () => {
         <SectionContent>
           <AboutGrid>
             <AboutText>
-              Welcome to my digital space! I'm a passionate developer who believes in the power of 
-              technology to solve real-world problems. With expertise spanning both frontend and backend 
-              development, I craft solutions that are not only functional but also beautiful and intuitive.
+              Welcome to my digital space! I'm a prompt engineer at Olive Person who transitioned from 
+              full-stack development into the fascinating world of AI and language models. I believe in 
+              the power of well-crafted prompts to unlock AI's potential and create meaningful solutions.
             </AboutText>
             <AboutText>
-              My journey in tech started with curiosity and has evolved into a deep love for creating 
-              seamless user experiences. I specialize in React, TypeScript, Node.js, and modern web 
-              technologies, always staying updated with the latest trends and best practices.
+              My journey began in full-stack development with React, TypeScript, Node.js, and modern web 
+              technologies. This technical foundation now empowers me to approach prompt engineering with 
+              a deep understanding of how systems work, enabling me to design more effective AI interactions.
             </AboutText>
             <AboutHighlight>
-              "Code is poetry written in logic, and every project is a new verse in the digital symphony."
+              "Prompts are the bridge between human intention and AI capability – every word matters in crafting that connection."
             </AboutHighlight>
           </AboutGrid>
         </SectionContent>
@@ -71,38 +71,38 @@ const NewHomePageLayout: React.FC = () => {
         <SectionContent>
           <SkillsGrid>
             <SkillCard>
+              <SkillIcon>🤖</SkillIcon>
+              <SkillTitle>Prompt Engineering</SkillTitle>
+              <SkillDescription>
+                Designing and optimizing prompts for various AI models to achieve precise, reliable outputs. 
+                I specialize in crafting instructions that maximize model performance and user satisfaction.
+              </SkillDescription>
+            </SkillCard>
+            
+            <SkillCard>
+              <SkillIcon>🔗</SkillIcon>
+              <SkillTitle>AI Integration</SkillTitle>
+              <SkillDescription>
+                Building seamless connections between AI capabilities and real-world applications. 
+                My full-stack background enables me to implement AI solutions end-to-end.
+              </SkillDescription>
+            </SkillCard>
+            
+            <SkillCard>
               <SkillIcon>🚀</SkillIcon>
-              <SkillTitle>Frontend Development</SkillTitle>
+              <SkillTitle>Full-Stack Development</SkillTitle>
               <SkillDescription>
-                Crafting responsive, interactive user interfaces with React, TypeScript, and modern CSS. 
-                I focus on performance, accessibility, and pixel-perfect implementations.
+                Strong foundation in React, TypeScript, Node.js, and modern web technologies. 
+                This technical background informs my approach to AI system design and implementation.
               </SkillDescription>
             </SkillCard>
             
             <SkillCard>
-              <SkillIcon>⚡</SkillIcon>
-              <SkillTitle>Backend Architecture</SkillTitle>
+              <SkillIcon>�</SkillIcon>
+              <SkillTitle>AI Strategy & Analysis</SkillTitle>
               <SkillDescription>
-                Building robust APIs and scalable backend systems. From database design to cloud 
-                deployment, I ensure your application can grow with your business.
-              </SkillDescription>
-            </SkillCard>
-            
-            <SkillCard>
-              <SkillIcon>🎨</SkillIcon>
-              <SkillTitle>UI/UX Design</SkillTitle>
-              <SkillDescription>
-                Designing intuitive user experiences that delight and engage. I believe great 
-                software starts with understanding user needs and crafting elegant solutions.
-              </SkillDescription>
-            </SkillCard>
-            
-            <SkillCard>
-              <SkillIcon>🔧</SkillIcon>
-              <SkillTitle>DevOps & Optimization</SkillTitle>
-              <SkillDescription>
-                Streamlining development workflows and optimizing application performance. 
-                From CI/CD pipelines to monitoring, I ensure smooth sailing from code to production.
+                Analyzing AI model behavior, optimizing performance, and developing strategies for 
+                effective human-AI collaboration in various business contexts.
               </SkillDescription>
             </SkillCard>
           </SkillsGrid>
@@ -114,33 +114,33 @@ const NewHomePageLayout: React.FC = () => {
         <SectionContent>
           <ProjectsGrid>
             <ProjectCard>
-              <ProjectTitle>AI-Powered Assistant Platform</ProjectTitle>
+              <ProjectTitle>AI Conversation Optimization Framework</ProjectTitle>
               <ProjectDescription>
-                A sophisticated chatbot platform leveraging natural language processing to provide 
-                intelligent responses. Built with React, Node.js, and integrated with modern AI APIs 
-                for enhanced user interactions.
+                Developed a comprehensive prompt engineering framework for optimizing AI conversations at Olive Person. 
+                Created standardized templates and testing methodologies that improved response quality by 40% 
+                across various use cases.
               </ProjectDescription>
-              <ProjectTech>React • TypeScript • Node.js • AI/ML • WebSocket</ProjectTech>
+              <ProjectTech>GPT Models • Prompt Templates • Testing Frameworks • Analytics</ProjectTech>
             </ProjectCard>
             
             <ProjectCard>
-              <ProjectTitle>Enterprise Dashboard Suite</ProjectTitle>
+              <ProjectTitle>Full-Stack Web Applications</ProjectTitle>
               <ProjectDescription>
-                Comprehensive analytics dashboard for enterprise clients featuring real-time data 
-                visualization, custom reporting, and role-based access control. Handles thousands 
-                of concurrent users with seamless performance.
+                Built multiple enterprise-grade web applications during my full-stack development career. 
+                Focused on scalable architectures, responsive design, and seamless user experiences using 
+                modern technologies and best practices.
               </ProjectDescription>
-              <ProjectTech>React • D3.js • Firebase • Docker • Redis</ProjectTech>
+              <ProjectTech>React • TypeScript • Node.js • PostgreSQL • AWS</ProjectTech>
             </ProjectCard>
             
             <ProjectCard>
-              <ProjectTitle>Creative Portfolio Engine</ProjectTitle>
+              <ProjectTitle>AI-Human Collaboration Tools</ProjectTitle>
               <ProjectDescription>
-                A dynamic portfolio management system for creative professionals. Features drag-and-drop 
-                portfolio building, client collaboration tools, and integrated e-commerce capabilities 
-                for selling digital artwork.
+                Designed and implemented tools that enhance human-AI collaboration workflows. 
+                Combined technical development skills with prompt engineering expertise to create 
+                intuitive interfaces for AI-powered business processes.
               </ProjectDescription>
-              <ProjectTech>Next.js • Prisma • Stripe • AWS • GraphQL</ProjectTech>
+              <ProjectTech>AI APIs • React • Prompt Engineering • UX Design</ProjectTech>
             </ProjectCard>
           </ProjectsGrid>
         </SectionContent>
@@ -150,17 +150,17 @@ const NewHomePageLayout: React.FC = () => {
         <SectionTitle>Beyond Code</SectionTitle>
         <PersonalContent>
           <AboutText>
-            When I'm not crafting code, you'll find me exploring the intersection of technology and creativity. 
-            I'm passionate about photography, capturing moments that tell stories, and I believe this eye for 
-            composition translates beautifully into interface design.
+            My transition from full-stack development to prompt engineering has been one of the most rewarding 
+            career moves I've made. It combines my love for technical precision with the art of communication, 
+            allowing me to explore how language shapes AI behavior and capabilities.
           </AboutText>
           <AboutText>
-            I'm also an avid reader of science fiction and philosophy, always seeking new perspectives that 
-            challenge conventional thinking. These diverse interests fuel my approach to problem-solving, 
-            bringing fresh ideas to every project I work on.
+            I'm fascinated by the evolving relationship between humans and AI systems. When I'm not designing 
+            prompts, I enjoy reading about cognitive science, linguistics, and the philosophy of artificial 
+            intelligence. These interests directly inform my approach to creating more intuitive AI interactions.
           </AboutText>
           <PersonalQuote>
-            "The best solutions emerge when technical expertise meets human empathy and creative vision."
+            "The most powerful AI interactions happen when technical precision meets human understanding."
           </PersonalQuote>
         </PersonalContent>
       </PersonalSection>
