@@ -39,7 +39,7 @@ const NewHomePageLayout: React.FC = () => {
       
       <HeroSection>
         <HeroTitle>Daniel Aboo</HeroTitle>
-        <HeroSubtitle>Prompt Engineer at Olive Person</HeroSubtitle>
+        <HeroSubtitle>Prompt Engineer at LivePerson</HeroSubtitle>
         <HeroDescription>
           Bridging the gap between human creativity and AI potential through thoughtful prompt engineering and technical expertise.
         </HeroDescription>
@@ -50,7 +50,7 @@ const NewHomePageLayout: React.FC = () => {
         <SectionContent>
           <AboutGrid>
             <AboutText>
-              Welcome to my digital space! I'm a prompt engineer at Olive Person who transitioned from 
+              Welcome to my digital space! I'm a prompt engineer at LivePerson who transitioned from 
               full-stack development into the fascinating world of AI and language models. I believe in 
               the power of well-crafted prompts to unlock AI's potential and create meaningful solutions.
             </AboutText>
@@ -116,7 +116,7 @@ const NewHomePageLayout: React.FC = () => {
             <ProjectCard>
               <ProjectTitle>AI Conversation Optimization Framework</ProjectTitle>
               <ProjectDescription>
-                Developed a comprehensive prompt engineering framework for optimizing AI conversations at Olive Person. 
+                Developed a comprehensive prompt engineering framework for optimizing AI conversations at LivePerson. 
                 Created standardized templates and testing methodologies that improved response quality by 40% 
                 across various use cases.
               </ProjectDescription>
