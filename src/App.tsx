@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 // Page imports
 import HomePageLayout from "./components/layouts/pages/general/HomePageLayout";
+import NewHomePageLayout from "./components/layouts/pages/general/NewHomePageLayout";
 // import ExperiencePageLayout from "./components/layouts/pages/general/ExperiencePageLayout";
 import ContactPageLayout from "./components/layouts/pages/general/ContactPageLayout";
 import NotFoundPageLayout from "./components/layouts/pages/general/NotFoundPageLayout";
@@ -39,6 +40,9 @@ function App() {
           <Switch>
             <Route exact path="/">
               <HomePageLayout />
+            </Route>
+            <Route exact path="/new-home">
+              <NewHomePageLayout />
             </Route>
             {/* <Route exact path="/experience">
                     <ExperiencePageLayout />
