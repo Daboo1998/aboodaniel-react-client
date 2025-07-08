@@ -2,7 +2,8 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 // Page imports
-// import HomePageLayout from "./components/layouts/pages/general/HomePageLayout";
+import HomePageLayout from "./components/layouts/pages/general/HomePageLayout";
+import NewHomePageLayout from "./components/layouts/pages/general/NewHomePageLayout";
 import ExperiencePageLayout from "./components/layouts/pages/general/ExperiencePageLayout";
 import ContactPageLayout from "./components/layouts/pages/general/ContactPageLayout";
 import NotFoundPageLayout from "./components/layouts/pages/general/NotFoundPageLayout";
@@ -19,14 +20,15 @@ import Footer from "./components/molecules/general/Footer";
 
 import MyCVPageLayout from "./components/layouts/pages/general/MyCVPageLayout";
 import NavigationProvider from "./components/context providers/NavigationProvider";
+import { AppContainer } from "./App.styled";
 
 function App() {
   return (
     <BrowserRouter basename="/">
       <NavigationProvider>
-        <div className="flex flex-col h-screen">
+        <AppContainer>
           <PageNavigatorBar>
-            <PageNavigatorBarLink to="/">My CV</PageNavigatorBarLink>
+            <PageNavigatorBarLink to="/">Home</PageNavigatorBarLink>
             {/* <PageNavigatorBarLink to="/experience">
                     Experience
                 </PageNavigatorBarLink> */}
@@ -37,7 +39,13 @@ function App() {
           </PageNavigatorBar>
           <Switch>
             <Route exact path="/">
-              <MyCVPageLayout />
+              <HomePageLayout />
+            </Route>
+            <Route exact path="/home">
+              <HomePageLayout />
+            </Route>
+            <Route exact path="/new-home">
+              <NewHomePageLayout />
             </Route>
             <Route exact path="/experience">
               <ExperiencePageLayout />
@@ -68,7 +76,7 @@ function App() {
             </Route>
           </Switch>
           <Footer isInsideMenu={false} />
-        </div>
+        </AppContainer>
       </NavigationProvider>
     </BrowserRouter>
   );

@@ -1,4 +1,11 @@
 import React from "react";
+import {
+  DateInputContainer,
+  DateInputLabel,
+  DateLabelText,
+  RequiredAsterisk,
+  StyledDateInput
+} from "./DateInput.styled";
 
 export interface DateInputProps {
     name: string;
@@ -9,21 +16,27 @@ export interface DateInputProps {
 }
 
 const DateInput: React.FC<DateInputProps> = ({
-    name ,
+    name,
     label,
     value,
     onChange,
     required
 }) => {
-
-    return <p className="text-gray-800 font-sans font-bold w-full">
-        <label htmlFor={name} className="mb-2">
-            <p className="w-max">{label} {required && <span className="text-red-600">*</span>}</p>
-            <input value={value} onChange={e => onChange?.(e.target.value)} name={name}
-                   type="date"
-                   className="border rounded transition border-gray-200 box-shadow-inner py-2 px-4 mb-2 w-full" />
-        </label>
-    </p>;
+    return (
+        <DateInputContainer>
+            <DateInputLabel htmlFor={name}>
+                <DateLabelText>
+                    {label} {required && <RequiredAsterisk>*</RequiredAsterisk>}
+                </DateLabelText>
+                <StyledDateInput
+                    value={value}
+                    onChange={e => onChange?.(e.target.value)}
+                    name={name}
+                    type="date"
+                />
+            </DateInputLabel>
+        </DateInputContainer>
+    );
 };
 
 export default DateInput;

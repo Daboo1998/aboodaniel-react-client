@@ -6,6 +6,13 @@ import MessageDetailsPopup from "../../../molecules/popups/messages/MessageDetai
 import MessageComponent from "../../../atoms/messages/MessageComponent";
 import {useAuth} from "../../../../contexts/AuthContext";
 import useNavigation from "../../../../hooks/useNavigation";
+import {
+    UnauthorizedContainer,
+    UnauthorizedTitle,
+    UnauthorizedMessage,
+    MessagesTitle,
+    MessagesContainer
+} from "./MessagesPageLayout.styled";
 
 const MessagesPageLayout: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);
@@ -46,12 +53,14 @@ const MessagesPageLayout: React.FC = () => {
     };
 
     if (!isOwner) {
-        return (<PageLayout title="Messages">
-              <div className="flex flex-col space-y-4">
-                  <h1>Messages</h1>
-                  <p>You are not authorised to be here! Contact the administrator to get access to messages.</p>
-              </div>
-        </PageLayout>);
+        return (
+            <PageLayout title="Messages">
+                <UnauthorizedContainer>
+                    <UnauthorizedTitle>Messages</UnauthorizedTitle>
+                    <UnauthorizedMessage>You are not authorised to be here! Contact the administrator to get access to messages.</UnauthorizedMessage>
+                </UnauthorizedContainer>
+            </PageLayout>
+        );
     }
     
     return (
@@ -62,14 +71,14 @@ const MessagesPageLayout: React.FC = () => {
                 onClose={handleMessageDetailsClose}
                 onMessageDelete={handleMessageDelete}
             />
-            <h1>Messages</h1>
-            <div className={(messages.length > 0 ? " border-t border-black dark:border-white mt-4" : "")}>
+            <MessagesTitle>Messages</MessagesTitle>
+            <MessagesContainer $hasMessages={messages.length > 0}>
                 {
                     messages.map((message) => {
                         return <MessageComponent key={message.id} message={message} onMessageClick={handleMessageClick}/>;
                     })
                 }
-            </div>
+            </MessagesContainer>
         </PageLayout>
     );
 };

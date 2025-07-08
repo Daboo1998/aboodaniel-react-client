@@ -7,6 +7,13 @@ import SignInWithGoogleButton from "../../../atoms/buttons and links/SignInWithG
 import Button from "../../../atoms/buttons and links/Button";
 import TextInput from "../../../atoms/input/TextInput";
 import ShouldRememberUserCheckbox from "../../../atoms/input/ShouldRememberUserCheckbox";
+import {
+    RegisterTitle,
+    RegisterContainer,
+    RegisterForm,
+    ErrorMessage,
+    SubmitButtonContainer
+} from "./RegisterPageLayout.styled";
 
 const RegisterPageLayout: React.FC = () => {
     const [displayName, setDisplayName] = useState("");
@@ -59,19 +66,21 @@ const RegisterPageLayout: React.FC = () => {
 
     return (
         <PageLayout title="Register">
-            <h1 className="text-center">Register</h1>
-            <div className="flex flex-col place-items-center h-full pt-2">
-                <form onSubmit={handleSubmit}>
+            <RegisterTitle>Register</RegisterTitle>
+            <RegisterContainer>
+                <RegisterForm onSubmit={handleSubmit}>
                     <TextInput label="Display Name" name="displayName" onChange={setDisplayName} />
                     <TextInput label="Email" name="email" onChange={setEmail} />
                     <TextInput label="Password" name="password" onChange={setPassword} isPassword />
                     <TextInput label="Confirm password" name="passwordConfirmation" onChange={setPasswordConfirmation} isPassword />
-                    {!!errorMessage && <p className="text-red-600 text-sm">{errorMessage}</p>}
+                    {!!errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                     <ShouldRememberUserCheckbox shouldRememberUser={shouldRememberUser} setShouldRememberUser={setShouldRememberUser}/>
-                    <Button className="w-full px-5 py-2" label="register" submit/>
+                    <SubmitButtonContainer>
+                        <Button label="register" submit />
+                    </SubmitButtonContainer>
                     <SignInWithGoogleButton onError={setErrorMessage} shouldRememberUser={shouldRememberUser} />
-                </form>
-            </div>
+                </RegisterForm>
+            </RegisterContainer>
         </PageLayout>
     );
 };

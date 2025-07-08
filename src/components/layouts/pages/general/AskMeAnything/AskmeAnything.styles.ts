@@ -1,6 +1,107 @@
 import ReactMarkdown from "react-markdown";
 import styled from "styled-components";
 import TextareaAutosize from "react-textarea-autosize";
+import { theme } from '../../../../../styles/theme';
+
+// Styled-components for AskMeAnything page
+export const PageContainer = styled.div`
+  padding: ${theme.spacing[10]} 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  max-width: 820px;
+  align-self: center;
+  margin: 0 auto;
+`;
+
+export const MainContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const PageTitle = styled.h1`
+  text-align: center;
+  padding-bottom: ${theme.spacing[20]};
+  font-size: 50px;
+  line-height: 60px;
+  margin: 0;
+  color: ${theme.colors.gray[900]};
+
+  @media (prefers-color-scheme: dark) {
+    color: ${theme.colors.white};
+  }
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    font-size: 36px;
+    line-height: 44px;
+    padding-bottom: ${theme.spacing[12]};
+  }
+
+  @media (max-width: ${theme.breakpoints.sm}) {
+    font-size: 28px;
+    line-height: 36px;
+    padding-bottom: ${theme.spacing[8]};
+  }
+`;
+
+export const CenteredText = styled.p`
+  text-align: center;
+  margin: 0 0 ${theme.spacing[4]} 0;
+  color: ${theme.colors.gray[800]};
+  line-height: 1.6;
+
+  @media (prefers-color-scheme: dark) {
+    color: ${theme.colors.gray[200]};
+  }
+`;
+
+export const MessageCount = styled.p`
+  text-align: right;
+  color: ${theme.colors.gray[600]};
+  padding-top: ${theme.spacing[10]};
+  margin: 0;
+  font-size: ${theme.fontSizes.sm};
+
+  @media (prefers-color-scheme: dark) {
+    color: ${theme.colors.gray[400]};
+  }
+`;
+
+export const UserMessage = styled.div`
+  padding: ${theme.spacing[4]};
+  border-radius: ${theme.borderRadius.md};
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing[2]};
+  background-color: ${theme.colors.blue[500]};
+  color: ${theme.colors.white};
+  align-self: flex-start;
+  max-width: 70%;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: ${theme.colors.blue[600]};
+  }
+`;
+
+export const AssistantMessage = styled.div`
+  padding: ${theme.spacing[4]};
+  border-radius: ${theme.borderRadius.md};
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing[2]};
+  background-color: ${theme.colors.gray[200]};
+  color: ${theme.colors.gray[900]};
+  align-self: flex-end;
+  max-width: 70%;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: ${theme.colors.green[300]};
+    color: ${theme.colors.gray[900]};
+  }
+`;
 
 // px-4 py-2 rounded-md bg-gray-200 dark:bg-green-300 self-end
 export const dotsContainer = styled.div`
@@ -344,6 +445,7 @@ export const messagesList = styled.div`
   flex-grow: 1;
 `;
 
+// Remove the old Message component since we now have UserMessage and AssistantMessage
 export const Message = styled.div`
   max-width: 70%;
 `;

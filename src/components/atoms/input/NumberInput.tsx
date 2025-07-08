@@ -1,4 +1,11 @@
 import React from "react";
+import {
+  NumberInputContainer,
+  NumberInputLabel,
+  NumberLabelText,
+  RequiredAsterisk,
+  StyledNumberInput
+} from "./NumberInput.styled";
 
 export interface NumberInputProps {
     name: string;
@@ -14,7 +21,7 @@ export interface NumberInputProps {
 const NumberInput: React.FC<NumberInputProps> = ({
     min,
     max,
-    name ,
+    name,
     label,
     value,
     onChange,
@@ -26,16 +33,24 @@ const NumberInput: React.FC<NumberInputProps> = ({
         onChange?.(e.target.valueAsNumber);
     };
 
-    return <p className="text-gray-800 font-sans font-bold w-full">
-        <label htmlFor={name} className="mb-2">
-            <p>{label} {required && <span className="text-red-600">*</span>}</p>
-            <input type="number" value={value} aria-invalid onChange={handleChange} name={name}
-                   placeholder={placeholder ? placeholder : ""}
-                   min={min}
-                   max={max}
-                   className="border rounded transition border-gray-200 box-shadow-inner py-2 px-4 mb-2 w-full" />
-        </label>
-    </p>;
+    return (
+        <NumberInputContainer>
+            <NumberInputLabel htmlFor={name}>
+                <NumberLabelText>
+                    {label} {required && <RequiredAsterisk>*</RequiredAsterisk>}
+                </NumberLabelText>
+                <StyledNumberInput
+                    type="number"
+                    value={value}
+                    onChange={handleChange}
+                    name={name}
+                    placeholder={placeholder ? placeholder : ""}
+                    min={min}
+                    max={max}
+                />
+            </NumberInputLabel>
+        </NumberInputContainer>
+    );
 };
 
 export default NumberInput;
