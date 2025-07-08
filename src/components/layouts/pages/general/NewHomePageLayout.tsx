@@ -136,13 +136,23 @@ const NewHomePageLayout: React.FC = () => {
             </ProjectCard>
             
             <ProjectCard>
-              <ProjectTitle>Shopify Headless Commerce - Blue Owl</ProjectTitle>
+              <ProjectTitle>Dynamic Plugin System - Project Lead</ProjectTitle>
               <ProjectDescription>
-                Built fast and optimized Shopify websites using React and Outsmartly as a Frontend Web Developer. 
-                Contributed to Odyssey Momentum, developing key features including social UI, stage mode, 
-                and token-gated access using MobX and styled-components.
+                Led development of a pluggable system using ModuleFederation and craco to load plugins dynamically 
+                based on backend responses. Created a custom wrapper script abstracting craco config with ModuleFederation, 
+                making it easier for plugin developers to create plugins for Momentum without complex configuration.
               </ProjectDescription>
-              <ProjectTech>React • Shopify • Outsmartly • MobX • Styled-Components • Testing</ProjectTech>
+              <ProjectTech>ModuleFederation • Craco • React • Dynamic Loading • Plugin Architecture</ProjectTech>
+            </ProjectCard>
+            
+            <ProjectCard>
+              <ProjectTitle>Apple tvOS Narrowcasting System - Sigbar</ProjectTitle>
+              <ProjectDescription>
+                Built a comprehensive narrowcasting system for St. Jansdal Hospital from the ground up using SwiftUI 
+                for Apple tvOS. Led the technical development as the primary developer, learning and implementing 
+                SwiftUI when it was newly launched. The project was successful and is currently deployed at the hospital.
+              </ProjectDescription>
+              <ProjectTech>SwiftUI • Apple tvOS • Narrowcasting • Healthcare Tech • iOS Development</ProjectTech>
             </ProjectCard>
           </ProjectsGrid>
         </SectionContent>
