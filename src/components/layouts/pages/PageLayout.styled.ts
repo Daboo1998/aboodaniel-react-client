@@ -16,9 +16,6 @@ export const PageStyled = styled.div`
   }
 `;
 
-export const ContentWrapper = styled.div<{ $hasCustomPadding?: boolean }>`
+export const ContentWrapper = styled.div`
   width: 100%;
-  ${({ $hasCustomPadding }) => $hasCustomPadding && `
-    padding: ${theme.spacing[6]};
-  `}
 `;
