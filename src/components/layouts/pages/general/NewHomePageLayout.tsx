@@ -56,10 +56,10 @@ const NewHomePageLayout: React.FC = () => {
               that enhance customer engagement.
             </AboutText>
             <AboutText>
-              My journey began with a BSc in Artificial Intelligence from the University of Groningen, studying 
-              AI fundamentals including computer vision, neural networks, and robotics. I started my career with 
-              an internship at Bank Millennium, developing iOS apps including Goodie (discount platform), where 
-              I learned clean code practices, API integration, and the importance of teamwork in software development.
+              My journey started early with an internship at Bank Millennium, developing iOS apps including Goodie 
+              (discount platform), where I learned clean code practices, API integration, and teamwork fundamentals. 
+              This experience motivated me to pursue a BSc in Artificial Intelligence at the University of Groningen, 
+              studying AI fundamentals including computer vision, neural networks, and robotics.
             </AboutText>
             <AboutText>
               From 2019-2021 at Sigbar, I worked on diverse projects from iOS/tvOS narrowcasting systems for healthcare 
@@ -180,14 +180,14 @@ const NewHomePageLayout: React.FC = () => {
             </ProjectCard>
             
             <ProjectCard>
-              <ProjectTitle>iOS Development at Bank Millennium</ProjectTitle>
+              <ProjectTitle>iOS Development at Bank Millennium (Pre-University)</ProjectTitle>
               <ProjectDescription>
-                Started my career with a 6-month position (internship + full-time) developing iOS applications including 
-                Goodie, a discount platform offering loyalty programmes and discounts. Developed programming skills with 
-                clean code practices in Swift, API integration, and learned the importance of teamwork, communication, 
-                and delivering on time in a professional banking environment.
+                Started my tech journey with a 6-month position (internship + full-time) developing iOS applications including 
+                Goodie, a discount platform offering loyalty programmes and discounts. This early experience developing 
+                programming skills with clean code practices in Swift, API integration, and professional teamwork 
+                inspired me to pursue formal AI education at University of Groningen.
               </ProjectDescription>
-              <ProjectTech>Swift • iOS Development • API Integration • Clean Code • Banking • Teamwork</ProjectTech>
+              <ProjectTech>Swift • iOS Development • API Integration • Clean Code • Banking • Career Foundation</ProjectTech>
             </ProjectCard>
           </ProjectsGrid>
         </SectionContent>
