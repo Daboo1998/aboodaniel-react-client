@@ -57,9 +57,15 @@ const NewHomePageLayout: React.FC = () => {
             </AboutText>
             <AboutText>
               My journey began with a BSc in Artificial Intelligence from the University of Groningen, studying 
-              AI fundamentals including computer vision, neural networks, and robotics. I've worked across diverse 
-              roles - from frontend development at Blue Owl (Shopify headless commerce) to AI engineering at 
-              BrainGym.AI, always passionate about leveraging AI to transform everyday life.
+              AI fundamentals including computer vision, neural networks, and robotics. I started my career with 
+              an internship at Bank Millennium, developing iOS apps including Goodie (discount platform), where 
+              I learned clean code practices, API integration, and the importance of teamwork in software development.
+            </AboutText>
+            <AboutText>
+              From 2019-2021 at Sigbar, I worked on diverse projects from iOS/tvOS narrowcasting systems for healthcare 
+              to AR shop applications and React web development. I contributed significantly to Odyssey Momentum, 
+              implementing features like Social UI, Stage Mode, and Token Gated Access while transitioning the platform 
+              to modern technologies like MobX and styled-components.
             </AboutText>
             <AboutHighlight>
               "Passionate about leveraging AI to transform everyday life, I'm always eager to learn and explore emerging technologies."
@@ -146,13 +152,25 @@ const NewHomePageLayout: React.FC = () => {
             </ProjectCard>
             
             <ProjectCard>
-              <ProjectTitle>Apple tvOS Narrowcasting System - Sigbar</ProjectTitle>
+              <ProjectTitle>Multi-Platform Development at Sigbar (2019-2021)</ProjectTitle>
               <ProjectDescription>
-                Built a comprehensive narrowcasting system for St. Jansdal Hospital from the ground up using SwiftUI 
-                for Apple tvOS. Led the technical development as the primary developer, learning and implementing 
-                SwiftUI when it was newly launched. The project was successful and is currently deployed at the hospital.
+                Worked on diverse projects including a narrowcasting system for St. Jansdal Hospital on Apple tvOS, 
+                AR shop applications for iOS with Node.js backend, and React web development. Contributed to Odyssey Momentum 
+                platform implementing Social UI, Stage Mode, Token Gated Access, and refactoring to MobX state management. 
+                Worked in Agile environment with git flow and kanban methodologies.
               </ProjectDescription>
-              <ProjectTech>SwiftUI • Apple tvOS • Narrowcasting • Healthcare Tech • iOS Development</ProjectTech>
+              <ProjectTech>SwiftUI • iOS/tvOS • React • Node.js • AR • MobX • Styled-Components • Agile</ProjectTech>
+            </ProjectCard>
+            
+            <ProjectCard>
+              <ProjectTitle>iOS Development at Bank Millennium</ProjectTitle>
+              <ProjectDescription>
+                Started my career with a 6-month position (internship + full-time) developing iOS applications including 
+                Goodie, a discount platform offering loyalty programmes and discounts. Developed programming skills with 
+                clean code practices in Swift, API integration, and learned the importance of teamwork, communication, 
+                and delivering on time in a professional banking environment.
+              </ProjectDescription>
+              <ProjectTech>Swift • iOS Development • API Integration • Clean Code • Banking • Teamwork</ProjectTech>
             </ProjectCard>
           </ProjectsGrid>
         </SectionContent>
