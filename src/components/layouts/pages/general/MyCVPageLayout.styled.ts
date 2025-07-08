@@ -138,6 +138,18 @@ export const ExperienceSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing[4]};
+
+  .experience-admin-controls {
+    display: flex;
+    gap: ${theme.spacing[2]};
+    margin-bottom: ${theme.spacing[4]};
+    align-items: center;
+    
+    @media (max-width: ${theme.breakpoints.sm}) {
+      flex-direction: column;
+      gap: ${theme.spacing[2]};
+    }
+  }
 `;
 
 export const ExperienceItem = styled.div`

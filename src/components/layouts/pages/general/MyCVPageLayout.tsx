@@ -5,6 +5,11 @@ import database, {timestampToString} from "../../../../data/database";
 import Experience from "../../../../data/experience";
 import Spacer from "../../../atoms/utilities/Spacer";
 import EducationItem from "../../../../data/EducationItem";
+import {useAuth} from "../../../../contexts/AuthContext";
+import AddExperiencePopup from "../../../molecules/popups/experience/AddExperiencePopup";
+import usePopup from "../../../../hooks/usePopup";
+import RemoveExperiencesPopup from "../../../molecules/popups/experience/RemoveExperiencesPopup";
+import Button, {ButtonSize, ButtonType} from "../../../atoms/buttons and links/Button";
 import {
     CVContainer,
     CVTitle,
@@ -41,6 +46,35 @@ const MyCVPageLayout: React.FC = () => {
     const [skillSets, setSkillSets] = useState<SkillSet []>([]);
     const [education, setEducation] = useState<EducationItem []>([]);
     const [experiences, setExperiences] = useState<Experience []>([]);
+    
+    // Experience management functionality
+    const auth = useAuth();
+    const [isAddExperiencePopupShown, showAddExperiencePopup, hideAddExperiencePopup] = usePopup();
+    const [isRemoveExperiencesPopupShown, showRemoveExperiencesPopup, hideRemoveExperiencesPopup] = usePopup();
+
+    const onAddButtonClick = () => {
+        window.document.body.style.overflow = "hidden";
+        showAddExperiencePopup();
+    };
+
+    const onRemoveButtonClick = () => {
+        window.document.body.style.overflow = "hidden";
+        showRemoveExperiencesPopup();
+    };
+
+    const onAddExperienceClose = (addedExperience?: Experience) => {
+        hideAddExperiencePopup();
+        if (addedExperience) {
+            setExperiences([...experiences, addedExperience]);
+        }
+        window.document.body.style.overflow = "unset";
+    };
+
+    const onRemoveExperiencesClose = (remainingExperiences: Experience[]) => {
+        setExperiences(remainingExperiences);
+        hideRemoveExperiencesPopup();
+        window.document.body.style.overflow = "unset";
+    };
 
     useEffect(() => {
         database.skillSets.getAll()
@@ -62,6 +96,10 @@ const MyCVPageLayout: React.FC = () => {
     return (
         <PageLayout title="CV">
             <CVContainer>
+                {/* Experience Management Popups */}
+                <AddExperiencePopup isPopupShown={isAddExperiencePopupShown} onClose={onAddExperienceClose} />
+                <RemoveExperiencesPopup experiences={experiences} onClose={onRemoveExperiencesClose} isPopupShown={isRemoveExperiencesPopupShown} />
+                
                 <CVTitle>Curriculum Vitae</CVTitle>
                 <CVMainContainer>
                     <ContentColumn>
@@ -108,6 +146,22 @@ const MyCVPageLayout: React.FC = () => {
                         
                         <ExperienceSection>
                             <SectionTitle className="with-top-padding">Experience</SectionTitle>
+                            {auth.isOwner && (
+                                <div className="experience-admin-controls">
+                                    <Button
+                                        size={ButtonSize.small}
+                                        action={onAddButtonClick}
+                                        label="Add Experience"
+                                        type={ButtonType.constructive}
+                                    />
+                                    <Button
+                                        size={ButtonSize.small}
+                                        label="Remove Experiences"
+                                        action={onRemoveButtonClick}
+                                        type={ButtonType.destructive}
+                                    />
+                                </div>
+                            )}
                             {experiences.map((experience) => {
                                 return (
                                     <ExperienceItem key={experience.title}>
