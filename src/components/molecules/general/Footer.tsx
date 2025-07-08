@@ -74,9 +74,9 @@ const Footer: React.FC<FooterProps> = ({ isInsideMenu }) => {
           )}
         </AuthLinksContainer>
         
-        {/* <Link to="/cv">
+        <Link to="/cv">
           <FooterLink as="span">Curriculum Vitae</FooterLink>
-        </Link> */}
+        </Link>
         {auth.isDeveloper && (
           <Link to="/developerTools">
             <FooterLink as="span">Developer Tools</FooterLink>

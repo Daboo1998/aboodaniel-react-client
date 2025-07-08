@@ -28,7 +28,7 @@ function App() {
       <NavigationProvider>
         <AppContainer>
           <PageNavigatorBar>
-            <PageNavigatorBarLink to="/">My CV</PageNavigatorBarLink>
+            <PageNavigatorBarLink to="/">Home</PageNavigatorBarLink>
             {/* <PageNavigatorBarLink to="/experience">
                     Experience
                 </PageNavigatorBarLink> */}
@@ -39,7 +39,7 @@ function App() {
           </PageNavigatorBar>
           <Switch>
             <Route exact path="/">
-              <MyCVPageLayout />
+              <HomePageLayout />
             </Route>
             <Route exact path="/home">
               <HomePageLayout />
