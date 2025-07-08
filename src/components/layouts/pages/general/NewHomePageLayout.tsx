@@ -62,10 +62,10 @@ const NewHomePageLayout: React.FC = () => {
               studying AI fundamentals including computer vision, neural networks, and robotics.
             </AboutText>
             <AboutText>
-              From 2019-2021 at Sigbar, I worked on diverse projects from iOS/tvOS narrowcasting systems for healthcare 
-              to AR shop applications and React web development. I then moved into consulting at Usprawniacze Firm, 
-              helping companies like Planeta Soni, ZIO-MAX, and SteelProfil improve their processes through automation 
-              and software solutions, including developing AI agents for customer-facing applications.
+              While studying at university, I began working at Sigbar in 2019, where I worked until 2021 on diverse 
+              projects from iOS/tvOS narrowcasting systems for healthcare to AR shop applications and React web development. 
+              After university, I moved into consulting at Usprawniacze Firm, helping companies like Planeta Soni, ZIO-MAX, 
+              and SteelProfil improve their processes through automation and software solutions, including developing AI agents.
             </AboutText>
             <AboutText>
               Alongside my consulting work, I contributed to BrainGym.AI's learning platform and Blue Owl's Shopify 
@@ -158,12 +158,12 @@ const NewHomePageLayout: React.FC = () => {
             </ProjectCard>
             
             <ProjectCard>
-              <ProjectTitle>Multi-Platform Development at Sigbar (2019-2021)</ProjectTitle>
+              <ProjectTitle>Multi-Platform Development at Sigbar (2019-2021, During University)</ProjectTitle>
               <ProjectDescription>
-                Worked on diverse projects including a narrowcasting system for St. Jansdal Hospital on Apple tvOS, 
-                AR shop applications for iOS with Node.js backend, and React web development. Contributed to Odyssey Momentum 
-                platform implementing Social UI, Stage Mode, Token Gated Access, and refactoring to MobX state management. 
-                Worked in Agile environment with git flow and kanban methodologies.
+                While studying AI at University of Groningen, worked on diverse projects including a narrowcasting system 
+                for St. Jansdal Hospital on Apple tvOS, AR shop applications for iOS with Node.js backend, and React web 
+                development. Contributed to Odyssey Momentum platform implementing Social UI, Stage Mode, Token Gated Access, 
+                and refactoring to MobX state management. Worked in Agile environment with git flow and kanban methodologies.
               </ProjectDescription>
               <ProjectTech>SwiftUI • iOS/tvOS • React • Node.js • AR • MobX • Styled-Components • Agile</ProjectTech>
             </ProjectCard>
