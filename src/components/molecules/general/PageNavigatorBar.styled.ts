@@ -122,10 +122,18 @@ export const NavigationContent = styled.div.withConfig({
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
-    height: ${({ $isHidden }) => $isHidden ? '0' : 'calc(100vh - 3.5rem - env(safe-area-inset-bottom))'};
+    height: ${({ $isHidden }) => $isHidden ? '0' : 'calc(100vh - 3.5rem - env(safe-area-inset-bottom) - 4rem)'};
     align-items: stretch;
     justify-content: flex-start;
     padding-top: ${({ $isHidden }) => $isHidden ? '0' : theme.spacing[2]};
-    padding-bottom: ${({ $isHidden }) => $isHidden ? '0' : 'env(safe-area-inset-bottom)'};
+    padding-bottom: ${({ $isHidden }) => $isHidden ? '0' : 'calc(env(safe-area-inset-bottom) + 4rem)'};
+  }
+
+  /* Additional Safari-specific bottom padding */
+  @supports (-webkit-touch-callout: none) {
+    @media (max-width: ${theme.breakpoints.md}) {
+      height: ${({ $isHidden }) => $isHidden ? '0' : 'calc(100vh - 3.5rem - env(safe-area-inset-bottom) - 5rem)'};
+      padding-bottom: ${({ $isHidden }) => $isHidden ? '0' : 'calc(env(safe-area-inset-bottom) + 5rem)'};
+    }
   }
 `;
