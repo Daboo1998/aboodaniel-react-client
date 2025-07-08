@@ -58,8 +58,8 @@ const NewHomePageLayout: React.FC = () => {
             <AboutText>
               My journey started early with an internship at Bank Millennium, developing iOS apps including Goodie 
               (discount platform), where I learned clean code practices, API integration, and teamwork fundamentals. 
-              This experience motivated me to pursue a BSc in Artificial Intelligence at the University of Groningen, 
-              studying AI fundamentals including computer vision, neural networks, and robotics.
+              My interest in cutting-edge technology and AI led me to pursue a BSc in Artificial Intelligence at the 
+              University of Groningen, studying AI fundamentals including computer vision, neural networks, and robotics.
             </AboutText>
             <AboutText>
               While studying at university, I began working at Sigbar in 2019, where I worked until 2021 on diverse 
@@ -183,11 +183,11 @@ const NewHomePageLayout: React.FC = () => {
               <ProjectTitle>iOS Development at Bank Millennium (Pre-University)</ProjectTitle>
               <ProjectDescription>
                 Started my tech journey with a 6-month position (internship + full-time) developing iOS applications including 
-                Goodie, a discount platform offering loyalty programmes and discounts. This early experience developing 
-                programming skills with clean code practices in Swift, API integration, and professional teamwork 
-                inspired me to pursue formal AI education at University of Groningen.
+                Goodie, a discount platform offering loyalty programmes and discounts. This early experience provided 
+                valuable programming skills with clean code practices in Swift, API integration, and professional teamwork 
+                in a banking environment before pursuing my AI studies.
               </ProjectDescription>
-              <ProjectTech>Swift • iOS Development • API Integration • Clean Code • Banking • Career Foundation</ProjectTech>
+              <ProjectTech>Swift • iOS Development • API Integration • Clean Code • Banking • Early Experience</ProjectTech>
             </ProjectCard>
           </ProjectsGrid>
         </SectionContent>
