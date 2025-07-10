@@ -15,6 +15,18 @@ export const FooterStyled = styled.div<{ $isInsideMenu: boolean }>`
   ${({ $isInsideMenu }) => $isInsideMenu && `
     flex-grow: 1;
     justify-content: flex-end;
+    
+    /* Extra bottom padding when inside mobile menu for Safari */
+    @media (max-width: ${theme.breakpoints.md}) {
+      padding-bottom: calc(${theme.spacing[6]} + 2rem);
+    }
+
+    /* Additional Safari-specific padding */
+    @supports (-webkit-touch-callout: none) {
+      @media (max-width: ${theme.breakpoints.md}) {
+        padding-bottom: calc(${theme.spacing[6]} + 3rem);
+      }
+    }
 
     @media (min-width: ${theme.breakpoints.md}) {
       display: none;
