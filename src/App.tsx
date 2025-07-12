@@ -2,8 +2,8 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 // Page imports
-import HomePageLayout from "./components/layouts/pages/general/HomePageLayout";
 import NewHomePageLayout from "./components/layouts/pages/general/NewHomePageLayout";
+import MaintenancePageLayout from "./components/layouts/pages/general/MaintenancePageLayout";
 import ExperiencePageLayout from "./components/layouts/pages/general/ExperiencePageLayout";
 import ContactPageLayout from "./components/layouts/pages/general/ContactPageLayout";
 import NotFoundPageLayout from "./components/layouts/pages/general/NotFoundPageLayout";
@@ -23,6 +23,9 @@ import NavigationProvider from "./components/context providers/NavigationProvide
 import { AppContainer } from "./App.styled";
 
 function App() {
+  // Maintenance flag - set to true to show maintenance page instead of old home page
+  const MAINTENANCE_MODE = process.env.REACT_APP_MAINTENANCE_MODE === 'true';
+  
   return (
     <BrowserRouter basename="/">
       <NavigationProvider>
@@ -39,13 +42,13 @@ function App() {
           </PageNavigatorBar>
           <Switch>
             <Route exact path="/">
-              <HomePageLayout />
+              <NewHomePageLayout />
             </Route>
             <Route exact path="/home">
-              <HomePageLayout />
-            </Route>
-            <Route exact path="/new-home">
               <NewHomePageLayout />
+            </Route>
+            <Route exact path="/maintenance">
+              <MaintenancePageLayout showMaintenance={MAINTENANCE_MODE} />
             </Route>
             <Route exact path="/experience">
               <ExperiencePageLayout />
