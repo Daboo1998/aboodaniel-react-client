@@ -7,7 +7,7 @@ The application now has a maintenance mode feature that allows you to easily swi
 
 ### Current Setup
 - **Default home page**: `/` and `/home` now show the new home page (`NewHomePageLayout`)
-- **Old home page**: Available at `/old-home` with maintenance mode capability
+- **Maintenance page**: Available at `/maintenance` with maintenance mode capability
 - **Maintenance flag**: Controlled by environment variable `REACT_APP_MAINTENANCE_MODE`
 
 ### Environment Variable
@@ -25,24 +25,24 @@ REACT_APP_MAINTENANCE_MODE=false
 REACT_APP_MAINTENANCE_MODE=false
 ```
 - `/` and `/home` → New home page
-- `/old-home` → Old home page (accessible)
+- `/maintenance` → Disabled page message
 
 #### Maintenance Mode
 ```bash
 REACT_APP_MAINTENANCE_MODE=true
 ```
 - `/` and `/home` → New home page
-- `/old-home` → Maintenance page (shows "Under Maintenance" message)
+- `/maintenance` → Maintenance page (shows "Under Maintenance" message)
 
 ## Files Modified
 
 1. **`src/App.tsx`**
    - Updated routing to make new home page the default
-   - Added maintenance page route at `/old-home`
+   - Added maintenance page route at `/maintenance`
    - Added maintenance mode flag logic
 
 2. **`src/components/layouts/pages/general/MaintenancePageLayout.tsx`**
-   - New component that shows either maintenance message or old home page
+   - New component that shows maintenance message or disabled page message
 
 3. **`src/components/layouts/pages/general/MaintenancePageLayout.styled.ts`**
    - Styled components for the maintenance page
@@ -68,5 +68,4 @@ To disable maintenance mode:
 |-------|-----------|-------------|
 | `/` | NewHomePageLayout | Default home page |
 | `/home` | NewHomePageLayout | Default home page |
-| `/old-home` | MaintenancePageLayout | Old home page or maintenance page |
-| `/new-home` | (removed) | Previously new home page route |
+| `/maintenance` | MaintenancePageLayout | Maintenance page or disabled page message |

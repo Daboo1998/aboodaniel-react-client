@@ -1,5 +1,4 @@
 import React from "react";
-import HomePageLayout from "./HomePageLayout";
 import { MaintenanceContainer, MaintenanceMessage } from "./MaintenancePageLayout.styled";
 
 interface MaintenancePageLayoutProps {
@@ -21,7 +20,15 @@ const MaintenancePageLayout: React.FC<MaintenancePageLayoutProps> = ({
     );
   }
 
-  return <HomePageLayout />;
+  return (
+    <MaintenanceContainer>
+      <MaintenanceMessage>
+        <h1>🔧 Maintenance Page</h1>
+        <p>This page is currently disabled.</p>
+        <p>Please use the main navigation to access other parts of the website.</p>
+      </MaintenanceMessage>
+    </MaintenanceContainer>
+  );
 };
 
 export default MaintenancePageLayout;

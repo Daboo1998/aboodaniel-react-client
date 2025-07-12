@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 // Page imports
-import HomePageLayout from "./components/layouts/pages/general/HomePageLayout";
 import NewHomePageLayout from "./components/layouts/pages/general/NewHomePageLayout";
 import MaintenancePageLayout from "./components/layouts/pages/general/MaintenancePageLayout";
 import ExperiencePageLayout from "./components/layouts/pages/general/ExperiencePageLayout";
@@ -48,7 +47,7 @@ function App() {
             <Route exact path="/home">
               <NewHomePageLayout />
             </Route>
-            <Route exact path="/old-home">
+            <Route exact path="/maintenance">
               <MaintenancePageLayout showMaintenance={MAINTENANCE_MODE} />
             </Route>
             <Route exact path="/experience">
