@@ -23,6 +23,9 @@ export const NavigatorContainer = styled.div<{ $isHidden: boolean }>`
   @media (max-width: ${theme.breakpoints.md}) {
     ${({ $isHidden }) => !$isHidden && `
       height: 100vh;
+      height: 100dvh;
+      /* Ensure we fill the screen but account for Safari's UI */
+      min-height: -webkit-fill-available;
     `}
   }
 `;
@@ -120,9 +123,29 @@ export const NavigationContent = styled.div<{ $isHidden: boolean }>`
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
-    height: ${({ $isHidden }) => $isHidden ? '0' : 'calc(100vh - 3.5rem)'};
+    /* Use flexible height that adapts to available space */
+    height: ${({ $isHidden }) => $isHidden ? '0' : 'calc(100% - 3.5rem)'};
+    /* Ensure proper sizing */
+    box-sizing: border-box;
+    /* Base padding for safe area */
+    padding-bottom: ${({ $isHidden }) => $isHidden ? '0' : 'env(safe-area-inset-bottom, 0px)'};
     align-items: stretch;
     justify-content: flex-start;
     padding-top: ${({ $isHidden }) => $isHidden ? '0' : theme.spacing[2]};
+    /* Enable scrolling if content exceeds available space */
+    overflow-y: ${({ $isHidden }) => $isHidden ? 'hidden' : 'auto'};
+    -webkit-overflow-scrolling: touch;
+    /* Position content relative to viewport */
+    position: relative;
+  }
+`;
+
+export const FooterWrapper = styled.div<{ $isHidden: boolean }>`
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  opacity: ${({ $isHidden }) => $isHidden ? '0' : '1'};
+  transform: ${({ $isHidden }) => $isHidden ? 'translateY(10px)' : 'translateY(0)'};
+  
+  @media (min-width: ${theme.breakpoints.md}) {
+    display: none;
   }
 `;
