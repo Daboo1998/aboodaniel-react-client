@@ -139,3 +139,13 @@ export const NavigationContent = styled.div<{ $isHidden: boolean }>`
     position: relative;
   }
 `;
+
+export const FooterWrapper = styled.div<{ $isHidden: boolean }>`
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  opacity: ${({ $isHidden }) => $isHidden ? '0' : '1'};
+  transform: ${({ $isHidden }) => $isHidden ? 'translateY(10px)' : 'translateY(0)'};
+  
+  @media (min-width: ${theme.breakpoints.md}) {
+    display: none;
+  }
+`;

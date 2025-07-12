@@ -9,7 +9,8 @@ import {
   MenuButton,
   PageTitle,
   BrandTitle,
-  NavigationContent
+  NavigationContent,
+  FooterWrapper
 } from "./PageNavigatorBar.styled";
 
 export const PageNavigatorBarContext = React.createContext({
@@ -47,7 +48,9 @@ const PageNavigatorBar: React.FC<React.DOMAttributes<HTMLDivElement>> = ({
         </BrandTitle>
         <NavigationContent $isHidden={isHidden}>
           {children}
-          {!isHidden && <Footer isInsideMenu={true} />}
+          <FooterWrapper $isHidden={isHidden}>
+            <Footer isInsideMenu={true} />
+          </FooterWrapper>
         </NavigationContent>
       </NavigatorContainer>
     </PageNavigatorBarContext.Provider>
