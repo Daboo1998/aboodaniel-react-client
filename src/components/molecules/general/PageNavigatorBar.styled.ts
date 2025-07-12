@@ -120,9 +120,12 @@ export const NavigationContent = styled.div<{ $isHidden: boolean }>`
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
-    /* Use CSS environment variables to account for Safari's dynamic viewport */
-    height: ${({ $isHidden }) => $isHidden ? '0' : 'calc(100vh - 3.5rem - env(safe-area-inset-bottom, 0px))'};
-    /* Add padding to ensure content is always above Safari's bottom bar */
+    /* Fallback for browsers that don't support dvh */
+    height: ${({ $isHidden }) => $isHidden ? '0' : 'calc(100vh - 3.5rem)'};
+    /* Use dynamic viewport height (dvh) which accounts for Safari's UI */
+    height: ${({ $isHidden }) => $isHidden ? '0' : 'calc(100dvh - 3.5rem)'};
+    /* Ensure content doesn't go under Safari's bottom bar */
+    box-sizing: border-box;
     padding-bottom: ${({ $isHidden }) => $isHidden ? '0' : 'env(safe-area-inset-bottom, 0px)'};
     align-items: stretch;
     justify-content: flex-start;
@@ -130,5 +133,7 @@ export const NavigationContent = styled.div<{ $isHidden: boolean }>`
     /* Enable scrolling if content exceeds available space */
     overflow-y: ${({ $isHidden }) => $isHidden ? 'hidden' : 'auto'};
     -webkit-overflow-scrolling: touch;
+    /* Ensure the scrollbar doesn't go under the safe area */
+    scrollbar-gutter: stable;
   }
 `;
