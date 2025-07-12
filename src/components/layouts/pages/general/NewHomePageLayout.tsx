@@ -34,7 +34,7 @@ import {
 
 const NewHomePageLayout: React.FC = () => {
   return (
-    <PageLayout title="New Home">
+    <PageLayout title="Home">
       <GradientOrb />
       <FloatingElement />
       
