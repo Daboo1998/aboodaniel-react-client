@@ -15,6 +15,13 @@ export const FooterStyled = styled.div<{ $isInsideMenu: boolean }>`
   ${({ $isInsideMenu }) => $isInsideMenu && `
     flex-grow: 1;
     justify-content: flex-end;
+    /* Add extra margin when inside menu for iOS Safari bottom bar */
+    margin-bottom: 70px;
+    
+    /* iOS Safari specific adjustment */
+    @supports (-webkit-touch-callout: none) {
+      margin-bottom: max(70px, env(safe-area-inset-bottom, 0px));
+    }
 
     @media (min-width: ${theme.breakpoints.md}) {
       display: none;
