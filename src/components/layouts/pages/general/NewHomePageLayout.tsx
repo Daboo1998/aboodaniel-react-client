@@ -2,6 +2,7 @@ import React from "react";
 import PageLayout from "../PageLayout";
 import {
   HeroSection,
+  HeroImage,
   HeroTitle,
   HeroSubtitle,
   HeroDescription,
@@ -38,6 +39,7 @@ const NewHomePageLayout: React.FC = () => {
       <FloatingElement />
       
       <HeroSection>
+        <HeroImage src="/images/me.jpg" alt="Daniel Aboo" />
         <HeroTitle>Daniel Aboo</HeroTitle>
         <HeroSubtitle>Prompt Engineer II at LivePerson</HeroSubtitle>
         <HeroDescription>

@@ -158,6 +158,39 @@ export const HeroSubtitle = styled.h2`
   }
 `;
 
+export const HeroImage = styled.img`
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto ${theme.spacing[8]};
+  border: 4px solid ${theme.colors.primary[200]};
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    border-color: ${theme.colors.primary[700]};
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    width: 150px;
+    height: 150px;
+    margin-bottom: ${theme.spacing[6]};
+  }
+
+  @media (max-width: ${theme.breakpoints.sm}) {
+    width: 120px;
+    height: 120px;
+    margin-bottom: ${theme.spacing[4]};
+  }
+`;
+
 export const HeroDescription = styled.p`
   font-size: ${theme.fontSizes.xl};
   color: ${theme.colors.gray[600]};
