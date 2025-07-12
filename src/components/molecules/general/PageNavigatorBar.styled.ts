@@ -120,9 +120,15 @@ export const NavigationContent = styled.div<{ $isHidden: boolean }>`
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
-    height: ${({ $isHidden }) => $isHidden ? '0' : 'calc(100vh - 3.5rem)'};
+    /* Use CSS environment variables to account for Safari's dynamic viewport */
+    height: ${({ $isHidden }) => $isHidden ? '0' : 'calc(100vh - 3.5rem - env(safe-area-inset-bottom, 0px))'};
+    /* Add padding to ensure content is always above Safari's bottom bar */
+    padding-bottom: ${({ $isHidden }) => $isHidden ? '0' : 'env(safe-area-inset-bottom, 0px)'};
     align-items: stretch;
     justify-content: flex-start;
     padding-top: ${({ $isHidden }) => $isHidden ? '0' : theme.spacing[2]};
+    /* Enable scrolling if content exceeds available space */
+    overflow-y: ${({ $isHidden }) => $isHidden ? 'hidden' : 'auto'};
+    -webkit-overflow-scrolling: touch;
   }
 `;

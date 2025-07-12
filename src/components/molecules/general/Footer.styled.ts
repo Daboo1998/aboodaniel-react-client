@@ -15,6 +15,8 @@ export const FooterStyled = styled.div<{ $isInsideMenu: boolean }>`
   ${({ $isInsideMenu }) => $isInsideMenu && `
     flex-grow: 1;
     justify-content: flex-end;
+    /* Add extra padding when inside menu to account for Safari's bottom bar */
+    padding-bottom: calc(${theme.spacing[6]} + env(safe-area-inset-bottom, 0px));
 
     @media (min-width: ${theme.breakpoints.md}) {
       display: none;
