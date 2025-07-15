@@ -259,6 +259,7 @@ export const NavigationContent = styled.div<{ $isHidden: boolean }>`
     box-sizing: border-box;
     transform: none !important;
     transition: none;
+    margin-right: ${theme.spacing[28]};
     z-index: ${theme.zIndices.overlay - 1};
   }
 
