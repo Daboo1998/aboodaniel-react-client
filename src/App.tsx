@@ -20,12 +20,12 @@ import Footer from "./components/molecules/general/Footer";
 
 import MyCVPageLayout from "./components/layouts/pages/general/MyCVPageLayout";
 import NavigationProvider from "./components/context providers/NavigationProvider";
-import { AppContainer } from "./App.styled";
+import { AppContainer, AppContent } from "./App.styled";
 
 function App() {
   // Maintenance flag - set to true to show maintenance page instead of old home page
-  const MAINTENANCE_MODE = process.env.REACT_APP_MAINTENANCE_MODE === 'true';
-  
+  const MAINTENANCE_MODE = process.env.REACT_APP_MAINTENANCE_MODE === "true";
+
   return (
     <BrowserRouter basename="/">
       <NavigationProvider>
@@ -40,44 +40,46 @@ function App() {
             </PageNavigatorBarLink>
             <PageNavigatorBarLink to="/contact">Contact</PageNavigatorBarLink>
           </PageNavigatorBar>
-          <Switch>
-            <Route exact path="/">
-              <NewHomePageLayout />
-            </Route>
-            <Route exact path="/home">
-              <NewHomePageLayout />
-            </Route>
-            <Route exact path="/maintenance">
-              <MaintenancePageLayout showMaintenance={MAINTENANCE_MODE} />
-            </Route>
-            <Route exact path="/experience">
-              <ExperiencePageLayout />
-            </Route>
-            <Route exact path="/cv">
-              <MyCVPageLayout />
-            </Route>
-            <Route exact path="/developerTools">
-              <DevelopmentToolsPageLayout />
-            </Route>
-            <Route exact path="/messages">
-              <MessagesPageLayout />
-            </Route>
-            <Route exact path="/login">
-              <LoginPageLayout />
-            </Route>
-            <Route exact path="/register">
-              <RegisterPageLayout />
-            </Route>
-            <Route exact path="/assistant">
-              <AskMeAnythingLayout />
-            </Route>
-            <Route exact path="/contact">
-              <ContactPageLayout />
-            </Route>
-            <Route>
-              <NotFoundPageLayout />
-            </Route>
-          </Switch>
+          <AppContent>
+            <Switch>
+              <Route exact path="/">
+                <NewHomePageLayout />
+              </Route>
+              <Route exact path="/home">
+                <NewHomePageLayout />
+              </Route>
+              <Route exact path="/maintenance">
+                <MaintenancePageLayout showMaintenance={MAINTENANCE_MODE} />
+              </Route>
+              <Route exact path="/experience">
+                <ExperiencePageLayout />
+              </Route>
+              <Route exact path="/cv">
+                <MyCVPageLayout />
+              </Route>
+              <Route exact path="/developerTools">
+                <DevelopmentToolsPageLayout />
+              </Route>
+              <Route exact path="/messages">
+                <MessagesPageLayout />
+              </Route>
+              <Route exact path="/login">
+                <LoginPageLayout />
+              </Route>
+              <Route exact path="/register">
+                <RegisterPageLayout />
+              </Route>
+              <Route exact path="/assistant">
+                <AskMeAnythingLayout />
+              </Route>
+              <Route exact path="/contact">
+                <ContactPageLayout />
+              </Route>
+              <Route>
+                <NotFoundPageLayout />
+              </Route>
+            </Switch>
+          </AppContent>
           <Footer isInsideMenu={false} />
         </AppContainer>
       </NavigationProvider>

@@ -13,7 +13,7 @@ import {
   FooterLink,
   UserInfo,
   UserName,
-  CopyrightText
+  CopyrightText,
 } from "./Footer.styled";
 
 interface FooterProps {
@@ -41,9 +41,9 @@ const Footer: React.FC<FooterProps> = ({ isInsideMenu }) => {
           <LinkedInIcon />
         </SocialLink>
       </SocialIconsContainer>
-      
+
       <Spacer />
-      
+
       <LinksContainer>
         <AuthLinksContainer $isLoggedIn={!!auth.isLoggedIn}>
           {!auth.isLoggedIn ? (
@@ -67,13 +67,11 @@ const Footer: React.FC<FooterProps> = ({ isInsideMenu }) => {
                   </UserName>
                 )}
               </UserInfo>
-              <FooterLink onClick={auth.logout}>
-                Logout
-              </FooterLink>
+              <FooterLink onClick={auth.logout}>Logout</FooterLink>
             </>
           )}
         </AuthLinksContainer>
-        
+
         <Link to="/cv">
           <FooterLink as="span">Curriculum Vitae</FooterLink>
         </Link>
@@ -82,14 +80,14 @@ const Footer: React.FC<FooterProps> = ({ isInsideMenu }) => {
             <FooterLink as="span">Developer Tools</FooterLink>
           </Link>
         )}
-        
+
         {auth.isOwner && (
           <Link to="/messages">
             <FooterLink as="span">Messages</FooterLink>
           </Link>
         )}
       </LinksContainer>
-      
+
       <CopyrightText>© Aboo Daniel - All rights reserved</CopyrightText>
     </FooterStyled>
   );

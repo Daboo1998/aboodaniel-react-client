@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { theme } from '../../../styles/theme';
+import { theme } from "../../../styles/theme";
 
 export const PageStyled = styled.div`
   display: flex;
@@ -17,7 +17,10 @@ export const PageStyled = styled.div`
 
 export const ContentWrapper = styled.div<{ $hasCustomPadding?: boolean }>`
   width: 100%;
-  ${({ $hasCustomPadding }) => $hasCustomPadding && `
+  z-index: 1;
+  ${({ $hasCustomPadding }) =>
+    $hasCustomPadding &&
+    `
     padding: ${theme.spacing[6]};
   `}
 `;

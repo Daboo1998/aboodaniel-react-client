@@ -1,35 +1,14 @@
 import styled from "styled-components";
-import { theme } from '../../../styles/theme';
+import { theme } from "../../../styles/theme";
 
 export const FooterStyled = styled.div<{ $isInsideMenu: boolean }>`
-  display: ${({ $isInsideMenu }) => $isInsideMenu ? 'flex' : 'none'};
+  display: ${({ $isInsideMenu }) => ($isInsideMenu ? "flex" : "none")};
   flex-direction: column;
-  background-color: ${theme.background.light};
   padding-bottom: ${theme.spacing[6]};
   gap: ${theme.spacing[4]};
 
-  @media (prefers-color-scheme: dark) {
-    background-color: ${theme.background.dark};
-  }
-
-  ${({ $isInsideMenu }) => $isInsideMenu && `
-    flex-grow: 1;
-    justify-content: flex-end;
-    /* Base margin for separation */
-    margin-bottom: ${theme.spacing[2]};
-    
-    /* iOS Safari specific adjustment - only add safe area inset */
-    @supports (-webkit-touch-callout: none) {
-      padding-bottom: env(safe-area-inset-bottom, 0px);
-    }
-
-    @media (min-width: ${theme.breakpoints.md}) {
-      display: none;
-    }
-  `}
-
   @media (min-width: ${theme.breakpoints.md}) {
-    display: ${({ $isInsideMenu }) => $isInsideMenu ? 'none' : 'flex'};
+    display: ${({ $isInsideMenu }) => ($isInsideMenu ? "none" : "flex")};
   }
 `;
 
@@ -45,13 +24,13 @@ export const SocialLink = styled.a`
   align-items: center;
   justify-content: center;
   border-radius: ${theme.borderRadius.sm};
-  transition: background-color ${theme.transitions.duration[200]} ${theme.transitions.easing['in-out']};
+  transition: background-color ${theme.transitions.duration[200]}${theme.transitions.easing["in-out"]};
 
   svg {
     width: ${theme.spacing[6]};
     height: ${theme.spacing[6]};
     fill: ${theme.colors.gray[600]};
-    transition: fill ${theme.transitions.duration[200]} ${theme.transitions.easing['in-out']};
+    transition: fill 0.2s ease-in-out;
   }
 
   &:hover svg {
@@ -87,7 +66,7 @@ export const LinksContainer = styled.div`
 
 export const AuthLinksContainer = styled.div<{ $isLoggedIn: boolean }>`
   display: flex;
-  flex-direction: ${({ $isLoggedIn }) => $isLoggedIn ? 'column' : 'row'};
+  flex-direction: ${({ $isLoggedIn }) => ($isLoggedIn ? "column" : "row")};
   gap: ${theme.spacing[2]};
   align-items: center;
 `;
@@ -110,7 +89,7 @@ export const FooterLink = styled.button`
   @media (min-width: ${theme.breakpoints.md}) {
     &:hover {
       color: ${theme.colors.gray[800]};
-      
+
       @media (prefers-color-scheme: dark) {
         color: ${theme.colors.white};
       }
@@ -135,7 +114,7 @@ export const UserInfo = styled.p`
 
 export const UserName = styled.span`
   color: ${theme.colors.blue[800]};
-  
+
   @media (prefers-color-scheme: dark) {
     color: ${theme.colors.blue[300]};
   }
