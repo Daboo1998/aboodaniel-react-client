@@ -270,7 +270,7 @@ export const useAskMeAnythingContext = ({
             return {
               ...msg,
               message: msg.message.replace(
-                /\[ASSISTANT_MESSAGE\].*?\[\/ASSISTANT_MESSAGE\]/gs,
+                /\[ASSISTANT_MESSAGE\].*?\[\/ASSISTANT_MESSAGE\]/g,
                 ""
               ),
             };
