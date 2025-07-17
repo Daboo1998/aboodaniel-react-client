@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import Popup, { PopupProps } from "../Popup";
 import TextInput from "../../../atoms/input/TextInput";
-import Spacer from "../../../atoms/utilities/Spacer";
 import Button, { ButtonSize, ButtonType } from "../../../atoms/buttons and links/Button";
 import database from "../../../../data/database";
 import EducationItem from "../../../../data/EducationItem";
