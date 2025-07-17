@@ -13,6 +13,9 @@ import RemoveExperiencesPopup from "../../../molecules/popups/experience/RemoveE
 import AddEducationPopup from "../../../molecules/popups/education/AddEducationPopup";
 import EditEducationPopup from "../../../molecules/popups/education/EditEducationPopup";
 import RemoveEducationPopup from "../../../molecules/popups/education/RemoveEducationPopup";
+import AddSkillSetPopup from "../../../molecules/popups/skillset/AddSkillSetPopup";
+import EditSkillSetPopup from "../../../molecules/popups/skillset/EditSkillSetPopup";
+import RemoveSkillSetPopup from "../../../molecules/popups/skillset/RemoveSkillSetPopup";
 import Button, {
   ButtonSize,
   ButtonType,
@@ -93,6 +96,25 @@ const MyCVPageLayout: React.FC = () => {
   const [selectedEducation, setSelectedEducation] =
     useState<EducationItem | null>(null);
 
+  // Skill set management functionality
+  const [
+    isAddSkillSetPopupShown,
+    showAddSkillSetPopup,
+    hideAddSkillSetPopup,
+  ] = usePopup();
+  const [
+    isEditSkillSetPopupShown,
+    showEditSkillSetPopup,
+    hideEditSkillSetPopup,
+  ] = usePopup();
+  const [
+    isRemoveSkillSetPopupShown,
+    showRemoveSkillSetPopup,
+    hideRemoveSkillSetPopup,
+  ] = usePopup();
+  const [selectedSkillSet, setSelectedSkillSet] =
+    useState<SkillSet | null>(null);
+
   const onAddButtonClick = () => {
     window.document.body.style.overflow = "hidden";
     showAddExperiencePopup();
@@ -124,6 +146,23 @@ const MyCVPageLayout: React.FC = () => {
   const onRemoveEducationClick = () => {
     window.document.body.style.overflow = "hidden";
     showRemoveEducationPopup();
+  };
+
+  // Skill set handlers
+  const onAddSkillSetClick = () => {
+    window.document.body.style.overflow = "hidden";
+    showAddSkillSetPopup();
+  };
+
+  const onEditSkillSetClick = (skillSet: SkillSet) => {
+    setSelectedSkillSet(skillSet);
+    window.document.body.style.overflow = "hidden";
+    showEditSkillSetPopup();
+  };
+
+  const onRemoveSkillSetClick = () => {
+    window.document.body.style.overflow = "hidden";
+    showRemoveSkillSetPopup();
   };
 
   const onAddExperienceClose = (addedExperience?: Experience) => {
@@ -204,6 +243,35 @@ const MyCVPageLayout: React.FC = () => {
     window.document.body.style.overflow = "unset";
   };
 
+  // Skill set close handlers
+  const onAddSkillSetClose = (addedSkillSet?: SkillSet) => {
+    hideAddSkillSetPopup();
+    if (addedSkillSet) {
+      setSkillSets([...skillSets, addedSkillSet]);
+    }
+    window.document.body.style.overflow = "unset";
+  };
+
+  const onEditSkillSetClose = (updatedSkillSet?: SkillSet) => {
+    hideEditSkillSetPopup();
+    if (updatedSkillSet) {
+      setSkillSets(
+        skillSets.map((skillSet) =>
+          skillSet.id === updatedSkillSet.id ? updatedSkillSet : skillSet
+        )
+      );
+    }
+    window.document.body.style.overflow = "unset";
+  };
+
+  const onRemoveSkillSetClose = (deletedIds?: string[]) => {
+    hideRemoveSkillSetPopup();
+    if (deletedIds) {
+      setSkillSets(skillSets.filter((skillSet) => !deletedIds.includes(skillSet.id)));
+    }
+    window.document.body.style.overflow = "unset";
+  };
+
   useEffect(() => {
     database.skillSets.getAll().then((skillSets) => {
       setSkillSets(skillSets);
@@ -252,6 +320,20 @@ const MyCVPageLayout: React.FC = () => {
         educationItems={education}
         onClose={onRemoveEducationClose}
       />
+      <AddSkillSetPopup
+        isPopupShown={isAddSkillSetPopupShown}
+        onClose={onAddSkillSetClose}
+      />
+      <EditSkillSetPopup
+        isPopupShown={isEditSkillSetPopupShown}
+        skillSet={selectedSkillSet}
+        onClose={onEditSkillSetClose}
+      />
+      <RemoveSkillSetPopup
+        isPopupShown={isRemoveSkillSetPopupShown}
+        skillSets={skillSets}
+        onClose={onRemoveSkillSetClose}
+      />
       <PageLayout title="CV">
         <CVContainer>
           {/* Experience Management Popups */}
@@ -275,11 +357,40 @@ const MyCVPageLayout: React.FC = () => {
               </Section>
 
               <Section>
-                <SectionTitle>Skills</SectionTitle>
+                <SectionTitle>
+                  Skills
+                  {auth.isOwner && (
+                    <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                      <Button
+                        label="Add"
+                        action={onAddSkillSetClick}
+                        size={ButtonSize.small}
+                        type={ButtonType.constructive}
+                      />
+                      <Button
+                        label="Remove"
+                        action={onRemoveSkillSetClick}
+                        size={ButtonSize.small}
+                        type={ButtonType.destructive}
+                      />
+                    </div>
+                  )}
+                </SectionTitle>
                 {skillSets.map((skillSet) => {
                   return (
                     <SkillSetContainer key={skillSet.name}>
-                      <SkillSetTitle>{skillSet.name}</SkillSetTitle>
+                      <SkillSetTitle>
+                        {skillSet.name}
+                        {auth.isOwner && (
+                          <Button
+                            label="Edit"
+                            action={() => onEditSkillSetClick(skillSet)}
+                            size={ButtonSize.small}
+                            type={ButtonType.primary}
+                            style={{ marginLeft: '10px' }}
+                          />
+                        )}
+                      </SkillSetTitle>
                       <SkillsList>
                         {skillSet.skills.map((skill) => {
                           return (
