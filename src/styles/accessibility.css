@@ -71,22 +71,54 @@ body.font-extra-large {
   font-size: 24px;
 }
 
-/* Ensure interactive elements have minimum size */
+/* Ensure interactive elements have reasonable minimum size for touch */
+/* Only apply to actual touch targets, not all inputs */
 button,
-a,
-input,
-select,
-textarea,
+a.button,
 [role="button"],
-[role="link"] {
+input[type="checkbox"],
+input[type="radio"] {
   min-height: 44px;
   min-width: 44px;
 }
 
-/* Text spacing for readability */
+/* Text inputs and textareas should have minimum height but not width */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+textarea,
+select {
+  min-height: 44px;
+}
+
+/* Checkboxes and radio buttons specific sizing */
+input[type="checkbox"],
+input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  cursor: pointer;
+}
+
+/* Text spacing for readability - more subtle */
 p,
 li {
   line-height: 1.5;
+  letter-spacing: normal;
+  word-spacing: normal;
+}
+
+/* Only apply extra spacing in high contrast or large font modes */
+body.high-contrast p,
+body.high-contrast li,
+body.font-large p,
+body.font-large li,
+body.font-extra-large p,
+body.font-extra-large li {
   letter-spacing: 0.12em;
   word-spacing: 0.16em;
 }

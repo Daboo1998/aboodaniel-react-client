@@ -278,6 +278,31 @@ const MyCVPageLayout: React.FC = () => {
                     <EducationYears>
                       {item.startYear} - {item.endYear}
                     </EducationYears>
+                    {auth.isOwner && (
+                      <div style={{ marginTop: '10px' }}>
+                        <Button
+                          label="Update End Year"
+                          action={() => {
+                            const newEndYear = prompt('Enter new end year:', item.endYear);
+                            if (newEndYear && newEndYear !== item.endYear) {
+                              database.education.update(item.id, { endYear: newEndYear })
+                                .then(() => {
+                                  // Update local state
+                                  setEducation(education.map(edu => 
+                                    edu.id === item.id ? { ...edu, endYear: newEndYear } : edu
+                                  ));
+                                })
+                                .catch(error => {
+                                  console.error('Error updating education:', error);
+                                  alert('Failed to update education. Please try again.');
+                                });
+                            }
+                          }}
+                          size={ButtonSize.small}
+                          type={ButtonType.primary}
+                        />
+                      </div>
+                    )}
                   </StyledEducationItem>
                 );
               })}
