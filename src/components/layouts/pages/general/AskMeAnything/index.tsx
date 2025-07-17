@@ -86,9 +86,7 @@ const AskMeAnythingPage: React.FC = () => {
     <PageLayout title="Home">
       <styles.PageContainer>
         <styles.MainContainer>
-          <styles.PageTitle>
-            Ask me anything!
-          </styles.PageTitle>
+          <styles.PageTitle>Ask me anything!</styles.PageTitle>
           {isLoggedIn &&
             isDeveloper &&
             new URLSearchParams(window.location.search).get("debug_mode") ===
@@ -128,8 +126,8 @@ const AskMeAnythingPage: React.FC = () => {
             </p>
           ) : (
             <styles.CenteredText>
-              You can ask me anything about Daniel Aboo. I will try to answer your
-              questions as best as I can 😁 <br />
+              You can ask me anything about Daniel Aboo. I will try to answer
+              your questions as best as I can 😁 <br />
               <br />I can also inform Daniel about anything, if you have any
               questions to him directly.
             </styles.CenteredText>
@@ -137,7 +135,10 @@ const AskMeAnythingPage: React.FC = () => {
           {/* List messages */}
           <styles.messagesList>
             {messages.map((message, index) => {
-              const MessageComponent = message.role === "user" ? styles.UserMessage : styles.AssistantMessage;
+              const MessageComponent =
+                message.role === "user"
+                  ? styles.UserMessage
+                  : styles.AssistantMessage;
               return (
                 <MessageComponent key={index}>
                   <styles.TextMarkdown>{message.message}</styles.TextMarkdown>
@@ -153,22 +154,22 @@ const AskMeAnythingPage: React.FC = () => {
                         title="Copy to clipboard"
                       >
                         <svg
-                          clipRule="evenodd"
-                          fillRule="evenodd"
-                          strokeLinejoin="round"
-                          strokeMiterlimit="2"
-                          viewBox="0 0 24 24"
                           xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
                           fill="currentColor"
+                          viewBox="0 0 16 16"
                         >
                           <path
-                            d="m6 19v2c0 .621.52 1 1 1h2v-1.5h-1.5v-1.5zm7.5 3h-3.5v-1.5h3.5zm4.5 0h-3.5v-1.5h3.5zm4-3h-1.5v1.5h-1.5v1.5h2c.478 0 1-.379 1-1zm-1.5-1v-3.363h1.5v3.363zm0-4.363v-3.637h1.5v3.637zm-13-3.637v3.637h-1.5v-3.637zm11.5-4v1.5h1.5v1.5h1.5v-2c0-.478-.379-1-1-1zm-10 0h-2c-.62 0-1 .519-1 1v2h1.5v-1.5h1.5zm4.5 1.5h-3.5v-1.5h3.5zm3-1.5v-2.5h-13v13h2.5v-1.863h1.5v3.363h-4.5c-.48 0-1-.379-1-1v-14c0-.481.38-1 1-1h14c.621 0 1 .522 1 1v4.5h-3.5v-1.5z"
-                            fillRule="nonzero"
+                            fill-rule="evenodd"
+                            d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"
                           />
                         </svg>
                       </styles.copyButton>
                     ) : (
-                      <styles.copiedText>Copied to clipboard!</styles.copiedText>
+                      <styles.copiedText>
+                        Copied to clipboard!
+                      </styles.copiedText>
                     ))}
                 </MessageComponent>
               );

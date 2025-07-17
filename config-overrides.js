@@ -1,0 +1,41 @@
+module.exports = function override(config, env) {
+  // Suppress Firebase source map warnings
+  config.ignoreWarnings = [
+    /Failed to parse source map/,
+    /Can't resolve 'crypto'/,
+    /Can't resolve 'path'/,
+    /Can't resolve 'fs'/,
+    /Can't resolve 'os'/,
+    /Can't resolve 'stream'/,
+    /Can't resolve 'util'/,
+    /Can't resolve 'buffer'/,
+    /Can't resolve 'querystring'/,
+    /Can't resolve 'url'/,
+    /Can't resolve 'http'/,
+    /Can't resolve 'https'/,
+    /Can't resolve 'zlib'/,
+    /Can't resolve 'assert'/,
+    /Can't resolve 'constants'/,
+    /Can't resolve 'domain'/,
+    /Can't resolve 'events'/,
+    /Can't resolve 'punycode'/,
+    /Can't resolve 'string_decoder'/,
+    /Can't resolve 'timers'/,
+    /Can't resolve 'tty'/,
+    /Can't resolve 'vm'/,
+    /Can't resolve 'worker_threads'/,
+    /Can't resolve 'child_process'/,
+    /Can't resolve 'cluster'/,
+    /Can't resolve 'dgram'/,
+    /Can't resolve 'dns'/,
+    /Can't resolve 'module'/,
+    /Can't resolve 'net'/,
+    /Can't resolve 'readline'/,
+    /Can't resolve 'repl'/,
+    /Can't resolve 'tls'/,
+    /Can't resolve 'v8'/,
+    /Can't resolve 'worker_threads'/,
+  ];
+
+  return config;
+};

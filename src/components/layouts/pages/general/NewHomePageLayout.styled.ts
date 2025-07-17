@@ -1,39 +1,71 @@
-import styled, { keyframes } from 'styled-components';
-import { theme } from '../../../../styles/theme';
+import styled from "styled-components";
+import { theme } from "../../../../styles/theme";
 
-// Animations
-const float = keyframes`
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  33% { transform: translateY(-20px) rotate(5deg); }
-  66% { transform: translateY(-10px) rotate(-3deg); }
-`;
-
-const pulse = keyframes`
-  0%, 100% { opacity: 0.7; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
-`;
-
-const shimmer = keyframes`
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-`;
-
-// Background Elements
+// Enhanced Background Elements with Realistic Glass Effects
 export const GradientOrb = styled.div`
   position: fixed;
   top: -50%;
   right: -20%;
   width: 800px;
   height: 800px;
-  background: linear-gradient(135deg, 
-    ${theme.colors.blue[400]}22, 
-    ${theme.colors.primary[400]}11, 
-    ${theme.colors.green[400]}22
-  );
+
+  /* Static glass orb without rotation */
+  background: radial-gradient(
+      circle at 30% 30%,
+      ${theme.colors.blue[400]}40,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 70% 70%,
+      ${theme.colors.primary[400]}30,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      ${theme.colors.green[400]}25,
+      transparent 60%
+    );
+
   border-radius: 50%;
-  filter: blur(40px);
-  animation: ${pulse} 8s ease-in-out infinite;
+  filter: blur(40px) brightness(1.1) contrast(1.2);
   z-index: -1;
+
+  /* Static caustics effect layer */
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: conic-gradient(
+      from 0deg at 50% 50%,
+      transparent 0deg,
+      rgba(255, 255, 255, 0.1) 90deg,
+      transparent 180deg,
+      rgba(255, 255, 255, 0.05) 270deg,
+      transparent 360deg
+    );
+    border-radius: 50%;
+    mix-blend-mode: overlay;
+  }
+
+  /* Static fresnel reflection layer */
+  &::after {
+    content: "";
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 30%;
+    height: 30%;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.4) 0%,
+      transparent 70%
+    );
+    border-radius: 50%;
+    mix-blend-mode: screen;
+  }
 
   @media (max-width: ${theme.breakpoints.lg}) {
     width: 600px;
@@ -56,14 +88,46 @@ export const FloatingElement = styled.div`
   left: -10%;
   width: 200px;
   height: 200px;
-  background: linear-gradient(45deg, 
-    ${theme.colors.primary[300]}33, 
-    ${theme.colors.blue[300]}22
-  );
+
+  /* Static liquid glass background with organic shape */
+  background: radial-gradient(
+      ellipse at 30% 30%,
+      ${theme.colors.primary[300]}50,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at 70% 70%,
+      ${theme.colors.blue[300]}40,
+      transparent 50%
+    );
+
   border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-  filter: blur(20px);
-  animation: ${float} 6s ease-in-out infinite;
+  filter: blur(20px) brightness(1.05) saturate(1.2);
   z-index: -1;
+
+  /* Static refraction distortion layer */
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: conic-gradient(
+      from 45deg at 50% 50%,
+      transparent 0deg,
+      rgba(255, 255, 255, 0.1) 45deg,
+      transparent 90deg,
+      rgba(255, 255, 255, 0.05) 135deg,
+      transparent 180deg,
+      rgba(255, 255, 255, 0.08) 225deg,
+      transparent 270deg,
+      rgba(255, 255, 255, 0.03) 315deg,
+      transparent 360deg
+    );
+    border-radius: inherit;
+    mix-blend-mode: soft-light;
+  }
 
   @media (max-width: ${theme.breakpoints.md}) {
     width: 150px;
@@ -71,21 +135,172 @@ export const FloatingElement = styled.div`
   }
 `;
 
-// Hero Section
+// Enhanced Natural Glass Container Component with Rainbow Refraction
+export const GlassContainer = styled.div<{ $intensity?: number }>`
+  position: relative;
+  padding: ${theme.spacing[10]};
+  background: rgba(
+    255,
+    255,
+    255,
+    ${(props) => (props.$intensity ? props.$intensity * 0.1 : 0.1)}
+  );
+  backdrop-filter: blur(
+    ${(props) => (props.$intensity ? props.$intensity * 8 : 8)}px
+  );
+  -webkit-backdrop-filter: blur(
+    ${(props) => (props.$intensity ? props.$intensity * 8 : 8)}px
+  );
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 28px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.08),
+    inset 0 0 40px rgba(0, 0, 0, 0.04);
+
+  /* Enhanced natural refraction with subtle edge rainbow */
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      /* Primary refraction layer */ linear-gradient(
+        135deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.05) 75%,
+        transparent 100%
+      ),
+      /* Very subtle rainbow dispersion only at extreme edges */
+        linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(255, 0, 0, 0.008) 2%,
+          rgba(255, 165, 0, 0.008) 3%,
+          rgba(255, 255, 0, 0.008) 4%,
+          rgba(0, 255, 0, 0.008) 5%,
+          rgba(0, 255, 255, 0.008) 6%,
+          rgba(0, 0, 255, 0.008) 7%,
+          rgba(238, 130, 238, 0.008) 8%,
+          transparent 10%,
+          transparent 90%,
+          rgba(238, 130, 238, 0.008) 92%,
+          rgba(0, 0, 255, 0.008) 93%,
+          rgba(0, 255, 255, 0.008) 94%,
+          rgba(0, 255, 0, 0.008) 95%,
+          rgba(255, 255, 0, 0.008) 96%,
+          rgba(255, 165, 0, 0.008) 97%,
+          rgba(255, 0, 0, 0.008) 98%,
+          transparent 100%
+        );
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  /* Enhanced caustics with chromatic aberration */
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      /* Primary caustics */ radial-gradient(
+        circle at 20% 20%,
+        rgba(255, 255, 255, 0.1) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 80%,
+        rgba(255, 255, 255, 0.05) 0%,
+        transparent 50%
+      ),
+      /* Chromatic aberration caustics */
+        radial-gradient(
+          circle at 25% 25%,
+          rgba(255, 0, 0, 0.04) 0%,
+          transparent 40%
+        ),
+      radial-gradient(
+        circle at 75% 75%,
+        rgba(0, 0, 255, 0.04) 0%,
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at 30% 70%,
+        rgba(0, 255, 0, 0.03) 0%,
+        transparent 35%
+      ),
+      radial-gradient(
+        circle at 70% 30%,
+        rgba(255, 255, 0, 0.03) 0%,
+        transparent 35%
+      );
+    border-radius: inherit;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    background: rgba(
+      0,
+      0,
+      0,
+      ${(props) => (props.$intensity ? props.$intensity * 0.2 : 0.2)}
+    );
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 0 25px rgba(0, 0, 0, 0.15),
+      inset 0 0 50px rgba(0, 0, 0, 0.08);
+  }
+`;
+
+// Enhanced Hero Section with Glass Morphism
 export const HeroSection = styled.section`
   text-align: center;
   padding: ${theme.spacing[20]} 0 ${theme.spacing[32]};
   position: relative;
-  background: linear-gradient(135deg, 
-    transparent 0%, 
-    ${theme.colors.primary[50]}40 50%, 
+
+  /* Layered glass background */
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 75%,
     transparent 100%
   );
 
+  /* Static refraction layer */
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: conic-gradient(
+      from 0deg at 50% 50%,
+      transparent 0deg,
+      rgba(255, 255, 255, 0.02) 90deg,
+      transparent 180deg,
+      rgba(255, 255, 255, 0.01) 270deg,
+      transparent 360deg
+    );
+    pointer-events: none;
+  }
+
   @media (prefers-color-scheme: dark) {
-    background: linear-gradient(135deg, 
-      transparent 0%, 
-      ${theme.colors.primary[900]}20 50%, 
+    background: linear-gradient(
+      135deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.1) 25%,
+      rgba(0, 0, 0, 0.2) 50%,
+      rgba(0, 0, 0, 0.1) 75%,
       transparent 100%
     );
   }
@@ -96,49 +311,48 @@ export const HeroSection = styled.section`
 `;
 
 export const HeroTitle = styled.h1`
-  font-size: ${theme.fontSizes['7xl']};
+  font-size: ${theme.fontSizes["7xl"]};
   font-weight: ${theme.fontWeights.black};
   margin: 0 0 ${theme.spacing[6]};
-  background: linear-gradient(135deg, 
-    ${theme.colors.gray[900]}, 
-    ${theme.colors.primary[600]}, 
+  background: linear-gradient(
+    135deg,
+    ${theme.colors.gray[900]},
+    ${theme.colors.primary[600]},
     ${theme.colors.blue[600]}
   );
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-size: 200% 200%;
-  animation: ${shimmer} 3s ease-in-out infinite;
   line-height: 1.1;
 
   @media (prefers-color-scheme: dark) {
-    background: linear-gradient(135deg, 
-      ${theme.colors.white}, 
-      ${theme.colors.primary[300]}, 
+    background: linear-gradient(
+      135deg,
+      ${theme.colors.white},
+      ${theme.colors.primary[300]},
       ${theme.colors.blue[300]}
     );
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-size: 200% 200%;
   }
 
   @media (max-width: ${theme.breakpoints.lg}) {
-    font-size: ${theme.fontSizes['6xl']};
+    font-size: ${theme.fontSizes["6xl"]};
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
-    font-size: ${theme.fontSizes['5xl']};
+    font-size: ${theme.fontSizes["5xl"]};
     margin-bottom: ${theme.spacing[4]};
   }
 
   @media (max-width: ${theme.breakpoints.sm}) {
-    font-size: ${theme.fontSizes['4xl']};
+    font-size: ${theme.fontSizes["4xl"]};
   }
 `;
 
 export const HeroSubtitle = styled.h2`
-  font-size: ${theme.fontSizes['2xl']};
+  font-size: ${theme.fontSizes["2xl"]};
   font-weight: ${theme.fontWeights.semibold};
   color: ${theme.colors.primary[600]};
   margin: 0 0 ${theme.spacing[8]};
@@ -232,7 +446,7 @@ export const Section = styled.section`
 `;
 
 export const SectionTitle = styled.h2`
-  font-size: ${theme.fontSizes['4xl']};
+  font-size: ${theme.fontSizes["4xl"]};
   font-weight: ${theme.fontWeights.bold};
   text-align: center;
   margin: 0 0 ${theme.spacing[16]};
@@ -243,12 +457,12 @@ export const SectionTitle = styled.h2`
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
-    font-size: ${theme.fontSizes['3xl']};
+    font-size: ${theme.fontSizes["3xl"]};
     margin-bottom: ${theme.spacing[12]};
   }
 
   @media (max-width: ${theme.breakpoints.sm}) {
-    font-size: ${theme.fontSizes['2xl']};
+    font-size: ${theme.fontSizes["2xl"]};
     margin-bottom: ${theme.spacing[8]};
   }
 `;
@@ -288,17 +502,21 @@ export const AboutHighlight = styled.blockquote`
   text-align: center;
   margin: ${theme.spacing[8]} 0 0;
   padding: ${theme.spacing[6]};
-  background: linear-gradient(135deg, 
-    ${theme.colors.primary[50]}, 
+  background: linear-gradient(
+    135deg,
+    ${theme.colors.primary[50]},
     ${theme.colors.blue[50]}
   );
-  border-radius: ${theme.borderRadius.xl};
+  border-radius: 24px;
   border-left: 4px solid ${theme.colors.primary[400]};
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.02),
+    inset 0 0 16px rgba(0, 0, 0, 0.01);
 
   @media (prefers-color-scheme: dark) {
     color: ${theme.colors.primary[300]};
-    background: linear-gradient(135deg, 
-      ${theme.colors.primary[900]}40, 
+    background: linear-gradient(
+      135deg,
+      ${theme.colors.primary[900]}40,
       ${theme.colors.blue[900]}40
     );
     border-left-color: ${theme.colors.primary[500]};
@@ -325,32 +543,34 @@ export const SkillsGrid = styled.div`
 export const SkillCard = styled.div`
   background: ${theme.colors.white};
   padding: ${theme.spacing[8]};
-  border-radius: ${theme.borderRadius['2xl']};
-  box-shadow: ${theme.shadows.lg};
-  transition: all ${theme.transitions.duration[300]} ${theme.transitions.easing['in-out']};
+  border-radius: 32px;
+  box-shadow: ${theme.shadows.lg}, inset 0 0 15px rgba(0, 0, 0, 0.05),
+    inset 0 0 30px rgba(0, 0, 0, 0.02);
+  transition-property: all;
+  transition-duration: ${theme.transitions.duration[300]};
+  transition-timing-function: ${theme.transitions.easing["in-out"]};
   border: 1px solid ${theme.colors.gray[200]};
   position: relative;
   overflow: hidden;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, 
-      ${theme.colors.primary[400]}, 
-      ${theme.colors.blue[400]}, 
+    background: linear-gradient(
+      90deg,
+      ${theme.colors.primary[400]},
+      ${theme.colors.blue[400]},
       ${theme.colors.green[400]}
     );
-    background-size: 200% 100%;
-    animation: ${shimmer} 2s ease-in-out infinite;
   }
 
   &:hover {
     transform: translateY(-8px);
-    box-shadow: ${theme.shadows['2xl']};
+    box-shadow: ${theme.shadows["2xl"]};
   }
 
   @media (prefers-color-scheme: dark) {
@@ -364,7 +584,7 @@ export const SkillCard = styled.div`
 `;
 
 export const SkillIcon = styled.div`
-  font-size: ${theme.fontSizes['4xl']};
+  font-size: ${theme.fontSizes["4xl"]};
   margin-bottom: ${theme.spacing[4]};
   text-align: center;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
@@ -407,10 +627,13 @@ export const ProjectsGrid = styled.div`
 export const ProjectCard = styled.div`
   background: ${theme.colors.white};
   padding: ${theme.spacing[8]};
-  border-radius: ${theme.borderRadius['2xl']};
-  box-shadow: ${theme.shadows.md};
+  border-radius: 32px;
+  box-shadow: ${theme.shadows.md}, inset 0 0 12px rgba(0, 0, 0, 0.04),
+    inset 0 0 25px rgba(0, 0, 0, 0.02);
   border: 1px solid ${theme.colors.gray[200]};
-  transition: all ${theme.transitions.duration[300]} ${theme.transitions.easing['in-out']};
+  transition-property: all;
+  transition-duration: ${theme.transitions.duration[300]};
+  transition-timing-function: ${theme.transitions.easing["in-out"]};
 
   &:hover {
     box-shadow: ${theme.shadows.xl};
@@ -428,7 +651,7 @@ export const ProjectCard = styled.div`
 `;
 
 export const ProjectTitle = styled.h3`
-  font-size: ${theme.fontSizes['2xl']};
+  font-size: ${theme.fontSizes["2xl"]};
   font-weight: ${theme.fontWeights.bold};
   color: ${theme.colors.gray[900]};
   margin: 0 0 ${theme.spacing[4]};
@@ -470,18 +693,20 @@ export const ProjectTech = styled.div`
 
 // Personal Section
 export const PersonalSection = styled(Section)`
-  background: linear-gradient(135deg, 
-    ${theme.colors.gray[50]}, 
-    ${theme.colors.primary[50]}40, 
+  background: linear-gradient(
+    135deg,
+    ${theme.colors.gray[50]},
+    ${theme.colors.primary[50]}40,
     ${theme.colors.gray[50]}
   );
-  border-radius: ${theme.borderRadius['3xl']};
+  border-radius: 40px;
   margin: ${theme.spacing[20]} auto;
 
   @media (prefers-color-scheme: dark) {
-    background: linear-gradient(135deg, 
-      ${theme.colors.gray[900]}, 
-      ${theme.colors.primary[900]}20, 
+    background: linear-gradient(
+      135deg,
+      ${theme.colors.gray[900]},
+      ${theme.colors.primary[900]}20,
       ${theme.colors.gray[900]}
     );
   }
@@ -515,7 +740,8 @@ export const PersonalQuote = styled.div`
   padding: ${theme.spacing[6]};
   border-radius: ${theme.borderRadius.xl};
   background: ${theme.colors.white};
-  box-shadow: ${theme.shadows.md};
+  box-shadow: ${theme.shadows.md}, inset 0 0 10px rgba(0, 0, 0, 0.03),
+    inset 0 0 20px rgba(0, 0, 0, 0.01);
 
   @media (prefers-color-scheme: dark) {
     color: ${theme.colors.primary[300]};
@@ -532,9 +758,10 @@ export const PersonalQuote = styled.div`
 export const ConnectSection = styled.section`
   text-align: center;
   padding: ${theme.spacing[20]} 0;
-  background: linear-gradient(135deg, 
-    ${theme.colors.primary[600]}, 
-    ${theme.colors.blue[600]}, 
+  background: linear-gradient(
+    135deg,
+    ${theme.colors.primary[600]},
+    ${theme.colors.blue[600]},
     ${theme.colors.green[600]}
   );
   color: ${theme.colors.white};
@@ -552,16 +779,16 @@ export const ConnectSection = styled.section`
 `;
 
 export const ConnectTitle = styled.h2`
-  font-size: ${theme.fontSizes['4xl']};
+  font-size: ${theme.fontSizes["4xl"]};
   font-weight: ${theme.fontWeights.bold};
   margin: 0 0 ${theme.spacing[6]};
 
   @media (max-width: ${theme.breakpoints.md}) {
-    font-size: ${theme.fontSizes['3xl']};
+    font-size: ${theme.fontSizes["3xl"]};
   }
 
   @media (max-width: ${theme.breakpoints.sm}) {
-    font-size: ${theme.fontSizes['2xl']};
+    font-size: ${theme.fontSizes["2xl"]};
   }
 `;
 

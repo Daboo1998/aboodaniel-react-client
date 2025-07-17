@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ReactComponent as MenuIcon } from "../../../images/icons/menuIcon.svg";
 import { ReactComponent as CloseIcon } from "../../../images/icons/closeIcon.svg";
 import useNavigation from "../../../hooks/useNavigation";
@@ -9,7 +9,8 @@ import {
   MenuButton,
   PageTitle,
   BrandTitle,
-  NavigationContent
+  NavigationContent,
+  NavigationContentWrapper,
 } from "./PageNavigatorBar.styled";
 
 export const PageNavigatorBarContext = React.createContext({
@@ -23,6 +24,18 @@ const PageNavigatorBar: React.FC<React.DOMAttributes<HTMLDivElement>> = ({
   const [isHidden, setIsHidden] = useState(true);
   const navigation = useNavigation();
 
+  // Prevent body scroll when menu is open
+  useEffect(() => {
+    if (!isHidden) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isHidden]);
+
   const toggleHidden = () => {
     setIsHidden(!isHidden);
   };
@@ -32,9 +45,7 @@ const PageNavigatorBar: React.FC<React.DOMAttributes<HTMLDivElement>> = ({
   };
 
   return (
-    <PageNavigatorBarContext.Provider
-      value={{ isHidden, hide }}
-    >
+    <PageNavigatorBarContext.Provider value={{ isHidden, hide }}>
       <NavigatorContainer $isHidden={isHidden}>
         <MobileHeader>
           <MenuButton onClick={toggleHidden}>
@@ -46,8 +57,10 @@ const PageNavigatorBar: React.FC<React.DOMAttributes<HTMLDivElement>> = ({
           Daniel Aboo
         </BrandTitle>
         <NavigationContent $isHidden={isHidden}>
-          {children}
-          {!isHidden && <Footer isInsideMenu={true} />}
+          <NavigationContentWrapper $isHidden={isHidden}>
+            {children}
+          </NavigationContentWrapper>
+          <Footer isInsideMenu={true} />
         </NavigationContent>
       </NavigatorContainer>
     </PageNavigatorBarContext.Provider>
