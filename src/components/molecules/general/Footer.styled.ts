@@ -6,6 +6,9 @@ export const FooterStyled = styled.div<{ $isInsideMenu: boolean }>`
   flex-direction: column;
   padding-bottom: ${theme.spacing[6]};
   gap: ${theme.spacing[4]};
+  flex-grow: ${({ $isInsideMenu }) => ($isInsideMenu ? 1 : 0)};
+  justify-content: ${({ $isInsideMenu }) =>
+    $isInsideMenu ? "flex-end" : "flex-start"};
 
   @media (min-width: ${theme.breakpoints.md}) {
     display: ${({ $isInsideMenu }) => ($isInsideMenu ? "none" : "flex")};
@@ -24,7 +27,9 @@ export const SocialLink = styled.a`
   align-items: center;
   justify-content: center;
   border-radius: ${theme.borderRadius.sm};
-  transition: background-color ${theme.transitions.duration[200]}${theme.transitions.easing["in-out"]};
+  // prettier-ignore
+  transition: background-color ${theme.transitions.duration[200]} ${theme
+    .transitions.easing["in-out"]};
 
   svg {
     width: ${theme.spacing[6]};
