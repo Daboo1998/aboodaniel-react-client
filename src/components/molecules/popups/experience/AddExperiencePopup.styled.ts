@@ -109,7 +109,7 @@ export const PopupContent = styled.div`
 
 export const PopupTitle = styled.h2`
   color: white;
-  font-size: ${theme.fontSizes.xxxl};
+  font-size: ${theme.fontSizes['2xl']};
   font-weight: 700;
   margin: 0 0 ${theme.spacing[7]} 0;
   text-align: center;
