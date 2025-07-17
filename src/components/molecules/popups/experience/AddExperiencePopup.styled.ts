@@ -9,14 +9,18 @@ export const PopupContent = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.2);
   padding: ${theme.spacing[8]};
   overflow-y: auto;
+  overflow-x: hidden;
   max-height: 85vh;
+  height: auto;
   max-width: 700px;
   width: 90%;
-  margin: 20px;
+  margin: 20px auto;
   box-shadow: 0 16px 64px rgba(0, 0, 0, 0.2), inset 0 0 32px rgba(0, 0, 0, 0.05),
     inset 0 0 64px rgba(0, 0, 0, 0.02);
   position: relative;
   animation: slideIn 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
 
   /* Add scrollbar styling */
   &::-webkit-scrollbar {
@@ -35,6 +39,13 @@ export const PopupContent = styled.div`
   
   &::-webkit-scrollbar-thumb:hover {
     background: rgba(0, 0, 0, 0.5);
+  }
+
+  @media (max-width: 768px) {
+    width: 95%;
+    max-height: 90vh;
+    margin: 10px auto;
+    padding: ${theme.spacing[6]};
   }
 
   @keyframes slideIn {
@@ -96,15 +107,6 @@ export const PopupContent = styled.div`
     box-shadow: 0 16px 64px rgba(0, 0, 0, 0.4),
       inset 0 0 32px rgba(0, 0, 0, 0.1), inset 0 0 64px rgba(0, 0, 0, 0.05);
   }
-
-  @media (max-width: ${theme.breakpoints.md}) {
-    width: 90%;
-    max-width: 90%;
-    height: auto;
-    max-height: 90vh;
-    border-radius: 20px;
-    padding: ${theme.spacing[6]};
-  }
 `;
 
 export const PopupTitle = styled.h2`
@@ -152,8 +154,10 @@ export const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing[5]};
-  position: relative;
-  z-index: 1;
+  width: 100%;
+  overflow-y: visible;
+  flex: 1;
+  min-height: 0;
 `;
 
 export const OngoingContainer = styled.div`
@@ -306,7 +310,9 @@ export const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing[3]};
-  margin-top: ${theme.spacing[4]};
-  position: relative;
-  z-index: 1;
+  width: 100%;
+  margin-top: ${theme.spacing[6]};
+  padding-top: ${theme.spacing[4]};
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
 `;
