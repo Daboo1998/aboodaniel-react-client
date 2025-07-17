@@ -28,8 +28,6 @@ import {
   ConnectSection,
   ConnectTitle,
   ConnectDescription,
-  GradientOrb,
-  FloatingElement,
   GlassContainer,
 } from "./NewHomePageLayout.styled";
 

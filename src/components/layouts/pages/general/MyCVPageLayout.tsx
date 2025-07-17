@@ -3,7 +3,7 @@ import PageLayout from "../PageLayout";
 import SkillSet from "../../../../data/SkillSet";
 import database, { timestampToString } from "../../../../data/database";
 import Experience from "../../../../data/experience";
-import Spacer from "../../../atoms/utilities/Spacer";
+
 import EducationItem from "../../../../data/EducationItem";
 import { useAuth } from "../../../../contexts/AuthContext";
 import AddExperiencePopup from "../../../molecules/popups/experience/AddExperiencePopup";
