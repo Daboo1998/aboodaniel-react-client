@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { theme } from "../../../../styles/theme";
 
 // Enhanced Background Elements with Realistic Glass Effects
