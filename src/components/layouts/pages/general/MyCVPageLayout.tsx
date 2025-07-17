@@ -10,6 +10,9 @@ import AddExperiencePopup from "../../../molecules/popups/experience/AddExperien
 import EditExperiencePopup from "../../../molecules/popups/experience/EditExperiencePopup";
 import usePopup from "../../../../hooks/usePopup";
 import RemoveExperiencesPopup from "../../../molecules/popups/experience/RemoveExperiencesPopup";
+import AddEducationPopup from "../../../molecules/popups/education/AddEducationPopup";
+import EditEducationPopup from "../../../molecules/popups/education/EditEducationPopup";
+import RemoveEducationPopup from "../../../molecules/popups/education/RemoveEducationPopup";
 import Button, {
   ButtonSize,
   ButtonType,
@@ -71,6 +74,25 @@ const MyCVPageLayout: React.FC = () => {
   const [selectedExperience, setSelectedExperience] =
     useState<Experience | null>(null);
 
+  // Education management functionality
+  const [
+    isAddEducationPopupShown,
+    showAddEducationPopup,
+    hideAddEducationPopup,
+  ] = usePopup();
+  const [
+    isEditEducationPopupShown,
+    showEditEducationPopup,
+    hideEditEducationPopup,
+  ] = usePopup();
+  const [
+    isRemoveEducationPopupShown,
+    showRemoveEducationPopup,
+    hideRemoveEducationPopup,
+  ] = usePopup();
+  const [selectedEducation, setSelectedEducation] =
+    useState<EducationItem | null>(null);
+
   const onAddButtonClick = () => {
     window.document.body.style.overflow = "hidden";
     showAddExperiencePopup();
@@ -87,6 +109,23 @@ const MyCVPageLayout: React.FC = () => {
     showRemoveExperiencesPopup();
   };
 
+  // Education handlers
+  const onAddEducationClick = () => {
+    window.document.body.style.overflow = "hidden";
+    showAddEducationPopup();
+  };
+
+  const onEditEducationClick = (educationItem: EducationItem) => {
+    setSelectedEducation(educationItem);
+    window.document.body.style.overflow = "hidden";
+    showEditEducationPopup();
+  };
+
+  const onRemoveEducationClick = () => {
+    window.document.body.style.overflow = "hidden";
+    showRemoveEducationPopup();
+  };
+
   const onAddExperienceClose = (addedExperience?: Experience) => {
     hideAddExperiencePopup();
     if (addedExperience) {
@@ -101,9 +140,8 @@ const MyCVPageLayout: React.FC = () => {
 
   const onEditExperienceClose = (updatedExperience?: Experience) => {
     hideEditExperiencePopup();
-    setSelectedExperience(null);
     if (updatedExperience) {
-      // Update experience and re-sort by importance in descending order
+      // Update the experience and sort by importance in descending order
       const updatedExperiences = experiences
         .map((exp) =>
           exp.id === updatedExperience.id ? updatedExperience : exp
@@ -114,9 +152,55 @@ const MyCVPageLayout: React.FC = () => {
     window.document.body.style.overflow = "unset";
   };
 
-  const onRemoveExperiencesClose = (remainingExperiences: Experience[]) => {
-    setExperiences(remainingExperiences);
+  const onRemoveExperiencesClose = (
+    removedExperiences?: Experience[]
+  ): void => {
     hideRemoveExperiencesPopup();
+    if (removedExperiences) {
+      const removedIds = removedExperiences.map((exp) => exp.id);
+      setExperiences(
+        experiences.filter((exp) => !removedIds.includes(exp.id))
+      );
+    }
+    window.document.body.style.overflow = "unset";
+  };
+
+  // Education close handlers
+  const onAddEducationClose = (addedEducation?: EducationItem) => {
+    hideAddEducationPopup();
+    if (addedEducation) {
+      const updatedEducation = [...education, addedEducation].sort((a, b) => {
+        if (b.endYear === "ongoing") return 1;
+        if (a.endYear === "ongoing") return -1;
+        return parseInt(b.endYear) - parseInt(a.endYear);
+      });
+      setEducation(updatedEducation);
+    }
+    window.document.body.style.overflow = "unset";
+  };
+
+  const onEditEducationClose = (updatedEducation?: EducationItem) => {
+    hideEditEducationPopup();
+    if (updatedEducation) {
+      const updatedEducationList = education
+        .map((edu) =>
+          edu.id === updatedEducation.id ? updatedEducation : edu
+        )
+        .sort((a, b) => {
+          if (b.endYear === "ongoing") return 1;
+          if (a.endYear === "ongoing") return -1;
+          return parseInt(b.endYear) - parseInt(a.endYear);
+        });
+      setEducation(updatedEducationList);
+    }
+    window.document.body.style.overflow = "unset";
+  };
+
+  const onRemoveEducationClose = (deletedIds?: string[]) => {
+    hideRemoveEducationPopup();
+    if (deletedIds) {
+      setEducation(education.filter((edu) => !deletedIds.includes(edu.id)));
+    }
     window.document.body.style.overflow = "unset";
   };
 
@@ -139,194 +223,210 @@ const MyCVPageLayout: React.FC = () => {
   }, []);
 
   return (
-    <PageLayout title="CV">
-      <CVContainer>
-        {/* Experience Management Popups */}
-        <AddExperiencePopup
-          isPopupShown={isAddExperiencePopupShown}
-          onClose={onAddExperienceClose}
-        />
-        <EditExperiencePopup
-          isPopupShown={isEditExperiencePopupShown}
-          experience={selectedExperience}
-          onClose={onEditExperienceClose}
-        />
-        <RemoveExperiencesPopup
-          experiences={experiences}
-          onClose={onRemoveExperiencesClose}
-          isPopupShown={isRemoveExperiencesPopupShown}
-        />
+    <>
+      <AddExperiencePopup
+        isPopupShown={isAddExperiencePopupShown}
+        onClose={onAddExperienceClose}
+      />
+      <EditExperiencePopup
+        isPopupShown={isEditExperiencePopupShown}
+        experience={selectedExperience}
+        onClose={onEditExperienceClose}
+      />
+      <RemoveExperiencesPopup
+        isPopupShown={isRemoveExperiencesPopupShown}
+        experiences={experiences}
+        onClose={onRemoveExperiencesClose}
+      />
+      <AddEducationPopup
+        isPopupShown={isAddEducationPopupShown}
+        onClose={onAddEducationClose}
+      />
+      <EditEducationPopup
+        isPopupShown={isEditEducationPopupShown}
+        education={selectedEducation}
+        onClose={onEditEducationClose}
+      />
+      <RemoveEducationPopup
+        isPopupShown={isRemoveEducationPopupShown}
+        educationItems={education}
+        onClose={onRemoveEducationClose}
+      />
+      <PageLayout title="CV">
+        <CVContainer>
+          {/* Experience Management Popups */}
+          {/* Education Management Popups */}
 
-        <CVTitle>Curriculum Vitae</CVTitle>
-        <CVMainContainer>
-          <ContentColumn>
-            <Section>
-              <SectionTitle>About Me</SectionTitle>
-              <AboutText>
-                I have been always, looking into the future, wanting to create
-                new solutions using technology to change how we live our
-                everyday lives. My mission is to innovate, while also make my
-                work to be understood by others and be able to work together
-                with people. Creativity, my pursuit after my goals and my
-                determination are my main attributes. I always try my best to
-                understand the needs of people I work with, and find a way for
-                all parties to be happy.
-              </AboutText>
-            </Section>
+          <CVTitle>Curriculum Vitae</CVTitle>
+          <CVMainContainer>
+            <ContentColumn>
+              <Section>
+                <SectionTitle>About Me</SectionTitle>
+                <AboutText>
+                  I have been always, looking into the future, wanting to create
+                  new solutions using technology to change how we live our
+                  everyday lives. My mission is to innovate, while also make my
+                  work to be understood by others and be able to work together
+                  with people. Creativity, my pursuit after my goals and my
+                  determination are my main attributes. I always try my best to
+                  understand the needs of people I work with, and find a way for
+                  all parties to be happy.
+                </AboutText>
+              </Section>
 
-            <Section>
-              <SectionTitle>Skills</SectionTitle>
-              {skillSets.map((skillSet) => {
-                return (
-                  <SkillSetContainer key={skillSet.name}>
-                    <SkillSetTitle>{skillSet.name}</SkillSetTitle>
-                    <SkillsList>
-                      {skillSet.skills.map((skill) => {
-                        return (
-                          <SkillItem key={skill}>
-                            <p>{skill}</p>
-                          </SkillItem>
-                        );
-                      })}
-                    </SkillsList>
-                  </SkillSetContainer>
-                );
-              })}
-            </Section>
+              <Section>
+                <SectionTitle>Skills</SectionTitle>
+                {skillSets.map((skillSet) => {
+                  return (
+                    <SkillSetContainer key={skillSet.name}>
+                      <SkillSetTitle>{skillSet.name}</SkillSetTitle>
+                      <SkillsList>
+                        {skillSet.skills.map((skill) => {
+                          return (
+                            <SkillItem key={skill}>
+                              <p>{skill}</p>
+                            </SkillItem>
+                          );
+                        })}
+                      </SkillsList>
+                    </SkillSetContainer>
+                  );
+                })}
+              </Section>
 
-            <Section>
-              <SectionTitle className="with-top-padding">Hobbies</SectionTitle>
-              <HobbiesContainer>
-                <HobbyItem>Programming</HobbyItem>
-                <HobbyItem>Piano</HobbyItem>
-                <HobbyItem>Traveling</HobbyItem>
-                <HobbyItem>Photography</HobbyItem>
-              </HobbiesContainer>
-            </Section>
+              <Section>
+                <SectionTitle className="with-top-padding">Hobbies</SectionTitle>
+                <HobbiesContainer>
+                  <HobbyItem>Programming</HobbyItem>
+                  <HobbyItem>Piano</HobbyItem>
+                  <HobbyItem>Traveling</HobbyItem>
+                  <HobbyItem>Photography</HobbyItem>
+                </HobbiesContainer>
+              </Section>
 
-            <ExperienceSection>
-              <SectionTitle className="with-top-padding">
-                Experience
-              </SectionTitle>
-              {auth.isOwner && (
-                <div className="experience-admin-controls">
-                  <Button
-                    size={ButtonSize.small}
-                    action={onAddButtonClick}
-                    label="Add Experience"
-                    type={ButtonType.constructive}
-                  />
-                  <Button
-                    size={ButtonSize.small}
-                    label="Remove Experiences"
-                    action={onRemoveButtonClick}
-                    type={ButtonType.destructive}
-                  />
-                </div>
-              )}
-              {experiences.map((experience) => {
-                return (
-                  <ExperienceItem key={experience.title}>
-                    <div className="experience-content">
-                      <ExperienceTitle>{experience.title}</ExperienceTitle>
-                      <ExperienceDate>
-                        {experience.endDate === "ongoing" && "Started in "}
-                        {experience?.startingDate &&
-                          timestampToString(
-                            experience.startingDate,
-                            false,
-                            false
-                          )}
-                        {experience.endDate &&
-                          (experience.endDate === "ongoing"
-                            ? "(ongoing)"
-                            : "- " +
-                              timestampToString(
-                                experience.endDate,
-                                false,
-                                false
-                              ))}
-                      </ExperienceDate>
-                      <ExperienceDescription>
-                        {experience.description}
-                      </ExperienceDescription>
+              <ExperienceSection>
+                <SectionTitle className="with-top-padding">
+                  Experience
+                </SectionTitle>
+                {auth.isOwner && (
+                  <div className="experience-admin-controls">
+                    <Button
+                      size={ButtonSize.small}
+                      action={onAddButtonClick}
+                      label="Add Experience"
+                      type={ButtonType.constructive}
+                    />
+                    <Button
+                      size={ButtonSize.small}
+                      label="Remove Experiences"
+                      action={onRemoveButtonClick}
+                      type={ButtonType.destructive}
+                    />
+                  </div>
+                )}
+                {experiences.map((experience) => {
+                  return (
+                    <ExperienceItem key={experience.title}>
+                      <div className="experience-content">
+                        <ExperienceTitle>{experience.title}</ExperienceTitle>
+                        <ExperienceDate>
+                          {experience.endDate === "ongoing" && "Started in "}
+                          {experience?.startingDate &&
+                            timestampToString(
+                              experience.startingDate,
+                              false,
+                              false
+                            )}
+                          {experience.endDate &&
+                            (experience.endDate === "ongoing"
+                              ? "(ongoing)"
+                              : "- " +
+                                timestampToString(
+                                  experience.endDate,
+                                  false,
+                                  false
+                                ))}
+                        </ExperienceDate>
+                        <ExperienceDescription>
+                          {experience.description}
+                        </ExperienceDescription>
+                      </div>
+                      {auth.isOwner && (
+                        <div className="experience-edit-button">
+                          <Button
+                            size={ButtonSize.small}
+                            action={() => onEditButtonClick(experience)}
+                            label="Edit"
+                            type={ButtonType.primary}
+                          />
+                        </div>
+                      )}
+                    </ExperienceItem>
+                  );
+                })}
+              </ExperienceSection>
+
+              <EducationSection>
+                <SectionTitle className="with-top-padding">
+                  Education
+                  {auth.isOwner && (
+                    <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                      <Button
+                        label="Add"
+                        action={onAddEducationClick}
+                        size={ButtonSize.small}
+                        type={ButtonType.constructive}
+                      />
+                      <Button
+                        label="Remove"
+                        action={onRemoveEducationClick}
+                        size={ButtonSize.small}
+                        type={ButtonType.destructive}
+                      />
                     </div>
-                    {auth.isOwner && (
-                      <div className="experience-edit-button">
-                        <Button
-                          size={ButtonSize.small}
-                          action={() => onEditButtonClick(experience)}
-                          label="Edit"
-                          type={ButtonType.primary}
-                        />
-                      </div>
-                    )}
-                  </ExperienceItem>
-                );
-              })}
-            </ExperienceSection>
+                  )}
+                </SectionTitle>
+                {education.map((item) => {
+                  return (
+                    <StyledEducationItem key={item.qualification}>
+                      <EducationTitle>{item.qualification}</EducationTitle>
+                      <EducationPlace>{item.place}</EducationPlace>
+                      <EducationYears>
+                        {item.startYear} - {item.endYear}
+                      </EducationYears>
+                      {auth.isOwner && (
+                        <div style={{ marginTop: '10px' }}>
+                          <Button
+                            label="Edit"
+                            action={() => onEditEducationClick(item)}
+                            size={ButtonSize.small}
+                            type={ButtonType.primary}
+                          />
+                        </div>
+                      )}
+                    </StyledEducationItem>
+                  );
+                })}
+              </EducationSection>
+            </ContentColumn>
 
-            <EducationSection>
-              <SectionTitle className="with-top-padding">
-                Education
-              </SectionTitle>
-              {education.map((item) => {
-                return (
-                  <StyledEducationItem key={item.qualification}>
-                    <EducationTitle>{item.qualification}</EducationTitle>
-                    <EducationPlace>{item.place}</EducationPlace>
-                    <EducationYears>
-                      {item.startYear} - {item.endYear}
-                    </EducationYears>
-                    {auth.isOwner && (
-                      <div style={{ marginTop: '10px' }}>
-                        <Button
-                          label="Update End Year"
-                          action={() => {
-                            const newEndYear = prompt('Enter new end year:', item.endYear);
-                            if (newEndYear && newEndYear !== item.endYear) {
-                              // Update the education item with new end year
-                              const updatedItem = { ...item, endYear: newEndYear };
-                              database.education.post(updatedItem)
-                                .then(() => {
-                                  // Update local state
-                                  setEducation(education.map(edu => 
-                                    edu.id === item.id ? updatedItem : edu
-                                  ));
-                                })
-                                .catch(error => {
-                                  console.error('Error updating education:', error);
-                                  alert('Failed to update education. Please try again.');
-                                });
-                            }
-                          }}
-                          size={ButtonSize.small}
-                          type={ButtonType.primary}
-                        />
-                      </div>
-                    )}
-                  </StyledEducationItem>
-                );
-              })}
-            </EducationSection>
-          </ContentColumn>
-
-          <ProfileColumn>
-            <ProfileImage src="/images/me.jpg" alt="Daniel Richard Aboo" />
-            <ProfileInfo>
-              <ProfileName>Daniel Richard Aboo</ProfileName>
-              <ProfileTitle>Full-stack Developer, Prompt Engineer</ProfileTitle>
-              <ContactInfo>
-                Mobile: <a href="tel:+48601951169">+48 601 951 169</a>
-              </ContactInfo>
-              <ContactInfo className="email-only">
-                Email: <a href="mailto:me@aboodaniel.pl">me@aboodaniel.pl</a>
-              </ContactInfo>
-            </ProfileInfo>
-          </ProfileColumn>
-        </CVMainContainer>
-      </CVContainer>
-    </PageLayout>
+            <ProfileColumn>
+              <ProfileImage src="/images/me.jpg" alt="Daniel Richard Aboo" />
+              <ProfileInfo>
+                <ProfileName>Daniel Richard Aboo</ProfileName>
+                <ProfileTitle>Full-stack Developer, Prompt Engineer</ProfileTitle>
+                <ContactInfo>
+                  Mobile: <a href="tel:+48601951169">+48 601 951 169</a>
+                </ContactInfo>
+                <ContactInfo className="email-only">
+                  Email: <a href="mailto:me@aboodaniel.pl">me@aboodaniel.pl</a>
+                </ContactInfo>
+              </ProfileInfo>
+            </ProfileColumn>
+          </CVMainContainer>
+        </CVContainer>
+      </PageLayout>
+    </>
   );
 };
 
