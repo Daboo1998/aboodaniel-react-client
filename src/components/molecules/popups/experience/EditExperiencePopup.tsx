@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect, useRef, useCallback} from "react";
 import Popup, {PopupProps} from "../Popup";
 import TextInput from "../../../atoms/input/TextInput";
 import TextAreaInput from "../../../atoms/input/TextAreaInput";
@@ -69,7 +69,7 @@ const EditExperiencePopup: React.FC<EditExperiencePopupProps> = (props) => {
         }
     }, [props.experience]);
 
-    const handleCancel = () => {
+    const handleCancel = useCallback(() => {
         // Reset form
         setTitle("");
         setImportance(0);
@@ -82,7 +82,7 @@ const EditExperiencePopup: React.FC<EditExperiencePopupProps> = (props) => {
         setErrorMessage(undefined);
         
         props.onClose();
-    };
+    }, [props]);
 
     // Handle escape key
     useEffect(() => {
@@ -94,7 +94,7 @@ const EditExperiencePopup: React.FC<EditExperiencePopupProps> = (props) => {
 
         document.addEventListener('keydown', handleEscape);
         return () => document.removeEventListener('keydown', handleEscape);
-    }, [props.isPopupShown]);
+    }, [props.isPopupShown, handleCancel]);
 
     // Handle click outside
     useEffect(() => {
@@ -112,7 +112,7 @@ const EditExperiencePopup: React.FC<EditExperiencePopupProps> = (props) => {
         }
 
         return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [props.isPopupShown]);
+    }, [props.isPopupShown, handleCancel]);
 
     const handleUpdateExperience: React.MouseEventHandler = (e) => {
         e.preventDefault();
