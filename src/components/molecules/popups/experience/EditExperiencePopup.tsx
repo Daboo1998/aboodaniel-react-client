@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import Popup, {PopupProps} from "../Popup";
 import TextInput from "../../../atoms/input/TextInput";
 import TextAreaInput from "../../../atoms/input/TextAreaInput";
@@ -20,7 +20,8 @@ import {
     RequiredFieldsText,
     RequiredAsterisk,
     ErrorMessage,
-    ButtonContainer
+    ButtonContainer,
+    CloseButton
 } from "./AddExperiencePopup.styled";
 
 export interface EditExperiencePopupProps extends PopupProps {
@@ -38,6 +39,7 @@ const EditExperiencePopup: React.FC<EditExperiencePopupProps> = (props) => {
     const [link, setLink] = useState("");
     const [linkText, setLinkText] = useState("");
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+    const popupContentRef = useRef<HTMLDivElement>(null);
 
     // Pre-populate form when experience prop changes
     useEffect(() => {
@@ -67,10 +69,50 @@ const EditExperiencePopup: React.FC<EditExperiencePopupProps> = (props) => {
         }
     }, [props.experience]);
 
-    const handleCancel: React.MouseEventHandler = (e) => {
-        e.preventDefault();
+    const handleCancel = () => {
+        // Reset form
+        setTitle("");
+        setImportance(0);
+        setIsOngoing(false);
+        setStartDate("");
+        setEndDate("");
+        setDescription("");
+        setLink("");
+        setLinkText("");
+        setErrorMessage(undefined);
+        
         props.onClose();
     };
+
+    // Handle escape key
+    useEffect(() => {
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' && props.isPopupShown) {
+                handleCancel();
+            }
+        };
+
+        document.addEventListener('keydown', handleEscape);
+        return () => document.removeEventListener('keydown', handleEscape);
+    }, [props.isPopupShown]);
+
+    // Handle click outside
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (popupContentRef.current && !popupContentRef.current.contains(e.target as Node)) {
+                handleCancel();
+            }
+        };
+
+        if (props.isPopupShown) {
+            // Add a small delay to prevent immediate closing
+            setTimeout(() => {
+                document.addEventListener('mousedown', handleClickOutside);
+            }, 100);
+        }
+
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [props.isPopupShown]);
 
     const handleUpdateExperience: React.MouseEventHandler = (e) => {
         e.preventDefault();
@@ -126,8 +168,10 @@ const EditExperiencePopup: React.FC<EditExperiencePopupProps> = (props) => {
 
     return (
         <Popup isPopupShown={props.isPopupShown}>
-            <Spacer />
-            <PopupContent>
+            <PopupContent ref={popupContentRef}>
+                <CloseButton onClick={handleCancel} aria-label="Close popup">
+                    ×
+                </CloseButton>
                 <PopupTitle>Edit Experience</PopupTitle>
                 <StyledForm>
                     <NumberInput 

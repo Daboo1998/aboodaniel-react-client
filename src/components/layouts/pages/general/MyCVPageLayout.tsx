@@ -285,11 +285,13 @@ const MyCVPageLayout: React.FC = () => {
                           action={() => {
                             const newEndYear = prompt('Enter new end year:', item.endYear);
                             if (newEndYear && newEndYear !== item.endYear) {
-                              database.education.update(item.id, { endYear: newEndYear })
+                              // Update the education item with new end year
+                              const updatedItem = { ...item, endYear: newEndYear };
+                              database.education.post(updatedItem)
                                 .then(() => {
                                   // Update local state
                                   setEducation(education.map(edu => 
-                                    edu.id === item.id ? { ...edu, endYear: newEndYear } : edu
+                                    edu.id === item.id ? updatedItem : edu
                                   ));
                                 })
                                 .catch(error => {
