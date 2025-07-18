@@ -382,13 +382,14 @@ const MyCVPageLayout: React.FC = () => {
                       <SkillSetTitle>
                         {skillSet.name}
                         {auth.isOwner && (
-                          <Button
-                            label="Edit"
-                            action={() => onEditSkillSetClick(skillSet)}
-                            size={ButtonSize.small}
-                            type={ButtonType.primary}
-                            style={{ marginLeft: '10px' }}
-                          />
+                          <span style={{ marginLeft: '10px' }}>
+                            <Button
+                              label="Edit"
+                              action={() => onEditSkillSetClick(skillSet)}
+                              size={ButtonSize.small}
+                              type={ButtonType.primary}
+                            />
+                          </span>
                         )}
                       </SkillSetTitle>
                       <SkillsList>
