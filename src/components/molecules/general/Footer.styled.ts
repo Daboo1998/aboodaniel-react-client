@@ -5,7 +5,7 @@ export const FooterStyled = styled.div<{ $isInsideMenu: boolean }>`
   display: ${({ $isInsideMenu }) => ($isInsideMenu ? "flex" : "none")};
   flex-direction: column;
   padding-bottom: ${theme.spacing[6]};
-  gap: ${theme.spacing[4]};
+  gap: ${theme.spacing[3]};
   flex-grow: ${({ $isInsideMenu }) => ($isInsideMenu ? 1 : 0)};
   justify-content: ${({ $isInsideMenu }) =>
     $isInsideMenu ? "flex-end" : "flex-start"};
@@ -58,22 +58,27 @@ export const SocialLink = styled.a`
   }
 `;
 
-export const Spacer = styled.br`
-  margin: ${theme.spacing[2]} 0;
+export const Spacer = styled.div`
+  height: ${theme.spacing[1]};
 `;
 
 export const LinksContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: ${theme.spacing[2]};
+  gap: ${theme.spacing[1]};
+  
+  a {
+    text-decoration: none;
+  }
 `;
 
 export const AuthLinksContainer = styled.div<{ $isLoggedIn: boolean }>`
   display: flex;
   flex-direction: ${({ $isLoggedIn }) => ($isLoggedIn ? "column" : "row")};
-  gap: ${theme.spacing[2]};
+  gap: ${theme.spacing[1]};
   align-items: center;
+  margin-bottom: ${theme.spacing[1]};
 `;
 
 export const FooterLink = styled.button`
@@ -83,9 +88,10 @@ export const FooterLink = styled.button`
   text-align: center;
   cursor: pointer;
   font-family: inherit;
-  font-size: inherit;
+  font-size: ${theme.fontSizes.sm};
   text-decoration: underline;
-  padding: ${theme.spacing[1]};
+  padding: ${theme.spacing[1]} ${theme.spacing[2]};
+  line-height: 1.2;
 
   @media (prefers-color-scheme: dark) {
     color: ${theme.colors.gray[400]};
@@ -111,6 +117,8 @@ export const UserInfo = styled.p`
   margin: 0;
   text-align: center;
   color: ${theme.colors.gray[800]};
+  font-size: ${theme.fontSizes.sm};
+  line-height: 1.2;
 
   @media (prefers-color-scheme: dark) {
     color: ${theme.colors.white};
@@ -128,7 +136,7 @@ export const UserName = styled.span`
 export const CopyrightText = styled.p`
   text-align: center;
   font-size: ${theme.fontSizes.xs};
-  margin: 0;
+  margin: ${theme.spacing[2]} 0 0 0;
   color: ${theme.colors.gray[600]};
 
   @media (prefers-color-scheme: dark) {
