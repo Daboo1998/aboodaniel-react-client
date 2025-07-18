@@ -9,14 +9,44 @@ export const PopupContent = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.2);
   padding: ${theme.spacing[8]};
   overflow-y: auto;
-  max-height: 90vh;
+  overflow-x: hidden;
+  max-height: 85vh;
+  height: auto;
   max-width: 700px;
-  width: 100%;
+  width: 90%;
+  margin: 20px auto;
   box-shadow: 0 16px 64px rgba(0, 0, 0, 0.2), inset 0 0 32px rgba(0, 0, 0, 0.05),
     inset 0 0 64px rgba(0, 0, 0, 0.02);
   position: relative;
-  overflow: hidden;
   animation: slideIn 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
+
+  /* Add scrollbar styling */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  @media (max-width: 768px) {
+    width: 95%;
+    max-height: 90vh;
+    margin: 10px auto;
+    padding: ${theme.spacing[6]};
+  }
 
   @keyframes slideIn {
     from {
@@ -77,28 +107,46 @@ export const PopupContent = styled.div`
     box-shadow: 0 16px 64px rgba(0, 0, 0, 0.4),
       inset 0 0 32px rgba(0, 0, 0, 0.1), inset 0 0 64px rgba(0, 0, 0, 0.05);
   }
-
-  @media (max-width: ${theme.breakpoints.md}) {
-    width: 90%;
-    max-width: 90%;
-    height: auto;
-    max-height: 90vh;
-    border-radius: 20px;
-    padding: ${theme.spacing[6]};
-  }
 `;
 
 export const PopupTitle = styled.h2`
-  margin: 0 0 ${theme.spacing[6]} 0;
-  font-size: ${theme.fontSizes.xl};
-  font-weight: ${theme.fontWeights.semibold};
-  color: ${theme.colors.white};
+  color: white;
+  font-size: ${theme.fontSizes['2xl']};
+  font-weight: 700;
+  margin: 0 0 ${theme.spacing[7]} 0;
   text-align: center;
-  position: relative;
-  z-index: 1;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 
   @media (prefers-color-scheme: dark) {
-    color: ${theme.colors.white};
+    color: white;
+  }
+`;
+
+export const CloseButton = styled.button`
+  position: absolute;
+  top: ${theme.spacing[4]};
+  right: ${theme.spacing[4]};
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: white;
+  font-size: 20px;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+  }
+  
+  &:active {
+    transform: scale(0.95);
   }
 `;
 
@@ -106,8 +154,10 @@ export const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing[5]};
-  position: relative;
-  z-index: 1;
+  width: 100%;
+  overflow-y: visible;
+  flex: 1;
+  min-height: 0;
 `;
 
 export const OngoingContainer = styled.div`
@@ -260,7 +310,9 @@ export const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing[3]};
-  margin-top: ${theme.spacing[4]};
-  position: relative;
-  z-index: 1;
+  width: 100%;
+  margin-top: ${theme.spacing[6]};
+  padding-top: ${theme.spacing[4]};
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
 `;

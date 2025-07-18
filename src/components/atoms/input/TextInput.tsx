@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useMemo } from "react";
+import { generateId } from "../../../utils/accessibility";
 import {
   InputContainer,
   InputLabel,
@@ -15,6 +16,8 @@ export interface TextInputProps {
     label: string;
     placeholder?: string;
     required?: boolean;
+    error?: string;
+    autoComplete?: string;
 }
 
 const TextInput: React.FC<TextInputProps> = ({
@@ -24,8 +27,13 @@ const TextInput: React.FC<TextInputProps> = ({
     onChange,
     isPassword,
     placeholder,
-    required
+    required,
+    error,
+    autoComplete
 }) => {
+    const inputId = useMemo(() => generateId(`input-${name}`), [name]);
+    const errorId = useMemo(() => generateId(`error-${name}`), [name]);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         onChange?.(e.target.value);
@@ -33,18 +41,29 @@ const TextInput: React.FC<TextInputProps> = ({
 
     return (
         <InputContainer>
-            <InputLabel htmlFor={name}>
+            <InputLabel htmlFor={inputId}>
                 <LabelText>
-                    {label} {required && <RequiredAsterisk>*</RequiredAsterisk>}
+                    {label} {required && <RequiredAsterisk aria-label="required">*</RequiredAsterisk>}
                 </LabelText>
                 <StyledInput
+                    id={inputId}
                     type={isPassword ? "password" : "text"}
                     value={value}
                     onChange={handleChange}
                     name={name}
                     placeholder={placeholder || ""}
+                    required={required}
+                    aria-required={required}
+                    aria-invalid={!!error}
+                    aria-describedby={error ? errorId : undefined}
+                    autoComplete={autoComplete || (isPassword ? "current-password" : "off")}
                 />
             </InputLabel>
+            {error && (
+                <span id={errorId} role="alert" style={{ color: 'red', fontSize: '0.875rem' }}>
+                    {error}
+                </span>
+            )}
         </InputContainer>
     );
 };

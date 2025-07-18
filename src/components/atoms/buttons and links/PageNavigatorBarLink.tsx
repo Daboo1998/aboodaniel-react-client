@@ -20,12 +20,25 @@ const PageNavigatorBarLink: React.FC<PageNavigatorBarLinkProps> = ({
     navigation.navigateTo(to);
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      pageNavigatorBar.hide();
+      navigation.navigateTo(to);
+    }
+  };
+
   const isActive = to === currentPage;
 
   return (
     <StyledPageNavigatorBarLink 
       $isActive={isActive}
       onClick={handleClick}
+      onKeyPress={handleKeyPress}
+      role="listitem"
+      tabIndex={0}
+      aria-current={isActive ? "page" : undefined}
+      aria-label={`Navigate to ${children}`}
     >
       {children}
     </StyledPageNavigatorBarLink>
