@@ -66,7 +66,7 @@ export const LinksContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: ${theme.spacing[1]};
+  gap: 0;
   
   a {
     text-decoration: none;
@@ -76,9 +76,9 @@ export const LinksContainer = styled.div`
 export const AuthLinksContainer = styled.div<{ $isLoggedIn: boolean }>`
   display: flex;
   flex-direction: ${({ $isLoggedIn }) => ($isLoggedIn ? "column" : "row")};
-  gap: ${theme.spacing[1]};
+  gap: 0;
   align-items: center;
-  margin-bottom: ${theme.spacing[1]};
+  margin-bottom: 0;
 `;
 
 export const FooterLink = styled.button`
@@ -90,8 +90,9 @@ export const FooterLink = styled.button`
   font-family: inherit;
   font-size: ${theme.fontSizes.sm};
   text-decoration: underline;
-  padding: ${theme.spacing[1]} ${theme.spacing[2]};
+  padding: 2px ${theme.spacing[2]};
   line-height: 1.2;
+  margin: 0;
 
   @media (prefers-color-scheme: dark) {
     color: ${theme.colors.gray[400]};
@@ -119,6 +120,7 @@ export const UserInfo = styled.p`
   color: ${theme.colors.gray[800]};
   font-size: ${theme.fontSizes.sm};
   line-height: 1.2;
+  padding: 2px 0;
 
   @media (prefers-color-scheme: dark) {
     color: ${theme.colors.white};
