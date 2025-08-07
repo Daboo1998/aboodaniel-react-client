@@ -1,4 +1,4 @@
-import React, {FormEventHandler, useState} from "react";
+import React, {FormEventHandler, useState, useEffect} from "react";
 import PageLayout from "../PageLayout";
 import {useAuth} from "../../../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
@@ -7,6 +7,7 @@ import SignInWithGoogleButton from "../../../atoms/buttons and links/SignInWithG
 import TextInput from "../../../atoms/input/TextInput";
 import ShouldRememberUserCheckbox from "../../../atoms/input/ShouldRememberUserCheckbox";
 import Button from "../../../atoms/buttons and links/Button";
+import {useFormWithUnsavedChanges} from "../../../../hooks/useFormWithUnsavedChanges";
 import {
     LoginTitle,
     LoginContainer,
@@ -25,6 +26,24 @@ const LoginPageLayout: React.FC = () => {
     const {login, loginSource} = useAuth();
     const history = useHistory();
 
+    // Initialize unsaved changes tracking
+    const { 
+        createChangeHandler, 
+        setInitialValues, 
+        markFormAsSubmitted 
+    } = useFormWithUnsavedChanges({
+        message: "You have unsaved login information. Are you sure you want to leave?"
+    });
+
+    // Set initial form values
+    useEffect(() => {
+        setInitialValues({
+            email: "",
+            password: "",
+            shouldRememberUser: false
+        });
+    }, [setInitialValues]);
+
     const handleSubmit: FormEventHandler = async (e) => {
         e.preventDefault();
         setErrorMessage(undefined);
@@ -32,6 +51,7 @@ const LoginPageLayout: React.FC = () => {
         login(email, password, shouldRememberUser).then(user => {
             if (user) {
                 console.log(`Logged in with uid="${user.user?.uid}"`);
+                markFormAsSubmitted(); // Mark form as submitted to stop tracking changes
                 history.push(loginSource === "/register" ? "/" : loginSource);
             } else {
                 setErrorMessage("Something was wrong while logging in!");
@@ -60,10 +80,10 @@ const LoginPageLayout: React.FC = () => {
             <LoginTitle>Login</LoginTitle>
             <LoginContainer>
                 <LoginForm onSubmit={handleSubmit}>
-                    <TextInput label="Email" name="email" onChange={setEmail} />
-                    <TextInput label="Password" name="password" onChange={setPassword} isPassword />
+                    <TextInput label="Email" name="email" onChange={createChangeHandler("email", setEmail)} />
+                    <TextInput label="Password" name="password" onChange={createChangeHandler("password", setPassword)} isPassword />
                     {!!errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                    <ShouldRememberUserCheckbox shouldRememberUser={shouldRememberUser} setShouldRememberUser={setShouldRememberUser} />
+                    <ShouldRememberUserCheckbox shouldRememberUser={shouldRememberUser} setShouldRememberUser={createChangeHandler("shouldRememberUser", setShouldRememberUser)} />
                     <SubmitButtonContainer>
                         <Button label="log in" submit />
                     </SubmitButtonContainer>

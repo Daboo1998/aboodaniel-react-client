@@ -6,6 +6,7 @@ import validator from "validator";
 import {useAuth} from "../../../../contexts/AuthContext";
 import database, {Timestamp} from "../../../../data/database";
 import Button, {ButtonSize} from "../../../atoms/buttons and links/Button";
+import {useFormWithUnsavedChanges} from "../../../../hooks/useFormWithUnsavedChanges";
 import {
     ContactContainer,
     ContactTitle,
@@ -26,15 +27,43 @@ const ContactPageLayout: React.FC = () => {
     const [information, setInformation] = useState<string | null>(null);
     const auth = useAuth();
 
+    // Initialize unsaved changes tracking
+    const { 
+        createChangeHandler, 
+        setInitialValues, 
+        markFormAsSubmitted 
+    } = useFormWithUnsavedChanges({
+        message: "You have unsaved message content. Are you sure you want to leave?"
+    });
+
     useEffect(() => {
         if (auth.isLoggedIn) {
-            setEmail(auth.user?.email ?? "");
-            setName(auth.user?.displayName ?? "");
+            const initialEmail = auth.user?.email ?? "";
+            const initialName = auth.user?.displayName ?? "";
+            
+            setEmail(initialEmail);
+            setName(initialName);
 
             setInformation("Some fields were filled in for you. You may edit them if you want.");
+
+            // Set initial values for form tracking
+            setInitialValues({
+                email: initialEmail,
+                name: initialName,
+                subject: "",
+                message: ""
+            });
+        } else {
+            // Set initial values for non-logged in users
+            setInitialValues({
+                email: "",
+                name: "",
+                subject: "",
+                message: ""
+            });
         }
     }, [
-        auth.isLoggedIn, auth.user
+        auth.isLoggedIn, auth.user, setInitialValues
     ]);
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -60,6 +89,7 @@ const ContactPageLayout: React.FC = () => {
                   email, name, subject, message
               }).then(_ => {
                   setInformation("Message sent!");
+                  markFormAsSubmitted(); // Mark form as submitted to stop tracking changes
               }).catch(error => {
                   setErrorMessage(error.message);
               });
@@ -71,10 +101,10 @@ const ContactPageLayout: React.FC = () => {
             <ContactContainer>
                 <ContactTitle>Contact</ContactTitle>
                 <ContactForm onSubmit={handleSubmit}>
-                    <TextInput label="Email" name="email" value={email} onChange={setEmail} required/>
-                    <TextInput label="Name" name="name" value={name} onChange={setName} required/>
-                    <TextInput label="Subject" name="subject" value={subject} onChange={setSubject} required/>
-                    <TextAreaInput label="Message" name="message" value={message} onChange={setMessage} required/>
+                    <TextInput label="Email" name="email" value={email} onChange={createChangeHandler("email", setEmail)} required/>
+                    <TextInput label="Name" name="name" value={name} onChange={createChangeHandler("name", setName)} required/>
+                    <TextInput label="Subject" name="subject" value={subject} onChange={createChangeHandler("subject", setSubject)} required/>
+                    <TextAreaInput label="Message" name="message" value={message} onChange={createChangeHandler("message", setMessage)} required/>
                     <RequiredFieldsText><RequiredAsterisk>*</RequiredAsterisk> Required fields</RequiredFieldsText>
                     <InformationMessage>{information}</InformationMessage>
                     <ErrorMessage>{errorMessage}</ErrorMessage>
