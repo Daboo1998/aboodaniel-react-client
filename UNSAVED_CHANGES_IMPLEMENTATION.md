@@ -137,6 +137,22 @@ const handleSubmit = () => {
 - **Safari**: Some limitations with `beforeunload` message customization (browser shows generic message)
 - **Mobile browsers**: May have different behavior for page navigation
 
+## Build Configuration
+
+### Node.js Compatibility Fix
+
+The project uses react-scripts 4.0.3, which includes an older version of webpack that's incompatible with Node.js v17+. To fix this, the build script has been updated to use the legacy OpenSSL provider:
+
+```json
+{
+  "scripts": {
+    "build": "NODE_OPTIONS='--openssl-legacy-provider' react-scripts build && echo '/* /  200' | cat >build/_redirects "
+  }
+}
+```
+
+This ensures compatibility with newer Node.js versions while maintaining the existing webpack configuration.
+
 ## Future Enhancements
 
 Possible improvements:
@@ -145,3 +161,4 @@ Possible improvements:
 3. **Form validation integration**: Only warn if form has valid but unsaved data
 4. **Debounced change detection**: Avoid triggering on every keystroke
 5. **Multiple form support**: Handle multiple forms on the same page
+6. **Upgrade to newer react-scripts**: Consider upgrading to a newer version of react-scripts for better Node.js compatibility

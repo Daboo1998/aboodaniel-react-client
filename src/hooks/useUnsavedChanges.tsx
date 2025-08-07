@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 
 export interface UseUnsavedChangesOptions {
@@ -14,7 +14,6 @@ export const useUnsavedChanges = (options: UseUnsavedChangesOptions = {}) => {
 
   const history = useHistory();
   const [isBlocking, setIsBlocking] = useState(false);
-  const savedCallback = useRef<() => void>();
 
   // Track if there are unsaved changes
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);

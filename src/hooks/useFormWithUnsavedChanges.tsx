@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import { useUnsavedChanges, UseUnsavedChangesOptions } from './useUnsavedChanges';
 
 export interface UseFormWithUnsavedChangesOptions extends UseUnsavedChangesOptions {
