@@ -15,6 +15,8 @@ import {
   UserName,
   CopyrightText,
 } from "./Footer.styled";
+import { useContext } from "react";
+import { PageNavigatorBarContext } from "./PageNavigatorBar";
 
 interface FooterProps {
   isInsideMenu: boolean;
@@ -22,6 +24,7 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ isInsideMenu }) => {
   const auth = useAuth();
+  const { hide } = useContext(PageNavigatorBarContext);
 
   return (
     <FooterStyled 
@@ -55,10 +58,10 @@ const Footer: React.FC<FooterProps> = ({ isInsideMenu }) => {
         <AuthLinksContainer $isLoggedIn={!!auth.isLoggedIn}>
           {!auth.isLoggedIn ? (
             <>
-              <Link to="/login">
+              <Link to="/login" onClick={isInsideMenu ? () => hide() : undefined}>
                 <FooterLink as="span">Login</FooterLink>
               </Link>
-              <Link to="/register">
+              <Link to="/register" onClick={isInsideMenu ? () => hide() : undefined}>
                 <FooterLink as="span">Register</FooterLink>
               </Link>
             </>
@@ -86,17 +89,17 @@ const Footer: React.FC<FooterProps> = ({ isInsideMenu }) => {
           )}
         </AuthLinksContainer>
 
-        <Link to="/cv">
+        <Link to="/cv" onClick={isInsideMenu ? () => hide() : undefined}>
           <FooterLink as="span">Curriculum Vitae</FooterLink>
         </Link>
         {auth.isDeveloper && (
-          <Link to="/developerTools">
+          <Link to="/developerTools" onClick={isInsideMenu ? () => hide() : undefined}>
             <FooterLink as="span">Developer Tools</FooterLink>
           </Link>
         )}
 
         {auth.isOwner && (
-          <Link to="/messages">
+          <Link to="/messages" onClick={isInsideMenu ? () => hide() : undefined}>
             <FooterLink as="span">Messages</FooterLink>
           </Link>
         )}
