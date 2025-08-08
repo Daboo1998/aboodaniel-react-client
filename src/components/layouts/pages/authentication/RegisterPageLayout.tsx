@@ -1,4 +1,4 @@
-import React, {FormEventHandler, useState} from "react";
+import React, {FormEventHandler, useState, useEffect} from "react";
 import PageLayout from "../PageLayout";
 import {useAuth} from "../../../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
@@ -7,6 +7,7 @@ import SignInWithGoogleButton from "../../../atoms/buttons and links/SignInWithG
 import Button from "../../../atoms/buttons and links/Button";
 import TextInput from "../../../atoms/input/TextInput";
 import ShouldRememberUserCheckbox from "../../../atoms/input/ShouldRememberUserCheckbox";
+import {useFormWithUnsavedChanges} from "../../../../hooks/useFormWithUnsavedChanges";
 import {
     RegisterTitle,
     RegisterContainer,
@@ -26,6 +27,26 @@ const RegisterPageLayout: React.FC = () => {
     const {register, loginSource} = useAuth();
     const history = useHistory();
 
+    // Initialize unsaved changes tracking
+    const { 
+        createChangeHandler, 
+        setInitialValues, 
+        markFormAsSubmitted 
+    } = useFormWithUnsavedChanges({
+        message: "You have unsaved registration information. Are you sure you want to leave?"
+    });
+
+    // Set initial form values
+    useEffect(() => {
+        setInitialValues({
+            displayName: "",
+            email: "",
+            password: "",
+            passwordConfirmation: "",
+            shouldRememberUser: false
+        });
+    }, [setInitialValues]);
+
     const handleSubmit: FormEventHandler = async (event) => {
         event.preventDefault();
         setErrorMessage(undefined);
@@ -41,6 +62,7 @@ const RegisterPageLayout: React.FC = () => {
                 if (displayName !== "") {
                     credentials.user?.updateProfile({displayName: displayName})
                 }
+                markFormAsSubmitted(); // Mark form as submitted to stop tracking changes
                 history.push(loginSource);
             } else {
                 setErrorMessage("Something went wrong!")
@@ -69,12 +91,12 @@ const RegisterPageLayout: React.FC = () => {
             <RegisterTitle>Register</RegisterTitle>
             <RegisterContainer>
                 <RegisterForm onSubmit={handleSubmit}>
-                    <TextInput label="Display Name" name="displayName" onChange={setDisplayName} />
-                    <TextInput label="Email" name="email" onChange={setEmail} />
-                    <TextInput label="Password" name="password" onChange={setPassword} isPassword />
-                    <TextInput label="Confirm password" name="passwordConfirmation" onChange={setPasswordConfirmation} isPassword />
+                    <TextInput label="Display Name" name="displayName" onChange={createChangeHandler("displayName", setDisplayName)} />
+                    <TextInput label="Email" name="email" onChange={createChangeHandler("email", setEmail)} />
+                    <TextInput label="Password" name="password" onChange={createChangeHandler("password", setPassword)} isPassword />
+                    <TextInput label="Confirm password" name="passwordConfirmation" onChange={createChangeHandler("passwordConfirmation", setPasswordConfirmation)} isPassword />
                     {!!errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                    <ShouldRememberUserCheckbox shouldRememberUser={shouldRememberUser} setShouldRememberUser={setShouldRememberUser}/>
+                    <ShouldRememberUserCheckbox shouldRememberUser={shouldRememberUser} setShouldRememberUser={createChangeHandler("shouldRememberUser", setShouldRememberUser)}/>
                     <SubmitButtonContainer>
                         <Button label="register" submit />
                     </SubmitButtonContainer>

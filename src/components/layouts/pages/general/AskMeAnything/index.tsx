@@ -4,6 +4,7 @@ import PageLayout from "../../PageLayout";
 import { useAuth } from "../../../../../contexts/AuthContext";
 import * as styles from "./AskmeAnything.styles";
 import { useAskMeAnythingContext } from "./context";
+import { useUnsavedChanges } from "../../../../../hooks/useUnsavedChanges";
 
 const AskMeAnythingPage: React.FC = () => {
   const minTextareaRows = 2;
@@ -36,11 +37,21 @@ const AskMeAnythingPage: React.FC = () => {
     null
   );
 
+  // Add unsaved changes detection for the message input
+  const { markAsChanged, markAsSaved } = useUnsavedChanges({
+    when: message.trim().length > 0,
+    message: "You have an unsent message. Are you sure you want to leave?"
+  });
+
   const handleInputChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
     event
   ) => {
     if (isOwner || event.target.value.length <= maxMessageLength) {
       setMessage(event.target.value);
+      // Mark as changed when user types
+      if (event.target.value.trim().length > 0) {
+        markAsChanged();
+      }
     }
   };
 
@@ -57,6 +68,7 @@ const AskMeAnythingPage: React.FC = () => {
     event.preventDefault();
     if (messageCount < maxMessages && thread_id) {
       handleSendMessage();
+      markAsSaved(); // Mark as saved when message is sent
     } else {
       handleStartConversation(isLoggedIn && isOwner);
     }
