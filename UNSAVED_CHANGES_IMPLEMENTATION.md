@@ -139,19 +139,44 @@ const handleSubmit = () => {
 
 ## Build Configuration
 
-### Node.js Compatibility Fix
+### Node.js Compatibility
 
-The project uses react-scripts 4.0.3, which includes an older version of webpack that's incompatible with Node.js v17+. To fix this, the build script has been updated to use the legacy OpenSSL provider:
+The project uses react-scripts 4.0.3, which includes an older version of webpack that has compatibility issues with Node.js v17+. Multiple build configurations have been set up to handle different environments:
 
+#### Netlify Deployment (Recommended)
+- **Configuration**: `netlify.toml` specifies Node.js v16.20.2
+- **Build Script**: `npm run build` (standard react-scripts build)
+- **Compatibility**: Node.js 16 works natively with react-scripts 4.0.3
+
+#### Local Development with Node.js 22+
+- **Build Script**: `npm run build:node22` 
+- **Implementation**: Custom script that sets `NODE_OPTIONS='--openssl-legacy-provider'`
+- **Location**: `scripts/build.js`
+
+#### Available Build Commands
 ```json
 {
   "scripts": {
-    "build": "NODE_OPTIONS='--openssl-legacy-provider' react-scripts build && echo '/* /  200' | cat >build/_redirects "
+    "build": "react-scripts build && echo '/* /  200' | cat >build/_redirects",
+    "build:node22": "node scripts/build.js"
   }
 }
 ```
 
-This ensures compatibility with newer Node.js versions while maintaining the existing webpack configuration.
+#### Netlify Configuration
+```toml
+[build]
+  command = "npm run build"
+  publish = "build"
+
+[build.environment]
+  NODE_VERSION = "16.20.2"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+```
 
 ## Future Enhancements
 
