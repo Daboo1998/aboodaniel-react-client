@@ -306,16 +306,18 @@ export const useAskMeAnythingContext = ({
   ]);
 
   useEffect(() => {
-    window.onbeforeunload = function () {
-      console.log("onbeforeunload");
-      if (messageCount === 0 && thread_id) {
-        handleEndConversation();
-      }
-      return true;
+    if (messageCount !== 0 || !thread_id) {
+      return;
+    }
+
+    const handleBeforeUnload = () => {
+      handleEndConversation(thread_id);
     };
 
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
     return () => {
-      window.onbeforeunload = null;
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [handleEndConversation, messageCount, thread_id]);
 

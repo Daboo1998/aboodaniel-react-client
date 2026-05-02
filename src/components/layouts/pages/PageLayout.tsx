@@ -12,11 +12,11 @@ const PageLayout: React.FC<PageLayoutProps> = ({
   title,
   ...props
 }) => {
-  const navigation = useNavigation();
+  const { setCurrentPageTitle } = useNavigation();
 
   useEffect(() => {
-    navigation.setCurrentPageTitle(title);
-  });
+    setCurrentPageTitle(title);
+  }, [setCurrentPageTitle, title]);
 
   // Check if className contains padding classes to determine if we should apply custom padding
   const hasCustomPadding = className?.includes('p-') || className?.includes('pt-') || className?.includes('pb-') || className?.includes('px-') || className?.includes('py-');
