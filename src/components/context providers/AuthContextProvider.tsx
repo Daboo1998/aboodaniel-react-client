@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import firebase from "firebase/app";
 import AuthContext from "../../contexts/AuthContext";
 
@@ -24,29 +24,42 @@ const checkForRole = async (role: string, userId: string | undefined) => {
 };
 
 export const AuthContextProvider: React.FC = ({ children }) => {
+  const roleCheckId = useRef(0);
   const [loginSource, setLoginSource] = useState<string>("");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>(undefined);
   const [user, setUser] = useState<firebase.User | null>(null);
   const [isDeveloper, setIsDeveloper] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
 
-  const checkRoles = async (userId: string | undefined) => {
+  const checkRoles = async (userId: string | undefined, checkId: number) => {
     const isDeveloper = await checkForRole("developer", userId);
     console.log(isDeveloper ? "Is developer" : "Is not a developer");
+
+    if (roleCheckId.current !== checkId) {
+      return;
+    }
 
     setIsDeveloper(isDeveloper);
 
     const isOwner = await checkForRole("owner", userId);
     console.log(isOwner ? "Is owner" : "Is not an owner");
 
+    if (roleCheckId.current !== checkId) {
+      return;
+    }
+
     setIsOwner(isOwner);
   };
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged(function (newUser) {
+      roleCheckId.current += 1;
+
       if (newUser && !newUser.isAnonymous) {
+        const currentRoleCheckId = roleCheckId.current;
+
         setUser(newUser);
-        checkRoles(newUser?.uid).then();
+        checkRoles(newUser?.uid, currentRoleCheckId).then();
         setIsLoggedIn(true);
       } else {
         setIsLoggedIn(false);
