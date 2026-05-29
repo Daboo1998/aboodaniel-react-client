@@ -3,5 +3,8 @@ import styled from 'styled-components';
 export const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.5s var(--ease), color 0.5s var(--ease);
 `;

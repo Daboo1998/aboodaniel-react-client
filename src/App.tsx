@@ -1,10 +1,15 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
+import { ThemeProvider } from "./contexts/ThemeContext";
+import NavigationProvider from "./components/context providers/NavigationProvider";
+import NavBar from "./components/molecules/general/NavBar";
+import SiteFooter from "./components/molecules/general/SiteFooter";
+import { AppContainer } from "./App.styled";
+
 // Page imports
 import HomePageLayout from "./components/layouts/pages/general/HomePageLayout";
-import NewHomePageLayout from "./components/layouts/pages/general/NewHomePageLayout";
-import ExperiencePageLayout from "./components/layouts/pages/general/ExperiencePageLayout";
+import MyCVPageLayout from "./components/layouts/pages/general/MyCVPageLayout";
 import ContactPageLayout from "./components/layouts/pages/general/ContactPageLayout";
 import NotFoundPageLayout from "./components/layouts/pages/general/NotFoundPageLayout";
 import DevelopmentToolsPageLayout from "./components/layouts/pages/development and administration/DevelopmentToolsPageLayout";
@@ -13,71 +18,49 @@ import RegisterPageLayout from "./components/layouts/pages/authentication/Regist
 import MessagesPageLayout from "./components/layouts/pages/development and administration/MessagesPageLayout";
 import AskMeAnythingLayout from "./components/layouts/pages/general/AskMeAnything";
 
-// Main elements imports
-import PageNavigatorBar from "./components/molecules/general/PageNavigatorBar";
-import PageNavigatorBarLink from "./components/atoms/buttons and links/PageNavigatorBarLink";
-import Footer from "./components/molecules/general/Footer";
-
-import MyCVPageLayout from "./components/layouts/pages/general/MyCVPageLayout";
-import NavigationProvider from "./components/context providers/NavigationProvider";
-import { AppContainer } from "./App.styled";
-
 function App() {
   return (
     <BrowserRouter basename="/">
-      <NavigationProvider>
-        <AppContainer>
-          <PageNavigatorBar>
-            <PageNavigatorBarLink to="/">Home</PageNavigatorBarLink>
-            {/* <PageNavigatorBarLink to="/experience">
-                    Experience
-                </PageNavigatorBarLink> */}
-            <PageNavigatorBarLink to="/assistant">
-              My Assistant (Beta)
-            </PageNavigatorBarLink>
-            <PageNavigatorBarLink to="/contact">Contact</PageNavigatorBarLink>
-          </PageNavigatorBar>
-          <Switch>
-            <Route exact path="/">
-              <HomePageLayout />
-            </Route>
-            <Route exact path="/home">
-              <HomePageLayout />
-            </Route>
-            <Route exact path="/new-home">
-              <NewHomePageLayout />
-            </Route>
-            <Route exact path="/experience">
-              <ExperiencePageLayout />
-            </Route>
-            <Route exact path="/cv">
-              <MyCVPageLayout />
-            </Route>
-            <Route exact path="/developerTools">
-              <DevelopmentToolsPageLayout />
-            </Route>
-            <Route exact path="/messages">
-              <MessagesPageLayout />
-            </Route>
-            <Route exact path="/login">
-              <LoginPageLayout />
-            </Route>
-            <Route exact path="/register">
-              <RegisterPageLayout />
-            </Route>
-            <Route exact path="/assistant">
-              <AskMeAnythingLayout />
-            </Route>
-            <Route exact path="/contact">
-              <ContactPageLayout />
-            </Route>
-            <Route>
-              <NotFoundPageLayout />
-            </Route>
-          </Switch>
-          <Footer isInsideMenu={false} />
-        </AppContainer>
-      </NavigationProvider>
+      <ThemeProvider>
+        <NavigationProvider>
+          <AppContainer>
+            <NavBar />
+            <Switch>
+              <Route exact path="/">
+                <HomePageLayout />
+              </Route>
+              <Route exact path="/home">
+                <HomePageLayout />
+              </Route>
+              <Route exact path="/cv">
+                <MyCVPageLayout />
+              </Route>
+              <Route exact path="/assistant">
+                <AskMeAnythingLayout />
+              </Route>
+              <Route exact path="/contact">
+                <ContactPageLayout />
+              </Route>
+              <Route exact path="/developerTools">
+                <DevelopmentToolsPageLayout />
+              </Route>
+              <Route exact path="/messages">
+                <MessagesPageLayout />
+              </Route>
+              <Route exact path="/login">
+                <LoginPageLayout />
+              </Route>
+              <Route exact path="/register">
+                <RegisterPageLayout />
+              </Route>
+              <Route>
+                <NotFoundPageLayout />
+              </Route>
+            </Switch>
+            <SiteFooter />
+          </AppContainer>
+        </NavigationProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }

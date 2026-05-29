@@ -1,262 +1,291 @@
 import ReactMarkdown from "react-markdown";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import TextareaAutosize from "react-textarea-autosize";
-import { theme } from '../../../../../styles/theme';
 
-// Styled-components for AskMeAnything page
+const msgIn = keyframes`
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+`;
+
+const typingAnim = keyframes`
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-5px); opacity: 1; }
+`;
+
 export const PageContainer = styled.div`
-  padding: ${theme.spacing[10]} 0;
+  max-width: 820px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  min-height: calc(100vh - 64px);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  height: 100%;
-  max-width: 820px;
-  align-self: center;
-  margin: 0 auto;
+  padding-top: clamp(2rem, 5vw, 3.5rem);
+  padding-bottom: 2rem;
 `;
 
 export const MainContainer = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  flex: 1;
+`;
+
+export const AsstHead = styled.div`
+  text-align: center;
+  margin-bottom: 1.8rem;
+`;
+
+export const AsstBadge = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  border: 1px solid var(--border-2);
+  border-radius: 999px;
+  padding: 0.4rem 0.85rem;
+  background: var(--surface);
+`;
+
+export const AsstBadgeDot = styled.span`
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: oklch(0.72 0.17 150);
 `;
 
 export const PageTitle = styled.h1`
-  text-align: center;
-  padding-bottom: ${theme.spacing[20]};
-  font-size: 50px;
-  line-height: 60px;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  color: var(--text);
   margin: 0;
-  color: ${theme.colors.gray[900]};
-
-  @media (prefers-color-scheme: dark) {
-    color: ${theme.colors.white};
-  }
-
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 36px;
-    line-height: 44px;
-    padding-bottom: ${theme.spacing[12]};
-  }
-
-  @media (max-width: ${theme.breakpoints.sm}) {
-    font-size: 28px;
-    line-height: 36px;
-    padding-bottom: ${theme.spacing[8]};
-  }
 `;
 
-export const CenteredText = styled.p`
-  text-align: center;
-  margin: 0 0 ${theme.spacing[4]} 0;
-  color: ${theme.colors.gray[800]};
-  line-height: 1.6;
-
-  @media (prefers-color-scheme: dark) {
-    color: ${theme.colors.gray[200]};
-  }
+export const AsstSub = styled.p`
+  color: var(--text-2);
+  margin-top: 0.7rem;
+  font-size: 1.05rem;
+  max-width: 48ch;
+  margin-inline: auto;
 `;
 
-export const MessageCount = styled.p`
-  text-align: right;
-  color: ${theme.colors.gray[600]};
-  padding-top: ${theme.spacing[10]};
-  margin: 0;
-  font-size: ${theme.fontSizes.sm};
-
-  @media (prefers-color-scheme: dark) {
-    color: ${theme.colors.gray[400]};
-  }
+export const messagesList = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding: 0.5rem 0.2rem 1.5rem;
+  overflow-y: auto;
+  min-height: 260px;
 `;
 
 export const UserMessage = styled.div`
-  padding: ${theme.spacing[4]};
-  border-radius: ${theme.borderRadius.md};
   display: flex;
-  flex-direction: column;
-  gap: ${theme.spacing[2]};
-  background-color: ${theme.colors.blue[500]};
-  color: ${theme.colors.white};
-  align-self: flex-start;
-  max-width: 70%;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: ${theme.colors.blue[600]};
-  }
+  gap: 0.8rem;
+  max-width: 88%;
+  align-self: flex-end;
+  flex-direction: row-reverse;
+  animation: ${msgIn} 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 `;
 
 export const AssistantMessage = styled.div`
-  padding: ${theme.spacing[4]};
-  border-radius: ${theme.borderRadius.md};
   display: flex;
-  flex-direction: column;
-  gap: ${theme.spacing[2]};
-  background-color: ${theme.colors.gray[200]};
-  color: ${theme.colors.gray[900]};
-  align-self: flex-end;
-  max-width: 70%;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: ${theme.colors.green[300]};
-    color: ${theme.colors.gray[900]};
-  }
+  gap: 0.8rem;
+  max-width: 88%;
+  align-self: flex-start;
+  animation: ${msgIn} 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 `;
 
-// px-4 py-2 rounded-md bg-gray-200 dark:bg-green-300 self-end
+export const MsgAvatar = styled.div<{ $isUser?: boolean }>`
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: ${({ $isUser }) => $isUser ? 'var(--accent)' : 'var(--text)'};
+  color: ${({ $isUser }) => $isUser ? 'oklch(0.99 0 0)' : 'var(--bg)'};
+`;
+
+export const MsgBubble = styled.div<{ $isUser?: boolean }>`
+  padding: 0.85rem 1.15rem;
+  border-radius: 16px;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: ${({ $isUser }) => $isUser ? 'oklch(0.99 0 0)' : 'var(--text)'};
+  background: ${({ $isUser }) => $isUser ? 'var(--accent)' : 'var(--surface)'};
+  border: ${({ $isUser }) => $isUser ? '1px solid transparent' : '1px solid var(--border)'};
+  border-top-right-radius: ${({ $isUser }) => $isUser ? '5px' : '16px'};
+  border-top-left-radius: ${({ $isUser }) => $isUser ? '16px' : '5px'};
+`;
+
 export const dotsContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  padding: 15px 35px;
-  border-radius: 5px;
+  align-self: flex-start;
+  gap: 5px;
+  padding: 0.95rem 1.15rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  border-top-left-radius: 5px;
+  width: fit-content;
+  animation: ${msgIn} 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 
   &.buttonLoader {
-    justify-content: center;
-    color: white;
-    margin-top: 0 !important;
-    background-color: rgb(59 130 246);
-
-    @media screen and (min-width: 768px) {
-      width: 25%;
-    }
-  }
-
-  //px-4 py-2 rounded-md
-  &:not(&.buttonLoader) {
-    background-color: rgb(229 231 235);
-    align-self: flex-end;
-    justify-self: flex-end;
-    width: fit-content;
-
-    @media (prefers-color-scheme: dark) {
-      background-color: rgb(134 239 172);
-    }
+    align-self: center;
+    background: var(--accent);
+    border-color: transparent;
   }
 `;
 
-export const dots = styled.div`
-  position: relative;
-  width: 10px;
-  height: 10px;
-  border-radius: 5px;
-  background-color: #fff;
-  color: #fff;
-  animation: dot-flashing 1s infinite linear alternate;
-  animation-delay: 0.5s;
+export const dots = styled.span`
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-3);
+  animation: ${typingAnim} 1.4s ease-in-out infinite;
+  display: inline-block;
 
-  &&::after {
-    left: 15px;
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
-    background-color: #fff;
-    color: #fff;
-    animation: dot-flashing 1s infinite alternate;
-    animation-delay: 1s;
-  }
-
-  &&::before {
-    left: -15px;
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
-    background-color: #fff;
-    color: #fff;
-    animation: dot-flashing 1s infinite alternate;
-    animation-delay: 0s;
-  }
-
-  &&::before,
-  &&::after {
-    content: "";
-    display: inline-block;
-    position: absolute;
-    top: 0;
-  }
-
-  @keyframes dot-flashing {
-    0% {
-      background-color: #fff;
-    }
-    50%,
-    100% {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-  }
+  &:nth-child(2) { animation-delay: 0.2s; }
+  &:nth-child(3) { animation-delay: 0.4s; }
 `;
 
-export const submitButton = styled.button`
-  padding: 0.5rem 1rem;
-  background-color: #3182ce;
-  color: white;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-  margin-top: 0 !important;
-  width: 100%;
-  overflow-wrap: break-word;
-  text-overflow: ellipsis;
+/* Suggestions */
+export const SuggestRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+`;
+
+export const SuggestChip = styled.button`
+  font-size: 0.88rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: border-color 0.25s, color 0.25s, transform 0.25s;
 
   &:hover {
-    background-color: #319795;
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
   }
+`;
 
-  &:disabled {
-    background-color: #d2d6dc;
-    color: #d2d6dc;
-    cursor: not-allowed;
-  }
-
-  @media screen and (min-width: 768px) {
-    width: 25%;
-  }
+/* Composer */
+export const ComposerWrap = styled.div`
+  position: sticky;
+  bottom: 1rem;
 `;
 
 export const Form = styled.form`
-  position: relative;
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 10px;
-  padding-top: 5px !important;
+  align-items: flex-end;
+  gap: 0.6rem;
+  padding: 0.55rem 0.55rem 0.55rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--border-2);
+  border-radius: 20px;
+  box-shadow: var(--shadow-md);
+  transition: border-color 0.25s;
 
-  &.isDeveloper {
-    margin-top: 40px;
+  &:focus-within { border-color: var(--accent); }
+
+  &.isDeveloper { margin-top: 40px; }
+`;
+
+export const messageInput = styled(TextareaAutosize)`
+  flex: 1;
+  border: none;
+  background: transparent;
+  resize: none;
+  outline: none;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: var(--text);
+  line-height: 1.5;
+  max-height: 140px;
+  padding: 0.55rem 0;
+
+  &::placeholder { color: var(--text-3); }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+`;
+
+export const submitButton = styled.button`
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  border: none;
+  cursor: pointer;
+  background: var(--accent);
+  color: oklch(0.99 0 0);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: background 0.25s, transform 0.25s, opacity 0.25s;
+  white-space: nowrap;
+  padding: 0 0.75rem;
+  min-width: fit-content;
+  width: auto;
+  border-radius: 12px;
+
+  &:hover:not(:disabled) {
+    background: var(--accent-2);
+    transform: scale(1.05);
   }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+`;
 
-  @media screen and (min-width: 768px) {
-    flex-direction: row;
-  }
+export const ComposerMeta = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.6rem;
+  padding-inline: 0.4rem;
+`;
 
-  p {
-    position: absolute;
-    top: -40px;
-    left: 5px;
+export const MessageCount = styled.span`
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-3);
+`;
 
-    @media screen and (min-width: 768px) {
-      right: calc(26% + 5px);
-      left: unset;
-    }
-  }
+export const Disclaimer = styled.span`
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-3);
 `;
 
 export const copyButton = styled.button`
   align-self: flex-end;
-  height: 24px;
-  width: 24px;
+  height: 20px;
+  width: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-3);
+  padding: 0;
+  display: flex;
+  align-items: center;
 
-  svg {
-    color: black;
+  &:hover { color: var(--accent); }
 
-    &:hover {
-      color: #3182ce;
-    }
-  }
-
-  @media screen and (min-width: 768px) {
-    height: 15px;
-    width: 15px;
-  }
+  svg { width: 15px; height: 15px; fill: currentColor; }
 `;
 
 export const developerInformation = styled.div`
@@ -265,212 +294,62 @@ export const developerInformation = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-
-  * {
-    color: red;
-  }
+  color: oklch(0.6 0.2 25);
 
   button {
     align-self: flex-start;
-    color: #3182ce;
-
-    &:hover {
-      color: #319795;
-    }
+    color: var(--accent);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    padding: 0;
   }
 `;
 
-export const copiedText = styled.p`
-  color: #3182ce;
-  font-size: 0.75rem; /* Adjusted to prevent UI jumps across various breakpoints */
+export const copiedText = styled.span`
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
   align-self: flex-end;
-  height: 24px;
-  display: flex;
-  align-items: center;
+`;
 
-  @media screen and (min-width: 768px) {
-    font-size: 0.5rem;
-    height: 15px;
-  }
+export const CenteredText = styled.p`
+  text-align: center;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 1rem;
 `;
 
 export const TextMarkdown = styled(ReactMarkdown)`
-  * {
-    color: black;
+  color: inherit;
+  font-size: 0.98rem;
 
-    overflow-wrap: break-word;
-    hyphens: manual;
-  }
+  p { margin-top: 0.6rem; line-height: 1.6; }
+  p:first-child { margin-top: 0; }
 
-  li {
-    line-height: 25px;
-
-    + li {
-      margin-top: 15px;
-    }
-  }
-
-  p {
-    margin-top: 15px;
-    line-height: 25px;
-  }
-
-  > p:first-child {
-    margin-top: 0;
-  }
-
-  a {
-    color: #3182ce;
-  }
+  a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
 
   code {
-    background-color: #f3f4f6;
-    padding: 5px;
+    font-family: var(--font-mono);
+    background: var(--bg-2);
+    padding: 2px 6px;
     border-radius: 5px;
+    font-size: 0.88em;
   }
 
   blockquote {
-    border-left: 5px solid #3182ce;
-    padding-left: 10px;
-    margin-top: 15px;
+    border-left: 3px solid var(--accent);
+    padding-left: 1rem;
+    margin-top: 0.6rem;
+    color: var(--text-2);
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    margin-top: 15px;
-  }
+  ul, ol { padding-left: 1.2rem; margin-top: 0.6rem; }
+  li + li { margin-top: 0.3rem; }
+  li { line-height: 1.6; }
 
-  h1 {
-    font-size: 2.5rem;
-  }
+  h1, h2, h3, h4 { margin-top: 0.8rem; color: inherit; }
 
-  h2 {
-    font-size: 2rem;
-  }
-
-  h3 {
-    font-size: 1.75rem;
-  }
-
-  h4 {
-    font-size: 1.5rem;
-  }
-
-  h5 {
-    font-size: 1.25rem;
-  }
-
-  h6 {
-    font-size: 1rem;
-  }
-
-  img {
-    max-width: 100%;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-  }
-
-  th,
-  td {
-    border: 1px solid #d2d6dc;
-    padding: 10px;
-  }
-
-  th {
-    background-color: #f3f4f6;
-  }
-
-  thead {
-    background-color: #e5e7eb;
-  }
-
-  tbody {
-    background-color: #f3f4f6;
-  }
-
-  tr {
-    background-color: #fff;
-  }
-
-  pre {
-    background-color: #f3f4f6;
-    padding: 15px;
-    border-radius: 5px;
-    overflow-x: auto;
-    margin-top: 15px;
-  }
-
-  hr {
-    margin-top: 15px;
-    color: #d2d6dc;
-  }
-
-  ul,
-  ol {
-    margin-top: 15px;
-
-    padding: 0 0 0 20px;
-  }
-
-  ul ul,
-  ul ol,
-  ol ul,
-  ol ol {
-    margin-top: 0;
-  }
-
-  ul {
-    list-style-type: disc;
-  }
-
-  ol {
-    list-style-type: decimal;
-  }
-`;
-
-export const messagesList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-
-  margin-top: 40px;
-  flex-grow: 1;
-`;
-
-// Remove the old Message component since we now have UserMessage and AssistantMessage
-export const Message = styled.div`
-  max-width: 70%;
-`;
-
-export const messageInput = styled(TextareaAutosize)`
-  width: 100%;
-  padding: 0.5rem 1rem;
-  border: 1px solid #d2d6dc;
-  border-radius: 5px;
-  opacity: 1;
-  color: black;
-  cursor: text;
-
-  &:disabled {
-    opacity: 0.2;
-    color: #d2d6dc;
-    cursor: not-allowed;
-  }
-
-  @media screen and (min-width: 768px) {
-    width: 75%;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    border: 1px solid #9ca3af;
-    color: white;
-  }
+  strong { font-weight: 600; }
 `;
