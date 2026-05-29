@@ -14,7 +14,8 @@ export const NavWrapper = styled.header<{ $scrolled: boolean }>`
 
 export const NavInner = styled.div`
   max-width: var(--maxw);
-  margin-inline: auto;
+  margin-left: auto;
+  margin-right: auto;
   padding: 0.9rem var(--gutter);
   display: flex;
   align-items: center;
