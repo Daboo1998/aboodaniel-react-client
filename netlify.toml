@@ -1,0 +1,7 @@
+[build]
+  command = "CI= react-scripts build && echo '/* /  200' | cat >build/_redirects"
+  publish = "build"
+
+[build.environment]
+  NODE_OPTIONS = "--openssl-legacy-provider"
+  NODE_VERSION = "18"
