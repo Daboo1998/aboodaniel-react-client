@@ -21,7 +21,7 @@ const SiteFooter: React.FC = () => {
 
   return (
     <FooterWrapper>
-      <div style={{ maxWidth: 'var(--maxw)', marginInline: 'auto', paddingInline: 'var(--gutter)' }}>
+      <div style={{ maxWidth: 'var(--maxw)', marginLeft: 'auto', marginRight: 'auto', paddingLeft: 'var(--gutter)', paddingRight: 'var(--gutter)' }}>
         <FooterGrid>
           <FooterCTASection>
             <FooterKicker>

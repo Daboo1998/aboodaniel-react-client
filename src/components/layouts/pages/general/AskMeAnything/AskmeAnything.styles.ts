@@ -14,8 +14,10 @@ const typingAnim = keyframes`
 
 export const PageContainer = styled.div`
   max-width: 820px;
-  margin-inline: auto;
-  padding-inline: var(--gutter);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
   min-height: calc(100vh - 64px);
   display: flex;
   flex-direction: column;

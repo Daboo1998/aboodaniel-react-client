@@ -7,8 +7,10 @@ const msgIn = keyframes`
 
 export const ContactPageWrapper = styled.div`
   max-width: var(--maxw);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
   padding-top: clamp(3rem, 7vw, 6rem);
   padding-bottom: clamp(4rem, 8vw, 7rem);
 `;

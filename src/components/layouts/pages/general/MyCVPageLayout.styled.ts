@@ -7,8 +7,10 @@ export const CVPageWrapper = styled.div`
 
 export const CVHeader = styled.div`
   max-width: var(--maxw);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
   padding-top: clamp(3rem, 7vw, 6rem);
   padding-bottom: clamp(2rem, 4vw, 3rem);
 `;
@@ -110,8 +112,10 @@ export const GhostBtn = styled.button`
 
 export const Divider = styled.div`
   max-width: var(--maxw);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
 
   &::after {
     content: "";
@@ -123,8 +127,10 @@ export const Divider = styled.div`
 
 export const CVBody = styled.div`
   max-width: var(--maxw);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
   padding-top: clamp(2.5rem, 5vw, 4rem);
   padding-bottom: clamp(4rem, 8vw, 7rem);
 `;

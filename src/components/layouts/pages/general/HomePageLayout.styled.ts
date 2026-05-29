@@ -39,8 +39,10 @@ const revealBase = `
 /* ---- Layout ---- */
 export const Wrap = styled.div`
   max-width: var(--maxw);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
 `;
 
 export const SectionPad = styled.section`
@@ -151,7 +153,8 @@ export const HeroInner = styled.div`
   flex-direction: column;
   align-items: center;
   padding-block: clamp(4rem, 10vw, 8rem);
-  padding-inline: var(--gutter);
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
   width: 100%;
 `;
 
