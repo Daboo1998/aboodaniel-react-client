@@ -151,6 +151,7 @@ export const HeroInner = styled.div`
   flex-direction: column;
   align-items: center;
   padding-block: clamp(4rem, 10vw, 8rem);
+  padding-inline: var(--gutter);
   width: 100%;
 `;
 
@@ -164,6 +165,7 @@ export const StatusBadge = styled.div`
   padding: 0.5rem 0.95rem;
   border: 1px solid var(--border-2);
   border-radius: 999px;
+  background: var(--surface);
   background: color-mix(in oklch, var(--surface) 60%, transparent);
   backdrop-filter: blur(6px);
   margin-bottom: 2rem;

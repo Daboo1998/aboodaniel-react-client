@@ -6,7 +6,8 @@ export const NavWrapper = styled.header<{ $scrolled: boolean }>`
   z-index: 100;
   backdrop-filter: saturate(180%) blur(18px);
   -webkit-backdrop-filter: saturate(180%) blur(18px);
-  background: color-mix(in oklch, var(--bg) 72%, transparent);
+  background: var(--bg);
+  background: color-mix(in oklch, var(--bg) 82%, transparent);
   border-bottom: 1px solid ${({ $scrolled }) => $scrolled ? 'var(--border)' : 'transparent'};
   transition: border-color 0.4s var(--ease), background 0.4s var(--ease);
 `;
@@ -191,6 +192,20 @@ export const MenuBtn = styled.button`
   }
 `;
 
+export const MobileMenuOverlay = styled.div<{ $open: boolean }>`
+  position: fixed;
+  inset: 0;
+  background: oklch(0 0 0 / 0.45);
+  z-index: 190;
+  opacity: ${({ $open }) => ($open ? '1' : '0')};
+  pointer-events: ${({ $open }) => ($open ? 'auto' : 'none')};
+  transition: opacity 0.35s var(--ease);
+
+  @media (min-width: 761px) {
+    display: none;
+  }
+`;
+
 export const MobileMenu = styled.div<{ $open: boolean }>`
   position: fixed;
   inset: 0 0 0 auto;
@@ -200,8 +215,9 @@ export const MobileMenu = styled.div<{ $open: boolean }>`
   justify-content: center;
   gap: 0.5rem;
   padding: 2rem;
-  background: var(--surface);
+  background: var(--bg);
   border-left: 1px solid var(--border);
+  box-shadow: -8px 0 40px oklch(0 0 0 / 0.18);
   transform: translateX(${({ $open }) => ($open ? '0' : '100%')});
   transition: transform 0.45s var(--ease);
   z-index: 200;

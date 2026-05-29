@@ -16,6 +16,7 @@ import {
   WorkWithMeBtn,
   MenuBtn,
   MobileMenu,
+  MobileMenuOverlay,
 } from './NavBar.styled';
 
 const SunIcon = () => (
@@ -111,6 +112,7 @@ const NavBar: React.FC = () => {
         </NavInner>
       </NavWrapper>
 
+      <MobileMenuOverlay $open={menuOpen} onClick={() => setMenuOpen(false)} />
       <MobileMenu $open={menuOpen}>
         {navItems.map(item => (
           <NavLink
