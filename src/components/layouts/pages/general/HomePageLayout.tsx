@@ -263,8 +263,7 @@ const HomePageLayout: React.FC = () => {
       <HeroSection>
         <HeroCanvas />
         <HeroFade />
-        <Wrap>
-          <HeroInner>
+        <HeroInner>
             <StatusBadge>
               <StatusDot />
               Available for select AI & product consulting
@@ -286,7 +285,6 @@ const HomePageLayout: React.FC = () => {
               </GhostBtn>
             </HeroActions>
           </HeroInner>
-        </Wrap>
         <HeroScroll>
           <span>SCROLL</span>
           <ScrollLine />

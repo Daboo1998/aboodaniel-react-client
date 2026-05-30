@@ -38,24 +38,38 @@ const revealBase = `
 
 /* ---- Layout ---- */
 export const Wrap = styled.div`
+  width: 100%;
   max-width: var(--maxw);
   margin-left: auto;
   margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
   padding-left: var(--gutter);
   padding-right: var(--gutter);
 `;
 
 export const SectionPad = styled.section`
   position: relative;
-  padding-block: clamp(4.5rem, 10vw, 9rem);
+  padding-top: clamp(4.5rem, 10vw, 9rem);
+  padding-bottom: clamp(4.5rem, 10vw, 9rem);
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
   background: var(--bg);
 `;
 
 export const AltSection = styled.section`
   position: relative;
-  padding-block: clamp(4.5rem, 10vw, 9rem);
+  padding-top: clamp(4.5rem, 10vw, 9rem);
+  padding-bottom: clamp(4.5rem, 10vw, 9rem);
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
   background: var(--bg-2);
-  border-block: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 `;
 
 /* ---- Typography ---- */
@@ -152,7 +166,10 @@ export const HeroInner = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-block: clamp(4rem, 10vw, 8rem);
+  padding-top: clamp(4rem, 10vw, 8rem);
+  padding-bottom: clamp(4rem, 10vw, 8rem);
+  padding-left: 20px;
+  padding-right: 20px;
   padding-left: var(--gutter);
   padding-right: var(--gutter);
   width: 100%;
