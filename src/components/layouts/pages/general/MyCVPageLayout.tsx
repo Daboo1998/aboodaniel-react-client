@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import database, { timestampToString } from "../../../../data/database";
+import database from "../../../../data/database";
 import Experience from "../../../../data/experience";
 import EducationItem from "../../../../data/EducationItem";
 import SkillSet from "../../../../data/SkillSet";
@@ -139,7 +139,7 @@ const staticExperiences = [
 ];
 
 const MyCVPageLayout: React.FC = () => {
-  const [skillSets, setSkillSets] = useState<SkillSet[]>([]);
+  const [, setSkillSets] = useState<SkillSet[]>([]);
   const [education, setEducation] = useState<EducationItem[]>([]);
   const [experiences, setExperiences] = useState<Experience[]>([]);
 
@@ -150,6 +150,7 @@ const MyCVPageLayout: React.FC = () => {
   const [isRemoveExperiencesPopupShown, showRemoveExperiencesPopup, hideRemoveExperiencesPopup] = usePopup();
   const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onEditButtonClick = (experience: Experience) => {
     setSelectedExperience(experience);
     window.document.body.style.overflow = "hidden";
