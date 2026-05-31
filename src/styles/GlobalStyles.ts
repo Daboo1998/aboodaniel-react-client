@@ -226,6 +226,34 @@ export const GlobalStyles = createGlobalStyle`
 
   .menu-btn { display: none; background: none; border: none; }
 
+  /* ---------- Mobile slide-out drawer ---------- */
+  .nav-drawer { display: none; }
+  .nav-drawer-backdrop {
+    position: fixed; inset: 0; z-index: 200;
+    background: oklch(0 0 0 / 0.45);
+    opacity: 0; pointer-events: none; transition: opacity 0.45s var(--ease);
+  }
+  .nav-drawer.open .nav-drawer-backdrop { opacity: 1; pointer-events: auto; }
+  .nav-drawer-panel {
+    position: fixed; top: 0; right: 0; bottom: 0; z-index: 210;
+    width: min(80vw, 320px);
+    display: flex; flex-direction: column; align-items: flex-start;
+    justify-content: center; gap: 0.5rem; padding: 2rem;
+    background: var(--surface); border-left: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    transform: translateX(100%);
+    transition: transform 0.45s var(--ease);
+  }
+  .nav-drawer.open .nav-drawer-panel { transform: none; }
+  .nav-drawer-panel .nav-link { font-size: 1.4rem; padding: 0.6rem 0; color: var(--text); }
+  .nav-drawer-close {
+    position: absolute; top: 1.1rem; right: 1.1rem;
+    width: 38px; height: 38px; border-radius: 999px;
+    border: 1px solid var(--border-2); background: var(--surface);
+    display: grid; place-items: center; cursor: pointer; color: var(--text);
+  }
+  .nav-drawer-close svg { width: 18px; height: 18px; }
+
   /* ---------- Cards / surfaces ---------- */
   .card {
     background: var(--surface);
@@ -283,19 +311,13 @@ export const GlobalStyles = createGlobalStyle`
 
   /* ---------- Mobile menu ---------- */
   @media (max-width: 760px) {
-    .nav-links {
-      position: fixed; inset: 0 0 0 auto; width: min(80vw, 320px);
-      flex-direction: column; align-items: flex-start; justify-content: center;
-      gap: 0.5rem; padding: 2rem;
-      background: var(--surface); border-left: 1px solid var(--border);
-      transform: translateX(100%); transition: transform 0.45s var(--ease); z-index: 200;
-    }
-    .nav-links.open { transform: none; }
-    .nav-link { font-size: 1.4rem; padding: 0.6rem 0; }
+    /* hide the inline desktop links; use the slide-out drawer instead */
+    .nav-links { display: none; }
+    .nav-drawer { display: block; }
     .menu-btn {
       display: grid; place-items: center; width: 38px; height: 38px;
       border-radius: 999px; border: 1px solid var(--border-2); background: var(--surface);
-      cursor: pointer; color: var(--text); z-index: 210;
+      cursor: pointer; color: var(--text);
     }
     .menu-btn svg { width: 18px; height: 18px; }
   }

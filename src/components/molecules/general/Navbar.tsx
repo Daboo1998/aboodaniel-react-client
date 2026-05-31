@@ -51,50 +51,79 @@ const Navbar: React.FC = () => {
     to === "/" ? location.pathname === "/" : location.pathname.startsWith(to);
 
   return (
-    <header className={`nav${scrolled ? " scrolled" : ""}`}>
-      <div className="nav-inner">
-        <Link className="brand" to="/" aria-label="Daniel Aboo — home">
-          <span className="mark">DA</span>
-          <span>
-            Daniel Aboo<small>PROMPT ENGINEER</small>
-          </span>
-        </Link>
-        <nav
-          className={`nav-links${menuOpen ? " open" : ""}`}
-          aria-label="Primary"
-        >
-          {links.map((link) => (
-            <Link
-              key={link.to}
-              className={`nav-link${isActive(link.to) ? " active" : ""}`}
-              to={link.to}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-        <div className="nav-right">
-          <button
-            className="theme-toggle"
-            onClick={toggle}
-            aria-label="Toggle dark mode"
-            type="button"
-          >
-            <SunIcon />
-            <MoonIcon />
-          </button>
-          <Link
-            className="btn btn-primary"
-            to="/contact"
-            style={{ padding: "0.6rem 1.1rem" }}
-          >
-            Work with me
+    <>
+      <header className={`nav${scrolled ? " scrolled" : ""}`}>
+        <div className="nav-inner">
+          <Link className="brand" to="/" aria-label="Daniel Aboo — home">
+            <span className="mark">DA</span>
+            <span>
+              Daniel Aboo<small>PROMPT ENGINEER</small>
+            </span>
           </Link>
+          <nav className="nav-links" aria-label="Primary">
+            {links.map((link) => (
+              <Link
+                key={link.to}
+                className={`nav-link${isActive(link.to) ? " active" : ""}`}
+                to={link.to}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+          <div className="nav-right">
+            <button
+              className="theme-toggle"
+              onClick={toggle}
+              aria-label="Toggle dark mode"
+              type="button"
+            >
+              <SunIcon />
+              <MoonIcon />
+            </button>
+            <Link
+              className="btn btn-primary"
+              to="/contact"
+              style={{ padding: "0.6rem 1.1rem" }}
+            >
+              Work with me
+            </Link>
+            <button
+              className="menu-btn"
+              onClick={() => setMenuOpen((o) => !o)}
+              aria-label="Menu"
+              aria-expanded={menuOpen}
+              type="button"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              >
+                <path d="M3 6h18M3 12h18M3 18h18" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile slide-out drawer — rendered outside the backdrop-filtered
+          <header> so its `position: fixed` resolves against the viewport. */}
+      <div
+        className={`nav-drawer${menuOpen ? " open" : ""}`}
+        aria-hidden={!menuOpen}
+      >
+        <div
+          className="nav-drawer-backdrop"
+          onClick={() => setMenuOpen(false)}
+        />
+        <nav className="nav-drawer-panel" aria-label="Mobile">
           <button
-            className="menu-btn"
-            onClick={() => setMenuOpen((o) => !o)}
-            aria-label="Menu"
-            aria-expanded={menuOpen}
+            className="nav-drawer-close"
+            onClick={() => setMenuOpen(false)}
+            aria-label="Close menu"
             type="button"
           >
             <svg
@@ -104,12 +133,22 @@ const Navbar: React.FC = () => {
               strokeWidth="1.8"
               strokeLinecap="round"
             >
-              <path d="M3 6h18M3 12h18M3 18h18" />
+              <path d="M6 6l12 12M18 6 6 18" />
             </svg>
           </button>
-        </div>
+          {links.map((link) => (
+            <Link
+              key={link.to}
+              className={`nav-link${isActive(link.to) ? " active" : ""}`}
+              to={link.to}
+              onClick={() => setMenuOpen(false)}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
       </div>
-    </header>
+    </>
   );
 };
 
