@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 // Page imports
-import NewHomePageLayout from "./components/layouts/pages/general/NewHomePageLayout";
+import HomePageLayout from "./components/layouts/pages/general/HomePageLayout";
 import MaintenancePageLayout from "./components/layouts/pages/general/MaintenancePageLayout";
 import ExperiencePageLayout from "./components/layouts/pages/general/ExperiencePageLayout";
 import ContactPageLayout from "./components/layouts/pages/general/ContactPageLayout";
@@ -14,9 +14,7 @@ import MessagesPageLayout from "./components/layouts/pages/development and admin
 import AskMeAnythingLayout from "./components/layouts/pages/general/AskMeAnything";
 
 // Main elements imports
-import PageNavigatorBar from "./components/molecules/general/PageNavigatorBar";
-import PageNavigatorBarLink from "./components/atoms/buttons and links/PageNavigatorBarLink";
-import Footer from "./components/molecules/general/Footer";
+import Navbar from "./components/molecules/general/Navbar";
 import SkipLink from "./components/atoms/utilities/SkipLink";
 
 // Hooks
@@ -27,9 +25,9 @@ import NavigationProvider from "./components/context providers/NavigationProvide
 import { AppContainer, AppContent } from "./App.styled";
 
 function AppWithRouter() {
-  // Maintenance flag - set to true to show maintenance page instead of old home page
+  // Maintenance flag - set to true to show maintenance page instead of the home page
   const MAINTENANCE_MODE = process.env.REACT_APP_MAINTENANCE_MODE === "true";
-  
+
   // Handle focus management on route changes
   useFocusOnRouteChange();
 
@@ -37,23 +35,14 @@ function AppWithRouter() {
     <NavigationProvider>
       <AppContainer>
         <SkipLink />
-        <PageNavigatorBar>
-          <PageNavigatorBarLink to="/">Home</PageNavigatorBarLink>
-          {/* <PageNavigatorBarLink to="/experience">
-                  Experience
-              </PageNavigatorBarLink> */}
-          <PageNavigatorBarLink to="/assistant">
-            My Assistant (Beta)
-          </PageNavigatorBarLink>
-          <PageNavigatorBarLink to="/contact">Contact</PageNavigatorBarLink>
-        </PageNavigatorBar>
+        <Navbar />
         <AppContent as="main" id="main-content" tabIndex={-1}>
           <Switch>
             <Route exact path="/">
-              <NewHomePageLayout />
+              <HomePageLayout />
             </Route>
             <Route exact path="/home">
-              <NewHomePageLayout />
+              <HomePageLayout />
             </Route>
             <Route exact path="/maintenance">
               <MaintenancePageLayout showMaintenance={MAINTENANCE_MODE} />
@@ -87,7 +76,6 @@ function AppWithRouter() {
             </Route>
           </Switch>
         </AppContent>
-        <Footer isInsideMenu={false} />
       </AppContainer>
     </NavigationProvider>
   );

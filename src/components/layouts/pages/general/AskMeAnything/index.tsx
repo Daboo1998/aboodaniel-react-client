@@ -1,13 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
-import PageLayout from "../../PageLayout";
+import React, { useEffect, useRef } from "react";
+import ReactMarkdown from "react-markdown";
+import TextareaAutosize from "react-textarea-autosize";
 
 import { useAuth } from "../../../../../contexts/AuthContext";
-import * as styles from "./AskmeAnything.styles";
 import { useAskMeAnythingContext } from "./context";
 
+const suggestions = [
+  { label: "What does he do now?", q: "What does Daniel do at LivePerson?" },
+  { label: "Built with AI?", q: "What has Daniel built with LLMs and AI agents?" },
+  { label: "His background", q: "Tell me about Daniel's experience and career" },
+  { label: "Hire him", q: "How can I contact Daniel for consulting?" },
+];
+
 const AskMeAnythingPage: React.FC = () => {
-  const minTextareaRows = 2;
-  const maxTextareaRows = 5;
   const maxMessageLength = parseInt(
     process.env.REACT_APP_MAX_MESSAGE_LENGTH ?? "0"
   );
@@ -22,7 +27,6 @@ const AskMeAnythingPage: React.FC = () => {
     maxMessages,
     messageCount,
     thread_id,
-    assistant_id,
     setMessage,
     handleSendMessage,
     handleStartConversation,
@@ -31,10 +35,9 @@ const AskMeAnythingPage: React.FC = () => {
 
   const threadIdRef = useRef(thread_id);
   const messagesCountRef = useRef(messageCount);
+  const chatRef = useRef<HTMLDivElement>(null);
 
-  const [copiedMessageIndex, setCopiedMessageIndex] = useState<number | null>(
-    null
-  );
+  const canSend = messageCount < maxMessages && !!thread_id;
 
   const handleInputChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
     event
@@ -49,21 +52,22 @@ const AskMeAnythingPage: React.FC = () => {
   ) => {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
-      handleSendMessage();
+      if (canSend) handleSendMessage();
     }
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    if (messageCount < maxMessages && thread_id) {
+    if (canSend) {
       handleSendMessage();
     } else {
       handleStartConversation(isLoggedIn && isOwner);
     }
   };
 
-  const copyToClipboard = (message: string) => {
-    navigator.clipboard.writeText(message);
+  const handleSuggestion = (q: string) => {
+    setMessage(q);
+    messageInputRef.current?.focus();
   };
 
   useEffect(() => {
@@ -72,6 +76,7 @@ const AskMeAnythingPage: React.FC = () => {
   }, [thread_id, messageCount]);
 
   useEffect(() => {
+    document.title = "Daniel Aboo — AI Assistant";
     handleStartConversation(isLoggedIn && isOwner);
 
     return () => {
@@ -82,146 +87,115 @@ const AskMeAnythingPage: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <PageLayout title="Home">
-      <styles.PageContainer>
-        <styles.MainContainer>
-          <styles.PageTitle>Ask me anything!</styles.PageTitle>
-          {isLoggedIn &&
-            isDeveloper &&
-            new URLSearchParams(window.location.search).get("debug_mode") ===
-              "true" && (
-              <styles.developerInformation>
-                <p>
-                  <b>Assistant:</b> {assistant_id}
-                </p>
-                <p>
-                  <b>Thread:</b> {thread_id}
-                </p>
-                {thread_id ? (
-                  <button onClick={() => handleEndConversation()}>
-                    End Conversation
-                  </button>
-                ) : (
-                  <>
-                    <button
-                      onClick={() =>
-                        handleStartConversation(isLoggedIn && isOwner)
-                      }
-                    >
-                      Start Conversation
-                    </button>
-                    {isLoggedIn && isOwner && (
-                      <button onClick={() => handleStartConversation(false)}>
-                        Start Conversation with General Assistant
-                      </button>
-                    )}
-                  </>
-                )}
-              </styles.developerInformation>
-            )}
-          {isOwner ? (
-            <p>
-              Hi Daniel, I'm your personal assistant. How can I help you today?
-            </p>
-          ) : (
-            <styles.CenteredText>
-              You can ask me anything about Daniel Aboo. I will try to answer
-              your questions as best as I can 😁 <br />
-              <br />I can also inform Daniel about anything, if you have any
-              questions to him directly.
-            </styles.CenteredText>
-          )}
-          {/* List messages */}
-          <styles.messagesList>
-            {messages.map((message, index) => {
-              const MessageComponent =
-                message.role === "user"
-                  ? styles.UserMessage
-                  : styles.AssistantMessage;
-              return (
-                <MessageComponent key={index}>
-                  <styles.TextMarkdown>{message.message}</styles.TextMarkdown>
-                  {message.role !== "user" &&
-                    (copiedMessageIndex !== index ? (
-                      <styles.copyButton
-                        onClick={() => {
-                          copyToClipboard(message.message);
-                          setCopiedMessageIndex(index);
-                          setTimeout(() => setCopiedMessageIndex(null), 2000);
-                        }}
-                        style={{ cursor: "pointer" }}
-                        title="Copy to clipboard"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          viewBox="0 0 16 16"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"
-                          />
-                        </svg>
-                      </styles.copyButton>
-                    ) : (
-                      <styles.copiedText>
-                        Copied to clipboard!
-                      </styles.copiedText>
-                    ))}
-                </MessageComponent>
-              );
-            })}
-            {/* If loading and last message is with .role == "user", add a message with three dots loader animated */}
-            {isLoading && messages[messages.length - 1]?.role === "user" && (
-              <styles.dotsContainer>
-                <styles.dots />
-              </styles.dotsContainer>
-            )}
-          </styles.messagesList>
-          {/* Add messages/maxMessages */}
-          {!isDeveloper && (
-            <styles.MessageCount>
-              {messageCount}/{maxMessages}
-            </styles.MessageCount>
-          )}
-          {/* Here show input for the user and on the right a send button which triggers the handleSendMessage */}
-          <styles.Form
-            onSubmit={handleSubmit}
-            className={isDeveloper ? "isDeveloper" : ""}
-          >
-            <styles.messageInput
-              onChange={handleInputChange}
-              onKeyDown={handleKeyDown}
-              disabled={isLoading || messageCount >= maxMessages || !thread_id}
-              value={message}
-              ref={messageInputRef}
-              minRows={minTextareaRows}
-              maxRows={maxTextareaRows}
-            />
-            {!isOwner && (
-              <p>
-                {message.length}/{maxMessageLength}
-              </p>
-            )}
+  // keep the chat scrolled to the latest message
+  useEffect(() => {
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    }
+  }, [messages, isLoading]);
 
-            {isLoading ? (
-              <styles.dotsContainer className="buttonLoader">
-                <styles.dots />
-              </styles.dotsContainer>
-            ) : (
-              <styles.submitButton type="submit" disabled={isLoading}>
-                {messageCount >= maxMessages || !thread_id
-                  ? "Start new conversation"
-                  : "Send"}
-              </styles.submitButton>
-            )}
-          </styles.Form>
-        </styles.MainContainer>
-      </styles.PageContainer>
-    </PageLayout>
+  const showTyping =
+    isLoading && messages[messages.length - 1]?.role === "user";
+
+  return (
+    <div className="asst-wrap asst-page">
+      <div className="asst-head">
+        <span className="asst-badge">
+          <span className="dot" /> Online · Beta
+        </span>
+        <h1 className="asst-title">Ask me anything</h1>
+        <p className="asst-sub">
+          {isOwner
+            ? "Hi Daniel, I'm your personal assistant. How can I help you today?"
+            : "A small demo of what I build. This assistant knows Daniel's background — or it can pass a message straight to him."}
+        </p>
+      </div>
+
+      <div className="chat" id="chat" aria-live="polite" ref={chatRef}>
+        {messages.map((m, index) => {
+          const isUser = m.role === "user";
+          return (
+            <div className={`msg ${isUser ? "user" : "bot"}`} key={index}>
+              <span className="avatar">{isUser ? "You" : "DA"}</span>
+              <div className="bubble">
+                {isUser ? (
+                  <p>{m.message}</p>
+                ) : (
+                  <ReactMarkdown>{m.message}</ReactMarkdown>
+                )}
+              </div>
+            </div>
+          );
+        })}
+        {showTyping && (
+          <div className="typing" aria-label="Assistant is typing">
+            <span />
+            <span />
+            <span />
+          </div>
+        )}
+      </div>
+
+      <div className="composer" id="composer-region">
+        {messages.length === 0 && (
+          <div className="suggest" id="suggest">
+            {suggestions.map((s) => (
+              <button
+                key={s.q}
+                type="button"
+                className="suggest-chip"
+                disabled={!thread_id || isLoading}
+                onClick={() => handleSuggestion(s.q)}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+        )}
+        <form className="composer-inner" id="composer" onSubmit={handleSubmit}>
+          <TextareaAutosize
+            id="msg-input"
+            minRows={1}
+            maxRows={6}
+            placeholder="Ask about Daniel's work, projects, skills…"
+            aria-label="Message"
+            value={message}
+            ref={messageInputRef}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            disabled={isLoading || !canSend}
+          />
+          <button
+            className="send-btn"
+            id="send-btn"
+            type="submit"
+            aria-label={canSend ? "Send" : "Start new conversation"}
+            disabled={isLoading}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 19V5M5 12l7-7 7 7" />
+            </svg>
+          </button>
+        </form>
+        <div className="composer-meta">
+          <span className="disclaimer">
+            {canSend
+              ? "Demo · responses are illustrative"
+              : "Conversation ended — send to start a new one"}
+          </span>
+          <span id="counter">
+            {messageCount} / {maxMessages}
+          </span>
+        </div>
+      </div>
+    </div>
   );
 };
 

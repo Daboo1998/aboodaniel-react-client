@@ -8,16 +8,19 @@ import { GlobalStyles } from "./styles/GlobalStyles";
 import "./index.css";
 import "./styles/accessibility.css";
 import { AccessibilityProvider } from "./contexts/AccessibilityContext";
+import ThemeModeProvider from "./contexts/ThemeModeContext";
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <AccessibilityProvider>
-        <AuthContextProvider>
-          <App />
-        </AuthContextProvider>
-      </AccessibilityProvider>
+      <ThemeModeProvider>
+        <AccessibilityProvider>
+          <AuthContextProvider>
+            <App />
+          </AuthContextProvider>
+        </AccessibilityProvider>
+      </ThemeModeProvider>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
