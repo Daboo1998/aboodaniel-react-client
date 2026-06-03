@@ -21,15 +21,15 @@ const AskMeAnythingPage: React.FC = () => {
     messageInputRef,
     maxMessages,
     messageCount,
-    thread_id,
-    assistant_id,
+    conversation_id,
+    prompt_id,
     setMessage,
     handleSendMessage,
     handleStartConversation,
     handleEndConversation,
   } = useAskMeAnythingContext({ isDeveloper });
 
-  const threadIdRef = useRef(thread_id);
+  const conversationIdRef = useRef(conversation_id);
   const messagesCountRef = useRef(messageCount);
 
   const [copiedMessageIndex, setCopiedMessageIndex] = useState<number | null>(
@@ -55,7 +55,7 @@ const AskMeAnythingPage: React.FC = () => {
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    if (messageCount < maxMessages && thread_id) {
+    if (messageCount < maxMessages && conversation_id) {
       handleSendMessage();
     } else {
       handleStartConversation(isLoggedIn && isOwner);
@@ -67,16 +67,16 @@ const AskMeAnythingPage: React.FC = () => {
   };
 
   useEffect(() => {
-    threadIdRef.current = thread_id;
+    conversationIdRef.current = conversation_id;
     messagesCountRef.current = messageCount;
-  }, [thread_id, messageCount]);
+  }, [conversation_id, messageCount]);
 
   useEffect(() => {
     handleStartConversation(isLoggedIn && isOwner);
 
     return () => {
-      if (threadIdRef.current && messagesCountRef.current === 0) {
-        handleEndConversation(threadIdRef.current);
+      if (conversationIdRef.current && messagesCountRef.current === 0) {
+        handleEndConversation(conversationIdRef.current);
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -95,12 +95,12 @@ const AskMeAnythingPage: React.FC = () => {
               "true" && (
               <styles.developerInformation>
                 <p>
-                  <b>Assistant:</b> {assistant_id}
+                  <b>Prompt:</b> {prompt_id}
                 </p>
                 <p>
-                  <b>Thread:</b> {thread_id}
+                  <b>Conversation:</b> {conversation_id}
                 </p>
-                {thread_id ? (
+                {conversation_id ? (
                   <button onClick={() => handleEndConversation()}>
                     End Conversation
                   </button>
@@ -194,7 +194,7 @@ const AskMeAnythingPage: React.FC = () => {
             <styles.messageInput
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
-              disabled={isLoading || messageCount >= maxMessages || !thread_id}
+              disabled={isLoading || messageCount >= maxMessages || !conversation_id}
               value={message}
               ref={messageInputRef}
               minRows={minTextareaRows}
@@ -212,7 +212,7 @@ const AskMeAnythingPage: React.FC = () => {
               </styles.dotsContainer>
             ) : (
               <styles.submitButton type="submit" disabled={isLoading}>
-                {messageCount >= maxMessages || !thread_id
+                {messageCount >= maxMessages || !conversation_id
                   ? "Start new conversation"
                   : "Send"}
               </styles.submitButton>
