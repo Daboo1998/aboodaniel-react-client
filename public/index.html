@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
@@ -7,7 +7,29 @@
     <meta name="theme-color" content="#E5E7EB" />
     <meta
       name="description"
-      content="Aboo Daniel - Software Development"
+      content="Daniel Aboo — Prompt Engineer II at LivePerson. Designing AI agents, prompt architectures and conversational AI that move business metrics."
+    />
+    <!-- Set the theme before first paint to avoid a flash of the wrong mode -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem("da-theme");
+          var mode =
+            saved === "light" || saved === "dark"
+              ? saved
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+          document.documentElement.setAttribute("data-theme", mode);
+        } catch (e) {}
+      })();
+    </script>
+    <!-- Geist + Geist Mono — design-system typefaces -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/images/logo.png" />
     <!--
@@ -24,9 +46,9 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>Aboo Daniel</title>
+    <title>Daniel Aboo — Prompt Engineer & Full-Stack Developer</title>
   </head>
-  <body class="bg-background-light dark:bg-background-dark">
+  <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--
