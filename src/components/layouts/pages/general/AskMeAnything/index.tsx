@@ -27,7 +27,6 @@ const AskMeAnythingPage: React.FC = () => {
     maxMessages,
     messageCount,
     conversation_id,
-    prompt_id,
     setMessage,
     handleSendMessage,
     handleStartConversation,
