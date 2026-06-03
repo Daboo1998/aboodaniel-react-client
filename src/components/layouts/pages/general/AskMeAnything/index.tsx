@@ -26,18 +26,20 @@ const AskMeAnythingPage: React.FC = () => {
     messageInputRef,
     maxMessages,
     messageCount,
-    thread_id,
+    conversation_id,
+    prompt_id,
     setMessage,
     handleSendMessage,
     handleStartConversation,
     handleEndConversation,
   } = useAskMeAnythingContext({ isDeveloper });
 
-  const threadIdRef = useRef(thread_id);
+  const conversationIdRef = useRef(conversation_id);
   const messagesCountRef = useRef(messageCount);
   const chatRef = useRef<HTMLDivElement>(null);
 
-  const canSend = messageCount < maxMessages && !!thread_id;
+  // 0 means "no limit" — consistent with context.tsx guard
+  const canSend = (!maxMessages || messageCount < maxMessages) && !!conversation_id;
 
   const handleInputChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
     event
@@ -71,17 +73,17 @@ const AskMeAnythingPage: React.FC = () => {
   };
 
   useEffect(() => {
-    threadIdRef.current = thread_id;
+    conversationIdRef.current = conversation_id;
     messagesCountRef.current = messageCount;
-  }, [thread_id, messageCount]);
+  }, [conversation_id, messageCount]);
 
   useEffect(() => {
     document.title = "Daniel Aboo — AI Assistant";
     handleStartConversation(isLoggedIn && isOwner);
 
     return () => {
-      if (threadIdRef.current && messagesCountRef.current === 0) {
-        handleEndConversation(threadIdRef.current);
+      if (conversationIdRef.current && messagesCountRef.current === 0) {
+        handleEndConversation(conversationIdRef.current);
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -144,7 +146,7 @@ const AskMeAnythingPage: React.FC = () => {
                 key={s.q}
                 type="button"
                 className="suggest-chip"
-                disabled={!thread_id || isLoading}
+                disabled={!conversation_id || isLoading}
                 onClick={() => handleSuggestion(s.q)}
               >
                 {s.label}
@@ -191,7 +193,7 @@ const AskMeAnythingPage: React.FC = () => {
               : "Conversation ended — send to start a new one"}
           </span>
           <span id="counter">
-            {messageCount} / {maxMessages}
+            {messageCount} / {maxMessages || "∞"}
           </span>
         </div>
       </div>
