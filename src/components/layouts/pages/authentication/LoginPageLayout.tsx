@@ -1,5 +1,4 @@
-import React, {FormEventHandler, useState} from "react";
-import PageLayout from "../PageLayout";
+import React, {FormEventHandler, useEffect, useState} from "react";
 import {useAuth} from "../../../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
 import Link from "../../../atoms/buttons and links/Link";
@@ -7,6 +6,7 @@ import SignInWithGoogleButton from "../../../atoms/buttons and links/SignInWithG
 import TextInput from "../../../atoms/input/TextInput";
 import ShouldRememberUserCheckbox from "../../../atoms/input/ShouldRememberUserCheckbox";
 import useScrollReveal from "../../../../hooks/useScrollReveal";
+import PortfolioFooter from "../../../molecules/general/PortfolioFooter";
 import {
     LoginTitle,
     LoginContainer,
@@ -25,6 +25,10 @@ const LoginPageLayout: React.FC = () => {
     const {login, loginSource} = useAuth();
     const history = useHistory();
     useScrollReveal();
+
+    useEffect(() => {
+        document.title = "Daniel Aboo — Sign In";
+    }, []);
 
     const handleSubmit: FormEventHandler = async (e) => {
         e.preventDefault();
@@ -54,7 +58,7 @@ const LoginPageLayout: React.FC = () => {
     };
 
     return (
-        <PageLayout title="Login">
+        <>
             <LoginContainer>
                 <span className="kicker reveal in">
                     <span className="idx">✦</span> — Sign In
@@ -80,7 +84,8 @@ const LoginPageLayout: React.FC = () => {
                     </RegisterLinkContainer>
                 </LoginForm>
             </LoginContainer>
-        </PageLayout>
+            <PortfolioFooter variant="minimal" />
+        </>
     );
 };
 

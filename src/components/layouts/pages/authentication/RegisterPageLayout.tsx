@@ -1,5 +1,4 @@
-import React, {FormEventHandler, useState} from "react";
-import PageLayout from "../PageLayout";
+import React, {FormEventHandler, useEffect, useState} from "react";
 import {useAuth} from "../../../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
 import "firebase/auth";
@@ -7,6 +6,7 @@ import SignInWithGoogleButton from "../../../atoms/buttons and links/SignInWithG
 import TextInput from "../../../atoms/input/TextInput";
 import ShouldRememberUserCheckbox from "../../../atoms/input/ShouldRememberUserCheckbox";
 import useScrollReveal from "../../../../hooks/useScrollReveal";
+import PortfolioFooter from "../../../molecules/general/PortfolioFooter";
 import {
     RegisterTitle,
     RegisterContainer,
@@ -26,6 +26,10 @@ const RegisterPageLayout: React.FC = () => {
     const {register, loginSource} = useAuth();
     const history = useHistory();
     useScrollReveal();
+
+    useEffect(() => {
+        document.title = "Daniel Aboo — Create Account";
+    }, []);
 
     const handleSubmit: FormEventHandler = async (event) => {
         event.preventDefault();
@@ -62,7 +66,7 @@ const RegisterPageLayout: React.FC = () => {
     };
 
     return (
-        <PageLayout title="Register">
+        <>
             <RegisterContainer>
                 <span className="kicker reveal in">
                     <span className="idx">✦</span> — Create Account
@@ -85,7 +89,8 @@ const RegisterPageLayout: React.FC = () => {
                     <SignInWithGoogleButton onError={setErrorMessage} shouldRememberUser={shouldRememberUser} />
                 </RegisterForm>
             </RegisterContainer>
-        </PageLayout>
+            <PortfolioFooter variant="minimal" />
+        </>
     );
 };
 

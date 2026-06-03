@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react";
-import PageLayout from "../PageLayout";
 import Message from "../../../../data/Message";
 import database from "../../../../data/database";
 import MessageDetailsPopup from "../../../molecules/popups/messages/MessageDetailsPopup";
@@ -7,6 +6,7 @@ import MessageComponent from "../../../atoms/messages/MessageComponent";
 import {useAuth} from "../../../../contexts/AuthContext";
 import useNavigation from "../../../../hooks/useNavigation";
 import useScrollReveal from "../../../../hooks/useScrollReveal";
+import PortfolioFooter from "../../../molecules/general/PortfolioFooter";
 import {
     MessagesPageContainer,
     UnauthorizedContainer,
@@ -28,6 +28,10 @@ const MessagesPageLayout: React.FC = () => {
         navigation.navigateTo("/login");
         wentToLogin("/messages");
     }
+
+    useEffect(() => {
+        document.title = "Daniel Aboo — Messages";
+    }, []);
 
     useEffect(() => {
         database.messages
@@ -57,7 +61,7 @@ const MessagesPageLayout: React.FC = () => {
 
     if (!isOwner) {
         return (
-            <PageLayout title="Messages">
+            <>
                 <MessagesPageContainer>
                     <UnauthorizedContainer>
                         <span className="kicker reveal in"><span className="idx">✦</span> — Admin</span>
@@ -67,12 +71,13 @@ const MessagesPageLayout: React.FC = () => {
                         </UnauthorizedMessage>
                     </UnauthorizedContainer>
                 </MessagesPageContainer>
-            </PageLayout>
+                <PortfolioFooter variant="minimal" />
+            </>
         );
     }
 
     return (
-        <PageLayout title="Messages">
+        <>
             <MessagesPageContainer>
                 <MessageDetailsPopup
                     message={selectedMessage}
@@ -90,7 +95,8 @@ const MessagesPageLayout: React.FC = () => {
                     }
                 </MessagesContainer>
             </MessagesPageContainer>
-        </PageLayout>
+            <PortfolioFooter variant="minimal" />
+        </>
     );
 };
 
