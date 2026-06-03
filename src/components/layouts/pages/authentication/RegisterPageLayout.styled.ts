@@ -26,9 +26,13 @@ export const RegisterForm = styled.form`
   flex-direction: column;
   width: 100%;
   max-width: 32rem;
-  gap: ${theme.spacing[4]};
+  gap: 0.75rem;
   align-items: stretch;
   padding: clamp(1.8rem, 4vw, 2.8rem);
+
+  .field {
+    margin-bottom: 0.55rem;
+  }
 `;
 
 export const ErrorMessage = styled.p`
@@ -45,7 +49,6 @@ export const ErrorMessage = styled.p`
 
 export const SubmitButtonContainer = styled.div`
   width: 100%;
-  margin-top: ${theme.spacing[2]};
 
   .btn {
     width: 100%;

@@ -1,49 +1,41 @@
 import styled from 'styled-components';
-import { theme } from '../../../styles/theme';
 
 export const GoogleSignInButton = styled.button`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: ${theme.spacing[2]};
-  border: 1px solid ${theme.colors.gray[200]};
-  border-radius: ${theme.borderRadius.lg};
-  width: max-content;
-  box-shadow: ${theme.shadows.sm};
-  background-color: ${theme.colors.white};
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius, 14px);
+  width: 100%;
+  background: var(--surface-2);
   cursor: pointer;
-  transition: all ${theme.transitions.duration[200]} ${theme.transitions.easing['in-out']};
+  transition: border-color 0.25s var(--ease, cubic-bezier(0.22, 1, 0.36, 1)),
+              background 0.25s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+  font-family: inherit;
+  font-size: 0.95rem;
 
-  @media (prefers-color-scheme: dark) {
-    background-color: ${theme.colors.black};
-    border-color: ${theme.colors.gray[600]};
-  }
-
-  @media (min-width: ${theme.breakpoints.md}) {
-    &:hover {
-      border-color: ${theme.colors.blue[800]};
-    }
+  &:hover {
+    border-color: var(--border-2);
+    background: var(--surface);
   }
 
   &:focus {
-    outline: 2px solid ${theme.colors.blue[500]};
+    outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
 `;
 
 export const GoogleIcon = styled.img`
-  width: ${theme.spacing[5]};
+  width: 1.2rem;
   flex-shrink: 0;
 `;
 
 export const ButtonText = styled.p`
   flex-shrink: 0;
-  padding-left: ${theme.spacing[2]};
-  font-weight: ${theme.fontWeights.light};
+  font-weight: 400;
   margin: 0;
-  color: ${theme.colors.gray[800]};
-
-  @media (prefers-color-scheme: dark) {
-    color: ${theme.colors.white};
-  }
+  color: var(--text);
 `;

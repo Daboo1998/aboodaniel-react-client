@@ -1,12 +1,5 @@
 import React, { useMemo } from "react";
 import { generateId } from "../../../utils/accessibility";
-import {
-  InputContainer,
-  InputLabel,
-  LabelText,
-  RequiredAsterisk,
-  StyledInput
-} from "./TextInput.styled";
 
 export interface TextInputProps {
     name: string;
@@ -32,39 +25,26 @@ const TextInput: React.FC<TextInputProps> = ({
     autoComplete
 }) => {
     const inputId = useMemo(() => generateId(`input-${name}`), [name]);
-    const errorId = useMemo(() => generateId(`error-${name}`), [name]);
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        onChange?.(e.target.value);
-    };
 
     return (
-        <InputContainer>
-            <InputLabel htmlFor={inputId}>
-                <LabelText>
-                    {label} {required && <RequiredAsterisk aria-label="required">*</RequiredAsterisk>}
-                </LabelText>
-                <StyledInput
-                    id={inputId}
-                    type={isPassword ? "password" : "text"}
-                    value={value}
-                    onChange={handleChange}
-                    name={name}
-                    placeholder={placeholder || ""}
-                    required={required}
-                    aria-required={required}
-                    aria-invalid={!!error}
-                    aria-describedby={error ? errorId : undefined}
-                    autoComplete={autoComplete || (isPassword ? "current-password" : "off")}
-                />
-            </InputLabel>
-            {error && (
-                <span id={errorId} role="alert" style={{ color: 'red', fontSize: '0.875rem' }}>
-                    {error}
-                </span>
-            )}
-        </InputContainer>
+        <div className={`field${error ? ' invalid' : ''}`}>
+            <label htmlFor={inputId}>
+                {label} {required && <span className="req" aria-label="required">*</span>}
+            </label>
+            <input
+                id={inputId}
+                type={isPassword ? "password" : "text"}
+                value={value}
+                onChange={(e) => onChange?.(e.target.value)}
+                name={name}
+                placeholder={placeholder || ""}
+                required={required}
+                aria-required={required}
+                aria-invalid={!!error}
+                autoComplete={autoComplete || (isPassword ? "current-password" : "off")}
+            />
+            {error && <div className="field-error">{error}</div>}
+        </div>
     );
 };
 
