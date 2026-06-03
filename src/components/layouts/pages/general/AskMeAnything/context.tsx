@@ -129,7 +129,9 @@ export const useAskMeAnythingContext = ({
   );
 
   const handleSendMessage = useCallback(async () => {
-    if (!isDeveloper && messageCount >= maxMessages) {
+    // A limit only applies to non-developers when a positive max is configured.
+    // A missing/zero env value means "no limit" rather than blocking everything.
+    if (!isDeveloper && maxMessages > 0 && messageCount >= maxMessages) {
       alert("Max messages reached");
       return;
     }
