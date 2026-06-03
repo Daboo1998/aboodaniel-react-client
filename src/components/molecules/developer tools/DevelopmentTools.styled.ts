@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { theme } from "../../../styles/theme";
 
 export const DevelopmentToolsContainer = styled.div`
   width: 100%;
@@ -17,8 +16,7 @@ export const DevelopmentToolsTitle = styled.h1`
   color: var(--text);
 `;
 
-export const RolesListContainer = styled.div`
-  margin-top: ${theme.spacing[4]};
+export const RolesPanel = styled.div`
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg, 22px);
@@ -30,44 +28,62 @@ export const RolesListContainer = styled.div`
   }
 `;
 
-export const RolesListHeader = styled.div`
+export const RolesPanelHeader = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: ${theme.spacing[4]};
-  gap: ${theme.spacing[3]};
+  gap: 0.75rem;
+  padding: 1rem 1.4rem;
   background: var(--surface-2);
   border-bottom: 1px solid var(--border);
 `;
 
-export const RolesListTitle = styled.h2`
+export const RolesPanelTitle = styled.h2`
   margin: 0;
-  font-size: ${theme.fontSizes.xl};
-  font-weight: ${theme.fontWeights.semibold};
+  font-size: 0.95rem;
+  font-weight: 600;
   color: var(--text);
+  letter-spacing: -0.01em;
+`;
+
+export const SelectionBadge = styled.span`
+  display: inline-flex;
+  align-items: center;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  padding: 0.15rem 0.55rem;
+  white-space: nowrap;
 `;
 
 export const DeleteButton = styled.button`
-  background: oklch(0.6 0.2 25 / 0.08);
-  border: 1px solid oklch(0.6 0.2 25 / 0.2);
-  border-radius: 10px;
-  padding: ${theme.spacing[2]};
-  cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  background: oklch(0.6 0.2 25 / 0.08);
+  border: 1px solid oklch(0.6 0.2 25 / 0.22);
+  border-radius: var(--radius, 14px);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: oklch(0.62 0.2 25);
   transition: all 0.25s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+  white-space: nowrap;
 
   svg {
-    width: ${theme.spacing[5]};
-    height: ${theme.spacing[5]};
+    width: 0.9rem;
+    height: 0.9rem;
     fill: oklch(0.62 0.2 25);
-    transition: fill 0.2s;
+    flex-shrink: 0;
   }
 
   &:hover {
     background: oklch(0.6 0.2 25 / 0.15);
-    border-color: oklch(0.6 0.2 25 / 0.35);
+    border-color: oklch(0.6 0.2 25 / 0.4);
   }
 
   &:focus {
@@ -77,10 +93,14 @@ export const DeleteButton = styled.button`
 `;
 
 export const RolesList = styled.ul`
-  padding: ${theme.spacing[3]};
   margin: 0;
+  padding: 0;
   list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: ${theme.spacing[3]};
+`;
+
+export const EmptyState = styled.div`
+  padding: 3.5rem 1.4rem;
+  text-align: center;
+  color: var(--text-3);
+  font-size: 0.9rem;
 `;

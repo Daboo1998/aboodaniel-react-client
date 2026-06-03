@@ -1,35 +1,33 @@
 import styled from "styled-components";
-import { theme } from "../../../styles/theme";
 
-export const RoleItem = styled.li`
+export const RoleRow = styled.li`
   list-style: none;
-  margin: 0;
-  padding: 0;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius, 14px);
-  overflow: hidden;
-  transition: border-color 0.35s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+
+  &:last-child {
+    border-bottom: none;
+  }
 
   &:hover {
-    border-color: var(--border-2);
+    background: var(--surface-2);
   }
 `;
 
-export const RoleHeader = styled.div`
+export const RoleRowHeader = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: ${theme.spacing[3]} ${theme.spacing[4]};
-  gap: ${theme.spacing[3]};
-  border-bottom: 1px solid var(--border);
+  padding: 0.9rem 1.4rem;
+  gap: 0.7rem;
 `;
 
 export const RoleCheckbox = styled.input`
-  width: ${theme.spacing[5]};
-  height: ${theme.spacing[5]};
+  width: 1rem;
+  height: 1rem;
   cursor: pointer;
   accent-color: var(--accent);
+  flex-shrink: 0;
 
   &:focus {
     outline: 2px solid var(--accent);
@@ -37,54 +35,59 @@ export const RoleCheckbox = styled.input`
   }
 `;
 
-export const RoleTitle = styled.h3`
-  margin: 0;
-  padding-left: ${theme.spacing[2]};
-  font-size: ${theme.fontSizes.lg};
-  font-weight: ${theme.fontWeights.semibold};
+export const RoleName = styled.span`
+  font-size: 0.95rem;
+  font-weight: 600;
   color: var(--text);
+  letter-spacing: -0.01em;
 `;
 
-export const UsersList = styled.ol`
-  padding: ${theme.spacing[3]} ${theme.spacing[4]};
-  margin: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: ${theme.spacing[2]};
-`;
-
-export const UserItem = styled.li`
-  display: flex;
-  flex-direction: row;
+export const UserCountBadge = styled.span`
+  display: inline-flex;
   align-items: center;
-  padding: ${theme.spacing[2]} ${theme.spacing[3]};
-  gap: ${theme.spacing[2]};
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  transition: border-color 0.25s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  padding: 0.15rem 0.5rem;
+  white-space: nowrap;
+`;
+
+export const Flex1 = styled.span`
+  flex: 1;
+`;
+
+export const UsersGrid = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0 1.4rem 0.9rem 3.1rem;
+`;
+
+export const UserPill = styled.label<{ $checked: boolean }>`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid ${({ $checked }) => $checked ? 'oklch(0.6 0.2 25 / 0.35)' : 'var(--border)'};
+  background: ${({ $checked }) => $checked ? 'oklch(0.6 0.2 25 / 0.08)' : 'transparent'};
+  font-size: 0.8rem;
+  color: ${({ $checked }) => $checked ? 'oklch(0.62 0.2 25)' : 'var(--text-2)'};
+  cursor: pointer;
+  transition: all 0.2s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
 
   &:hover {
-    border-color: var(--border-2);
+    border-color: ${({ $checked }) => $checked ? 'oklch(0.6 0.2 25 / 0.5)' : 'var(--border-2)'};
+    color: ${({ $checked }) => $checked ? 'oklch(0.62 0.2 25)' : 'var(--text)'};
   }
 `;
 
 export const UserCheckbox = styled.input`
-  width: ${theme.spacing[4]};
-  height: ${theme.spacing[4]};
+  width: 0.75rem;
+  height: 0.75rem;
   cursor: pointer;
-  accent-color: var(--accent);
-
-  &:focus {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
-`;
-
-export const UserText = styled.p`
-  margin: 0;
-  padding-left: ${theme.spacing[2]};
-  color: var(--text-2);
-  font-size: ${theme.fontSizes.sm};
+  accent-color: oklch(0.62 0.2 25);
+  flex-shrink: 0;
 `;
