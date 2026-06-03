@@ -8,6 +8,7 @@ import Role from "../../../data/Role";
 import RoleComponent from "./RoleComponent";
 import Button, {ButtonType} from "../../atoms/buttons and links/Button";
 import {ReactComponent as TrashIcon} from "../../../images/icons/trash.svg";
+import useScrollReveal from "../../../hooks/useScrollReveal";
 import {
     DevelopmentToolsContainer,
     DevelopmentToolsTitle,
@@ -95,6 +96,8 @@ const DevelopmentTools: React.FC = () => {
         refresh(!refreshIndicator);
     };
 
+    useScrollReveal([rolesList]);
+
     useEffect(() => {
         console.log("Refreshing list...");
         setRolesList([]);
@@ -108,10 +111,11 @@ const DevelopmentTools: React.FC = () => {
 
     return (
         <DevelopmentToolsContainer>
-            <DevelopmentToolsTitle>Development Tools</DevelopmentToolsTitle>
+            <span className="kicker reveal in"><span className="idx">✦</span> — Admin Panel</span>
+            <DevelopmentToolsTitle className="reveal in" data-delay="1">Development Tools</DevelopmentToolsTitle>
             <AddRolePopup isPopupShown={isAddRolePopupShown} hide={hideAddRolePopup} onAdded={handleChange}/>
             <AddUserPopup role={selectedRoleType} isPopupShown={isAddUserPopupShown} hide={hideAddUserPopup} onAdded={handleChange} />
-            <RolesListContainer>
+            <RolesListContainer className="reveal" data-delay="2">
                 <RolesListHeader>
                     <RolesListTitle>Roles list</RolesListTitle>
                     <Spacer />
