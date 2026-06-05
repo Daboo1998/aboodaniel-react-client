@@ -7,16 +7,18 @@ export const PopupContent = styled.div`
   overflow: hidden;
   width: 100%;
   max-width: 560px;
-  max-height: 90vh;
-  overflow-y: auto;
+  max-height: calc(100vh - 40px);
   display: flex;
   flex-direction: column;
 
   @media (max-width: 640px) {
-    max-width: 100%;
-    max-height: 100%;
+    position: fixed;
+    inset: 0;
+    max-width: 100vw;
+    max-height: 100vh;
     height: 100vh;
     border-radius: 0;
+    z-index: 1;
   }
 `;
 
@@ -96,6 +98,7 @@ export const DeleteButton = styled.button`
 export const MessageDetails = styled.div`
   padding: 1.25rem 1.4rem 1rem;
   border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
 `;
 
 export const MessageHeader = styled.div`
@@ -143,6 +146,9 @@ export const MessageContent = styled.p`
   color: var(--text-2);
   font-size: 0.95rem;
   flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 `;
 
 export const ReplyButton = styled.div`
