@@ -13,7 +13,8 @@ import {
     UnauthorizedTitle,
     UnauthorizedMessage,
     MessagesTitle,
-    MessagesContainer
+    MessagesContainer,
+    EmptyState
 } from "./MessagesPageLayout.styled";
 
 const MessagesPageLayout: React.FC = () => {
@@ -87,12 +88,14 @@ const MessagesPageLayout: React.FC = () => {
                 />
                 <span className="kicker reveal in"><span className="idx">✦</span> — Admin</span>
                 <MessagesTitle className="reveal in" data-delay="1">Messages</MessagesTitle>
-                <MessagesContainer $hasMessages={messages.length > 0} className="reveal" data-delay="2">
-                    {
-                        messages.map((message) => {
-                            return <MessageComponent key={message.id} message={message} onMessageClick={handleMessageClick}/>;
-                        })
-                    }
+                <MessagesContainer className="reveal" data-delay="2">
+                    {messages.length === 0 ? (
+                        <EmptyState>No messages yet.</EmptyState>
+                    ) : (
+                        messages.map((message) => (
+                            <MessageComponent key={message.id} message={message} onMessageClick={handleMessageClick} />
+                        ))
+                    )}
                 </MessagesContainer>
             </MessagesPageContainer>
             <PortfolioFooter variant="minimal" />

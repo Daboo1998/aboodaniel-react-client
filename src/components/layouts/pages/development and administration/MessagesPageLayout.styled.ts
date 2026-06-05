@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { theme } from '../../../../styles/theme';
 
 export const MessagesPageContainer = styled.div`
   width: 100%;
@@ -11,7 +10,7 @@ export const MessagesPageContainer = styled.div`
 export const UnauthorizedContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${theme.spacing[4]};
+  gap: 1rem;
 `;
 
 export const UnauthorizedTitle = styled.h1`
@@ -37,16 +36,21 @@ export const MessagesTitle = styled.h1`
   line-height: 1.05;
 `;
 
-export const MessagesContainer = styled.div<{ $hasMessages: boolean }>`
-  ${({ $hasMessages }) => $hasMessages && `
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg, 22px);
-    overflow: hidden;
-    transition: border-color 0.35s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+export const MessagesContainer = styled.div`
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg, 22px);
+  overflow: hidden;
+  transition: border-color 0.35s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
 
-    &:hover {
-      border-color: var(--border-2);
-    }
-  `}
+  &:hover {
+    border-color: var(--border-2);
+  }
+`;
+
+export const EmptyState = styled.div`
+  padding: 3.5rem 1.4rem;
+  text-align: center;
+  color: var(--text-3);
+  font-size: 0.9rem;
 `;
