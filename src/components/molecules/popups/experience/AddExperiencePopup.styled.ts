@@ -8,12 +8,12 @@ export const PopupContent = styled.div`
   width: 100%;
   max-width: 560px;
   max-height: calc(100vh - 40px);
+  max-height: calc(100svh - 40px);
   display: flex;
   flex-direction: column;
 
   @media (max-width: 640px) {
     max-width: calc(100vw - 24px);
-    max-height: calc(100vh - 40px);
   }
 `;
 
@@ -83,6 +83,8 @@ export const FormBody = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
+
+  .field { margin-bottom: 0; }
 `;
 
 export const OngoingRow = styled.div`

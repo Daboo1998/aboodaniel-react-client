@@ -8,6 +8,7 @@ export const PopupContent = styled.div`
   width: 100%;
   max-width: 520px;
   max-height: calc(100vh - 40px);
+  max-height: calc(100svh - 40px);
   display: flex;
   flex-direction: column;
 
