@@ -1,29 +1,22 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Popup, { PopupProps } from "../Popup";
 import TextInput from "../../../atoms/input/TextInput";
 import TextAreaInput from "../../../atoms/input/TextAreaInput";
-import Button, { ButtonSize, ButtonType } from "../../../atoms/buttons and links/Button";
 import database from "../../../../data/database";
 import SkillSet from "../../../../data/SkillSet";
 import { generateId } from "../../../../utils/accessibility";
-import styled from "styled-components";
+import { ReactComponent as CloseIcon } from "../../../../images/icons/closeIcon.svg";
 import {
     PopupContent,
-    PopupTitle,
+    HeaderRow,
+    HeaderTitle,
+    CloseButton,
     StyledForm,
-    RequiredFieldsText,
-    RequiredAsterisk,
+    FormBody,
+    RequiredNote,
     ErrorMessage,
-    ButtonContainer,
-    CloseButton
+    FormFooter
 } from "../experience/AddExperiencePopup.styled";
-
-const SkillsHelpText = styled.p`
-    font-size: 0.875rem;
-    color: rgba(255, 255, 255, 0.7);
-    margin-top: -8px;
-    margin-bottom: 16px;
-`;
 
 export interface AddSkillSetPopupProps extends PopupProps {
     onClose: (addedSkillSet?: SkillSet) => void;
@@ -33,133 +26,54 @@ const AddSkillSetPopup: React.FC<AddSkillSetPopupProps> = (props) => {
     const [name, setName] = useState("");
     const [skills, setSkills] = useState("");
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
-    const popupContentRef = useRef<HTMLDivElement>(null);
 
-    const handleCancel = useCallback(() => {
-        // Reset form
-        setName("");
-        setSkills("");
-        setErrorMessage(undefined);
-        props.onClose();
+    const handleClose = useCallback(() => {
+        setName(""); setSkills(""); setErrorMessage(undefined); props.onClose();
     }, [props]);
 
-    // Handle escape key
     useEffect(() => {
-        const handleEscape = (e: KeyboardEvent) => {
-            if (e.key === 'Escape' && props.isPopupShown) {
-                handleCancel();
-            }
-        };
+        const onEsc = (e: KeyboardEvent) => { if (e.key === 'Escape' && props.isPopupShown) handleClose(); };
+        document.addEventListener('keydown', onEsc);
+        return () => document.removeEventListener('keydown', onEsc);
+    }, [props.isPopupShown, handleClose]);
 
-        document.addEventListener('keydown', handleEscape);
-        return () => document.removeEventListener('keydown', handleEscape);
-    }, [props.isPopupShown, handleCancel]);
-
-    // Handle click outside
-    useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            if (popupContentRef.current && !popupContentRef.current.contains(e.target as Node)) {
-                handleCancel();
-            }
-        };
-
-        if (props.isPopupShown) {
-            setTimeout(() => {
-                document.addEventListener('mousedown', handleClickOutside);
-            }, 100);
-        }
-
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [props.isPopupShown, handleCancel]);
-
-    const handleAddSkillSet: React.MouseEventHandler = (e) => {
+    const handleSubmit: React.FormEventHandler = (e) => {
         e.preventDefault();
         setErrorMessage(undefined);
 
-        // Validate
-        if (!name || !skills.trim()) {
-            setErrorMessage("Please fill all required fields.");
-            return;
-        }
+        if (!name || !skills.trim()) { setErrorMessage("Please fill all required fields."); return; }
 
-        // Parse skills (split by commas or new lines)
-        const skillsArray = skills
-            .split(/[,\n]/)
-            .map(skill => skill.trim())
-            .filter(skill => skill.length > 0);
+        const skillsArray = skills.split(/[,\n]/).map(s => s.trim()).filter(s => s.length > 0);
+        if (skillsArray.length === 0) { setErrorMessage("Please enter at least one skill."); return; }
 
-        if (skillsArray.length === 0) {
-            setErrorMessage("Please enter at least one skill.");
-            return;
-        }
+        const newSkillSet: SkillSet = { id: generateId('skillset'), name, skills: skillsArray };
 
-        const newSkillSet: SkillSet = {
-            id: generateId('skillset'),
-            name,
-            skills: skillsArray
-        };
-
-        database.skillSets
-            .post(newSkillSet)
-            .then(() => {
-                // Reset form
-                setName("");
-                setSkills("");
-                setErrorMessage(undefined);
-                props.onClose(newSkillSet);
-            })
-            .catch((error) => {
-                console.error("Error adding skill set:", error);
-                setErrorMessage("Failed to add skill set. Please try again.");
-            });
+        database.skillSets.post(newSkillSet)
+            .then(() => props.onClose(newSkillSet))
+            .catch(() => setErrorMessage("Failed to add skill set. Please try again."));
     };
 
     return (
         <Popup isPopupShown={props.isPopupShown}>
-            <PopupContent ref={popupContentRef}>
-                <CloseButton onClick={handleCancel} aria-label="Close popup">
-                    ×
-                </CloseButton>
-                <PopupTitle>Add Skill Set</PopupTitle>
-                <StyledForm>
-                    <TextInput
-                        name="name"
-                        label="Skill Set Name"
-                        value={name}
-                        onChange={setName}
-                        required
-                        placeholder="e.g., Programming Languages, Frameworks, Tools"
-                    />
-                    <TextAreaInput
-                        name="skills"
-                        label="Skills"
-                        value={skills}
-                        onChange={setSkills}
-                        required
-                        placeholder="Enter skills separated by commas or new lines"
-                        rows={6}
-                    />
-                    <SkillsHelpText>
-                        Enter each skill separated by commas or on a new line.
-                        Example: React, TypeScript, Node.js
-                    </SkillsHelpText>
-                    <RequiredFieldsText>
-                        <RequiredAsterisk>*</RequiredAsterisk> Required fields
-                    </RequiredFieldsText>
-                    <ErrorMessage>{errorMessage}</ErrorMessage>
-                    <ButtonContainer>
-                        <Button
-                            label="Add"
-                            size={ButtonSize.bigFullWidth}
-                            type={ButtonType.constructive}
-                            action={handleAddSkillSet}
-                        />
-                        <Button
-                            label="Cancel"
-                            size={ButtonSize.bigFullWidth}
-                            action={handleCancel}
-                        />
-                    </ButtonContainer>
+            <PopupContent>
+                <HeaderRow>
+                    <CloseButton onClick={handleClose} aria-label="Close">
+                        <CloseIcon />
+                    </CloseButton>
+                    <HeaderTitle>Add Skill Set</HeaderTitle>
+                </HeaderRow>
+                <StyledForm onSubmit={handleSubmit}>
+                    <FormBody>
+                        <TextInput name="name" label="Skill Set Name" value={name} onChange={setName} required placeholder="e.g., Programming Languages" />
+                        <TextAreaInput name="skills" label="Skills" value={skills} onChange={setSkills} required placeholder="Enter skills separated by commas or new lines" rows={5} />
+                        <p style={{ margin: 0, fontSize: '0.78rem', color: 'var(--text-3)' }}>Enter each skill separated by commas or on a new line. Example: React, TypeScript, Node.js</p>
+                        <RequiredNote><span style={{ color: 'oklch(0.62 0.2 25)' }}>*</span> Required fields</RequiredNote>
+                        <ErrorMessage>{errorMessage}</ErrorMessage>
+                    </FormBody>
+                    <FormFooter>
+                        <button className="btn btn-primary" type="submit">Add <span className="arrow">→</span></button>
+                        <button className="btn btn-ghost" type="button" onClick={handleClose}>Cancel</button>
+                    </FormFooter>
                 </StyledForm>
             </PopupContent>
         </Popup>
