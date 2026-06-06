@@ -12,13 +12,9 @@ export const PopupContent = styled.div`
   flex-direction: column;
 
   @media (max-width: 640px) {
-    position: fixed;
-    inset: 0;
-    max-width: 100vw;
-    max-height: 100vh;
-    height: 100vh;
-    border-radius: 0;
-    z-index: 1;
+    max-width: calc(100vw - 24px);
+    max-height: calc(100vh - 40px);
+    border-radius: var(--radius-lg, 22px);
   }
 `;
 
