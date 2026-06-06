@@ -1,248 +1,124 @@
-import styled from "styled-components";
-import { theme } from "../../../../styles/theme";
+import styled from 'styled-components';
 
 export const PopupContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${theme.spacing[4]};
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: ${theme.spacing[8]};
-  max-height: 100%;
-  min-width: 500px;
-  max-width: 700px;
-  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.2), inset 0 0 32px rgba(0, 0, 0, 0.05),
-    inset 0 0 64px rgba(0, 0, 0, 0.02);
-  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg, 22px);
   overflow: hidden;
-  animation: slideIn 0.3s ease-out;
-
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateY(-20px) scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-
-  /* Enhanced refraction with subtle edge rainbow */
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-      /* Primary refraction layer */ linear-gradient(
-        135deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.1) 25%,
-        transparent 50%,
-        rgba(255, 255, 255, 0.05) 75%,
-        transparent 100%
-      ),
-      /* Very subtle rainbow dispersion only at extreme edges */
-        linear-gradient(
-          90deg,
-          transparent 0%,
-          rgba(255, 0, 0, 0.008) 2%,
-          rgba(255, 165, 0, 0.008) 3%,
-          rgba(255, 255, 0, 0.008) 4%,
-          rgba(0, 255, 0, 0.008) 5%,
-          rgba(0, 255, 255, 0.008) 6%,
-          rgba(0, 0, 255, 0.008) 7%,
-          rgba(238, 130, 238, 0.008) 8%,
-          transparent 10%,
-          transparent 90%,
-          rgba(238, 130, 238, 0.008) 92%,
-          rgba(0, 0, 255, 0.008) 93%,
-          rgba(0, 255, 255, 0.008) 94%,
-          rgba(0, 255, 0, 0.008) 95%,
-          rgba(255, 255, 0, 0.008) 96%,
-          rgba(255, 165, 0, 0.008) 97%,
-          rgba(255, 0, 0, 0.008) 98%,
-          transparent 100%
-        );
-    pointer-events: none;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    background: rgba(0, 0, 0, 0.1);
-    border-color: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 16px 64px rgba(0, 0, 0, 0.4),
-      inset 0 0 32px rgba(0, 0, 0, 0.1), inset 0 0 64px rgba(0, 0, 0, 0.05);
-  }
-
-  @media (max-width: ${theme.breakpoints.md}) {
-    width: 90%;
-    height: auto;
-    border-radius: 20px;
-    max-width: 90%;
-    min-width: auto;
-    padding: ${theme.spacing[6]};
-  }
-`;
-
-export const ExperiencesList = styled.ol`
-  overflow-y: auto;
-  max-height: 400px;
-  list-style: none;
-  padding: ${theme.spacing[4]};
-  margin: 0;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
+  width: 100%;
+  max-width: 520px;
+  max-height: calc(100vh - 40px);
   display: flex;
   flex-direction: column;
-  gap: ${theme.spacing[2]};
-  position: relative;
-  z-index: 1;
 
-  @media (prefers-color-scheme: dark) {
-    background: rgba(0, 0, 0, 0.2);
-    border-color: rgba(255, 255, 255, 0.05);
+  @media (max-width: 640px) {
+    max-width: calc(100vw - 24px);
   }
 `;
 
-export const ExperienceItem = styled.li`
+export const HeaderRow = styled.div`
   display: flex;
   flex-direction: row;
-  gap: ${theme.spacing[3]};
   align-items: center;
-  padding: ${theme.spacing[3]};
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.03);
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.08);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    background: rgba(0, 0, 0, 0.1);
-    border-color: rgba(255, 255, 255, 0.02);
-
-    &:hover {
-      background: rgba(0, 0, 0, 0.2);
-      border-color: rgba(255, 255, 255, 0.05);
-    }
-  }
+  gap: 0.5rem;
+  padding: 0.85rem 1.25rem;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
 `;
 
-export const ExperienceCheckbox = styled.input`
-  width: ${theme.spacing[5]};
-  height: ${theme.spacing[5]};
+export const HeaderTitle = styled.h3`
+  flex: 1;
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+`;
+
+export const CloseButton = styled.button`
+  background: none;
+  border: none;
   cursor: pointer;
-  accent-color: ${theme.colors.blue[400]};
-  border-radius: 6px;
+  padding: 0.35rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
+
+  svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    fill: var(--text-3);
+    transition: fill 0.2s;
+  }
+
+  &:hover {
+    background: var(--border);
+    svg { fill: var(--text); }
+  }
 
   &:focus {
-    outline: 2px solid ${theme.colors.blue[500]};
+    outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
 `;
 
-export const ExperienceTitle = styled.p`
+export const ExperiencesList = styled.ul`
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  list-style: none;
   margin: 0;
-  color: ${theme.colors.white};
-  font-size: ${theme.fontSizes.sm};
+  padding: 0.75rem 0;
+`;
 
-  @media (prefers-color-scheme: dark) {
-    color: ${theme.colors.white};
-  }
+export const ExperienceItem = styled.li`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1.4rem;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover { background: var(--surface-2); }
+`;
+
+export const ExperienceCheckbox = styled.input`
+  width: 1.1rem;
+  height: 1.1rem;
+  cursor: pointer;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+`;
+
+export const ExperienceTitle = styled.span`
+  font-size: 0.88rem;
+  color: var(--text-2);
+  font-family: var(--font-mono);
 `;
 
 export const ErrorMessage = styled.p`
-  color: ${theme.colors.red[600]};
-  margin: 0;
-  font-size: ${theme.fontSizes.sm};
-  text-align: center;
-  min-height: ${theme.spacing[4]};
-  background: rgba(239, 68, 68, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  border-radius: 12px;
-  padding: ${theme.spacing[3]};
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 0 8px rgba(0, 0, 0, 0.03),
-    inset 0 0 16px rgba(0, 0, 0, 0.01);
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
+  margin: 0 1.4rem;
+  font-size: 0.8rem;
+  color: oklch(0.62 0.2 25);
+  background: oklch(0.6 0.2 25 / 0.08);
+  border: 1px solid oklch(0.6 0.2 25 / 0.22);
+  border-radius: 10px;
+  padding: 0.55rem 0.75rem;
 
-  /* Enhanced refraction with subtle edge rainbow */
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-      /* Primary refraction layer */ linear-gradient(
-        135deg,
-        transparent 0%,
-        rgba(239, 68, 68, 0.1) 25%,
-        transparent 50%,
-        rgba(239, 68, 68, 0.05) 75%,
-        transparent 100%
-      ),
-      /* Very subtle rainbow dispersion only at extreme edges */
-        linear-gradient(
-          90deg,
-          transparent 0%,
-          rgba(255, 0, 0, 0.008) 2%,
-          rgba(255, 165, 0, 0.008) 3%,
-          rgba(255, 255, 0, 0.008) 4%,
-          rgba(0, 255, 0, 0.008) 5%,
-          rgba(0, 255, 255, 0.008) 6%,
-          rgba(0, 0, 255, 0.008) 7%,
-          rgba(238, 130, 238, 0.008) 8%,
-          transparent 10%,
-          transparent 90%,
-          rgba(238, 130, 238, 0.008) 92%,
-          rgba(0, 0, 255, 0.008) 93%,
-          rgba(0, 255, 255, 0.008) 94%,
-          rgba(0, 255, 0, 0.008) 95%,
-          rgba(255, 255, 0, 0.008) 96%,
-          rgba(255, 165, 0, 0.008) 97%,
-          rgba(255, 0, 0, 0.008) 98%,
-          transparent 100%
-        );
-    pointer-events: none;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    color: ${theme.colors.red[400]};
-    background: rgba(239, 68, 68, 0.2);
-    border-color: rgba(239, 68, 68, 0.3);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 0 8px rgba(0, 0, 0, 0.1),
-      inset 0 0 16px rgba(0, 0, 0, 0.05);
-  }
+  &:empty { display: none; }
 `;
 
 export const ButtonContainer = styled.div`
+  padding: 1rem 1.4rem;
+  border-top: 1px solid var(--border);
+  background: var(--surface-2);
+  flex-shrink: 0;
   display: flex;
-  flex-direction: column;
-  gap: ${theme.spacing[3]};
-  position: relative;
-  z-index: 1;
+  gap: 0.5rem;
 
-  button {
-    width: 100%;
-    padding: ${theme.spacing[3]} ${theme.spacing[6]};
-  }
+  > button { flex: 1; justify-content: center; }
 `;
