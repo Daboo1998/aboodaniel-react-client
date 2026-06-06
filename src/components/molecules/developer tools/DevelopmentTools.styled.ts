@@ -32,10 +32,25 @@ export const RolesPanelHeader = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 0.75rem;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.6rem 0.75rem;
   padding: 1rem 1.4rem;
   background: var(--surface-2);
   border-bottom: 1px solid var(--border);
+`;
+
+export const RolesPanelTitleGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+export const RolesPanelActions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
 `;
 
 export const RolesPanelTitle = styled.h2`

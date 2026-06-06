@@ -12,6 +12,8 @@ import {
     DevelopmentToolsTitle,
     RolesPanel,
     RolesPanelHeader,
+    RolesPanelTitleGroup,
+    RolesPanelActions,
     RolesPanelTitle,
     SelectionBadge,
     DeleteButton,
@@ -115,20 +117,23 @@ const DevelopmentTools: React.FC = () => {
 
             <RolesPanel className="reveal" data-delay="2">
                 <RolesPanelHeader>
-                    <RolesPanelTitle>Access roles</RolesPanelTitle>
-                    {selectionCount > 0 && (
-                        <SelectionBadge>{selectionCount} selected</SelectionBadge>
-                    )}
-                    <span style={{ flex: 1 }} />
-                    {selectionCount > 0 && (
-                        <DeleteButton onClick={handleDelete}>
-                            <TrashIcon />
-                            Delete selected
-                        </DeleteButton>
-                    )}
-                    <button className="btn btn-primary" style={{ fontSize: '0.85rem', padding: '0.45rem 1rem' }} onClick={showAddRolePopup}>
-                        + Add role
-                    </button>
+                    <RolesPanelTitleGroup>
+                        <RolesPanelTitle>Access roles</RolesPanelTitle>
+                        {selectionCount > 0 && (
+                            <SelectionBadge>{selectionCount} selected</SelectionBadge>
+                        )}
+                    </RolesPanelTitleGroup>
+                    <RolesPanelActions>
+                        {selectionCount > 0 && (
+                            <DeleteButton onClick={handleDelete}>
+                                <TrashIcon />
+                                Delete selected
+                            </DeleteButton>
+                        )}
+                        <button className="btn btn-primary" style={{ fontSize: '0.85rem', padding: '0.45rem 1rem' }} onClick={showAddRolePopup}>
+                            + Add role
+                        </button>
+                    </RolesPanelActions>
                 </RolesPanelHeader>
                 <RolesList>
                     {rolesList.length === 0 ? (
