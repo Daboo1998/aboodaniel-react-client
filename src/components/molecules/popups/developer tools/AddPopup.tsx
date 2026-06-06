@@ -1,16 +1,14 @@
 import Popup, { PopupProps } from "../Popup";
 import React, { FormEventHandler, useState } from "react";
-import Spacer from "../../../atoms/utilities/Spacer";
 import { ReactComponent as CloseIcon } from "../../../../images/icons/closeIcon.svg";
-import Button, { ButtonType } from "../../../atoms/buttons and links/Button";
 import TextInput from "../../../atoms/input/TextInput";
 import {
     PopupContent,
     HeaderRow,
+    HeaderTitle,
     CloseButton,
     StyledForm,
-    ErrorMessage,
-    SubmitButtonContainer
+    ErrorMessage
 } from "./AddPopup.styled";
 
 interface AddStringPopupProps extends PopupProps {
@@ -28,25 +26,25 @@ const AddStringPopup: React.FC<AddStringPopupProps> = ({ fieldName, isPopupShown
         onAdd?.(newString);
     };
 
+    const title = `Add ${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}`;
+
     return (
         <Popup isPopupShown={isPopupShown}>
-            <Spacer />
             <PopupContent>
                 <HeaderRow>
-                    <Spacer />
-                    <CloseButton onClick={hide}>
+                    <CloseButton onClick={hide} aria-label="Close">
                         <CloseIcon />
                     </CloseButton>
+                    <HeaderTitle>{title}</HeaderTitle>
                 </HeaderRow>
                 <StyledForm onSubmit={handleSubmit}>
                     <TextInput name={fieldName} onChange={setNewString} label={fieldName} />
                     {!!errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                    <SubmitButtonContainer>
-                        <Button label="Add" type={ButtonType.constructive} submit />
-                    </SubmitButtonContainer>
+                    <button className="btn btn-primary" type="submit" style={{ width: '100%', justifyContent: 'center' }}>
+                        {title} <span className="arrow">→</span>
+                    </button>
                 </StyledForm>
             </PopupContent>
-            <Spacer />
         </Popup>
     );
 };
