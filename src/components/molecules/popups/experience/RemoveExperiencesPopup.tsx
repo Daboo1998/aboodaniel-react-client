@@ -15,7 +15,11 @@ const RemoveExperiencesPopup: React.FC<RemoveExperiencesPopupProps> = ({ isPopup
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
-    const handleClose = () => onClose(experiences);
+    const handleClose = () => {
+        setSelectedIds([]);
+        setErrorMessage(undefined);
+        onClose(experiences);
+    };
 
     const toggleSelect = (experience: Experience) => {
         if (!experience.id) return;

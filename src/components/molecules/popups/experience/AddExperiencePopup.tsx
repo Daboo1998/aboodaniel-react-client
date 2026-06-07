@@ -36,12 +36,13 @@ const AddExperiencePopup: React.FC<AddExperiencePopupProps> = (props) => {
         }
     }, [props.isPopupShown]);
 
-    const handleClose = () => {
+    const resetForm = () => {
         setTitle(""); setImportance(0); setIsOngoing(false);
         setStartDate(""); setEndDate(""); setDescription("");
         setLink(""); setLinkText(""); setErrorMessage(undefined);
-        props.onClose();
     };
+
+    const handleClose = () => { resetForm(); props.onClose(); };
 
     const handleSubmit: React.FormEventHandler = (e) => {
         e.preventDefault();
@@ -66,9 +67,7 @@ const AddExperiencePopup: React.FC<AddExperiencePopupProps> = (props) => {
 
         database.experiences.post(newExperience).then(() => {
             props.onClose(newExperience);
-            setTitle(""); setImportance(0); setIsOngoing(false);
-            setStartDate(""); setEndDate(""); setDescription("");
-            setLink(""); setLinkText(""); setErrorMessage(undefined);
+            resetForm();
         }).catch(error => {
             setErrorMessage(error.message);
         });
@@ -86,7 +85,7 @@ const AddExperiencePopup: React.FC<AddExperiencePopupProps> = (props) => {
                 <StyledForm onSubmit={handleSubmit}>
                     <FormBody ref={formBodyRef}>
                         <NumberInput min={0} max={1000} name="importance" label="Importance [0-1000]" value={importance} onChange={setImportance} required />
-                        <TextInput name="title" label="Title" required onChange={setTitle} />
+                        <TextInput name="title" label="Title" required value={title} onChange={setTitle} />
                         <OngoingRow onClick={() => setIsOngoing(v => !v)}>
                             <OngoingCheckbox
                                 type="checkbox"

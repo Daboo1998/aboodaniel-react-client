@@ -6,6 +6,7 @@ export { PopupContent, HeaderRow, CloseButton } from '../shared.styled';
 export const DeleteButton = styled(DangerButton)`
   gap: 0.4rem;
   padding: 0.4rem 0.75rem;
+  border-radius: 10px;
 
   svg {
     width: 0.9rem;

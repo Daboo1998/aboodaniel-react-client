@@ -80,7 +80,7 @@ const DevelopmentTools: React.FC = () => {
             : existingUsers.filter(u => u !== user);
 
         const newList = usersFromRoleToDelete.filter(e => e.role !== roleId);
-        newList.push({ role: roleId, users: updatedUsers });
+        if (updatedUsers.length > 0) newList.push({ role: roleId, users: updatedUsers });
         setUsersFromRoleToDelete(newList);
     };
 

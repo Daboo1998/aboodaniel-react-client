@@ -79,6 +79,7 @@ export const DeleteButton = styled(DangerButton)`
   padding: 0.4rem 0.8rem;
   font-size: 0.82rem;
   white-space: nowrap;
+  border-radius: var(--radius, 14px);
 
   svg {
     width: 0.9rem;

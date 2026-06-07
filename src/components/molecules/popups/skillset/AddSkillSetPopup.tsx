@@ -34,7 +34,10 @@ const AddSkillSetPopup: React.FC<AddSkillSetPopupProps> = (props) => {
         const newSkillSet: SkillSet = { id: generateId('skillset'), name, skills: skillsArray };
 
         database.skillSets.post(newSkillSet)
-            .then(() => props.onClose(newSkillSet))
+            .then(() => {
+                props.onClose(newSkillSet);
+                setName(""); setSkills(""); setErrorMessage(undefined);
+            })
             .catch(() => setErrorMessage("Failed to add skill set. Please try again."));
     };
 
