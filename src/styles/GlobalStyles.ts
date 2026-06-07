@@ -554,7 +554,7 @@ export const GlobalStyles = createGlobalStyle`
   .field label { display: block; font-family: var(--font-mono); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-2); margin-bottom: 0.55rem; }
   .field label .req { color: var(--accent); }
   .field input, .field textarea {
-    width: 100%; min-width: 0; max-width: 100%; font-family: var(--font-sans); font-size: 1rem; color: var(--text);
+    width: 100%; min-width: 0; max-width: 100%; font-family: var(--font-sans); font-size: 1rem; line-height: 1.5; color: var(--text);
     background: var(--bg); border: 1px solid var(--border-2); border-radius: 12px;
     padding: 0.85rem 1rem; outline: none; transition: border-color 0.25s, box-shadow 0.25s;
   }
