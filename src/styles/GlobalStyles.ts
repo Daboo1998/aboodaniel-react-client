@@ -550,7 +550,7 @@ export const GlobalStyles = createGlobalStyle`
   .method .m-value { font-size: 1rem; font-weight: 500; margin-top: 0.1rem; display: block; }
 
   .contact-form-card { padding: clamp(1.8rem, 4vw, 2.8rem); }
-  .field { margin-bottom: 1.3rem; }
+  .field { margin-bottom: 1.3rem; min-width: 0; }
   .field label { display: block; font-family: var(--font-mono); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-2); margin-bottom: 0.55rem; }
   .field label .req { color: var(--accent); }
   .field input, .field textarea {
