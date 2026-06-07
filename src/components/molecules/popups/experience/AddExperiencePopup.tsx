@@ -43,7 +43,7 @@ const AddExperiencePopup: React.FC<AddExperiencePopupProps> = (props) => {
         if (props.isPopupShown) {
             const timer = setTimeout(() => {
                 if (formBodyRef.current) formBodyRef.current.scrollTop = 0;
-            }, 0);
+            }, 150);
             return () => clearTimeout(timer);
         }
     }, [props.isPopupShown]);

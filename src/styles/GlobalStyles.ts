@@ -556,7 +556,7 @@ export const GlobalStyles = createGlobalStyle`
   .field input, .field textarea {
     width: 100%; min-width: 0; max-width: 100%; font-family: var(--font-sans); font-size: 1rem; line-height: 1.5; color: var(--text);
     background: var(--bg); border: 1px solid var(--border-2); border-radius: 12px;
-    padding: 0.85rem 1rem; outline: none; transition: border-color 0.25s, box-shadow 0.25s;
+    padding: 0.85rem 1rem; min-height: 3.2rem; outline: none; transition: border-color 0.25s, box-shadow 0.25s;
   }
   /* iOS Safari gives date/time inputs an intrinsic min width and ignores
      width: 100% unless the native appearance is reset — without this the
