@@ -70,20 +70,17 @@ const DevelopmentTools: React.FC = () => {
     };
 
     const handleUserCheck = (isChecked: boolean, roleId: string, user: string) => {
-        let filterRes = usersFromRoleToDelete.filter(e => e.role === roleId);
-        if (filterRes.length === 0) filterRes.push({role: roleId, users: []});
+        const existingEntry = usersFromRoleToDelete.find(e => e.role === roleId);
+        const existingUsers = existingEntry ? existingEntry.users : [];
 
-        let users = filterRes[0].users;
-        if (users.includes(user) && isChecked) return;
+        if (existingUsers.includes(user) && isChecked) return;
 
-        if (isChecked) {
-            users.push(user);
-        } else {
-            users = users.filter(u => u !== user);
-        }
+        const updatedUsers = isChecked
+            ? [...existingUsers, user]
+            : existingUsers.filter(u => u !== user);
 
         const newList = usersFromRoleToDelete.filter(e => e.role !== roleId);
-        newList.push({role: roleId, users});
+        newList.push({ role: roleId, users: updatedUsers });
         setUsersFromRoleToDelete(newList);
     };
 

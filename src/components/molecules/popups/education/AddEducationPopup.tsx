@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import Popup, { PopupProps } from "../Popup";
 import TextInput from "../../../atoms/input/TextInput";
 import database from "../../../../data/database";
@@ -24,12 +24,6 @@ const AddEducationPopup: React.FC<AddEducationPopupProps> = (props) => {
         props.onClose();
     }, [props]);
 
-    useEffect(() => {
-        const onEsc = (e: KeyboardEvent) => { if (e.key === 'Escape' && props.isPopupShown) handleClose(); };
-        document.addEventListener('keydown', onEsc);
-        return () => document.removeEventListener('keydown', onEsc);
-    }, [props.isPopupShown, handleClose]);
-
     const handleSubmit: React.FormEventHandler = (e) => {
         e.preventDefault();
         setErrorMessage(undefined);
@@ -47,12 +41,15 @@ const AddEducationPopup: React.FC<AddEducationPopupProps> = (props) => {
         const newEducation: EducationItem = { id: generateId('education'), qualification, place, startYear, endYear };
 
         database.education.post(newEducation)
-            .then(() => { props.onClose(newEducation); })
+            .then(() => {
+                props.onClose(newEducation);
+                setQualification(""); setPlace(""); setStartYear(""); setEndYear(""); setErrorMessage(undefined);
+            })
             .catch(() => setErrorMessage("Failed to add education. Please try again."));
     };
 
     return (
-        <Popup isPopupShown={props.isPopupShown}>
+        <Popup isPopupShown={props.isPopupShown} onDismiss={handleClose}>
             <PopupContent>
                 <HeaderRow>
                     <CloseButton onClick={handleClose} aria-label="Close">

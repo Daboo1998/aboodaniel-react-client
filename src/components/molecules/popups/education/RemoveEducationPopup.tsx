@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import Popup, { PopupProps } from "../Popup";
 import database from "../../../../data/database";
 import EducationItem from "../../../../data/EducationItem";
@@ -19,12 +19,6 @@ const RemoveEducationPopup: React.FC<RemoveEducationPopupProps> = (props) => {
         setSelectedIds(new Set()); setErrorMessage(undefined); props.onClose();
     }, [props]);
 
-    useEffect(() => {
-        const onEsc = (e: KeyboardEvent) => { if (e.key === 'Escape' && props.isPopupShown) handleClose(); };
-        document.addEventListener('keydown', onEsc);
-        return () => document.removeEventListener('keydown', onEsc);
-    }, [props.isPopupShown, handleClose]);
-
     const toggle = (id: string) => {
         const next = new Set(selectedIds);
         next.has(id) ? next.delete(id) : next.add(id);
@@ -40,7 +34,7 @@ const RemoveEducationPopup: React.FC<RemoveEducationPopupProps> = (props) => {
     };
 
     return (
-        <Popup isPopupShown={props.isPopupShown}>
+        <Popup isPopupShown={props.isPopupShown} onDismiss={handleClose}>
             <PopupContent>
                 <HeaderRow>
                     <CloseButton onClick={handleClose} aria-label="Close">

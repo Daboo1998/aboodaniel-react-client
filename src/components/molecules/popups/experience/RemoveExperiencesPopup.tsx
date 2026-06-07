@@ -40,7 +40,7 @@ const RemoveExperiencesPopup: React.FC<RemoveExperiencesPopupProps> = ({ isPopup
     };
 
     return (
-        <Popup isPopupShown={isPopupShown}>
+        <Popup isPopupShown={isPopupShown} onDismiss={handleClose}>
             <PopupContent>
                 <HeaderRow>
                     <CloseButton onClick={handleClose} aria-label="Close">

@@ -63,14 +63,6 @@ const EditExperiencePopup: React.FC<EditExperiencePopupProps> = (props) => {
         props.onClose();
     }, [props]);
 
-    useEffect(() => {
-        const handleEscape = (e: KeyboardEvent) => {
-            if (e.key === 'Escape' && props.isPopupShown) handleClose();
-        };
-        document.addEventListener('keydown', handleEscape);
-        return () => document.removeEventListener('keydown', handleEscape);
-    }, [props.isPopupShown, handleClose]);
-
     const handleSubmit: React.FormEventHandler = (e) => {
         e.preventDefault();
         setErrorMessage(undefined);
@@ -101,7 +93,7 @@ const EditExperiencePopup: React.FC<EditExperiencePopupProps> = (props) => {
     };
 
     return (
-        <Popup isPopupShown={props.isPopupShown}>
+        <Popup isPopupShown={props.isPopupShown} onDismiss={handleClose}>
             <PopupContent>
                 <HeaderRow>
                     <CloseButton onClick={handleClose} aria-label="Close">

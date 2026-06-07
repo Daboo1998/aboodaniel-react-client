@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import Popup, { PopupProps } from "../Popup";
 import TextInput from "../../../atoms/input/TextInput";
 import TextAreaInput from "../../../atoms/input/TextAreaInput";
@@ -22,12 +22,6 @@ const AddSkillSetPopup: React.FC<AddSkillSetPopupProps> = (props) => {
         setName(""); setSkills(""); setErrorMessage(undefined); props.onClose();
     }, [props]);
 
-    useEffect(() => {
-        const onEsc = (e: KeyboardEvent) => { if (e.key === 'Escape' && props.isPopupShown) handleClose(); };
-        document.addEventListener('keydown', onEsc);
-        return () => document.removeEventListener('keydown', onEsc);
-    }, [props.isPopupShown, handleClose]);
-
     const handleSubmit: React.FormEventHandler = (e) => {
         e.preventDefault();
         setErrorMessage(undefined);
@@ -45,7 +39,7 @@ const AddSkillSetPopup: React.FC<AddSkillSetPopupProps> = (props) => {
     };
 
     return (
-        <Popup isPopupShown={props.isPopupShown}>
+        <Popup isPopupShown={props.isPopupShown} onDismiss={handleClose}>
             <PopupContent>
                 <HeaderRow>
                     <CloseButton onClick={handleClose} aria-label="Close">

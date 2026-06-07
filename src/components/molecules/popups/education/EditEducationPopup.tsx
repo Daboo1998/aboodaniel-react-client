@@ -31,12 +31,6 @@ const EditEducationPopup: React.FC<EditEducationPopupProps> = (props) => {
 
     const handleClose = useCallback(() => { props.onClose(); }, [props]);
 
-    useEffect(() => {
-        const onEsc = (e: KeyboardEvent) => { if (e.key === 'Escape' && props.isPopupShown) handleClose(); };
-        document.addEventListener('keydown', onEsc);
-        return () => document.removeEventListener('keydown', onEsc);
-    }, [props.isPopupShown, handleClose]);
-
     const handleSubmit: React.FormEventHandler = (e) => {
         e.preventDefault();
         setErrorMessage(undefined);
@@ -60,7 +54,7 @@ const EditEducationPopup: React.FC<EditEducationPopupProps> = (props) => {
     };
 
     return (
-        <Popup isPopupShown={props.isPopupShown}>
+        <Popup isPopupShown={props.isPopupShown} onDismiss={handleClose}>
             <PopupContent>
                 <HeaderRow>
                     <CloseButton onClick={handleClose} aria-label="Close">

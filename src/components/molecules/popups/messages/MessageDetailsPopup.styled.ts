@@ -1,37 +1,17 @@
 import styled from 'styled-components';
+import { DangerButton } from '../shared.styled';
 
 export { PopupContent, HeaderRow, CloseButton } from '../shared.styled';
 
-export const DeleteButton = styled.button`
-  display: inline-flex;
-  align-items: center;
+export const DeleteButton = styled(DangerButton)`
   gap: 0.4rem;
   padding: 0.4rem 0.75rem;
-  background: var(--error-bg);
-  border: 1px solid var(--error-border);
-  border-radius: 10px;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--error);
-  transition: all 0.25s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
 
   svg {
     width: 0.9rem;
     height: 0.9rem;
     fill: var(--error);
     flex-shrink: 0;
-  }
-
-  &:hover {
-    background: var(--error-bg-hover);
-    border-color: var(--error-border-hover);
-  }
-
-  &:focus {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
   }
 `;
 

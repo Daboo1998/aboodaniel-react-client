@@ -29,7 +29,7 @@ const AddStringPopup: React.FC<AddStringPopupProps> = ({ fieldName, isPopupShown
     const title = `Add ${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}`;
 
     return (
-        <Popup isPopupShown={isPopupShown}>
+        <Popup isPopupShown={isPopupShown} onDismiss={hide}>
             <PopupContent $maxWidth="440px">
                 <HeaderRow>
                     <CloseButton onClick={hide} aria-label="Close">

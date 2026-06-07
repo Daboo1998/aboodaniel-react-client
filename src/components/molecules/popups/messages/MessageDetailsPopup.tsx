@@ -32,11 +32,11 @@ const MessageDetailsPopup: React.FC<MessageDetailsPopupProps> = ({ message, isPo
         if (userIsSure && message?.id) {
             database.messages
                 .delete(message.id)
-                .catch(error => alert(error.message))
                 .then(() => {
                     onMessageDelete?.(message);
                     onClose();
-                });
+                })
+                .catch(error => alert(error.message));
         }
     };
 
@@ -47,7 +47,7 @@ const MessageDetailsPopup: React.FC<MessageDetailsPopupProps> = ({ message, isPo
     };
 
     return (
-        <Popup isPopupShown={isPopupShown}>
+        <Popup isPopupShown={isPopupShown} onDismiss={onClose}>
             {message && (
                 <PopupContent>
                     <HeaderRow>

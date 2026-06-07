@@ -36,7 +36,12 @@ const AddExperiencePopup: React.FC<AddExperiencePopupProps> = (props) => {
         }
     }, [props.isPopupShown]);
 
-    const handleClose = () => props.onClose();
+    const handleClose = () => {
+        setTitle(""); setImportance(0); setIsOngoing(false);
+        setStartDate(""); setEndDate(""); setDescription("");
+        setLink(""); setLinkText(""); setErrorMessage(undefined);
+        props.onClose();
+    };
 
     const handleSubmit: React.FormEventHandler = (e) => {
         e.preventDefault();
@@ -61,13 +66,16 @@ const AddExperiencePopup: React.FC<AddExperiencePopupProps> = (props) => {
 
         database.experiences.post(newExperience).then(() => {
             props.onClose(newExperience);
+            setTitle(""); setImportance(0); setIsOngoing(false);
+            setStartDate(""); setEndDate(""); setDescription("");
+            setLink(""); setLinkText(""); setErrorMessage(undefined);
         }).catch(error => {
             setErrorMessage(error.message);
         });
     };
 
     return (
-        <Popup isPopupShown={props.isPopupShown}>
+        <Popup isPopupShown={props.isPopupShown} onDismiss={handleClose}>
             <PopupContent>
                 <HeaderRow>
                     <CloseButton onClick={handleClose} aria-label="Close">
