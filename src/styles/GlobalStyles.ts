@@ -31,6 +31,12 @@ export const GlobalStyles = createGlobalStyle`
     --shadow-md: 0 4px 16px oklch(0.2 0.02 264 / 0.07), 0 1px 4px oklch(0.2 0.02 264 / 0.05);
     --shadow-lg: 0 20px 50px oklch(0.2 0.02 264 / 0.12), 0 6px 18px oklch(0.2 0.02 264 / 0.07);
 
+    --error:              oklch(0.62 0.2 25);
+    --error-bg:           oklch(0.6 0.2 25 / 0.08);
+    --error-bg-hover:     oklch(0.6 0.2 25 / 0.15);
+    --error-border:       oklch(0.6 0.2 25 / 0.22);
+    --error-border-hover: oklch(0.6 0.2 25 / 0.4);
+
     --maxw: 1180px;
     --gutter: clamp(1.25rem, 4vw, 3rem);
     --radius: 14px;

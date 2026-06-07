@@ -5,17 +5,8 @@ import database from "../../../../data/database";
 import EducationItem from "../../../../data/EducationItem";
 import { generateId } from "../../../../utils/accessibility";
 import { ReactComponent as CloseIcon } from "../../../../images/icons/closeIcon.svg";
-import {
-    PopupContent,
-    HeaderRow,
-    HeaderTitle,
-    CloseButton,
-    StyledForm,
-    FormBody,
-    RequiredNote,
-    ErrorMessage,
-    FormFooter
-} from "../experience/AddExperiencePopup.styled";
+import { PopupContent, HeaderRow, HeaderTitle, CloseButton, ErrorMessage, PopupFooter } from "../shared.styled";
+import { StyledForm, FormBody, RequiredNote } from "../experience/AddExperiencePopup.styled";
 
 export interface AddEducationPopupProps extends PopupProps {
     onClose: (addedEducation?: EducationItem) => void;
@@ -75,13 +66,13 @@ const AddEducationPopup: React.FC<AddEducationPopupProps> = (props) => {
                         <TextInput name="place" label="Institution" value={place} onChange={setPlace} required placeholder="e.g., University of Example" />
                         <TextInput name="startYear" label="Start Year" value={startYear} onChange={setStartYear} required placeholder="e.g., 2017" />
                         <TextInput name="endYear" label="End Year" value={endYear} onChange={setEndYear} required placeholder="e.g., 2021 or ongoing" />
-                        <RequiredNote><span style={{ color: 'oklch(0.62 0.2 25)' }}>*</span> Required fields</RequiredNote>
+                        <RequiredNote><span className="req">*</span> Required fields</RequiredNote>
                         <ErrorMessage>{errorMessage}</ErrorMessage>
                     </FormBody>
-                    <FormFooter>
+                    <PopupFooter>
                         <button className="btn btn-primary" type="submit">Add <span className="arrow">→</span></button>
                         <button className="btn btn-ghost" type="button" onClick={handleClose}>Cancel</button>
-                    </FormFooter>
+                    </PopupFooter>
                 </StyledForm>
             </PopupContent>
         </Popup>

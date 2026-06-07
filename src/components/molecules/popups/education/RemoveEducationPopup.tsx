@@ -3,18 +3,8 @@ import Popup, { PopupProps } from "../Popup";
 import database from "../../../../data/database";
 import EducationItem from "../../../../data/EducationItem";
 import { ReactComponent as CloseIcon } from "../../../../images/icons/closeIcon.svg";
-import {
-    PopupContent,
-    HeaderRow,
-    HeaderTitle,
-    CloseButton,
-    ExperiencesList,
-    ExperienceItem,
-    ExperienceCheckbox,
-    ExperienceTitle,
-    ErrorMessage,
-    ButtonContainer
-} from "../experience/RemoveExperiencesPopup.styled";
+import { PopupContent, HeaderRow, HeaderTitle, CloseButton, SelectList, SelectItem, SelectCheckbox, SelectLabel, PopupFooter, DangerButton } from "../shared.styled";
+import { ErrorMessage } from "../experience/RemoveExperiencesPopup.styled";
 
 export interface RemoveEducationPopupProps extends PopupProps {
     educationItems: EducationItem[];
@@ -58,31 +48,26 @@ const RemoveEducationPopup: React.FC<RemoveEducationPopupProps> = (props) => {
                     </CloseButton>
                     <HeaderTitle>Remove Education</HeaderTitle>
                 </HeaderRow>
-                <ExperiencesList>
+                <SelectList>
                     {props.educationItems.map(item => (
-                        <ExperienceItem key={item.id} onClick={() => toggle(item.id)}>
-                            <ExperienceCheckbox
+                        <SelectItem key={item.id} onClick={() => toggle(item.id)}>
+                            <SelectCheckbox
                                 type="checkbox"
                                 checked={selectedIds.has(item.id)}
                                 onChange={() => toggle(item.id)}
                                 onClick={e => e.stopPropagation()}
                             />
-                            <ExperienceTitle>{item.qualification} — {item.place} ({item.startYear}–{item.endYear})</ExperienceTitle>
-                        </ExperienceItem>
+                            <SelectLabel>{item.qualification} — {item.place} ({item.startYear}–{item.endYear})</SelectLabel>
+                        </SelectItem>
                     ))}
-                </ExperiencesList>
+                </SelectList>
                 <ErrorMessage>{errorMessage}</ErrorMessage>
-                <ButtonContainer>
-                    <button
-                        className="btn btn-primary"
-                        style={{ background: 'oklch(0.6 0.2 25 / 0.08)', borderColor: 'oklch(0.6 0.2 25 / 0.22)', color: 'oklch(0.62 0.2 25)' }}
-                        onClick={handleRemove}
-                        disabled={selectedIds.size === 0}
-                    >
+                <PopupFooter>
+                    <DangerButton onClick={handleRemove} disabled={selectedIds.size === 0}>
                         Remove ({selectedIds.size})
-                    </button>
+                    </DangerButton>
                     <button className="btn btn-ghost" onClick={handleClose}>Cancel</button>
-                </ButtonContainer>
+                </PopupFooter>
             </PopupContent>
         </Popup>
     );

@@ -71,16 +71,16 @@ export const UserPill = styled.label<{ $checked: boolean }>`
   gap: 0.35rem;
   padding: 0.25rem 0.65rem;
   border-radius: 999px;
-  border: 1px solid ${({ $checked }) => $checked ? 'oklch(0.6 0.2 25 / 0.35)' : 'var(--border)'};
-  background: ${({ $checked }) => $checked ? 'oklch(0.6 0.2 25 / 0.08)' : 'transparent'};
+  border: 1px solid ${({ $checked }) => $checked ? 'var(--error-border-hover)' : 'var(--border)'};
+  background: ${({ $checked }) => $checked ? 'var(--error-bg)' : 'transparent'};
   font-size: 0.8rem;
-  color: ${({ $checked }) => $checked ? 'oklch(0.62 0.2 25)' : 'var(--text-2)'};
+  color: ${({ $checked }) => $checked ? 'var(--error)' : 'var(--text-2)'};
   cursor: pointer;
   transition: all 0.2s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
 
   &:hover {
-    border-color: ${({ $checked }) => $checked ? 'oklch(0.6 0.2 25 / 0.5)' : 'var(--border-2)'};
-    color: ${({ $checked }) => $checked ? 'oklch(0.62 0.2 25)' : 'var(--text)'};
+    border-color: ${({ $checked }) => $checked ? 'var(--error-border-hover)' : 'var(--border-2)'};
+    color: ${({ $checked }) => $checked ? 'var(--error)' : 'var(--text)'};
   }
 `;
 
@@ -88,6 +88,6 @@ export const UserCheckbox = styled.input`
   width: 0.75rem;
   height: 0.75rem;
   cursor: pointer;
-  accent-color: oklch(0.62 0.2 25);
+  accent-color: var(--error);
   flex-shrink: 0;
 `;

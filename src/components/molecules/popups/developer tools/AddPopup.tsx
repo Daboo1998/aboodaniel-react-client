@@ -30,7 +30,7 @@ const AddStringPopup: React.FC<AddStringPopupProps> = ({ fieldName, isPopupShown
 
     return (
         <Popup isPopupShown={isPopupShown}>
-            <PopupContent>
+            <PopupContent $maxWidth="440px">
                 <HeaderRow>
                     <CloseButton onClick={hide} aria-label="Close">
                         <CloseIcon />

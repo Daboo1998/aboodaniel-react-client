@@ -36,14 +36,14 @@ export const LoginForm = styled.form`
 `;
 
 export const ErrorMessage = styled.p`
-  color: oklch(0.62 0.2 25);
+  color: var(--error);
   font-size: ${theme.fontSizes.sm};
   margin: 0;
   text-align: center;
   width: 100%;
   padding: ${theme.spacing[2]} ${theme.spacing[3]};
-  background: oklch(0.6 0.2 25 / 0.1);
-  border: 1px solid oklch(0.6 0.2 25 / 0.2);
+  background: var(--error-bg);
+  border: 1px solid var(--error-border);
   border-radius: 8px;
 `;
 

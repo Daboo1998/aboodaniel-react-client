@@ -6,17 +6,8 @@ import database from "../../../../data/database";
 import SkillSet from "../../../../data/SkillSet";
 import { generateId } from "../../../../utils/accessibility";
 import { ReactComponent as CloseIcon } from "../../../../images/icons/closeIcon.svg";
-import {
-    PopupContent,
-    HeaderRow,
-    HeaderTitle,
-    CloseButton,
-    StyledForm,
-    FormBody,
-    RequiredNote,
-    ErrorMessage,
-    FormFooter
-} from "../experience/AddExperiencePopup.styled";
+import { PopupContent, HeaderRow, HeaderTitle, CloseButton, ErrorMessage, PopupFooter } from "../shared.styled";
+import { StyledForm, FormBody, RequiredNote } from "../experience/AddExperiencePopup.styled";
 
 export interface AddSkillSetPopupProps extends PopupProps {
     onClose: (addedSkillSet?: SkillSet) => void;
@@ -66,14 +57,14 @@ const AddSkillSetPopup: React.FC<AddSkillSetPopupProps> = (props) => {
                     <FormBody>
                         <TextInput name="name" label="Skill Set Name" value={name} onChange={setName} required placeholder="e.g., Programming Languages" />
                         <TextAreaInput name="skills" label="Skills" value={skills} onChange={setSkills} required placeholder="Enter skills separated by commas or new lines" rows={5} />
-                        <p style={{ margin: 0, fontSize: '0.78rem', color: 'var(--text-3)' }}>Enter each skill separated by commas or on a new line. Example: React, TypeScript, Node.js</p>
-                        <RequiredNote><span style={{ color: 'oklch(0.62 0.2 25)' }}>*</span> Required fields</RequiredNote>
+                        <p style={{ margin: 0, fontSize: '0.78rem', color: 'var(--text-3)' }}>Separate skills by commas or new lines. Example: React, TypeScript, Node.js</p>
+                        <RequiredNote><span className="req">*</span> Required fields</RequiredNote>
                         <ErrorMessage>{errorMessage}</ErrorMessage>
                     </FormBody>
-                    <FormFooter>
+                    <PopupFooter>
                         <button className="btn btn-primary" type="submit">Add <span className="arrow">→</span></button>
                         <button className="btn btn-ghost" type="button" onClick={handleClose}>Cancel</button>
-                    </FormFooter>
+                    </PopupFooter>
                 </StyledForm>
             </PopupContent>
         </Popup>

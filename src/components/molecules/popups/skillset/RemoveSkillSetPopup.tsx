@@ -3,18 +3,8 @@ import Popup, { PopupProps } from "../Popup";
 import database from "../../../../data/database";
 import SkillSet from "../../../../data/SkillSet";
 import { ReactComponent as CloseIcon } from "../../../../images/icons/closeIcon.svg";
-import {
-    PopupContent,
-    HeaderRow,
-    HeaderTitle,
-    CloseButton,
-    ExperiencesList,
-    ExperienceItem,
-    ExperienceCheckbox,
-    ExperienceTitle,
-    ErrorMessage,
-    ButtonContainer
-} from "../experience/RemoveExperiencesPopup.styled";
+import { PopupContent, HeaderRow, HeaderTitle, CloseButton, SelectList, SelectItem, SelectCheckbox, SelectLabel, PopupFooter, DangerButton } from "../shared.styled";
+import { ErrorMessage } from "../experience/RemoveExperiencesPopup.styled";
 
 export interface RemoveSkillSetPopupProps extends PopupProps {
     skillSets: SkillSet[];
@@ -63,34 +53,29 @@ const RemoveSkillSetPopup: React.FC<RemoveSkillSetPopupProps> = (props) => {
                     </CloseButton>
                     <HeaderTitle>Remove Skill Sets</HeaderTitle>
                 </HeaderRow>
-                <ExperiencesList>
+                <SelectList>
                     {props.skillSets.map(skillSet => (
-                        <ExperienceItem key={skillSet.id} onClick={() => toggle(skillSet.id)}>
-                            <ExperienceCheckbox
+                        <SelectItem key={skillSet.id} onClick={() => toggle(skillSet.id)}>
+                            <SelectCheckbox
                                 type="checkbox"
                                 checked={selectedIds.has(skillSet.id)}
                                 onChange={() => toggle(skillSet.id)}
                                 onClick={e => e.stopPropagation()}
                             />
                             <div style={{ minWidth: 0 }}>
-                                <ExperienceTitle>{skillSet.name}</ExperienceTitle>
+                                <SelectLabel>{skillSet.name}</SelectLabel>
                                 <p style={{ margin: 0, fontSize: '0.76rem', color: 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>{getSkillsPreview(skillSet.skills)}</p>
                             </div>
-                        </ExperienceItem>
+                        </SelectItem>
                     ))}
-                </ExperiencesList>
+                </SelectList>
                 <ErrorMessage>{errorMessage}</ErrorMessage>
-                <ButtonContainer>
-                    <button
-                        className="btn btn-primary"
-                        style={{ background: 'oklch(0.6 0.2 25 / 0.08)', borderColor: 'oklch(0.6 0.2 25 / 0.22)', color: 'oklch(0.62 0.2 25)' }}
-                        onClick={handleRemove}
-                        disabled={selectedIds.size === 0}
-                    >
+                <PopupFooter>
+                    <DangerButton onClick={handleRemove} disabled={selectedIds.size === 0}>
                         Remove ({selectedIds.size})
-                    </button>
+                    </DangerButton>
                     <button className="btn btn-ghost" onClick={handleClose}>Cancel</button>
-                </ButtonContainer>
+                </PopupFooter>
             </PopupContent>
         </Popup>
     );

@@ -78,27 +78,27 @@ export const DeleteButton = styled.button`
   align-items: center;
   gap: 0.4rem;
   padding: 0.4rem 0.8rem;
-  background: oklch(0.6 0.2 25 / 0.08);
-  border: 1px solid oklch(0.6 0.2 25 / 0.22);
+  background: var(--error-bg);
+  border: 1px solid var(--error-border);
   border-radius: var(--radius, 14px);
   cursor: pointer;
   font-family: inherit;
   font-size: 0.82rem;
   font-weight: 500;
-  color: oklch(0.62 0.2 25);
+  color: var(--error);
   transition: all 0.25s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
   white-space: nowrap;
 
   svg {
     width: 0.9rem;
     height: 0.9rem;
-    fill: oklch(0.62 0.2 25);
+    fill: var(--error);
     flex-shrink: 0;
   }
 
   &:hover {
-    background: oklch(0.6 0.2 25 / 0.15);
-    border-color: oklch(0.6 0.2 25 / 0.4);
+    background: var(--error-bg-hover);
+    border-color: var(--error-border-hover);
   }
 
   &:focus {

@@ -7,20 +7,8 @@ import DateInput from "../../../atoms/input/DateInput";
 import database, { Timestamp } from "../../../../data/database";
 import Experience from "../../../../data/experience";
 import { ReactComponent as CloseIcon } from "../../../../images/icons/closeIcon.svg";
-import {
-    PopupContent,
-    HeaderRow,
-    HeaderTitle,
-    CloseButton,
-    StyledForm,
-    FormBody,
-    OngoingRow,
-    OngoingCheckbox,
-    DateRow,
-    RequiredNote,
-    ErrorMessage,
-    FormFooter
-} from "./AddExperiencePopup.styled";
+import { PopupContent, HeaderRow, HeaderTitle, CloseButton, ErrorMessage, PopupFooter } from "../shared.styled";
+import { StyledForm, FormBody, OngoingRow, OngoingCheckbox, DateRow, RequiredNote } from "./AddExperiencePopup.styled";
 
 export interface EditExperiencePopupProps extends PopupProps {
     experience: Experience | null;
@@ -142,13 +130,13 @@ const EditExperiencePopup: React.FC<EditExperiencePopupProps> = (props) => {
                         <TextAreaInput name="description" label="Description" value={description} onChange={setDescription} required />
                         <TextInput name="link" label="Link (optional)" value={link} onChange={setLink} />
                         <TextInput name="linkText" label="Link text (optional)" value={linkText} onChange={setLinkText} />
-                        <RequiredNote><span style={{ color: 'oklch(0.62 0.2 25)' }}>*</span> Required fields</RequiredNote>
+                        <RequiredNote><span className="req">*</span> Required fields</RequiredNote>
                         <ErrorMessage>{errorMessage}</ErrorMessage>
                     </FormBody>
-                    <FormFooter>
+                    <PopupFooter>
                         <button className="btn btn-primary" type="submit">Update <span className="arrow">→</span></button>
                         <button className="btn btn-ghost" type="button" onClick={handleClose}>Cancel</button>
-                    </FormFooter>
+                    </PopupFooter>
                 </StyledForm>
             </PopupContent>
         </Popup>
