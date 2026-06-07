@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Popup, { PopupProps } from "../Popup";
 import TextInput from "../../../atoms/input/TextInput";
 import TextAreaInput from "../../../atoms/input/TextAreaInput";
@@ -37,6 +37,16 @@ const EditExperiencePopup: React.FC<EditExperiencePopupProps> = (props) => {
     const [link, setLink] = useState("");
     const [linkText, setLinkText] = useState("");
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+    const formBodyRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (props.isPopupShown) {
+            const timer = setTimeout(() => {
+                if (formBodyRef.current) formBodyRef.current.scrollTop = 0;
+            }, 0);
+            return () => clearTimeout(timer);
+        }
+    }, [props.isPopupShown]);
 
     useEffect(() => {
         if (props.experience) {
@@ -112,7 +122,7 @@ const EditExperiencePopup: React.FC<EditExperiencePopupProps> = (props) => {
                     <HeaderTitle>Edit Experience</HeaderTitle>
                 </HeaderRow>
                 <StyledForm onSubmit={handleSubmit}>
-                    <FormBody>
+                    <FormBody ref={formBodyRef}>
                         <NumberInput min={0} max={1000} name="importance" label="Importance [0-1000]" value={importance} onChange={setImportance} required />
                         <TextInput name="title" label="Title" value={title} required onChange={setTitle} />
                         <OngoingRow onClick={() => setIsOngoing(v => !v)}>
