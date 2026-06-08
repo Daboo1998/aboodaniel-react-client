@@ -174,6 +174,7 @@ const MyCVPageLayout: React.FC = () => {
 
   const onEditExperienceClose = (updatedExperience?: Experience) => {
     hideEditExperiencePopup();
+    setSelectedExperience(null);
     if (updatedExperience) {
       const updatedExperiences = experiences
         .map((exp) =>
@@ -209,6 +210,7 @@ const MyCVPageLayout: React.FC = () => {
 
   const onEditEducationClose = (updatedEducation?: EducationItem) => {
     hideEditEducationPopup();
+    setSelectedEducation(null);
     if (updatedEducation) {
       const updatedEducationList = education
         .map((edu) => (edu.id === updatedEducation.id ? updatedEducation : edu))
@@ -241,6 +243,7 @@ const MyCVPageLayout: React.FC = () => {
 
   const onEditSkillSetClose = (updatedSkillSet?: SkillSet) => {
     hideEditSkillSetPopup();
+    setSelectedSkillSet(null);
     if (updatedSkillSet) {
       setSkillSets(
         skillSets.map((skillSet) =>

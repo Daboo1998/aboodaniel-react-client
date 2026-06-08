@@ -3,7 +3,7 @@ import Popup, { PopupProps } from "../Popup";
 import TextInput from "../../../atoms/input/TextInput";
 import database from "../../../../data/database";
 import EducationItem from "../../../../data/EducationItem";
-import { generateId } from "../../../../utils/accessibility";
+import { v4 as uuidv4 } from 'uuid';
 import { ReactComponent as CloseIcon } from "../../../../images/icons/closeIcon.svg";
 import { PopupContent, HeaderRow, HeaderTitle, CloseButton, ErrorMessage, PopupFooter } from "../shared.styled";
 import { StyledForm, FormBody, RequiredNote } from "../experience/AddExperiencePopup.styled";
@@ -39,7 +39,7 @@ const AddEducationPopup: React.FC<AddEducationPopupProps> = (props) => {
             setErrorMessage("Please enter valid numeric years (or 'ongoing' for end year)."); return;
         }
 
-        const newEducation: EducationItem = { id: generateId('education'), qualification, place, startYear, endYear };
+        const newEducation: EducationItem = { id: uuidv4(), qualification, place, startYear, endYear };
 
         database.education.post(newEducation)
             .then(() => {

@@ -4,7 +4,7 @@ import TextInput from "../../../atoms/input/TextInput";
 import TextAreaInput from "../../../atoms/input/TextAreaInput";
 import database from "../../../../data/database";
 import SkillSet from "../../../../data/SkillSet";
-import { generateId } from "../../../../utils/accessibility";
+import { v4 as uuidv4 } from 'uuid';
 import { ReactComponent as CloseIcon } from "../../../../images/icons/closeIcon.svg";
 import { PopupContent, HeaderRow, HeaderTitle, CloseButton, ErrorMessage, PopupFooter } from "../shared.styled";
 import { StyledForm, FormBody, RequiredNote } from "../experience/AddExperiencePopup.styled";
@@ -32,7 +32,7 @@ const AddSkillSetPopup: React.FC<AddSkillSetPopupProps> = (props) => {
         const skillsArray = skills.split(/[,\n]/).map(s => s.trim()).filter(s => s.length > 0);
         if (skillsArray.length === 0) { setErrorMessage("Please enter at least one skill."); return; }
 
-        const newSkillSet: SkillSet = { id: generateId('skillset'), name, skills: skillsArray };
+        const newSkillSet: SkillSet = { id: uuidv4(), name, skills: skillsArray };
 
         database.skillSets.post(newSkillSet)
             .then(() => {
