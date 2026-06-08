@@ -199,10 +199,12 @@ export const useAskMeAnythingContext = ({
       } else {
         alert("Failed to send message");
         setMessageCount(oldMessageCount);
+        setMessages((prev) => prev.filter((m) => m.message !== sentMessage || m.role !== "user"));
       }
     } catch (error) {
       console.error(error);
       setMessageCount(oldMessageCount);
+      setMessages((prev) => prev.filter((m) => m.message !== sentMessage || m.role !== "user"));
     }
 
     setIsLoading(false);

@@ -34,7 +34,7 @@ export const Popup: React.FC<PopupProps> = ({ children, isPopupShown, onDismiss 
                 ref={dialogRef}
                 role="dialog"
                 aria-modal="true"
-                style={{ display: 'contents' }}
+                style={{ display: 'flex', justifyContent: 'center', width: '100%' }}
                 onClick={e => e.stopPropagation()}
             >
                 {children}

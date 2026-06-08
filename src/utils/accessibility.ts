@@ -32,7 +32,7 @@ export const announceToScreenReader = (message: string, priority: 'polite' | 'as
  */
 export const trapFocus = (element: HTMLElement) => {
   const focusableElements = element.querySelectorAll(
-    'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select, [tabindex]:not([tabindex="-1"])'
+    'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], input[type="number"], input[type="date"], select, [tabindex]:not([tabindex="-1"])'
   );
   const firstFocusableElement = focusableElements[0] as HTMLElement;
   const lastFocusableElement = focusableElements[focusableElements.length - 1] as HTMLElement;

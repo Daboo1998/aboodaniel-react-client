@@ -14,8 +14,11 @@ const useScrollReveal = (deps: ReadonlyArray<unknown> = []) => {
   const firstPassRef = useRef(true);
 
   useEffect(() => {
+    // Reset for this run so newly added above-fold items appear instantly.
+    // Only process elements not yet revealed to avoid re-animating existing ones.
+    firstPassRef.current = true;
     let reveals = Array.prototype.slice.call(
-      document.querySelectorAll(".reveal")
+      document.querySelectorAll(".reveal:not(.in)")
     ) as HTMLElement[];
     let ticking = false;
 
