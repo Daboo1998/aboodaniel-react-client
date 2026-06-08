@@ -26,7 +26,7 @@ const EditSkillSetPopup: React.FC<EditSkillSetPopupProps> = (props) => {
         }
     }, [props.skillSet]);
 
-    const handleClose = useCallback(() => { props.onClose(); }, [props]);
+    const handleClose = useCallback(() => { props.onClose(); }, [props.onClose]);
 
     const handleSubmit: React.FormEventHandler = (e) => {
         e.preventDefault();

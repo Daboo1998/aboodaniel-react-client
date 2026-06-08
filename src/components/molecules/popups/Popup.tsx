@@ -19,7 +19,7 @@ export const Popup: React.FC<PopupProps> = ({ children, isPopupShown, onDismiss 
 
     return ReactDOM.createPortal(
         <PopupOverlay $isShown={isPopupShown} onClick={onDismiss}>
-            <div onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'contents' }} onClick={e => e.stopPropagation()}>
                 {children}
             </div>
         </PopupOverlay>,

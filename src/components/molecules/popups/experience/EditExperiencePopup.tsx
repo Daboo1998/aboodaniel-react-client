@@ -61,7 +61,7 @@ const EditExperiencePopup: React.FC<EditExperiencePopupProps> = (props) => {
 
     const handleClose = useCallback(() => {
         props.onClose();
-    }, [props]);
+    }, [props.onClose]);
 
     const handleSubmit: React.FormEventHandler = (e) => {
         e.preventDefault();

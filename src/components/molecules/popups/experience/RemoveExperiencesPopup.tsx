@@ -35,10 +35,12 @@ const RemoveExperiencesPopup: React.FC<RemoveExperiencesPopupProps> = ({ isPopup
         const confirmed = window.confirm("Are you sure you want to delete the selected experiences? This cannot be undone.");
         if (!confirmed) return;
 
+        const idsToDelete = selectedIds;
         database.experiences
-            .deleteMany(selectedIds)
+            .deleteMany(idsToDelete)
             .then(() => {
-                onClose(experiences.filter(e => e.id && !selectedIds.includes(e.id)));
+                setSelectedIds([]);
+                onClose(experiences.filter(e => e.id && !idsToDelete.includes(e.id)));
             })
             .catch(error => setErrorMessage(error.message));
     };

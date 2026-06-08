@@ -97,12 +97,12 @@ const AddExperiencePopup: React.FC<AddExperiencePopupProps> = (props) => {
                             <span style={{ fontSize: '0.9rem', color: 'var(--text-2)' }}>Is ongoing</span>
                         </OngoingRow>
                         <DateRow>
-                            <DateInput label="Start date" required name="startDate" onChange={setStartDate} />
-                            {!isOngoing && <DateInput label="End date" name="endDate" onChange={setEndDate} required />}
+                            <DateInput label="Start date" required name="startDate" value={startDate} onChange={setStartDate} />
+                            {!isOngoing && <DateInput label="End date" name="endDate" value={endDate} onChange={setEndDate} required />}
                         </DateRow>
-                        <TextAreaInput name="description" label="Description" onChange={setDescription} required />
-                        <TextInput name="link" label="Link (optional)" onChange={setLink} />
-                        <TextInput name="linkText" label="Link text (optional)" onChange={setLinkText} />
+                        <TextAreaInput name="description" label="Description" value={description} onChange={setDescription} required />
+                        <TextInput name="link" label="Link (optional)" value={link} onChange={setLink} />
+                        <TextInput name="linkText" label="Link text (optional)" value={linkText} onChange={setLinkText} />
                         <RequiredNote><span className="req">*</span> Required fields</RequiredNote>
                         <ErrorMessage>{errorMessage}</ErrorMessage>
                     </FormBody>

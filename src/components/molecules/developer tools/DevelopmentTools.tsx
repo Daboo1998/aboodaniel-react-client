@@ -34,31 +34,21 @@ const DevelopmentTools: React.FC = () => {
 
     const handleDelete: MouseEventHandler = (e) => {
         e.preventDefault();
-        if (rolesToDelete.length !== 0) {
-            database.roles.deleteMany(rolesToDelete).then(() => {
-                refresh(!refreshIndicator);
-                setRolesToDelete([]);
-            }).catch((error) => {
-                alert(error.message);
-            });
-        }
+        const rolePromise = rolesToDelete.length !== 0
+            ? database.roles.deleteMany(rolesToDelete).then(() => setRolesToDelete([]))
+            : Promise.resolve();
 
-        if (usersFromRoleToDelete.length !== 0) {
-            let rolesProcessed = 0;
-            usersFromRoleToDelete.forEach(roleAndUsers => {
-                database.roles
-                    .removeManyFromArray(roleAndUsers.role, "users", roleAndUsers.users)
-                    .then(() => {
-                        rolesProcessed += 1;
-                        if (rolesProcessed === usersFromRoleToDelete.length) {
-                            setUsersFromRoleToDelete([]);
-                            refresh(!refreshIndicator);
-                        }
-                    }).catch((error) => {
-                        alert(error.message);
-                    });
-            });
-        }
+        const userPromise = usersFromRoleToDelete.length !== 0
+            ? Promise.all(
+                usersFromRoleToDelete.map(roleAndUsers =>
+                    database.roles.removeManyFromArray(roleAndUsers.role, "users", roleAndUsers.users)
+                )
+            ).then(() => setUsersFromRoleToDelete([]))
+            : Promise.resolve();
+
+        Promise.all([rolePromise, userPromise])
+            .then(() => refresh(r => !r))
+            .catch((error) => alert(error.message));
     };
 
     const handleRoleCheck = (isChecked: boolean, roleId: string) => {
