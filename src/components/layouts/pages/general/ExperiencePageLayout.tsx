@@ -42,8 +42,8 @@ const ExperiencePageLayout: React.FC<ExperiencePageLayoutProps> = () => {
         window.document.body.style.overflow = "unset";
     };
 
-    const onRemoveExperiencesClose = (experiences: ExperienceModel[]) => {
-        setExperiences(experiences);
+    const onRemoveExperiencesClose = (remainingExperiences?: ExperienceModel[]) => {
+        if (remainingExperiences) setExperiences(remainingExperiences);
         hideRemoveExperiencesPopup();
         window.document.body.style.overflow = "unset";
     };

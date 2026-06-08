@@ -8,7 +8,7 @@ import { ErrorMessage } from "./RemoveExperiencesPopup.styled";
 
 export interface RemoveExperiencesPopupProps extends PopupProps {
     experiences: Experience[],
-    onClose: (experiencesAfterDelete: Experience[]) => void;
+    onClose: (experiencesAfterDelete?: Experience[]) => void;
 }
 
 const RemoveExperiencesPopup: React.FC<RemoveExperiencesPopupProps> = ({ isPopupShown, experiences, onClose }) => {
@@ -18,7 +18,7 @@ const RemoveExperiencesPopup: React.FC<RemoveExperiencesPopupProps> = ({ isPopup
     const handleClose = () => {
         setSelectedIds([]);
         setErrorMessage(undefined);
-        onClose(experiences);
+        onClose();
     };
 
     const toggleSelect = (experience: Experience) => {

@@ -54,7 +54,10 @@ const useScrollReveal = (deps: ReadonlyArray<unknown> = []) => {
     let timer: number | undefined;
     if (reveals.length) {
       checkReveals();
-      timer = window.setTimeout(checkReveals, 500);
+      timer = window.setTimeout(() => {
+        firstPassRef.current = true;
+        checkReveals();
+      }, 500);
       window.addEventListener("scroll", onScrollResize, { passive: true });
       window.addEventListener("resize", onScrollResize, { passive: true });
     }
