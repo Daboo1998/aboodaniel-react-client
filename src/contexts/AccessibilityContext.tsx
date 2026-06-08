@@ -37,17 +37,6 @@ export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({
       : 'normal';
   });
 
-  // Listen for system preference changes
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const handleChange = (e: MediaQueryListEvent) => {
-      setReducedMotion(e.matches);
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
-
   // Apply classes to document body
   useEffect(() => {
     document.body.classList.toggle('reduced-motion', reducedMotion);

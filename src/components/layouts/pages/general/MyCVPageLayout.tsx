@@ -111,6 +111,9 @@ const MyCVPageLayout: React.FC = () => {
 
   useScrollReveal([experiences.length, education.length, skillSets.length]);
 
+  // Reset body overflow if user navigates away while a popup is open
+  useEffect(() => () => { document.body.style.overflow = 'unset'; }, []);
+
   const onAddButtonClick = () => {
     window.document.body.style.overflow = "hidden";
     showAddExperiencePopup();
