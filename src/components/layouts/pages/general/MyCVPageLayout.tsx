@@ -185,11 +185,10 @@ const MyCVPageLayout: React.FC = () => {
     window.document.body.style.overflow = "unset";
   };
 
-  const onRemoveExperiencesClose = (removedExperiences?: Experience[]): void => {
+  const onRemoveExperiencesClose = (remainingExperiences?: Experience[]): void => {
     hideRemoveExperiencesPopup();
-    if (removedExperiences) {
-      const removedIds = removedExperiences.map((exp) => exp.id);
-      setExperiences(experiences.filter((exp) => !removedIds.includes(exp.id)));
+    if (remainingExperiences) {
+      setExperiences(remainingExperiences);
     }
     window.document.body.style.overflow = "unset";
   };

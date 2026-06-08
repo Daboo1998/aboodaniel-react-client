@@ -24,21 +24,27 @@ const AddStringPopup: React.FC<AddStringPopupProps> = ({ fieldName, isPopupShown
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault();
         onAdd?.(newString);
+        setNewString("");
+    };
+
+    const handleHide = () => {
+        setNewString("");
+        hide();
     };
 
     const title = `Add ${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}`;
 
     return (
-        <Popup isPopupShown={isPopupShown} onDismiss={hide}>
+        <Popup isPopupShown={isPopupShown} onDismiss={handleHide}>
             <PopupContent $maxWidth="440px">
                 <HeaderRow>
-                    <CloseButton onClick={hide} aria-label="Close">
+                    <CloseButton onClick={handleHide} aria-label="Close">
                         <CloseIcon />
                     </CloseButton>
                     <HeaderTitle>{title}</HeaderTitle>
                 </HeaderRow>
                 <StyledForm onSubmit={handleSubmit}>
-                    <TextInput name={fieldName} onChange={setNewString} label={fieldName} />
+                    <TextInput name={fieldName} value={newString} onChange={setNewString} label={fieldName} />
                     {!!errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                     <button className="btn btn-primary" type="submit" style={{ width: '100%', justifyContent: 'center' }}>
                         {title} <span className="arrow">→</span>

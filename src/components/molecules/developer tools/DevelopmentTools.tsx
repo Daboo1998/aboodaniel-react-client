@@ -80,7 +80,7 @@ const DevelopmentTools: React.FC = () => {
     };
 
     const handleChange = () => {
-        refresh(!refreshIndicator);
+        refresh(r => !r);
     };
 
     useScrollReveal([rolesList]);
