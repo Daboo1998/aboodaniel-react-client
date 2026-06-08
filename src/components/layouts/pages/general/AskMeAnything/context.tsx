@@ -169,7 +169,7 @@ export const useAskMeAnythingContext = ({
             conversation_id,
             prompt_id,
             message: sentMessage,
-            isLastMessage: newMessageCount === maxMessages,
+            isLastMessage: maxMessages > 0 && newMessageCount === maxMessages,
           }),
         }
       );
