@@ -15,9 +15,10 @@ const RemoveEducationPopup: React.FC<RemoveEducationPopupProps> = (props) => {
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
+    const { onClose } = props;
     const handleClose = useCallback(() => {
-        setSelectedIds(new Set()); setErrorMessage(undefined); props.onClose();
-    }, [props]);
+        setSelectedIds(new Set()); setErrorMessage(undefined); onClose();
+    }, [onClose]);
 
     const toggle = (id: string) => {
         const next = new Set(selectedIds);
@@ -29,7 +30,7 @@ const RemoveEducationPopup: React.FC<RemoveEducationPopupProps> = (props) => {
         if (selectedIds.size === 0) { setErrorMessage("Select at least one item to remove."); return; }
         const ids = Array.from(selectedIds);
         database.education.deleteMany(ids)
-            .then(() => props.onClose(ids))
+            .then(() => { setSelectedIds(new Set()); onClose(ids); })
             .catch(() => setErrorMessage("Failed to remove education. Please try again."));
     };
 

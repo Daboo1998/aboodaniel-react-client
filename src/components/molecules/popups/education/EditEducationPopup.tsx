@@ -32,6 +32,7 @@ const EditEducationPopup: React.FC<EditEducationPopupProps> = (props) => {
     const { onClose } = props;
     const handleClose = useCallback(() => { onClose(); }, [onClose]);
 
+
     const handleSubmit: React.FormEventHandler = (e) => {
         e.preventDefault();
         setErrorMessage(undefined);
@@ -43,8 +44,8 @@ const EditEducationPopup: React.FC<EditEducationPopupProps> = (props) => {
 
         const startNum = parseInt(startYear);
         const endNum = endYear === "ongoing" ? new Date().getFullYear() : parseInt(endYear);
-        if (isNaN(startNum) || (!isNaN(endNum) && startNum > endNum)) {
-            setErrorMessage("Start year must be before end year."); return;
+        if (isNaN(startNum) || (endYear !== "ongoing" && isNaN(endNum)) || (!isNaN(endNum) && startNum > endNum)) {
+            setErrorMessage("Please enter valid numeric years (or 'ongoing' for end year)."); return;
         }
 
         const updatedEducation: EducationItem = { id: props.education.id, qualification, place, startYear, endYear };

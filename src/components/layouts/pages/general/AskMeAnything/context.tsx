@@ -220,11 +220,12 @@ export const useAskMeAnythingContext = ({
 
   useEffect(() => {
     window.onbeforeunload = function () {
-      console.log("onbeforeunload");
       if (messageCount === 0 && conversation_id) {
         handleEndConversation();
       }
-      return true;
+      if (messageCount > 0) {
+        return true;
+      }
     };
 
     return () => {

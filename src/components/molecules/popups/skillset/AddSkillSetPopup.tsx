@@ -18,9 +18,10 @@ const AddSkillSetPopup: React.FC<AddSkillSetPopupProps> = (props) => {
     const [skills, setSkills] = useState("");
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
+    const { onClose } = props;
     const handleClose = useCallback(() => {
-        setName(""); setSkills(""); setErrorMessage(undefined); props.onClose();
-    }, [props]);
+        setName(""); setSkills(""); setErrorMessage(undefined); onClose();
+    }, [onClose]);
 
     const handleSubmit: React.FormEventHandler = (e) => {
         e.preventDefault();
@@ -35,7 +36,7 @@ const AddSkillSetPopup: React.FC<AddSkillSetPopupProps> = (props) => {
 
         database.skillSets.post(newSkillSet)
             .then(() => {
-                props.onClose(newSkillSet);
+                onClose(newSkillSet);
                 setName(""); setSkills(""); setErrorMessage(undefined);
             })
             .catch(() => setErrorMessage("Failed to add skill set. Please try again."));

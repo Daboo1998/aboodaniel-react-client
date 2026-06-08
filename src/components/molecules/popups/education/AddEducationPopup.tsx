@@ -19,10 +19,11 @@ const AddEducationPopup: React.FC<AddEducationPopupProps> = (props) => {
     const [endYear, setEndYear] = useState("");
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
+    const { onClose } = props;
     const handleClose = useCallback(() => {
         setQualification(""); setPlace(""); setStartYear(""); setEndYear(""); setErrorMessage(undefined);
-        props.onClose();
-    }, [props]);
+        onClose();
+    }, [onClose]);
 
     const handleSubmit: React.FormEventHandler = (e) => {
         e.preventDefault();
@@ -34,15 +35,15 @@ const AddEducationPopup: React.FC<AddEducationPopupProps> = (props) => {
 
         const startNum = parseInt(startYear);
         const endNum = endYear === "ongoing" ? new Date().getFullYear() : parseInt(endYear);
-        if (isNaN(startNum) || (!isNaN(endNum) && startNum > endNum)) {
-            setErrorMessage("Start year must be before end year."); return;
+        if (isNaN(startNum) || (endYear !== "ongoing" && isNaN(endNum)) || (!isNaN(endNum) && startNum > endNum)) {
+            setErrorMessage("Please enter valid numeric years (or 'ongoing' for end year)."); return;
         }
 
         const newEducation: EducationItem = { id: generateId('education'), qualification, place, startYear, endYear };
 
         database.education.post(newEducation)
             .then(() => {
-                props.onClose(newEducation);
+                onClose(newEducation);
                 setQualification(""); setPlace(""); setStartYear(""); setEndYear(""); setErrorMessage(undefined);
             })
             .catch(() => setErrorMessage("Failed to add education. Please try again."));
