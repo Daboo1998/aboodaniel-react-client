@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { theme } from '../../../styles/theme';
+import { theme } from "../../../styles/theme";
 
 export const PageStyled = styled.div`
   display: flex;
@@ -23,4 +23,5 @@ export const PageStyled = styled.div`
 
 export const ContentWrapper = styled.div`
   width: 100%;
+  z-index: 1;
 `;

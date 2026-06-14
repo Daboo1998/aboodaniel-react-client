@@ -24,6 +24,10 @@ export interface ButtonProps {
     className?: string;
     submit?: boolean;
     nonUppercase?: boolean;
+    disabled?: boolean;
+    loading?: boolean;
+    ariaLabel?: string;
+    ariaDescribedBy?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -33,18 +37,41 @@ const Button: React.FC<ButtonProps> = ({
     label, 
     action, 
     type = ButtonType.primary, 
-    size = ButtonSize.small
+    size = ButtonSize.small,
+    disabled = false,
+    loading = false,
+    ariaLabel,
+    ariaDescribedBy
 }) => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        if (!disabled && !loading) {
+            action?.(e);
+        }
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+        // Prevent space key from scrolling the page
+        if (e.key === ' ') {
+            e.preventDefault();
+        }
+    };
+
     return (
         <StyledButton 
             type={submit ? "submit" : "button"} 
-            onClick={e => action?.(e)}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
             $buttonType={type}
             $buttonSize={size}
             $nonUppercase={nonUppercase}
             className={className}
+            disabled={disabled || loading}
+            aria-label={ariaLabel || label}
+            aria-describedby={ariaDescribedBy}
+            aria-busy={loading}
+            aria-disabled={disabled || loading}
         >
-            {label}
+            {loading ? "Loading..." : label}
         </StyledButton>
     );
 };

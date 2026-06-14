@@ -13,8 +13,10 @@ import {
   FooterLink,
   UserInfo,
   UserName,
-  CopyrightText
+  CopyrightText,
 } from "./Footer.styled";
+import { useContext } from "react";
+import { PageNavigatorBarContext } from "./PageNavigatorBar";
 
 interface FooterProps {
   isInsideMenu: boolean;
@@ -22,75 +24,90 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ isInsideMenu }) => {
   const auth = useAuth();
+  const { hide } = useContext(PageNavigatorBarContext);
 
   return (
-    <FooterStyled $isInsideMenu={isInsideMenu}>
-      <SocialIconsContainer>
+    <FooterStyled 
+      $isInsideMenu={isInsideMenu}
+      as="footer"
+      role="contentinfo"
+      aria-label="Site footer"
+    >
+      <SocialIconsContainer role="navigation" aria-label="Social media links">
         <SocialLink
           href="https://facebook.com/danny.aboo.5"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Visit Daniel Aboo on Facebook (opens in new tab)"
         >
-          <FacebookIcon />
+          <FacebookIcon aria-hidden="true" />
         </SocialLink>
         <SocialLink
           href="https://www.linkedin.com/in/danielaboo"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Visit Daniel Aboo on LinkedIn (opens in new tab)"
         >
-          <LinkedInIcon />
+          <LinkedInIcon aria-hidden="true" />
         </SocialLink>
       </SocialIconsContainer>
-      
+
       <Spacer />
-      
-      <LinksContainer>
+
+      <LinksContainer role="navigation" aria-label="Footer navigation">
         <AuthLinksContainer $isLoggedIn={!!auth.isLoggedIn}>
           {!auth.isLoggedIn ? (
             <>
-              <Link to="/login">
+              <Link to="/login" onClick={isInsideMenu ? () => hide() : undefined}>
                 <FooterLink as="span">Login</FooterLink>
               </Link>
-              <Link to="/register">
+              <Link to="/register" onClick={isInsideMenu ? () => hide() : undefined}>
                 <FooterLink as="span">Register</FooterLink>
               </Link>
             </>
           ) : (
             <>
               <UserInfo>
-                Logged in as{" "}
+                <span id="user-info-label">Logged in as </span>
                 {auth.user && (
-                  <UserName>
+                  <UserName aria-labelledby="user-info-label">
                     {auth.user?.displayName
                       ? auth.user.displayName
                       : auth.user?.uid}
                   </UserName>
                 )}
               </UserInfo>
-              <FooterLink onClick={auth.logout}>
+              <FooterLink 
+                onClick={auth.logout}
+                as="button"
+                type="button"
+                aria-label="Logout from your account"
+              >
                 Logout
               </FooterLink>
             </>
           )}
         </AuthLinksContainer>
-        
-        <Link to="/cv">
+
+        <Link to="/cv" onClick={isInsideMenu ? () => hide() : undefined}>
           <FooterLink as="span">Curriculum Vitae</FooterLink>
         </Link>
         {auth.isDeveloper && (
-          <Link to="/developerTools">
+          <Link to="/developerTools" onClick={isInsideMenu ? () => hide() : undefined}>
             <FooterLink as="span">Developer Tools</FooterLink>
           </Link>
         )}
-        
+
         {auth.isOwner && (
-          <Link to="/messages">
+          <Link to="/messages" onClick={isInsideMenu ? () => hide() : undefined}>
             <FooterLink as="span">Messages</FooterLink>
           </Link>
         )}
       </LinksContainer>
-      
-      <CopyrightText>© Aboo Daniel - All rights reserved</CopyrightText>
+
+      <CopyrightText>
+        <small>© Aboo Daniel - All rights reserved</small>
+      </CopyrightText>
     </FooterStyled>
   );
 };

@@ -33,8 +33,11 @@ const SignInWithGoogleButton: React.FC<SignInWithGoogleButtonProps> = ({ onError
     };
 
     return (
-        <GoogleSignInButton onClick={handleLoginWithGoogle}>
-            <GoogleIcon src="images/googleIcon.png" alt="" />
+        <GoogleSignInButton 
+            onClick={handleLoginWithGoogle}
+            aria-label="Sign in with Google"
+        >
+            <GoogleIcon src="images/googleIcon.png" alt="Google logo" />
             <ButtonText>Sign In with Google</ButtonText>
         </GoogleSignInButton>
     );

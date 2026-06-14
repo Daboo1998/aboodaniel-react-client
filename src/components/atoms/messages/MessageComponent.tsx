@@ -1,5 +1,4 @@
 import React from "react";
-import Spacer from "../utilities/Spacer";
 import {timestampToString} from "../../../data/database";
 import Message from "../../../data/Message";
 import {
@@ -20,7 +19,6 @@ const MessageComponent: React.FC<MessageComponentProps> = ({message, onMessageCl
     <MessageContainer onClick={e => onMessageClick(e, message)}>
         <MessageHeader>
             <MessageName>{message.name}</MessageName>
-            <Spacer />
             <MessageTimestamp>{timestampToString(message.timestamp)}</MessageTimestamp>
         </MessageHeader>
         <MessageSubject>{message.subject}</MessageSubject>

@@ -1,11 +1,5 @@
-import React from "react";
-import {
-  InputContainer,
-  InputLabel,
-  LabelText,
-  RequiredAsterisk,
-  StyledInput
-} from "./TextInput.styled";
+import React, { useMemo } from "react";
+import { generateId } from "../../../utils/accessibility";
 
 export interface TextInputProps {
     name: string;
@@ -15,6 +9,8 @@ export interface TextInputProps {
     label: string;
     placeholder?: string;
     required?: boolean;
+    error?: string;
+    autoComplete?: string;
 }
 
 const TextInput: React.FC<TextInputProps> = ({
@@ -24,28 +20,31 @@ const TextInput: React.FC<TextInputProps> = ({
     onChange,
     isPassword,
     placeholder,
-    required
+    required,
+    error,
+    autoComplete
 }) => {
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        onChange?.(e.target.value);
-    };
+    const inputId = useMemo(() => generateId(`input-${name}`), [name]);
 
     return (
-        <InputContainer>
-            <InputLabel htmlFor={name}>
-                <LabelText>
-                    {label} {required && <RequiredAsterisk>*</RequiredAsterisk>}
-                </LabelText>
-                <StyledInput
-                    type={isPassword ? "password" : "text"}
-                    value={value}
-                    onChange={handleChange}
-                    name={name}
-                    placeholder={placeholder || ""}
-                />
-            </InputLabel>
-        </InputContainer>
+        <div className={`field${error ? ' invalid' : ''}`}>
+            <label htmlFor={inputId}>
+                {label} {required && <span className="req" aria-label="required">*</span>}
+            </label>
+            <input
+                id={inputId}
+                type={isPassword ? "password" : "text"}
+                value={value}
+                onChange={(e) => onChange?.(e.target.value)}
+                name={name}
+                placeholder={placeholder || ""}
+                required={required}
+                aria-required={required}
+                aria-invalid={!!error}
+                autoComplete={autoComplete || (isPassword ? "current-password" : "off")}
+            />
+            {error && <div className="field-error">{error}</div>}
+        </div>
     );
 };
 

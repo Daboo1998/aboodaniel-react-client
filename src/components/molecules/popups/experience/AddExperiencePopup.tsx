@@ -1,28 +1,15 @@
-import React, {useState} from "react";
-import Popup, {PopupProps} from "../Popup";
+import React, { useState, useRef, useEffect } from "react";
+import Popup, { PopupProps } from "../Popup";
 import TextInput from "../../../atoms/input/TextInput";
 import TextAreaInput from "../../../atoms/input/TextAreaInput";
 import NumberInput from "../../../atoms/input/NumberInput";
-import Spacer from "../../../atoms/utilities/Spacer";
 import DateInput from "../../../atoms/input/DateInput";
-import Button, {ButtonSize, ButtonType} from "../../../atoms/buttons and links/Button";
-import database, {Timestamp} from "../../../../data/database";
+import database, { Timestamp } from "../../../../data/database";
 import Experience from "../../../../data/experience";
-import {v4 as uuidv4} from 'uuid';
-import {
-    PopupContent,
-    PopupTitle,
-    StyledForm,
-    OngoingContainer,
-    OngoingLabel,
-    OngoingCheckbox,
-    DateInputsContainer,
-    DateInputSpacer,
-    RequiredFieldsText,
-    RequiredAsterisk,
-    ErrorMessage,
-    ButtonContainer
-} from "./AddExperiencePopup.styled";
+import { v4 as uuidv4 } from 'uuid';
+import { ReactComponent as CloseIcon } from "../../../../images/icons/closeIcon.svg";
+import { PopupContent, HeaderRow, HeaderTitle, CloseButton, ErrorMessage, PopupFooter } from "../shared.styled";
+import { StyledForm, FormBody, OngoingRow, OngoingCheckbox, DateRow, RequiredNote } from "./AddExperiencePopup.styled";
 
 export interface AddExperiencePopupProps extends PopupProps {
     onClose: (addedExperience?: Experience) => void
@@ -33,45 +20,39 @@ const AddExperiencePopup: React.FC<AddExperiencePopupProps> = (props) => {
     const [importance, setImportance] = useState(0);
     const [isOngoing, setIsOngoing] = useState(false);
     const [startDate, setStartDate] = useState<string>("");
-    const [endDate, setEndDate] = useState<string>("null");
+    const [endDate, setEndDate] = useState<string>("");
     const [description, setDescription] = useState("");
     const [link, setLink] = useState("");
     const [linkText, setLinkText] = useState("");
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+    const formBodyRef = useRef<HTMLDivElement>(null);
 
-    const handleCancel: React.MouseEventHandler = (e) => {
-        e.preventDefault();
-        props.onClose();
+    useEffect(() => {
+        if (props.isPopupShown) {
+            const timer = setTimeout(() => {
+                if (formBodyRef.current) formBodyRef.current.scrollTop = 0;
+            }, 150);
+            return () => clearTimeout(timer);
+        }
+    }, [props.isPopupShown]);
+
+    const resetForm = () => {
+        setTitle(""); setImportance(0); setIsOngoing(false);
+        setStartDate(""); setEndDate(""); setDescription("");
+        setLink(""); setLinkText(""); setErrorMessage(undefined);
     };
 
-    const handleAddExperience: React.MouseEventHandler = (e) => {
+    const handleClose = () => { resetForm(); props.onClose(); };
+
+    const handleSubmit: React.FormEventHandler = (e) => {
         e.preventDefault();
         setErrorMessage(undefined);
 
-        if (title.length === 0) {
-            setErrorMessage("Title is required");
-            return;
-        }
-
-        if (startDate.length === 0) {
-            setErrorMessage("Start date is required");
-            return;
-        }
-
-        if (!isOngoing && endDate.length === 0) {
-            setErrorMessage("End date is required");
-            return;
-        }
-
-        if (description.length === 0) {
-            setErrorMessage("Start date is required");
-            return;
-        }
-
-        if (importance < 0 || importance > 1000) {
-            setErrorMessage("Importance range is 0-1000");
-            return;
-        }
+        if (title.length === 0) { setErrorMessage("Title is required"); return; }
+        if (startDate.length === 0) { setErrorMessage("Start date is required"); return; }
+        if (!isOngoing && endDate.length === 0) { setErrorMessage("End date is required"); return; }
+        if (description.length === 0) { setErrorMessage("Description is required"); return; }
+        if (importance < 0 || importance > 1000) { setErrorMessage("Importance range is 0–1000"); return; }
 
         const newExperience: Experience = {
             importance,
@@ -86,43 +67,51 @@ const AddExperiencePopup: React.FC<AddExperiencePopupProps> = (props) => {
 
         database.experiences.post(newExperience).then(() => {
             props.onClose(newExperience);
+            resetForm();
         }).catch(error => {
             setErrorMessage(error.message);
-        })
+        });
     };
 
     return (
-        <Popup isPopupShown={props.isPopupShown}>
-            <Spacer />
+        <Popup isPopupShown={props.isPopupShown} onDismiss={handleClose}>
             <PopupContent>
-                <PopupTitle>Add Experience</PopupTitle>
-                <StyledForm>
-                    <NumberInput min={0} max={1000} name="importance" label="Importance [0-1000] (default 0)" value={importance} onChange={setImportance} required />
-                    <TextInput name="title" label="Title" required onChange={setTitle} />
-                    <OngoingContainer>
-                        <OngoingLabel>Is ongoing</OngoingLabel>
-                        <OngoingCheckbox type="checkbox" name="ongoing" onChange={e => setIsOngoing(e.target.checked)} />
-                        <Spacer />
-                    </OngoingContainer>
-                    <DateInputsContainer>
-                        <DateInput label="Start date" required name="startDate" onChange={setStartDate} />
-                        {
-                            !isOngoing ? <DateInput label="End date" name="endDate" onChange={setEndDate} required /> :
-                                <DateInputSpacer />
-                        }
-                    </DateInputsContainer>
-                    <TextAreaInput name="description" label="Description" onChange={setDescription} required />
-                    <TextInput name="link" label="Link (optional)" onChange={setLink} />
-                    <TextInput name="linkText" label="Link text (optional)" onChange={setLinkText} />
-                    <RequiredFieldsText><RequiredAsterisk>*</RequiredAsterisk> Required fields</RequiredFieldsText>
-                    <ErrorMessage>{errorMessage}</ErrorMessage>
-                    <ButtonContainer>
-                        <Button label="Add" size={ButtonSize.bigFullWidth} type={ButtonType.constructive} action={e => handleAddExperience(e)} />
-                        <Button label="Cancel" size={ButtonSize.bigFullWidth} action={handleCancel} />
-                    </ButtonContainer>
+                <HeaderRow>
+                    <CloseButton onClick={handleClose} aria-label="Close">
+                        <CloseIcon />
+                    </CloseButton>
+                    <HeaderTitle>Add Experience</HeaderTitle>
+                </HeaderRow>
+                <StyledForm onSubmit={handleSubmit}>
+                    <FormBody ref={formBodyRef}>
+                        <NumberInput min={0} max={1000} name="importance" label="Importance [0-1000]" value={importance} onChange={setImportance} required />
+                        <TextInput name="title" label="Title" required value={title} onChange={setTitle} />
+                        <OngoingRow onClick={() => setIsOngoing(v => !v)}>
+                            <OngoingCheckbox
+                                type="checkbox"
+                                name="ongoing"
+                                checked={isOngoing}
+                                onChange={e => setIsOngoing(e.target.checked)}
+                                onClick={e => e.stopPropagation()}
+                            />
+                            <span style={{ fontSize: '0.9rem', color: 'var(--text-2)' }}>Is ongoing</span>
+                        </OngoingRow>
+                        <DateRow>
+                            <DateInput label="Start date" required name="startDate" value={startDate} onChange={setStartDate} />
+                            {!isOngoing && <DateInput label="End date" name="endDate" value={endDate} onChange={setEndDate} required />}
+                        </DateRow>
+                        <TextAreaInput name="description" label="Description" value={description} onChange={setDescription} required />
+                        <TextInput name="link" label="Link (optional)" value={link} onChange={setLink} />
+                        <TextInput name="linkText" label="Link text (optional)" value={linkText} onChange={setLinkText} />
+                        <RequiredNote><span className="req">*</span> Required fields</RequiredNote>
+                        <ErrorMessage>{errorMessage}</ErrorMessage>
+                    </FormBody>
+                    <PopupFooter>
+                        <button className="btn btn-primary" type="submit">Add <span className="arrow">→</span></button>
+                        <button className="btn btn-ghost" type="button" onClick={handleClose}>Cancel</button>
+                    </PopupFooter>
                 </StyledForm>
             </PopupContent>
-            <Spacer />
         </Popup>
     );
 };

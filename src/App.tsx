@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 // Page imports
 import HomePageLayout from "./components/layouts/pages/general/HomePageLayout";
-import NewHomePageLayout from "./components/layouts/pages/general/NewHomePageLayout";
+import MaintenancePageLayout from "./components/layouts/pages/general/MaintenancePageLayout";
 import ExperiencePageLayout from "./components/layouts/pages/general/ExperiencePageLayout";
 import ContactPageLayout from "./components/layouts/pages/general/ContactPageLayout";
 import NotFoundPageLayout from "./components/layouts/pages/general/NotFoundPageLayout";
@@ -14,29 +14,29 @@ import MessagesPageLayout from "./components/layouts/pages/development and admin
 import AskMeAnythingLayout from "./components/layouts/pages/general/AskMeAnything";
 
 // Main elements imports
-import PageNavigatorBar from "./components/molecules/general/PageNavigatorBar";
-import PageNavigatorBarLink from "./components/atoms/buttons and links/PageNavigatorBarLink";
-import Footer from "./components/molecules/general/Footer";
+import Navbar from "./components/molecules/general/Navbar";
+import SkipLink from "./components/atoms/utilities/SkipLink";
+
+// Hooks
+import useFocusOnRouteChange from "./hooks/useFocusOnRouteChange";
 
 import MyCVPageLayout from "./components/layouts/pages/general/MyCVPageLayout";
 import NavigationProvider from "./components/context providers/NavigationProvider";
-import { AppContainer } from "./App.styled";
+import { AppContainer, AppContent } from "./App.styled";
 
-function App() {
+function AppWithRouter() {
+  // Maintenance flag - set to true to show maintenance page instead of the home page
+  const MAINTENANCE_MODE = process.env.REACT_APP_MAINTENANCE_MODE === "true";
+
+  // Handle focus management on route changes
+  useFocusOnRouteChange();
+
   return (
-    <BrowserRouter basename="/">
-      <NavigationProvider>
-        <AppContainer>
-          <PageNavigatorBar>
-            <PageNavigatorBarLink to="/">Home</PageNavigatorBarLink>
-            {/* <PageNavigatorBarLink to="/experience">
-                    Experience
-                </PageNavigatorBarLink> */}
-            <PageNavigatorBarLink to="/assistant">
-              My Assistant (Beta)
-            </PageNavigatorBarLink>
-            <PageNavigatorBarLink to="/contact">Contact</PageNavigatorBarLink>
-          </PageNavigatorBar>
+    <NavigationProvider>
+      <AppContainer>
+        <SkipLink />
+        <Navbar />
+        <AppContent as="main" id="main-content" tabIndex={-1}>
           <Switch>
             <Route exact path="/">
               <HomePageLayout />
@@ -44,8 +44,8 @@ function App() {
             <Route exact path="/home">
               <HomePageLayout />
             </Route>
-            <Route exact path="/new-home">
-              <NewHomePageLayout />
+            <Route exact path="/maintenance">
+              <MaintenancePageLayout showMaintenance={MAINTENANCE_MODE} />
             </Route>
             <Route exact path="/experience">
               <ExperiencePageLayout />
@@ -75,9 +75,16 @@ function App() {
               <NotFoundPageLayout />
             </Route>
           </Switch>
-          <Footer isInsideMenu={false} />
-        </AppContainer>
-      </NavigationProvider>
+        </AppContent>
+      </AppContainer>
+    </NavigationProvider>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter basename="/">
+      <AppWithRouter />
     </BrowserRouter>
   );
 }

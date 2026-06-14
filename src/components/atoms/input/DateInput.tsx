@@ -1,11 +1,5 @@
-import React from "react";
-import {
-  DateInputContainer,
-  DateInputLabel,
-  DateLabelText,
-  RequiredAsterisk,
-  StyledDateInput
-} from "./DateInput.styled";
+import React, { useMemo } from "react";
+import { generateId } from "../../../utils/accessibility";
 
 export interface DateInputProps {
     name: string;
@@ -22,20 +16,23 @@ const DateInput: React.FC<DateInputProps> = ({
     onChange,
     required
 }) => {
+    const inputId = useMemo(() => generateId(`date-${name}`), [name]);
+
     return (
-        <DateInputContainer>
-            <DateInputLabel htmlFor={name}>
-                <DateLabelText>
-                    {label} {required && <RequiredAsterisk>*</RequiredAsterisk>}
-                </DateLabelText>
-                <StyledDateInput
-                    value={value}
-                    onChange={e => onChange?.(e.target.value)}
-                    name={name}
-                    type="date"
-                />
-            </DateInputLabel>
-        </DateInputContainer>
+        <div className="field">
+            <label htmlFor={inputId}>
+                {label} {required && <span className="req" aria-label="required">*</span>}
+            </label>
+            <input
+                id={inputId}
+                type="date"
+                value={value}
+                onChange={(e) => onChange?.(e.target.value)}
+                name={name}
+                required={required}
+                aria-required={required}
+            />
+        </div>
     );
 };
 

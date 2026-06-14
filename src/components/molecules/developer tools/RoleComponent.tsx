@@ -1,16 +1,15 @@
 import Role from "../../../data/Role";
 import React, { useState } from "react";
-import Spacer from "../../atoms/utilities/Spacer";
-import Button, { ButtonType } from "../../atoms/buttons and links/Button";
 import {
-    RoleItem,
-    RoleHeader,
+    RoleRow,
+    RoleRowHeader,
     RoleCheckbox,
-    RoleTitle,
-    UsersList,
-    UserItem,
-    UserCheckbox,
-    UserText
+    RoleName,
+    UserCountBadge,
+    Flex1,
+    UsersGrid,
+    UserPill,
+    UserCheckbox
 } from "./RoleComponent.styled";
 
 interface RoleComponentProps {
@@ -26,66 +25,64 @@ const RoleComponent: React.FC<RoleComponentProps> = ({ role, onShowAddUserPopup,
 
     const handleRoleCheckboxChange = (isChecked: boolean) => {
         onRoleCheck?.(isChecked, role.id);
-        isChecked ? setCheckedUsers(role.users) : setCheckedUsers([]);
+        setCheckedUsers(isChecked ? role.users : []);
         setIsRoleChecked(isChecked);
     };
 
     const handleUserCheckboxChange = (isChecked: boolean, checkedUser: string) => {
         onUserCheck?.(isChecked, role.id, checkedUser);
-        let newUsers = [];
         if (isChecked) {
             if (!checkedUsers.includes(checkedUser)) {
-                newUsers = [...checkedUsers, checkedUser];
-                setCheckedUsers(newUsers);
+                setCheckedUsers([...checkedUsers, checkedUser]);
             }
         } else {
-            newUsers = checkedUsers.filter(user => user !== checkedUser);
-            setCheckedUsers(newUsers);
-            if (isRoleChecked) {
-                setIsRoleChecked(false);
-            }
+            setCheckedUsers(checkedUsers.filter(u => u !== checkedUser));
+            if (isRoleChecked) setIsRoleChecked(false);
         }
     };
 
+    if (!role?.id) return null;
+
+    const userCount = role.users?.length ?? 0;
+
     return (
-        <>
-            {
-                role && role.id && (
-                    <RoleItem>
-                        <RoleHeader>
-                            <RoleCheckbox
+        <RoleRow>
+            <RoleRowHeader>
+                <RoleCheckbox
+                    type="checkbox"
+                    checked={isRoleChecked}
+                    onChange={e => handleRoleCheckboxChange(e.target.checked)}
+                    aria-label={`Select role ${role.id} for deletion`}
+                />
+                <RoleName>{role.id}</RoleName>
+                {userCount > 0 && (
+                    <UserCountBadge>{userCount} {userCount === 1 ? 'user' : 'users'}</UserCountBadge>
+                )}
+                <Flex1 />
+                <button
+                    className="btn btn-ghost"
+                    style={{ fontSize: '0.82rem', padding: '0.35rem 0.75rem', borderRadius: '10px' }}
+                    onClick={() => onShowAddUserPopup(role.id)}
+                >
+                    + Add user
+                </button>
+            </RoleRowHeader>
+            {userCount > 0 && (
+                <UsersGrid>
+                    {role.users.map(user => (
+                        <UserPill key={user} $checked={checkedUsers.includes(user)}>
+                            <UserCheckbox
                                 type="checkbox"
-                                onChange={e => handleRoleCheckboxChange(e.target.checked)}
-                                checked={isRoleChecked}
+                                checked={checkedUsers.includes(user)}
+                                onChange={e => handleUserCheckboxChange(e.target.checked, user)}
+                                aria-label={`Select ${user} for removal`}
                             />
-                            <RoleTitle>{role.id}</RoleTitle>
-                            <Spacer />
-                            <Button action={() => onShowAddUserPopup(role.id)} label="Add User" type={ButtonType.constructive}/>
-                        </RoleHeader>
-                        {
-                            role.users && (
-                                <UsersList>
-                                    {
-                                        role.users?.map((user) => {
-                                            return (
-                                                <UserItem key={user}>
-                                                    <UserCheckbox
-                                                        type="checkbox"
-                                                        onChange={e => handleUserCheckboxChange(e.target.checked, user)}
-                                                        checked={checkedUsers.includes(user)}
-                                                    />
-                                                    <UserText>{user}</UserText>
-                                                </UserItem>
-                                            )
-                                        })
-                                    }
-                                </UsersList>
-                            )
-                        }
-                    </RoleItem>
-                )
-            }
-        </>
+                            {user}
+                        </UserPill>
+                    ))}
+                </UsersGrid>
+            )}
+        </RoleRow>
     );
 };
 

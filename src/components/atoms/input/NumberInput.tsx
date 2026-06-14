@@ -1,11 +1,5 @@
-import React from "react";
-import {
-  NumberInputContainer,
-  NumberInputLabel,
-  NumberLabelText,
-  RequiredAsterisk,
-  StyledNumberInput
-} from "./NumberInput.styled";
+import React, { useMemo } from "react";
+import { generateId } from "../../../utils/accessibility";
 
 export interface NumberInputProps {
     name: string;
@@ -28,28 +22,26 @@ const NumberInput: React.FC<NumberInputProps> = ({
     placeholder,
     required
 }) => {
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        onChange?.(e.target.valueAsNumber);
-    };
+    const inputId = useMemo(() => generateId(`number-${name}`), [name]);
 
     return (
-        <NumberInputContainer>
-            <NumberInputLabel htmlFor={name}>
-                <NumberLabelText>
-                    {label} {required && <RequiredAsterisk>*</RequiredAsterisk>}
-                </NumberLabelText>
-                <StyledNumberInput
-                    type="number"
-                    value={value}
-                    onChange={handleChange}
-                    name={name}
-                    placeholder={placeholder ? placeholder : ""}
-                    min={min}
-                    max={max}
-                />
-            </NumberInputLabel>
-        </NumberInputContainer>
+        <div className="field">
+            <label htmlFor={inputId}>
+                {label} {required && <span className="req" aria-label="required">*</span>}
+            </label>
+            <input
+                id={inputId}
+                type="number"
+                value={value}
+                onChange={(e) => onChange?.(e.target.valueAsNumber)}
+                name={name}
+                placeholder={placeholder || ""}
+                min={min}
+                max={max}
+                required={required}
+                aria-required={required}
+            />
+        </div>
     );
 };
 

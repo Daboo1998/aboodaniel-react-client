@@ -1,40 +1,17 @@
 import styled from "styled-components";
-import { theme } from '../../../styles/theme';
+import { theme } from "../../../styles/theme";
 
 export const FooterStyled = styled.div<{ $isInsideMenu: boolean }>`
-  display: ${({ $isInsideMenu }) => $isInsideMenu ? 'flex' : 'none'};
+  display: ${({ $isInsideMenu }) => ($isInsideMenu ? "flex" : "none")};
   flex-direction: column;
-  background-color: ${theme.background.light};
   padding-bottom: ${theme.spacing[6]};
-  gap: ${theme.spacing[4]};
-
-  @media (prefers-color-scheme: dark) {
-    background-color: ${theme.background.dark};
-  }
-
-  ${({ $isInsideMenu }) => $isInsideMenu && `
-    flex-grow: 1;
-    justify-content: flex-end;
-    
-    /* Extra bottom padding when inside mobile menu for Safari */
-    @media (max-width: ${theme.breakpoints.md}) {
-      padding-bottom: calc(${theme.spacing[6]} + 2rem);
-    }
-
-    /* Additional Safari-specific padding */
-    @supports (-webkit-touch-callout: none) {
-      @media (max-width: ${theme.breakpoints.md}) {
-        padding-bottom: calc(${theme.spacing[6]} + 3rem);
-      }
-    }
-
-    @media (min-width: ${theme.breakpoints.md}) {
-      display: none;
-    }
-  `}
+  gap: ${theme.spacing[3]};
+  flex-grow: ${({ $isInsideMenu }) => ($isInsideMenu ? 1 : 0)};
+  justify-content: ${({ $isInsideMenu }) =>
+    $isInsideMenu ? "flex-end" : "flex-start"};
 
   @media (min-width: ${theme.breakpoints.md}) {
-    display: ${({ $isInsideMenu }) => $isInsideMenu ? 'none' : 'flex'};
+    display: ${({ $isInsideMenu }) => ($isInsideMenu ? "none" : "flex")};
   }
 `;
 
@@ -50,13 +27,15 @@ export const SocialLink = styled.a`
   align-items: center;
   justify-content: center;
   border-radius: ${theme.borderRadius.sm};
-  transition: background-color ${theme.transitions.duration[200]} ${theme.transitions.easing['in-out']};
+  // prettier-ignore
+  transition: background-color ${theme.transitions.duration[200]} ${theme
+    .transitions.easing["in-out"]};
 
   svg {
     width: ${theme.spacing[6]};
     height: ${theme.spacing[6]};
     fill: ${theme.colors.gray[600]};
-    transition: fill ${theme.transitions.duration[200]} ${theme.transitions.easing['in-out']};
+    transition: fill 0.2s ease-in-out;
   }
 
   &:hover svg {
@@ -79,22 +58,27 @@ export const SocialLink = styled.a`
   }
 `;
 
-export const Spacer = styled.br`
-  margin: ${theme.spacing[2]} 0;
+export const Spacer = styled.div`
+  height: ${theme.spacing[1]};
 `;
 
 export const LinksContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: ${theme.spacing[2]};
+  gap: 0;
+  
+  a {
+    text-decoration: none;
+  }
 `;
 
 export const AuthLinksContainer = styled.div<{ $isLoggedIn: boolean }>`
   display: flex;
-  flex-direction: ${({ $isLoggedIn }) => $isLoggedIn ? 'column' : 'row'};
-  gap: ${theme.spacing[2]};
+  flex-direction: ${({ $isLoggedIn }) => ($isLoggedIn ? "column" : "row")};
+  gap: 0;
   align-items: center;
+  margin-bottom: 0;
 `;
 
 export const FooterLink = styled.button`
@@ -104,9 +88,11 @@ export const FooterLink = styled.button`
   text-align: center;
   cursor: pointer;
   font-family: inherit;
-  font-size: inherit;
+  font-size: ${theme.fontSizes.sm};
   text-decoration: underline;
-  padding: ${theme.spacing[1]};
+  padding: 2px ${theme.spacing[2]};
+  line-height: 1.2;
+  margin: 0;
 
   @media (prefers-color-scheme: dark) {
     color: ${theme.colors.gray[400]};
@@ -115,7 +101,7 @@ export const FooterLink = styled.button`
   @media (min-width: ${theme.breakpoints.md}) {
     &:hover {
       color: ${theme.colors.gray[800]};
-      
+
       @media (prefers-color-scheme: dark) {
         color: ${theme.colors.white};
       }
@@ -132,6 +118,9 @@ export const UserInfo = styled.p`
   margin: 0;
   text-align: center;
   color: ${theme.colors.gray[800]};
+  font-size: ${theme.fontSizes.sm};
+  line-height: 1.2;
+  padding: 2px 0;
 
   @media (prefers-color-scheme: dark) {
     color: ${theme.colors.white};
@@ -140,7 +129,7 @@ export const UserInfo = styled.p`
 
 export const UserName = styled.span`
   color: ${theme.colors.blue[800]};
-  
+
   @media (prefers-color-scheme: dark) {
     color: ${theme.colors.blue[300]};
   }
@@ -149,7 +138,7 @@ export const UserName = styled.span`
 export const CopyrightText = styled.p`
   text-align: center;
   font-size: ${theme.fontSizes.xs};
-  margin: 0;
+  margin: ${theme.spacing[2]} 0 0 0;
   color: ${theme.colors.gray[600]};
 
   @media (prefers-color-scheme: dark) {
