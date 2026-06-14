@@ -1,4 +1,12 @@
 module.exports = function override(config, env) {
+  // @react-pdf/renderer ships ESM that imports modules without file extensions
+  // (e.g. "react/jsx-runtime"). Webpack 5 treats these as fully specified and
+  // fails to resolve them, so relax that requirement for .js/.mjs modules.
+  config.module.rules.push({
+    test: /\.m?js$/,
+    resolve: { fullySpecified: false },
+  });
+
   // Suppress Firebase source map warnings
   config.ignoreWarnings = [
     /Failed to parse source map/,

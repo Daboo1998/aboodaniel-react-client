@@ -109,7 +109,25 @@ const MyCVPageLayout: React.FC = () => {
     null
   );
 
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+
   useScrollReveal([experiences.length, education.length, skillSets.length]);
+
+  const handleDownloadPdf = async () => {
+    if (isGeneratingPdf) {
+      return;
+    }
+    setIsGeneratingPdf(true);
+    try {
+      // Lazy-loaded so the PDF library stays out of the main bundle.
+      const { downloadCVPdf } = await import("../../../../utils/generateCVPdf");
+      await downloadCVPdf({ experiences, education, skillSets });
+    } catch (error) {
+      console.error("Failed to generate CV PDF", error);
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+  };
 
   const onAddButtonClick = () => {
     window.document.body.style.overflow = "hidden";
@@ -345,8 +363,13 @@ const MyCVPageLayout: React.FC = () => {
           Full-Stack Developer &amp; Prompt Engineer · Building production AI.
         </p>
         <div className="cv-actions reveal in" data-delay="3">
-          <button className="btn btn-primary" onClick={() => window.print()}>
-            Download / Print PDF <span className="arrow">↓</span>
+          <button
+            className="btn btn-primary"
+            onClick={handleDownloadPdf}
+            disabled={isGeneratingPdf}
+          >
+            {isGeneratingPdf ? "Generating PDF…" : "Download PDF"}{" "}
+            <span className="arrow">↓</span>
           </button>
           <Link className="btn btn-ghost" to="/contact">
             Contact me
