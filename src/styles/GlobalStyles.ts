@@ -724,6 +724,24 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
 
+  /* Mobile print fallback — some mobile browsers (notably iOS Safari) lay the
+     printed page out against the device viewport rather than the A4 sheet,
+     which would squeeze the two-column grid. Stack to a single column so the
+     exported PDF stays readable from a phone. */
+  @media print and (max-width: 600px) {
+    .cv-layout {
+      grid-template-columns: 1fr !important;
+      gap: 16pt !important;
+    }
+    .cv-side {
+      gap: 10pt !important;
+    }
+    .side-photo {
+      max-width: 220pt;
+      margin: 0 auto;
+    }
+  }
+
   /* ============ CONTACT PAGE ============ */
   .contact-page { padding-top: clamp(3rem, 7vw, 6rem); padding-bottom: clamp(4rem, 8vw, 7rem); }
   .contact-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(2.5rem, 6vw, 5rem); align-items: start; }
