@@ -495,7 +495,7 @@ export const GlobalStyles = createGlobalStyle`
   .tl-meta .now { color: var(--accent); }
   .tl-role { font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; margin-top: 0.5rem; }
   .tl-role .at { color: var(--text-2); font-weight: 400; }
-  .tl-desc { color: var(--text-2); margin-top: 0.5rem; line-height: 1.65; max-width: 56ch; font-size: 0.98rem; }
+  .tl-desc { color: var(--text-2); margin-top: 0.5rem; line-height: 1.65; max-width: 56ch; font-size: 0.98rem; white-space: pre-wrap; }
   .tl-tags { margin-top: 0.9rem; }
 
   .edu-item { padding: 1.4rem 0; border-top: 1px solid var(--border); }
