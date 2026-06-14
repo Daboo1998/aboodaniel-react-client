@@ -288,7 +288,9 @@ const CVDocument: React.FC<CVPdfData> = ({
           </View>
 
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Experience</Text>
+            <Text style={styles.sectionTitle} minPresenceAhead={90}>
+              Experience
+            </Text>
             {experiences.map((experience) => {
               const isCurrent = experience.endDate === "ongoing";
               return (
@@ -299,13 +301,17 @@ const CVDocument: React.FC<CVPdfData> = ({
                       ? [styles.expItem, styles.expCurrent]
                       : styles.expItem
                   }
-                  wrap={false}
+                  minPresenceAhead={64}
                 >
-                  <Text style={styles.expMeta}>
-                    {isCurrent ? "NOW · " : ""}
-                    {formatExperienceRange(experience)}
-                  </Text>
-                  <Text style={styles.expTitle}>{experience.title}</Text>
+                  {/* Keep the date + role title together so the title is never
+                      stranded at the bottom of a page away from its body. */}
+                  <View wrap={false}>
+                    <Text style={styles.expMeta}>
+                      {isCurrent ? "NOW · " : ""}
+                      {formatExperienceRange(experience)}
+                    </Text>
+                    <Text style={styles.expTitle}>{experience.title}</Text>
+                  </View>
                   <Text style={styles.expDesc}>{experience.description}</Text>
                 </View>
               );
@@ -313,12 +319,15 @@ const CVDocument: React.FC<CVPdfData> = ({
           </View>
 
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Education</Text>
+            <Text style={styles.sectionTitle} minPresenceAhead={90}>
+              Education
+            </Text>
             {education.map((item) => (
               <View
                 key={item.id ?? item.qualification}
                 style={styles.eduItem}
                 wrap={false}
+                minPresenceAhead={40}
               >
                 <Text style={styles.eduQ}>{item.qualification}</Text>
                 <Text style={styles.eduPlace}>{item.place}</Text>
