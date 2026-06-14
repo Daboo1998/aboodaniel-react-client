@@ -105,60 +105,54 @@ const MyCVPageLayout: React.FC = () => {
     null
   );
 
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+
   useScrollReveal([experiences.length, education.length, skillSets.length]);
 
-  // Reset body overflow if user navigates away while a popup is open
-  useEffect(() => () => { document.body.style.overflow = 'unset'; }, []);
-
-  const onAddButtonClick = () => {
-    window.document.body.style.overflow = "hidden";
-    showAddExperiencePopup();
+  const handleDownloadPdf = async () => {
+    if (isGeneratingPdf) {
+      return;
+    }
+    setIsGeneratingPdf(true);
+    try {
+      // Lazy-loaded so the PDF library stays out of the main bundle.
+      const { downloadCVPdf } = await import("../../../../utils/generateCVPdf");
+      await downloadCVPdf({ experiences, education, skillSets });
+    } catch (error) {
+      console.error("Failed to generate CV PDF", error);
+    } finally {
+      setIsGeneratingPdf(false);
+    }
   };
+
+  const onAddButtonClick = () => { showAddExperiencePopup(); };
 
   const onEditButtonClick = (experience: Experience) => {
     setSelectedExperience(experience);
-    window.document.body.style.overflow = "hidden";
     showEditExperiencePopup();
   };
 
-  const onRemoveButtonClick = () => {
-    window.document.body.style.overflow = "hidden";
-    showRemoveExperiencesPopup();
-  };
+  const onRemoveButtonClick = () => { showRemoveExperiencesPopup(); };
 
   // Education handlers
-  const onAddEducationClick = () => {
-    window.document.body.style.overflow = "hidden";
-    showAddEducationPopup();
-  };
+  const onAddEducationClick = () => { showAddEducationPopup(); };
 
   const onEditEducationClick = (educationItem: EducationItem) => {
     setSelectedEducation(educationItem);
-    window.document.body.style.overflow = "hidden";
     showEditEducationPopup();
   };
 
-  const onRemoveEducationClick = () => {
-    window.document.body.style.overflow = "hidden";
-    showRemoveEducationPopup();
-  };
+  const onRemoveEducationClick = () => { showRemoveEducationPopup(); };
 
   // Skill set handlers
-  const onAddSkillSetClick = () => {
-    window.document.body.style.overflow = "hidden";
-    showAddSkillSetPopup();
-  };
+  const onAddSkillSetClick = () => { showAddSkillSetPopup(); };
 
   const onEditSkillSetClick = (skillSet: SkillSet) => {
     setSelectedSkillSet(skillSet);
-    window.document.body.style.overflow = "hidden";
     showEditSkillSetPopup();
   };
 
-  const onRemoveSkillSetClick = () => {
-    window.document.body.style.overflow = "hidden";
-    showRemoveSkillSetPopup();
-  };
+  const onRemoveSkillSetClick = () => { showRemoveSkillSetPopup(); };
 
   const onAddExperienceClose = (addedExperience?: Experience) => {
     hideAddExperiencePopup();
@@ -168,7 +162,6 @@ const MyCVPageLayout: React.FC = () => {
       );
       setExperiences(updatedExperiences);
     }
-    window.document.body.style.overflow = "unset";
   };
 
   const onEditExperienceClose = (updatedExperience?: Experience) => {
@@ -182,7 +175,6 @@ const MyCVPageLayout: React.FC = () => {
         .sort((a, b) => b.importance - a.importance);
       setExperiences(updatedExperiences);
     }
-    window.document.body.style.overflow = "unset";
   };
 
   const onRemoveExperiencesClose = (remainingExperiences?: Experience[]): void => {
@@ -190,7 +182,6 @@ const MyCVPageLayout: React.FC = () => {
     if (remainingExperiences) {
       setExperiences(remainingExperiences);
     }
-    window.document.body.style.overflow = "unset";
   };
 
   // Education close handlers
@@ -204,7 +195,6 @@ const MyCVPageLayout: React.FC = () => {
       });
       setEducation(updatedEducation);
     }
-    window.document.body.style.overflow = "unset";
   };
 
   const onEditEducationClose = (updatedEducation?: EducationItem) => {
@@ -220,7 +210,6 @@ const MyCVPageLayout: React.FC = () => {
         });
       setEducation(updatedEducationList);
     }
-    window.document.body.style.overflow = "unset";
   };
 
   const onRemoveEducationClose = (deletedIds?: string[]) => {
@@ -228,7 +217,6 @@ const MyCVPageLayout: React.FC = () => {
     if (deletedIds) {
       setEducation(education.filter((edu) => !deletedIds.includes(edu.id)));
     }
-    window.document.body.style.overflow = "unset";
   };
 
   // Skill set close handlers
@@ -237,7 +225,6 @@ const MyCVPageLayout: React.FC = () => {
     if (addedSkillSet) {
       setSkillSets([...skillSets, addedSkillSet]);
     }
-    window.document.body.style.overflow = "unset";
   };
 
   const onEditSkillSetClose = (updatedSkillSet?: SkillSet) => {
@@ -250,7 +237,6 @@ const MyCVPageLayout: React.FC = () => {
         )
       );
     }
-    window.document.body.style.overflow = "unset";
   };
 
   const onRemoveSkillSetClose = (deletedIds?: string[]) => {
@@ -260,7 +246,6 @@ const MyCVPageLayout: React.FC = () => {
         skillSets.filter((skillSet) => !deletedIds.includes(skillSet.id))
       );
     }
-    window.document.body.style.overflow = "unset";
   };
 
   useEffect(() => {
@@ -346,8 +331,13 @@ const MyCVPageLayout: React.FC = () => {
           Full-Stack Developer &amp; Prompt Engineer · Building production AI.
         </p>
         <div className="cv-actions reveal in" data-delay="3">
-          <button className="btn btn-primary" onClick={() => window.print()}>
-            Download / Print PDF <span className="arrow">↓</span>
+          <button
+            className="btn btn-primary"
+            onClick={handleDownloadPdf}
+            disabled={isGeneratingPdf}
+          >
+            {isGeneratingPdf ? "Generating PDF…" : "Download PDF"}{" "}
+            <span className="arrow">↓</span>
           </button>
           <Link className="btn btn-ghost" to="/contact">
             Contact me

@@ -531,6 +531,10 @@ export const GlobalStyles = createGlobalStyle`
     .side-photo { max-width: 280px; }
   }
 
+  /* ============ CV PAGE — BROWSER PRINT FALLBACK ============ */
+  /* The "Download PDF" button now builds a clean, data-driven PDF via
+     @react-pdf/renderer. These rules only tidy up the rare case of a manual
+     browser print (Ctrl/Cmd+P). */
   @media print {
     .nav, .footer, .cv-actions, .hero-scroll { display: none !important; }
     body { background: #fff; color: #000; }

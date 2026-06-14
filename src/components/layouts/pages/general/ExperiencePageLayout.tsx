@@ -26,26 +26,18 @@ const ExperiencePageLayout: React.FC<ExperiencePageLayoutProps> = () => {
     const [isAddExperiencePopupShown, showAddExperiencePopup, hideAddExperiencePopup] = usePopup();
     const [isRemoveExperiencesPopupShown, showRemoveExperiencesPopup, hideRemoveExperiencesPopup] = usePopup();
 
-    const onAddButtonClick = () => {
-        window.document.body.style.overflow = "hidden";
-        showAddExperiencePopup();
-    };
+    const onAddButtonClick = () => { showAddExperiencePopup(); };
 
-    const onRemoveButtonClick = () => {
-        window.document.body.style.overflow = "hidden";
-        showRemoveExperiencesPopup();
-    };
+    const onRemoveButtonClick = () => { showRemoveExperiencesPopup(); };
 
     const onAddExperienceClose = (addedExperience?: ExperienceModel) => {
         hideAddExperiencePopup();
         addedExperience && setExperiences([...experiences, addedExperience]);
-        window.document.body.style.overflow = "unset";
     };
 
     const onRemoveExperiencesClose = (remainingExperiences?: ExperienceModel[]) => {
         if (remainingExperiences) setExperiences(remainingExperiences);
         hideRemoveExperiencesPopup();
-        window.document.body.style.overflow = "unset";
     };
 
     useEffect(() => {

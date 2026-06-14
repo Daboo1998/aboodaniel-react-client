@@ -23,7 +23,7 @@ export interface AskMeAnythingContextProps {
   maxMessages: number;
   setMessage: (message: string) => void;
   handleSendMessage: () => void;
-  handleStartConversation: () => void;
+  handleStartConversation: (isPersonal?: boolean) => void;
   handleEndConversation: (conversationId: string | undefined) => void;
 }
 
@@ -237,7 +237,11 @@ export const useAskMeAnythingContext = ({
   useEffect(() => {
     const handler = (e: BeforeUnloadEvent) => {
       if (messageCount === 0 && conversation_id) {
-        handleEndConversation();
+        // sendBeacon survives page unload; async fetch would be aborted immediately.
+        navigator.sendBeacon(
+          "https://api.aboodaniel.pl/end_conversation_with_me",
+          JSON.stringify({ conversation_id })
+        );
       }
       if (messageCount > 0) {
         e.preventDefault();
@@ -246,7 +250,7 @@ export const useAskMeAnythingContext = ({
 
     window.addEventListener('beforeunload', handler);
     return () => window.removeEventListener('beforeunload', handler);
-  }, [handleEndConversation, messageCount, conversation_id]);
+  }, [messageCount, conversation_id]);
 
   return {
     messages,
