@@ -232,7 +232,9 @@ export const BrandTitle = styled.h3`
   }
 `;
 
-export const NavigationContent = styled.div<{ $isHidden: boolean }>`
+export const NavigationContent = styled.div.withConfig({
+  shouldForwardProp: (prop: string) => prop !== '$isHidden',
+})<{ $isHidden: boolean }>`
   display: flex;
   flex-direction: column;
   background-color: transparent;
@@ -305,7 +307,7 @@ export const NavigationContent = styled.div<{ $isHidden: boolean }>`
       left: 0;
       right: 0;
       bottom: 0;
-      background: 
+      background:
         /* Primary refraction layer */ linear-gradient(
           135deg,
           transparent 0%,
@@ -348,7 +350,7 @@ export const NavigationContent = styled.div<{ $isHidden: boolean }>`
       left: 0;
       right: 0;
       bottom: 0;
-      background: 
+      background:
         /* Primary caustics */ radial-gradient(
           circle at 20% 20%,
           rgba(255, 255, 255, 0.1) 0%,
