@@ -173,6 +173,14 @@ export const GlobalStyles = createGlobalStyle`
     border-color: var(--border-2);
   }
   .btn-ghost:hover { border-color: var(--text); transform: translateY(-2px); background: var(--surface-2); }
+  .btn-danger {
+    background: var(--error-bg);
+    color: var(--error);
+    border-color: var(--error-border);
+    box-shadow: none;
+  }
+  .btn-danger:hover { background: var(--error-bg-hover); border-color: var(--error-border-hover); transform: translateY(-1px); box-shadow: none; }
+  .btn-sm { font-size: 0.82rem; padding: 0.5rem 1rem; }
   .btn .arrow { transition: transform 0.3s var(--ease); }
   .btn:hover .arrow { transform: translateX(3px); }
 

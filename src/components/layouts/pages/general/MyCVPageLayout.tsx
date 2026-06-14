@@ -15,10 +15,6 @@ import RemoveEducationPopup from "../../../molecules/popups/education/RemoveEduc
 import AddSkillSetPopup from "../../../molecules/popups/skillset/AddSkillSetPopup";
 import EditSkillSetPopup from "../../../molecules/popups/skillset/EditSkillSetPopup";
 import RemoveSkillSetPopup from "../../../molecules/popups/skillset/RemoveSkillSetPopup";
-import Button, {
-  ButtonSize,
-  ButtonType,
-} from "../../../atoms/buttons and links/Button";
 import PortfolioFooter from "../../../molecules/general/PortfolioFooter";
 import useScrollReveal from "../../../../hooks/useScrollReveal";
 
@@ -392,18 +388,12 @@ const MyCVPageLayout: React.FC = () => {
 
               {auth.isOwner && (
                 <div className="tag-row" style={{ marginBottom: "1.6rem" }}>
-                  <Button
-                    size={ButtonSize.small}
-                    action={onAddButtonClick}
-                    label="Add Experience"
-                    type={ButtonType.constructive}
-                  />
-                  <Button
-                    size={ButtonSize.small}
-                    label="Remove Experiences"
-                    action={onRemoveButtonClick}
-                    type={ButtonType.destructive}
-                  />
+                  <button className="btn btn-sm btn-primary" onClick={onAddButtonClick}>
+                    + Add Experience
+                  </button>
+                  <button className="btn btn-sm btn-danger" onClick={onRemoveButtonClick}>
+                    Remove Experiences
+                  </button>
                 </div>
               )}
 
@@ -423,12 +413,12 @@ const MyCVPageLayout: React.FC = () => {
                       <p className="tl-desc">{experience.description}</p>
                       {auth.isOwner && (
                         <div className="tl-tags">
-                          <Button
-                            size={ButtonSize.small}
-                            action={() => onEditButtonClick(experience)}
-                            label="Edit"
-                            type={ButtonType.primary}
-                          />
+                          <button
+                            className="btn btn-sm btn-ghost"
+                            onClick={() => onEditButtonClick(experience)}
+                          >
+                            Edit
+                          </button>
                         </div>
                       )}
                     </div>
@@ -442,18 +432,12 @@ const MyCVPageLayout: React.FC = () => {
                 <h2>Education</h2>
                 {auth.isOwner && (
                   <div className="tag-row">
-                    <Button
-                      label="Add"
-                      action={onAddEducationClick}
-                      size={ButtonSize.small}
-                      type={ButtonType.constructive}
-                    />
-                    <Button
-                      label="Remove"
-                      action={onRemoveEducationClick}
-                      size={ButtonSize.small}
-                      type={ButtonType.destructive}
-                    />
+                    <button className="btn btn-sm btn-primary" onClick={onAddEducationClick}>
+                      + Add
+                    </button>
+                    <button className="btn btn-sm btn-danger" onClick={onRemoveEducationClick}>
+                      Remove
+                    </button>
                   </div>
                 )}
               </div>
@@ -466,12 +450,12 @@ const MyCVPageLayout: React.FC = () => {
                   </div>
                   {auth.isOwner && (
                     <div style={{ marginTop: "0.7rem" }}>
-                      <Button
-                        label="Edit"
-                        action={() => onEditEducationClick(item)}
-                        size={ButtonSize.small}
-                        type={ButtonType.primary}
-                      />
+                      <button
+                        className="btn btn-sm btn-ghost"
+                        onClick={() => onEditEducationClick(item)}
+                      >
+                        Edit
+                      </button>
                     </div>
                   )}
                 </div>
@@ -523,18 +507,12 @@ const MyCVPageLayout: React.FC = () => {
               <p className="side-head">Skills</p>
               {auth.isOwner && (
                 <div className="tag-row" style={{ marginBottom: "1rem" }}>
-                  <Button
-                    label="Add"
-                    action={onAddSkillSetClick}
-                    size={ButtonSize.small}
-                    type={ButtonType.constructive}
-                  />
-                  <Button
-                    label="Remove"
-                    action={onRemoveSkillSetClick}
-                    size={ButtonSize.small}
-                    type={ButtonType.destructive}
-                  />
+                  <button className="btn btn-sm btn-primary" onClick={onAddSkillSetClick}>
+                    + Add
+                  </button>
+                  <button className="btn btn-sm btn-danger" onClick={onRemoveSkillSetClick}>
+                    Remove
+                  </button>
                 </div>
               )}
               {skillSets.map((skillSet) => (
@@ -542,14 +520,13 @@ const MyCVPageLayout: React.FC = () => {
                   <h4>
                     {skillSet.name}
                     {auth.isOwner && (
-                      <span style={{ marginLeft: "10px" }}>
-                        <Button
-                          label="Edit"
-                          action={() => onEditSkillSetClick(skillSet)}
-                          size={ButtonSize.small}
-                          type={ButtonType.primary}
-                        />
-                      </span>
+                      <button
+                        className="btn btn-sm btn-ghost"
+                        style={{ marginLeft: "10px" }}
+                        onClick={() => onEditSkillSetClick(skillSet)}
+                      >
+                        Edit
+                      </button>
                     )}
                   </h4>
                   <div className="hobby-row">
