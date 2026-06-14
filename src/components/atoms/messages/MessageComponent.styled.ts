@@ -1,22 +1,17 @@
 import styled from 'styled-components';
-import { theme } from '../../../styles/theme';
 
 export const MessageContainer = styled.div`
-  padding-bottom: ${theme.spacing[2]};
-  border-bottom: 1px solid ${theme.colors.black};
+  padding: 1rem 1.4rem;
+  border-bottom: 1px solid var(--border);
   cursor: pointer;
-  transition: background-color ${theme.transitions.duration[200]} ${theme.transitions.easing['in-out']};
+  transition: background 0.2s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
 
-  @media (prefers-color-scheme: dark) {
-    border-bottom-color: ${theme.colors.white};
+  &:last-child {
+    border-bottom: none;
   }
 
   &:hover {
-    background-color: ${theme.colors.gray[50]};
-    
-    @media (prefers-color-scheme: dark) {
-      background-color: ${theme.colors.gray[800]};
-    }
+    background: var(--surface-2);
   }
 `;
 
@@ -24,50 +19,38 @@ export const MessageHeader = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
 `;
 
-export const MessageName = styled.h4`
-  margin: 0;
-  font-weight: ${theme.fontWeights.semibold};
-  color: ${theme.colors.gray[900]};
-
-  @media (prefers-color-scheme: dark) {
-    color: ${theme.colors.white};
-  }
+export const MessageName = styled.span`
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
 `;
 
-export const MessageTimestamp = styled.p`
+export const MessageTimestamp = styled.span`
+  margin-left: auto;
   flex-shrink: 0;
-  margin: 0;
-  color: ${theme.colors.gray[600]};
-  font-size: ${theme.fontSizes.sm};
-
-  @media (prefers-color-scheme: dark) {
-    color: ${theme.colors.gray[400]};
-  }
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-3);
 `;
 
-export const MessageSubject = styled.h5`
-  margin: ${theme.spacing[1]} 0;
-  font-weight: ${theme.fontWeights.medium};
-  color: ${theme.colors.gray[800]};
-
-  @media (prefers-color-scheme: dark) {
-    color: ${theme.colors.gray[200]};
-  }
+export const MessageSubject = styled.p`
+  margin: 0 0 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-2);
 `;
 
 export const MessagePreview = styled.p`
   margin: 0;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  white-space: pre-wrap;
-  color: ${theme.colors.gray[700]};
+  font-size: 0.82rem;
+  color: var(--text-3);
   line-height: 1.5;
-
-  @media (prefers-color-scheme: dark) {
-    color: ${theme.colors.gray[300]};
-  }
 `;

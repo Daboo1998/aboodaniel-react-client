@@ -1,86 +1,80 @@
-import React, {useState} from "react";
-import Popup, {PopupProps} from "../Popup";
+import React, { useState } from "react";
+import Popup, { PopupProps } from "../Popup";
 import Experience from "../../../../data/experience";
-import Button, {ButtonType} from "../../../atoms/buttons and links/Button";
-import Spacer from "../../../atoms/utilities/Spacer";
 import database from "../../../../data/database";
-import {
-    PopupContent,
-    ExperiencesList,
-    ExperienceItem,
-    ExperienceCheckbox,
-    ExperienceTitle,
-    ErrorMessage,
-    ButtonContainer
-} from "./RemoveExperiencesPopup.styled";
+import { ReactComponent as CloseIcon } from "../../../../images/icons/closeIcon.svg";
+import { PopupContent, HeaderRow, HeaderTitle, CloseButton, SelectList, SelectItem, SelectCheckbox, SelectLabel, PopupFooter, DangerButton } from "../shared.styled";
+import { ErrorMessage } from "./RemoveExperiencesPopup.styled";
 
 export interface RemoveExperiencesPopupProps extends PopupProps {
     experiences: Experience[],
-    onClose: (experiencesAfterDelete: Experience[]) => void;
+    onClose: (experiencesAfterDelete?: Experience[]) => void;
 }
 
 const RemoveExperiencesPopup: React.FC<RemoveExperiencesPopupProps> = ({ isPopupShown, experiences, onClose }) => {
-    const [selectedExperienceIds, setSelectedExperienceIds] = useState<string[]>([]);
+    const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
-    const handleRemove = () => {
-        const userIsSure = window.confirm("Are you sure you want to delete selected experiences? You cannot undo that!");
-
-        if (userIsSure) {
-            database.experiences
-                .deleteMany(selectedExperienceIds)
-                .then(() => {
-                    onClose(experiences.filter(experience => experience.id && !selectedExperienceIds.includes(experience.id)));
-                }).catch(error => {
-                   setErrorMessage(error.message);
-                });
-        }
+    const handleClose = () => {
+        setSelectedIds([]);
+        setErrorMessage(undefined);
+        onClose();
     };
 
-    const handleSelect = (experience: Experience, event: React.ChangeEvent<HTMLInputElement>) => {
-        event.preventDefault();
-        const isChecked = event.target.checked;
+    const toggleSelect = (experience: Experience) => {
+        if (!experience.id) return;
+        setSelectedIds(prev =>
+            prev.includes(experience.id!)
+                ? prev.filter(id => id !== experience.id)
+                : [...prev, experience.id!]
+        );
+    };
 
-        if (!experience.id) {
-            return;
-        }
+    const handleRemove = () => {
+        if (selectedIds.length === 0) return;
+        const confirmed = window.confirm("Are you sure you want to delete the selected experiences? This cannot be undone.");
+        if (!confirmed) return;
 
-        if (isChecked) {
-           if (!selectedExperienceIds.includes(experience.id)) {
-               setSelectedExperienceIds([...selectedExperienceIds, experience.id])
-           }
-        } else {
-            setSelectedExperienceIds(selectedExperienceIds.filter(id => id !== experience.id));
-        }
+        const idsToDelete = selectedIds;
+        database.experiences
+            .deleteMany(idsToDelete)
+            .then(() => {
+                setSelectedIds([]);
+                onClose(experiences.filter(e => e.id && !idsToDelete.includes(e.id)));
+            })
+            .catch(error => setErrorMessage(error.message));
     };
 
     return (
-        <Popup isPopupShown={isPopupShown}>
-            <Spacer />
+        <Popup isPopupShown={isPopupShown} onDismiss={handleClose}>
             <PopupContent>
-                <ExperiencesList>
-                    {
-                        experiences.map(experience => {
-                            return (
-                                <ExperienceItem key={experience.id}>
-                                    <ExperienceCheckbox 
-                                        type="checkbox" 
-                                        onChange={e => handleSelect(experience, e)}
-                                    />
-                                    <ExperienceTitle>{experience.title} ({experience.id})</ExperienceTitle>
-                                </ExperienceItem>
-                            );
-                        })
-                    }
-                </ExperiencesList>
-                <Spacer />
+                <HeaderRow>
+                    <CloseButton onClick={handleClose} aria-label="Close">
+                        <CloseIcon />
+                    </CloseButton>
+                    <HeaderTitle>Remove Experiences</HeaderTitle>
+                </HeaderRow>
+                <SelectList>
+                    {experiences.map(experience => (
+                        <SelectItem key={experience.id} onClick={() => toggleSelect(experience)}>
+                            <SelectCheckbox
+                                type="checkbox"
+                                checked={!!experience.id && selectedIds.includes(experience.id)}
+                                onChange={() => toggleSelect(experience)}
+                                onClick={e => e.stopPropagation()}
+                            />
+                            <SelectLabel>{experience.title}</SelectLabel>
+                        </SelectItem>
+                    ))}
+                </SelectList>
                 <ErrorMessage>{errorMessage}</ErrorMessage>
-                <ButtonContainer>
-                    <Button label="Remove selected" type={ButtonType.destructive} action={handleRemove}/>
-                    <Button label="Cancel" action={() => onClose(experiences)}/>
-                </ButtonContainer>
+                <PopupFooter>
+                    <DangerButton onClick={handleRemove} disabled={selectedIds.length === 0}>
+                        Remove selected
+                    </DangerButton>
+                    <button className="btn btn-ghost" onClick={handleClose}>Cancel</button>
+                </PopupFooter>
             </PopupContent>
-            <Spacer />
         </Popup>
     );
 };

@@ -1,169 +1,93 @@
 import styled from "styled-components";
-import { theme } from "../../../styles/theme";
 
-export const RoleItem = styled.li`
+export const RoleRow = styled.li`
   list-style: none;
-  margin: 0;
-  padding: 0;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  overflow: hidden;
-  position: relative;
-  z-index: 1;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
 
-  /* Enhanced refraction with subtle edge rainbow */
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-      /* Primary refraction layer */ linear-gradient(
-        135deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.05) 25%,
-        transparent 50%,
-        rgba(255, 255, 255, 0.02) 75%,
-        transparent 100%
-      ),
-      /* Very subtle rainbow dispersion only at extreme edges */
-        linear-gradient(
-          90deg,
-          transparent 0%,
-          rgba(255, 0, 0, 0.004) 2%,
-          rgba(255, 165, 0, 0.004) 3%,
-          rgba(255, 255, 0, 0.004) 4%,
-          rgba(0, 255, 0, 0.004) 5%,
-          rgba(0, 255, 255, 0.004) 6%,
-          rgba(0, 0, 255, 0.004) 7%,
-          rgba(238, 130, 238, 0.004) 8%,
-          transparent 10%,
-          transparent 90%,
-          rgba(238, 130, 238, 0.004) 92%,
-          rgba(0, 0, 255, 0.004) 93%,
-          rgba(0, 255, 255, 0.004) 94%,
-          rgba(0, 255, 0, 0.004) 95%,
-          rgba(255, 255, 0, 0.004) 96%,
-          rgba(255, 165, 0, 0.004) 97%,
-          rgba(255, 0, 0, 0.004) 98%,
-          transparent 100%
-        );
-    pointer-events: none;
+  &:last-child {
+    border-bottom: none;
   }
 
-  @media (prefers-color-scheme: dark) {
-    background: rgba(0, 0, 0, 0.2);
-    border-color: rgba(255, 255, 255, 0.05);
+  &:hover {
+    background: var(--surface-2);
   }
 `;
 
-export const RoleHeader = styled.div`
+export const RoleRowHeader = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: ${theme.spacing[4]};
-  gap: ${theme.spacing[3]};
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  position: relative;
-  z-index: 1;
-
-  @media (prefers-color-scheme: dark) {
-    background: rgba(0, 0, 0, 0.1);
-    border-bottom-color: rgba(255, 255, 255, 0.05);
-  }
+  padding: 0.9rem 1.4rem;
+  gap: 0.7rem;
 `;
 
 export const RoleCheckbox = styled.input`
-  width: ${theme.spacing[5]};
-  height: ${theme.spacing[5]};
+  width: 1rem;
+  height: 1rem;
   cursor: pointer;
-  accent-color: ${theme.colors.blue[400]};
-  border-radius: 6px;
+  accent-color: var(--accent);
+  flex-shrink: 0;
 
   &:focus {
-    outline: 2px solid ${theme.colors.blue[500]};
+    outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
 `;
 
-export const RoleTitle = styled.h3`
-  margin: 0;
-  padding-left: ${theme.spacing[2]};
-  font-size: ${theme.fontSizes.lg};
-  font-weight: ${theme.fontWeights.semibold};
-  color: ${theme.colors.white};
-
-  @media (prefers-color-scheme: dark) {
-    color: ${theme.colors.white};
-  }
+export const RoleName = styled.span`
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
 `;
 
-export const UsersList = styled.ol`
-  padding: ${theme.spacing[3]} ${theme.spacing[4]};
-  margin: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: ${theme.spacing[2]};
-`;
-
-export const UserItem = styled.li`
-  display: flex;
-  flex-direction: row;
+export const UserCountBadge = styled.span`
+  display: inline-flex;
   align-items: center;
-  padding: ${theme.spacing[2]} ${theme.spacing[3]};
-  gap: ${theme.spacing[2]};
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.03);
-  transition: all 0.2s ease;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  padding: 0.15rem 0.5rem;
+  white-space: nowrap;
+`;
+
+export const Flex1 = styled.span`
+  flex: 1;
+`;
+
+export const UsersGrid = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0 1.4rem 0.9rem 3.1rem;
+`;
+
+export const UserPill = styled.label<{ $checked: boolean }>`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid ${({ $checked }) => $checked ? 'var(--error-border-hover)' : 'var(--border)'};
+  background: ${({ $checked }) => $checked ? 'var(--error-bg)' : 'transparent'};
+  font-size: 0.8rem;
+  color: ${({ $checked }) => $checked ? 'var(--error)' : 'var(--text-2)'};
+  cursor: pointer;
+  transition: all 0.2s var(--ease, cubic-bezier(0.22, 1, 0.36, 1));
 
   &:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.08);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    background: rgba(0, 0, 0, 0.1);
-    border-color: rgba(255, 255, 255, 0.02);
-
-    &:hover {
-      background: rgba(0, 0, 0, 0.2);
-      border-color: rgba(255, 255, 255, 0.05);
-    }
+    border-color: ${({ $checked }) => $checked ? 'var(--error-border-hover)' : 'var(--border-2)'};
+    color: ${({ $checked }) => $checked ? 'var(--error)' : 'var(--text)'};
   }
 `;
 
 export const UserCheckbox = styled.input`
-  width: ${theme.spacing[4]};
-  height: ${theme.spacing[4]};
+  width: 0.75rem;
+  height: 0.75rem;
   cursor: pointer;
-  accent-color: ${theme.colors.blue[400]};
-  border-radius: 4px;
-
-  &:focus {
-    outline: 2px solid ${theme.colors.blue[500]};
-    outline-offset: 2px;
-  }
-`;
-
-export const UserText = styled.p`
-  margin: 0;
-  padding-left: ${theme.spacing[2]};
-  color: ${theme.colors.gray[200]};
-  font-size: ${theme.fontSizes.sm};
-
-  @media (prefers-color-scheme: dark) {
-    color: ${theme.colors.gray[300]};
-  }
+  accent-color: var(--error);
+  flex-shrink: 0;
 `;

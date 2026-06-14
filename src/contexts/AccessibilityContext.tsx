@@ -21,20 +21,21 @@ export const useAccessibility = () => {
 };
 
 export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [reducedMotion, setReducedMotion] = useState(prefersReducedMotion());
-  const [highContrast, setHighContrast] = useState(false);
-  const [fontSize, setFontSize] = useState<'normal' | 'large' | 'extra-large'>('normal');
-
-  // Listen for system preference changes
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const handleChange = (e: MediaQueryListEvent) => {
-      setReducedMotion(e.matches);
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
+  // Initialise directly from localStorage to avoid save-before-load race
+  const [reducedMotion, setReducedMotion] = useState(() => {
+    const saved = localStorage.getItem('a11y-reduced-motion');
+    return saved !== null ? saved === 'true' : prefersReducedMotion();
+  });
+  const [highContrast, setHighContrast] = useState(() => {
+    const saved = localStorage.getItem('a11y-high-contrast');
+    return saved !== null ? saved === 'true' : false;
+  });
+  const [fontSize, setFontSize] = useState<'normal' | 'large' | 'extra-large'>(() => {
+    const saved = localStorage.getItem('a11y-font-size');
+    return saved && ['normal', 'large', 'extra-large'].includes(saved)
+      ? saved as 'normal' | 'large' | 'extra-large'
+      : 'normal';
+  });
 
   // Apply classes to document body
   useEffect(() => {
@@ -50,23 +51,6 @@ export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({
     localStorage.setItem('a11y-high-contrast', String(highContrast));
     localStorage.setItem('a11y-font-size', fontSize);
   }, [reducedMotion, highContrast, fontSize]);
-
-  // Load preferences from localStorage on mount
-  useEffect(() => {
-    const savedReducedMotion = localStorage.getItem('a11y-reduced-motion');
-    const savedHighContrast = localStorage.getItem('a11y-high-contrast');
-    const savedFontSize = localStorage.getItem('a11y-font-size');
-
-    if (savedReducedMotion !== null) {
-      setReducedMotion(savedReducedMotion === 'true');
-    }
-    if (savedHighContrast !== null) {
-      setHighContrast(savedHighContrast === 'true');
-    }
-    if (savedFontSize && ['normal', 'large', 'extra-large'].includes(savedFontSize)) {
-      setFontSize(savedFontSize as 'normal' | 'large' | 'extra-large');
-    }
-  }, []);
 
   const value = {
     reducedMotion,

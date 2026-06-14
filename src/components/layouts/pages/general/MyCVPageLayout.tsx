@@ -15,10 +15,6 @@ import RemoveEducationPopup from "../../../molecules/popups/education/RemoveEduc
 import AddSkillSetPopup from "../../../molecules/popups/skillset/AddSkillSetPopup";
 import EditSkillSetPopup from "../../../molecules/popups/skillset/EditSkillSetPopup";
 import RemoveSkillSetPopup from "../../../molecules/popups/skillset/RemoveSkillSetPopup";
-import Button, {
-  ButtonSize,
-  ButtonType,
-} from "../../../atoms/buttons and links/Button";
 import PortfolioFooter from "../../../molecules/general/PortfolioFooter";
 import useScrollReveal from "../../../../hooks/useScrollReveal";
 
@@ -129,55 +125,34 @@ const MyCVPageLayout: React.FC = () => {
     }
   };
 
-  const onAddButtonClick = () => {
-    window.document.body.style.overflow = "hidden";
-    showAddExperiencePopup();
-  };
+  const onAddButtonClick = () => { showAddExperiencePopup(); };
 
   const onEditButtonClick = (experience: Experience) => {
     setSelectedExperience(experience);
-    window.document.body.style.overflow = "hidden";
     showEditExperiencePopup();
   };
 
-  const onRemoveButtonClick = () => {
-    window.document.body.style.overflow = "hidden";
-    showRemoveExperiencesPopup();
-  };
+  const onRemoveButtonClick = () => { showRemoveExperiencesPopup(); };
 
   // Education handlers
-  const onAddEducationClick = () => {
-    window.document.body.style.overflow = "hidden";
-    showAddEducationPopup();
-  };
+  const onAddEducationClick = () => { showAddEducationPopup(); };
 
   const onEditEducationClick = (educationItem: EducationItem) => {
     setSelectedEducation(educationItem);
-    window.document.body.style.overflow = "hidden";
     showEditEducationPopup();
   };
 
-  const onRemoveEducationClick = () => {
-    window.document.body.style.overflow = "hidden";
-    showRemoveEducationPopup();
-  };
+  const onRemoveEducationClick = () => { showRemoveEducationPopup(); };
 
   // Skill set handlers
-  const onAddSkillSetClick = () => {
-    window.document.body.style.overflow = "hidden";
-    showAddSkillSetPopup();
-  };
+  const onAddSkillSetClick = () => { showAddSkillSetPopup(); };
 
   const onEditSkillSetClick = (skillSet: SkillSet) => {
     setSelectedSkillSet(skillSet);
-    window.document.body.style.overflow = "hidden";
     showEditSkillSetPopup();
   };
 
-  const onRemoveSkillSetClick = () => {
-    window.document.body.style.overflow = "hidden";
-    showRemoveSkillSetPopup();
-  };
+  const onRemoveSkillSetClick = () => { showRemoveSkillSetPopup(); };
 
   const onAddExperienceClose = (addedExperience?: Experience) => {
     hideAddExperiencePopup();
@@ -187,11 +162,11 @@ const MyCVPageLayout: React.FC = () => {
       );
       setExperiences(updatedExperiences);
     }
-    window.document.body.style.overflow = "unset";
   };
 
   const onEditExperienceClose = (updatedExperience?: Experience) => {
     hideEditExperiencePopup();
+    setSelectedExperience(null);
     if (updatedExperience) {
       const updatedExperiences = experiences
         .map((exp) =>
@@ -200,16 +175,13 @@ const MyCVPageLayout: React.FC = () => {
         .sort((a, b) => b.importance - a.importance);
       setExperiences(updatedExperiences);
     }
-    window.document.body.style.overflow = "unset";
   };
 
-  const onRemoveExperiencesClose = (removedExperiences?: Experience[]): void => {
+  const onRemoveExperiencesClose = (remainingExperiences?: Experience[]): void => {
     hideRemoveExperiencesPopup();
-    if (removedExperiences) {
-      const removedIds = removedExperiences.map((exp) => exp.id);
-      setExperiences(experiences.filter((exp) => !removedIds.includes(exp.id)));
+    if (remainingExperiences) {
+      setExperiences(remainingExperiences);
     }
-    window.document.body.style.overflow = "unset";
   };
 
   // Education close handlers
@@ -223,11 +195,11 @@ const MyCVPageLayout: React.FC = () => {
       });
       setEducation(updatedEducation);
     }
-    window.document.body.style.overflow = "unset";
   };
 
   const onEditEducationClose = (updatedEducation?: EducationItem) => {
     hideEditEducationPopup();
+    setSelectedEducation(null);
     if (updatedEducation) {
       const updatedEducationList = education
         .map((edu) => (edu.id === updatedEducation.id ? updatedEducation : edu))
@@ -238,7 +210,6 @@ const MyCVPageLayout: React.FC = () => {
         });
       setEducation(updatedEducationList);
     }
-    window.document.body.style.overflow = "unset";
   };
 
   const onRemoveEducationClose = (deletedIds?: string[]) => {
@@ -246,7 +217,6 @@ const MyCVPageLayout: React.FC = () => {
     if (deletedIds) {
       setEducation(education.filter((edu) => !deletedIds.includes(edu.id)));
     }
-    window.document.body.style.overflow = "unset";
   };
 
   // Skill set close handlers
@@ -255,11 +225,11 @@ const MyCVPageLayout: React.FC = () => {
     if (addedSkillSet) {
       setSkillSets([...skillSets, addedSkillSet]);
     }
-    window.document.body.style.overflow = "unset";
   };
 
   const onEditSkillSetClose = (updatedSkillSet?: SkillSet) => {
     hideEditSkillSetPopup();
+    setSelectedSkillSet(null);
     if (updatedSkillSet) {
       setSkillSets(
         skillSets.map((skillSet) =>
@@ -267,7 +237,6 @@ const MyCVPageLayout: React.FC = () => {
         )
       );
     }
-    window.document.body.style.overflow = "unset";
   };
 
   const onRemoveSkillSetClose = (deletedIds?: string[]) => {
@@ -277,7 +246,6 @@ const MyCVPageLayout: React.FC = () => {
         skillSets.filter((skillSet) => !deletedIds.includes(skillSet.id))
       );
     }
-    window.document.body.style.overflow = "unset";
   };
 
   useEffect(() => {
@@ -410,18 +378,12 @@ const MyCVPageLayout: React.FC = () => {
 
               {auth.isOwner && (
                 <div className="tag-row" style={{ marginBottom: "1.6rem" }}>
-                  <Button
-                    size={ButtonSize.small}
-                    action={onAddButtonClick}
-                    label="Add Experience"
-                    type={ButtonType.constructive}
-                  />
-                  <Button
-                    size={ButtonSize.small}
-                    label="Remove Experiences"
-                    action={onRemoveButtonClick}
-                    type={ButtonType.destructive}
-                  />
+                  <button className="btn btn-sm btn-primary" onClick={onAddButtonClick}>
+                    + Add Experience
+                  </button>
+                  <button className="btn btn-sm btn-danger" onClick={onRemoveButtonClick}>
+                    Remove Experiences
+                  </button>
                 </div>
               )}
 
@@ -441,12 +403,12 @@ const MyCVPageLayout: React.FC = () => {
                       <p className="tl-desc">{experience.description}</p>
                       {auth.isOwner && (
                         <div className="tl-tags">
-                          <Button
-                            size={ButtonSize.small}
-                            action={() => onEditButtonClick(experience)}
-                            label="Edit"
-                            type={ButtonType.primary}
-                          />
+                          <button
+                            className="btn btn-sm btn-ghost"
+                            onClick={() => onEditButtonClick(experience)}
+                          >
+                            Edit
+                          </button>
                         </div>
                       )}
                     </div>
@@ -460,18 +422,12 @@ const MyCVPageLayout: React.FC = () => {
                 <h2>Education</h2>
                 {auth.isOwner && (
                   <div className="tag-row">
-                    <Button
-                      label="Add"
-                      action={onAddEducationClick}
-                      size={ButtonSize.small}
-                      type={ButtonType.constructive}
-                    />
-                    <Button
-                      label="Remove"
-                      action={onRemoveEducationClick}
-                      size={ButtonSize.small}
-                      type={ButtonType.destructive}
-                    />
+                    <button className="btn btn-sm btn-primary" onClick={onAddEducationClick}>
+                      + Add
+                    </button>
+                    <button className="btn btn-sm btn-danger" onClick={onRemoveEducationClick}>
+                      Remove
+                    </button>
                   </div>
                 )}
               </div>
@@ -484,12 +440,12 @@ const MyCVPageLayout: React.FC = () => {
                   </div>
                   {auth.isOwner && (
                     <div style={{ marginTop: "0.7rem" }}>
-                      <Button
-                        label="Edit"
-                        action={() => onEditEducationClick(item)}
-                        size={ButtonSize.small}
-                        type={ButtonType.primary}
-                      />
+                      <button
+                        className="btn btn-sm btn-ghost"
+                        onClick={() => onEditEducationClick(item)}
+                      >
+                        Edit
+                      </button>
                     </div>
                   )}
                 </div>
@@ -541,18 +497,12 @@ const MyCVPageLayout: React.FC = () => {
               <p className="side-head">Skills</p>
               {auth.isOwner && (
                 <div className="tag-row" style={{ marginBottom: "1rem" }}>
-                  <Button
-                    label="Add"
-                    action={onAddSkillSetClick}
-                    size={ButtonSize.small}
-                    type={ButtonType.constructive}
-                  />
-                  <Button
-                    label="Remove"
-                    action={onRemoveSkillSetClick}
-                    size={ButtonSize.small}
-                    type={ButtonType.destructive}
-                  />
+                  <button className="btn btn-sm btn-primary" onClick={onAddSkillSetClick}>
+                    + Add
+                  </button>
+                  <button className="btn btn-sm btn-danger" onClick={onRemoveSkillSetClick}>
+                    Remove
+                  </button>
                 </div>
               )}
               {skillSets.map((skillSet) => (
@@ -560,14 +510,13 @@ const MyCVPageLayout: React.FC = () => {
                   <h4>
                     {skillSet.name}
                     {auth.isOwner && (
-                      <span style={{ marginLeft: "10px" }}>
-                        <Button
-                          label="Edit"
-                          action={() => onEditSkillSetClick(skillSet)}
-                          size={ButtonSize.small}
-                          type={ButtonType.primary}
-                        />
-                      </span>
+                      <button
+                        className="btn btn-sm btn-ghost"
+                        style={{ marginLeft: "10px" }}
+                        onClick={() => onEditSkillSetClick(skillSet)}
+                      >
+                        Edit
+                      </button>
                     )}
                   </h4>
                   <div className="hobby-row">

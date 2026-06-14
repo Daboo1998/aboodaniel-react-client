@@ -31,6 +31,12 @@ export const GlobalStyles = createGlobalStyle`
     --shadow-md: 0 4px 16px oklch(0.2 0.02 264 / 0.07), 0 1px 4px oklch(0.2 0.02 264 / 0.05);
     --shadow-lg: 0 20px 50px oklch(0.2 0.02 264 / 0.12), 0 6px 18px oklch(0.2 0.02 264 / 0.07);
 
+    --error:              oklch(0.62 0.2 25);
+    --error-bg:           oklch(0.6 0.2 25 / 0.08);
+    --error-bg-hover:     oklch(0.6 0.2 25 / 0.15);
+    --error-border:       oklch(0.6 0.2 25 / 0.22);
+    --error-border-hover: oklch(0.6 0.2 25 / 0.4);
+
     --maxw: 1180px;
     --gutter: clamp(1.25rem, 4vw, 3rem);
     --radius: 14px;
@@ -167,6 +173,14 @@ export const GlobalStyles = createGlobalStyle`
     border-color: var(--border-2);
   }
   .btn-ghost:hover { border-color: var(--text); transform: translateY(-2px); background: var(--surface-2); }
+  .btn-danger {
+    background: var(--error-bg);
+    color: var(--error);
+    border-color: var(--error-border);
+    box-shadow: none;
+  }
+  .btn-danger:hover { background: var(--error-bg-hover); border-color: var(--error-border-hover); transform: translateY(-1px); box-shadow: none; }
+  .btn-sm { font-size: 0.82rem; padding: 0.5rem 1rem; }
   .btn .arrow { transition: transform 0.3s var(--ease); }
   .btn:hover .arrow { transform: translateX(3px); }
 
@@ -481,7 +495,7 @@ export const GlobalStyles = createGlobalStyle`
   .tl-meta .now { color: var(--accent); }
   .tl-role { font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; margin-top: 0.5rem; }
   .tl-role .at { color: var(--text-2); font-weight: 400; }
-  .tl-desc { color: var(--text-2); margin-top: 0.5rem; line-height: 1.65; max-width: 56ch; font-size: 0.98rem; }
+  .tl-desc { color: var(--text-2); margin-top: 0.5rem; line-height: 1.65; max-width: 56ch; font-size: 0.98rem; white-space: pre-wrap; }
   .tl-tags { margin-top: 0.9rem; }
 
   .edu-item { padding: 1.4rem 0; border-top: 1px solid var(--border); }
@@ -554,13 +568,19 @@ export const GlobalStyles = createGlobalStyle`
   .method .m-value { font-size: 1rem; font-weight: 500; margin-top: 0.1rem; display: block; }
 
   .contact-form-card { padding: clamp(1.8rem, 4vw, 2.8rem); }
-  .field { margin-bottom: 1.3rem; }
+  .field { margin-bottom: 1.3rem; min-width: 0; }
   .field label { display: block; font-family: var(--font-mono); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-2); margin-bottom: 0.55rem; }
   .field label .req { color: var(--accent); }
   .field input, .field textarea {
-    width: 100%; font-family: var(--font-sans); font-size: 1rem; color: var(--text);
+    width: 100%; min-width: 0; max-width: 100%; font-family: var(--font-sans); font-size: 1rem; line-height: 1.5; color: var(--text);
     background: var(--bg); border: 1px solid var(--border-2); border-radius: 12px;
-    padding: 0.85rem 1rem; outline: none; transition: border-color 0.25s, box-shadow 0.25s;
+    padding: 0.85rem 1rem; min-height: 3.2rem; outline: none; transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  /* iOS Safari gives date/time inputs an intrinsic min width and ignores
+     width: 100% unless the native appearance is reset — without this the
+     field overflows its container and makes the popup horizontally scrollable. */
+  .field input[type="date"], .field input[type="time"], .field input[type="datetime-local"] {
+    -webkit-appearance: none; appearance: none;
   }
   .field input::placeholder, .field textarea::placeholder { color: var(--text-3); }
   .field input:focus, .field textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }

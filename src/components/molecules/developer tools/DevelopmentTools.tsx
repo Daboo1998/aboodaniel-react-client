@@ -2,58 +2,53 @@ import React, {MouseEventHandler, useEffect, useState} from "react";
 import usePopup from "../../../hooks/usePopup";
 import AddRolePopup from "../popups/developer tools/AddRolePopup";
 import AddUserPopup from "../popups/developer tools/AddUserPopup";
-import Spacer from "../../atoms/utilities/Spacer";
 import database from "../../../data/database";
 import Role from "../../../data/Role";
 import RoleComponent from "./RoleComponent";
-import Button, {ButtonType} from "../../atoms/buttons and links/Button";
 import {ReactComponent as TrashIcon} from "../../../images/icons/trash.svg";
+import useScrollReveal from "../../../hooks/useScrollReveal";
 import {
     DevelopmentToolsContainer,
     DevelopmentToolsTitle,
-    RolesListContainer,
-    RolesListHeader,
-    RolesListTitle,
+    RolesPanel,
+    RolesPanelHeader,
+    RolesPanelTitleGroup,
+    RolesPanelActions,
+    RolesPanelTitle,
+    SelectionBadge,
     DeleteButton,
-    RolesList
+    RolesList,
+    EmptyState
 } from "./DevelopmentTools.styled";
 
 const DevelopmentTools: React.FC = () => {
-    const [rolesList, setRolesList] = useState<Role []>([]);
+    const [rolesList, setRolesList] = useState<Role[]>([]);
     const [isAddRolePopupShown, showAddRolePopup, hideAddRolePopup] = usePopup();
     const [isAddUserPopupShown, showAddUserPopup, hideAddUserPopup] = usePopup();
     const [selectedRoleType, setSelectedRoleType] = useState("");
     const [refreshIndicator, refresh] = useState<boolean>();
-    const [rolesToDelete, setRolesToDelete] = useState<string []>([]);
-    const [usersFromRoleToDelete, setUsersFromRoleToDelete] = useState<{role: string, users: string[]} []>([]);
+    const [rolesToDelete, setRolesToDelete] = useState<string[]>([]);
+    const [usersFromRoleToDelete, setUsersFromRoleToDelete] = useState<{role: string, users: string[]}[]>([]);
+
+    const selectionCount = rolesToDelete.length + usersFromRoleToDelete.reduce((sum, r) => sum + r.users.length, 0);
 
     const handleDelete: MouseEventHandler = (e) => {
         e.preventDefault();
-        if (rolesToDelete.length !== 0) {
-            database.roles.deleteMany(rolesToDelete).then(() => {
-                refresh(!refreshIndicator);
-                setRolesToDelete([]);
-            }).catch((error) => {
-                alert(error.message);
-            });
-        }
+        const rolePromise = rolesToDelete.length !== 0
+            ? database.roles.deleteMany(rolesToDelete).then(() => setRolesToDelete([]))
+            : Promise.resolve();
 
-        if (usersFromRoleToDelete.length !== 0) {
-            let rolesProcessed = 0;
-            usersFromRoleToDelete.forEach(roleAndUsers => {
-                database.roles
-                    .removeManyFromArray(roleAndUsers.role, "users", roleAndUsers.users)
-                    .then(() => {
-                        rolesProcessed += 1;
-                        if (rolesProcessed === usersFromRoleToDelete.length) {
-                            setUsersFromRoleToDelete([]);
-                            refresh(!refreshIndicator);
-                        }
-                    }).catch((error) => {
-                        alert(error.message);
-                    });
-            })
-        }
+        const userPromise = usersFromRoleToDelete.length !== 0
+            ? Promise.all(
+                usersFromRoleToDelete.map(roleAndUsers =>
+                    database.roles.removeManyFromArray(roleAndUsers.role, "users", roleAndUsers.users)
+                )
+            ).then(() => setUsersFromRoleToDelete([]))
+            : Promise.resolve();
+
+        Promise.all([rolePromise, userPromise])
+            .then(() => refresh(r => !r))
+            .catch((error) => alert(error.message));
     };
 
     const handleRoleCheck = (isChecked: boolean, roleId: string) => {
@@ -65,25 +60,18 @@ const DevelopmentTools: React.FC = () => {
     };
 
     const handleUserCheck = (isChecked: boolean, roleId: string, user: string) => {
-        let filterRes = usersFromRoleToDelete.filter(e => e.role === roleId);
+        const existingEntry = usersFromRoleToDelete.find(e => e.role === roleId);
+        const existingUsers = existingEntry ? existingEntry.users : [];
 
-        if (filterRes.length === 0) {
-            filterRes.push({role: roleId, users:[]});
-        }
+        if (existingUsers.includes(user) && isChecked) return;
 
-        let users = filterRes[0].users;
-        if (users.includes(user) && isChecked) return;
+        const updatedUsers = isChecked
+            ? [...existingUsers, user]
+            : existingUsers.filter(u => u !== user);
 
-        if (isChecked) {
-            users.push(user);
-        } else if (!isChecked) {
-            users = users.filter(u => u !== user);
-        }
-
-        let newUsersFromRoleToDelete = usersFromRoleToDelete.filter(e => e.role !== roleId);
-        newUsersFromRoleToDelete.push({role: roleId, users});
-
-        setUsersFromRoleToDelete(newUsersFromRoleToDelete);
+        const newList = usersFromRoleToDelete.filter(e => e.role !== roleId);
+        if (updatedUsers.length > 0) newList.push({ role: roleId, users: updatedUsers });
+        setUsersFromRoleToDelete(newList);
     };
 
     const handleShowAddUserPopup = (roleType: string) => {
@@ -92,13 +80,13 @@ const DevelopmentTools: React.FC = () => {
     };
 
     const handleChange = () => {
-        refresh(!refreshIndicator);
+        refresh(r => !r);
     };
 
-    useEffect(() => {
-        console.log("Refreshing list...");
-        setRolesList([]);
+    useScrollReveal([rolesList]);
 
+    useEffect(() => {
+        setRolesList([]);
         database.roles.getAll().then(results => {
             setRolesList(results);
         }).catch(e => {
@@ -108,26 +96,48 @@ const DevelopmentTools: React.FC = () => {
 
     return (
         <DevelopmentToolsContainer>
-            <DevelopmentToolsTitle>Development Tools</DevelopmentToolsTitle>
-            <AddRolePopup isPopupShown={isAddRolePopupShown} hide={hideAddRolePopup} onAdded={handleChange}/>
+            <span className="kicker reveal in"><span className="idx">✦</span> — Admin Panel</span>
+            <DevelopmentToolsTitle className="reveal in" data-delay="1">Development Tools</DevelopmentToolsTitle>
+
+            <AddRolePopup isPopupShown={isAddRolePopupShown} hide={hideAddRolePopup} onAdded={handleChange} />
             <AddUserPopup role={selectedRoleType} isPopupShown={isAddUserPopupShown} hide={hideAddUserPopup} onAdded={handleChange} />
-            <RolesListContainer>
-                <RolesListHeader>
-                    <RolesListTitle>Roles list</RolesListTitle>
-                    <Spacer />
-                    <Button action={showAddRolePopup} label="Add Role" type={ButtonType.constructive}/>
-                    <DeleteButton onClick={handleDelete}>
-                        <TrashIcon />
-                    </DeleteButton>
-                </RolesListHeader>
+
+            <RolesPanel className="reveal" data-delay="2">
+                <RolesPanelHeader>
+                    <RolesPanelTitleGroup>
+                        <RolesPanelTitle>Access roles</RolesPanelTitle>
+                        {selectionCount > 0 && (
+                            <SelectionBadge>{selectionCount} selected</SelectionBadge>
+                        )}
+                    </RolesPanelTitleGroup>
+                    <RolesPanelActions>
+                        {selectionCount > 0 && (
+                            <DeleteButton onClick={handleDelete}>
+                                <TrashIcon />
+                                Delete selected
+                            </DeleteButton>
+                        )}
+                        <button className="btn btn-primary" style={{ fontSize: '0.85rem', padding: '0.45rem 1rem' }} onClick={showAddRolePopup}>
+                            + Add role
+                        </button>
+                    </RolesPanelActions>
+                </RolesPanelHeader>
                 <RolesList>
-                    {
-                        rolesList?.map((role) => {
-                            return <RoleComponent key={role.id} role={role} onRoleCheck={handleRoleCheck} onUserCheck={handleUserCheck} onShowAddUserPopup={handleShowAddUserPopup}/>
-                        })
-                    }
+                    {rolesList.length === 0 ? (
+                        <EmptyState>No roles configured yet.</EmptyState>
+                    ) : (
+                        rolesList.map(role => (
+                            <RoleComponent
+                                key={role.id}
+                                role={role}
+                                onRoleCheck={handleRoleCheck}
+                                onUserCheck={handleUserCheck}
+                                onShowAddUserPopup={handleShowAddUserPopup}
+                            />
+                        ))
+                    )}
                 </RolesList>
-            </RolesListContainer>
+            </RolesPanel>
         </DevelopmentToolsContainer>
     );
 };

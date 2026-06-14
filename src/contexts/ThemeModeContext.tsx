@@ -27,6 +27,9 @@ const applyMode = (mode: Mode) => {
   document.documentElement.setAttribute("data-theme", mode);
 };
 
+// Apply theme synchronously at module load to prevent flash of wrong theme
+applyMode(getInitialMode());
+
 const ThemeModeProvider: React.FC = ({ children }) => {
   const [mode, setMode] = useState<Mode>(getInitialMode);
 

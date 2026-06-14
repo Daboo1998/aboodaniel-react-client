@@ -1,12 +1,12 @@
-import React, {FormEventHandler, useState} from "react";
-import PageLayout from "../PageLayout";
+import React, {FormEventHandler, useEffect, useState} from "react";
 import {useAuth} from "../../../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
 import "firebase/auth";
 import SignInWithGoogleButton from "../../../atoms/buttons and links/SignInWithGoogleButton";
-import Button from "../../../atoms/buttons and links/Button";
 import TextInput from "../../../atoms/input/TextInput";
 import ShouldRememberUserCheckbox from "../../../atoms/input/ShouldRememberUserCheckbox";
+import useScrollReveal from "../../../../hooks/useScrollReveal";
+import PortfolioFooter from "../../../molecules/general/PortfolioFooter";
 import {
     RegisterTitle,
     RegisterContainer,
@@ -25,6 +25,11 @@ const RegisterPageLayout: React.FC = () => {
 
     const {register, loginSource} = useAuth();
     const history = useHistory();
+    useScrollReveal();
+
+    useEffect(() => {
+        document.title = "Daniel Aboo — Create Account";
+    }, []);
 
     const handleSubmit: FormEventHandler = async (event) => {
         event.preventDefault();
@@ -46,9 +51,6 @@ const RegisterPageLayout: React.FC = () => {
                 setErrorMessage("Something went wrong!")
             }
         }).catch(error => {
-            console.log("something is wrong!");
-            console.log(error);
-
             if (error.code === "auth/email-already-in-use") {
                 setErrorMessage("Email is already in use!");
             } else if (error.code === "auth/invalid-email") {
@@ -56,7 +58,6 @@ const RegisterPageLayout: React.FC = () => {
             } else if (error.code === "auth/network-request-failed") {
                 setErrorMessage("Problem with internet connection.");
             } else if (error.code === "auth/weak-password") {
-                // To change in future
                 setErrorMessage(error.message);
             } else {
                 setErrorMessage(error.message);
@@ -65,23 +66,31 @@ const RegisterPageLayout: React.FC = () => {
     };
 
     return (
-        <PageLayout title="Register">
-            <RegisterTitle>Register</RegisterTitle>
+        <>
             <RegisterContainer>
-                <RegisterForm onSubmit={handleSubmit}>
-                    <TextInput label="Display Name" name="displayName" onChange={setDisplayName} />
-                    <TextInput label="Email" name="email" onChange={setEmail} />
+                <span className="kicker reveal in">
+                    <span className="idx">✦</span> — Create Account
+                </span>
+                <RegisterTitle className="reveal in" data-delay="1">
+                    Get started
+                </RegisterTitle>
+                <RegisterForm className="card reveal" data-delay="2" onSubmit={handleSubmit}>
+                    <TextInput label="Display Name" name="displayName" onChange={setDisplayName} autoComplete="name" />
+                    <TextInput label="Email" name="email" onChange={setEmail} autoComplete="email" />
                     <TextInput label="Password" name="password" onChange={setPassword} isPassword />
                     <TextInput label="Confirm password" name="passwordConfirmation" onChange={setPasswordConfirmation} isPassword />
-                    {!!errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                    <ShouldRememberUserCheckbox shouldRememberUser={shouldRememberUser} setShouldRememberUser={setShouldRememberUser}/>
+                    {!!errorMessage && <ErrorMessage role="alert">{errorMessage}</ErrorMessage>}
+                    <ShouldRememberUserCheckbox shouldRememberUser={shouldRememberUser} setShouldRememberUser={setShouldRememberUser} />
                     <SubmitButtonContainer>
-                        <Button label="register" submit />
+                        <button type="submit" className="btn btn-primary">
+                            Create Account <span className="arrow">→</span>
+                        </button>
                     </SubmitButtonContainer>
                     <SignInWithGoogleButton onError={setErrorMessage} shouldRememberUser={shouldRememberUser} />
                 </RegisterForm>
             </RegisterContainer>
-        </PageLayout>
+            <PortfolioFooter variant="minimal" />
+        </>
     );
 };
 

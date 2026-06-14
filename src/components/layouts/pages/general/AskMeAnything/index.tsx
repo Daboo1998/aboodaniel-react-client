@@ -171,7 +171,7 @@ const AskMeAnythingPage: React.FC = () => {
             id="send-btn"
             type="submit"
             aria-label={canSend ? "Send" : "Start new conversation"}
-            disabled={isLoading}
+            disabled={isLoading || (canSend && !message.trim())}
           >
             <svg
               viewBox="0 0 24 24"

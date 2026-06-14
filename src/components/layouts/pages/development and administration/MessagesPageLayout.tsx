@@ -1,17 +1,20 @@
 import React, {useState, useEffect} from "react";
-import PageLayout from "../PageLayout";
 import Message from "../../../../data/Message";
 import database from "../../../../data/database";
 import MessageDetailsPopup from "../../../molecules/popups/messages/MessageDetailsPopup";
 import MessageComponent from "../../../atoms/messages/MessageComponent";
 import {useAuth} from "../../../../contexts/AuthContext";
 import useNavigation from "../../../../hooks/useNavigation";
+import useScrollReveal from "../../../../hooks/useScrollReveal";
+import PortfolioFooter from "../../../molecules/general/PortfolioFooter";
 import {
+    MessagesPageContainer,
     UnauthorizedContainer,
     UnauthorizedTitle,
     UnauthorizedMessage,
     MessagesTitle,
-    MessagesContainer
+    MessagesContainer,
+    EmptyState
 } from "./MessagesPageLayout.styled";
 
 const MessagesPageLayout: React.FC = () => {
@@ -20,11 +23,16 @@ const MessagesPageLayout: React.FC = () => {
 
     const {wentToLogin, isLoggedIn, isOwner} = useAuth();
     const navigation = useNavigation();
+    useScrollReveal([messages]);
 
     if (isLoggedIn !== undefined && !isLoggedIn && isOwner !== undefined && !isOwner) {
         navigation.navigateTo("/login");
         wentToLogin("/messages");
     }
+
+    useEffect(() => {
+        document.title = "Daniel Aboo — Messages";
+    }, []);
 
     useEffect(() => {
         database.messages
@@ -54,32 +62,44 @@ const MessagesPageLayout: React.FC = () => {
 
     if (!isOwner) {
         return (
-            <PageLayout title="Messages">
-                <UnauthorizedContainer>
-                    <UnauthorizedTitle>Messages</UnauthorizedTitle>
-                    <UnauthorizedMessage>You are not authorised to be here! Contact the administrator to get access to messages.</UnauthorizedMessage>
-                </UnauthorizedContainer>
-            </PageLayout>
+            <>
+                <MessagesPageContainer>
+                    <UnauthorizedContainer>
+                        <span className="kicker reveal in"><span className="idx">✦</span> — Admin</span>
+                        <UnauthorizedTitle className="reveal in" data-delay="1">Messages</UnauthorizedTitle>
+                        <UnauthorizedMessage className="reveal in" data-delay="2">
+                            You are not authorised to be here! Contact the administrator to get access to messages.
+                        </UnauthorizedMessage>
+                    </UnauthorizedContainer>
+                </MessagesPageContainer>
+                <PortfolioFooter variant="minimal" />
+            </>
         );
     }
-    
+
     return (
-        <PageLayout title="Messages">
-            <MessageDetailsPopup
-                message={selectedMessage}
-                isPopupShown={!!selectedMessage}
-                onClose={handleMessageDetailsClose}
-                onMessageDelete={handleMessageDelete}
-            />
-            <MessagesTitle>Messages</MessagesTitle>
-            <MessagesContainer $hasMessages={messages.length > 0}>
-                {
-                    messages.map((message) => {
-                        return <MessageComponent key={message.id} message={message} onMessageClick={handleMessageClick}/>;
-                    })
-                }
-            </MessagesContainer>
-        </PageLayout>
+        <>
+            <MessagesPageContainer>
+                <MessageDetailsPopup
+                    message={selectedMessage}
+                    isPopupShown={!!selectedMessage}
+                    onClose={handleMessageDetailsClose}
+                    onMessageDelete={handleMessageDelete}
+                />
+                <span className="kicker reveal in"><span className="idx">✦</span> — Admin</span>
+                <MessagesTitle className="reveal in" data-delay="1">Messages</MessagesTitle>
+                <MessagesContainer className="reveal" data-delay="2">
+                    {messages.length === 0 ? (
+                        <EmptyState>No messages yet.</EmptyState>
+                    ) : (
+                        messages.map((message) => (
+                            <MessageComponent key={message.id} message={message} onMessageClick={handleMessageClick} />
+                        ))
+                    )}
+                </MessagesContainer>
+            </MessagesPageContainer>
+            <PortfolioFooter variant="minimal" />
+        </>
     );
 };
 

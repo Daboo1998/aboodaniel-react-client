@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 /**
  * Scroll reveals + magnetic buttons, ported from the design prototype's app.js.
@@ -11,12 +11,16 @@ import { useEffect } from "react";
  * when the rendered content changes.
  */
 const useScrollReveal = (deps: ReadonlyArray<unknown> = []) => {
+  const firstPassRef = useRef(true);
+
   useEffect(() => {
+    // Reset for this run so newly added above-fold items appear instantly.
+    // Only process elements not yet revealed to avoid re-animating existing ones.
+    firstPassRef.current = true;
     let reveals = Array.prototype.slice.call(
-      document.querySelectorAll(".reveal")
+      document.querySelectorAll(".reveal:not(.in)")
     ) as HTMLElement[];
     let ticking = false;
-    let firstPass = true;
 
     const checkReveals = () => {
       ticking = false;
@@ -24,20 +28,20 @@ const useScrollReveal = (deps: ReadonlyArray<unknown> = []) => {
       for (let i = reveals.length - 1; i >= 0; i--) {
         const el = reveals[i];
         const top = el.getBoundingClientRect().top;
-        if (firstPass && top < vh) {
+        if (firstPassRef.current && top < vh) {
           el.style.transition = "none";
           el.classList.add("in");
           el.style.opacity = "1";
           el.style.transform = "none";
           reveals.splice(i, 1);
-        } else if (!firstPass && top < vh * 0.9) {
+        } else if (!firstPassRef.current && top < vh * 0.9) {
           el.classList.add("in");
           el.style.opacity = "1";
           el.style.transform = "none";
           reveals.splice(i, 1);
         }
       }
-      firstPass = false;
+      firstPassRef.current = false;
     };
 
     const onScrollResize = () => {
@@ -50,7 +54,10 @@ const useScrollReveal = (deps: ReadonlyArray<unknown> = []) => {
     let timer: number | undefined;
     if (reveals.length) {
       checkReveals();
-      timer = window.setTimeout(checkReveals, 500);
+      timer = window.setTimeout(() => {
+        firstPassRef.current = true;
+        checkReveals();
+      }, 500);
       window.addEventListener("scroll", onScrollResize, { passive: true });
       window.addEventListener("resize", onScrollResize, { passive: true });
     }

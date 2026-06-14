@@ -23,7 +23,7 @@ export interface AskMeAnythingContextProps {
   maxMessages: number;
   setMessage: (message: string) => void;
   handleSendMessage: () => void;
-  handleStartConversation: () => void;
+  handleStartConversation: (isPersonal?: boolean) => void;
   handleEndConversation: (conversationId: string | undefined) => void;
 }
 
@@ -169,7 +169,7 @@ export const useAskMeAnythingContext = ({
             conversation_id,
             prompt_id,
             message: sentMessage,
-            isLastMessage: newMessageCount === maxMessages,
+            isLastMessage: maxMessages > 0 && newMessageCount === maxMessages,
           }),
         }
       );
@@ -199,10 +199,26 @@ export const useAskMeAnythingContext = ({
       } else {
         alert("Failed to send message");
         setMessageCount(oldMessageCount);
+        setMessages((prev) => {
+          for (let i = prev.length - 1; i >= 0; i--) {
+            if (prev[i].role === "user" && prev[i].message === sentMessage) {
+              return [...prev.slice(0, i), ...prev.slice(i + 1)];
+            }
+          }
+          return prev;
+        });
       }
     } catch (error) {
       console.error(error);
       setMessageCount(oldMessageCount);
+      setMessages((prev) => {
+        for (let i = prev.length - 1; i >= 0; i--) {
+          if (prev[i].role === "user" && prev[i].message === sentMessage) {
+            return [...prev.slice(0, i), ...prev.slice(i + 1)];
+          }
+        }
+        return prev;
+      });
     }
 
     setIsLoading(false);
@@ -219,18 +235,22 @@ export const useAskMeAnythingContext = ({
   ]);
 
   useEffect(() => {
-    window.onbeforeunload = function () {
-      console.log("onbeforeunload");
+    const handler = (e: BeforeUnloadEvent) => {
       if (messageCount === 0 && conversation_id) {
-        handleEndConversation();
+        // sendBeacon survives page unload; async fetch would be aborted immediately.
+        navigator.sendBeacon(
+          "https://api.aboodaniel.pl/end_conversation_with_me",
+          JSON.stringify({ conversation_id })
+        );
       }
-      return true;
+      if (messageCount > 0) {
+        e.preventDefault();
+      }
     };
 
-    return () => {
-      window.onbeforeunload = null;
-    };
-  }, [handleEndConversation, messageCount, conversation_id]);
+    window.addEventListener('beforeunload', handler);
+    return () => window.removeEventListener('beforeunload', handler);
+  }, [messageCount, conversation_id]);
 
   return {
     messages,

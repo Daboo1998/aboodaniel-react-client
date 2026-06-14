@@ -1,12 +1,12 @@
-import React, {FormEventHandler, useState} from "react";
-import PageLayout from "../PageLayout";
+import React, {FormEventHandler, useEffect, useState} from "react";
 import {useAuth} from "../../../../contexts/AuthContext";
 import {useHistory} from "react-router-dom";
 import Link from "../../../atoms/buttons and links/Link";
 import SignInWithGoogleButton from "../../../atoms/buttons and links/SignInWithGoogleButton";
 import TextInput from "../../../atoms/input/TextInput";
 import ShouldRememberUserCheckbox from "../../../atoms/input/ShouldRememberUserCheckbox";
-import Button from "../../../atoms/buttons and links/Button";
+import useScrollReveal from "../../../../hooks/useScrollReveal";
+import PortfolioFooter from "../../../molecules/general/PortfolioFooter";
 import {
     LoginTitle,
     LoginContainer,
@@ -24,6 +24,11 @@ const LoginPageLayout: React.FC = () => {
 
     const {login, loginSource} = useAuth();
     const history = useHistory();
+    useScrollReveal();
+
+    useEffect(() => {
+        document.title = "Daniel Aboo — Sign In";
+    }, []);
 
     const handleSubmit: FormEventHandler = async (e) => {
         e.preventDefault();
@@ -37,9 +42,6 @@ const LoginPageLayout: React.FC = () => {
                 setErrorMessage("Something was wrong while logging in!");
             }
         }).catch(error => {
-            console.log("something is wrong!");
-            console.log(error);
-
             if (error.code === "auth/user-not-found") {
                 setErrorMessage("There is no user with provided email!");
             } else if (error.code === "auth/wrong-password") {
@@ -56,16 +58,23 @@ const LoginPageLayout: React.FC = () => {
     };
 
     return (
-        <PageLayout title="Login">
-            <LoginTitle>Login</LoginTitle>
+        <>
             <LoginContainer>
-                <LoginForm onSubmit={handleSubmit}>
-                    <TextInput label="Email" name="email" onChange={setEmail} />
+                <span className="kicker reveal in">
+                    <span className="idx">✦</span> — Sign In
+                </span>
+                <LoginTitle className="reveal in" data-delay="1">
+                    Welcome back
+                </LoginTitle>
+                <LoginForm className="card reveal" data-delay="2" onSubmit={handleSubmit}>
+                    <TextInput label="Email" name="email" onChange={setEmail} autoComplete="email" />
                     <TextInput label="Password" name="password" onChange={setPassword} isPassword />
-                    {!!errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                    {!!errorMessage && <ErrorMessage role="alert">{errorMessage}</ErrorMessage>}
                     <ShouldRememberUserCheckbox shouldRememberUser={shouldRememberUser} setShouldRememberUser={setShouldRememberUser} />
                     <SubmitButtonContainer>
-                        <Button label="log in" submit />
+                        <button type="submit" className="btn btn-primary">
+                            Log In <span className="arrow">→</span>
+                        </button>
                     </SubmitButtonContainer>
                     <SignInWithGoogleButton onError={setErrorMessage} shouldRememberUser={shouldRememberUser} />
                     <RegisterLinkContainer>
@@ -75,7 +84,8 @@ const LoginPageLayout: React.FC = () => {
                     </RegisterLinkContainer>
                 </LoginForm>
             </LoginContainer>
-        </PageLayout>
+            <PortfolioFooter variant="minimal" />
+        </>
     );
 };
 
