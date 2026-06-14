@@ -1,7 +1,6 @@
 /**
  * @jest-environment node
  */
-import path from "path";
 import React from "react";
 import { pdf } from "@react-pdf/renderer";
 import CVDocument from "./generateCVPdf";
@@ -52,7 +51,6 @@ it("renders a valid PDF buffer from CV data", async () => {
       experiences={experiences}
       education={education}
       skillSets={skillSets}
-      photoUrl={path.join(__dirname, "../../public/images/me.jpg")}
     />
   );
   const buffer = await instance.toBuffer();

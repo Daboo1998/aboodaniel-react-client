@@ -4,7 +4,6 @@ import {
   Page,
   View,
   Text,
-  Image,
   Link,
   StyleSheet,
   pdf,
@@ -181,13 +180,6 @@ const styles = StyleSheet.create({
   },
 
   // Sidebar
-  photo: {
-    width: "100%",
-    height: 168,
-    objectFit: "cover",
-    borderRadius: 6,
-    marginBottom: 16,
-  },
   sideCard: {
     marginBottom: 16,
   },
@@ -263,14 +255,12 @@ export interface CVPdfData {
   experiences: Experience[];
   education: EducationItem[];
   skillSets: SkillSet[];
-  photoUrl?: string;
 }
 
 const CVDocument: React.FC<CVPdfData> = ({
   experiences,
   education,
   skillSets,
-  photoUrl = "/images/me.jpg",
 }) => (
   <Document
     author="Daniel Richard Aboo"
@@ -342,9 +332,6 @@ const CVDocument: React.FC<CVPdfData> = ({
 
         {/* SIDEBAR */}
         <View style={styles.side}>
-          {/* eslint-disable-next-line jsx-a11y/alt-text */}
-          <Image src={photoUrl} style={styles.photo} />
-
           <View style={styles.sideCard} wrap={false}>
             <Text style={styles.sideHead}>CONTACT</Text>
             <Link src="mailto:me@aboodaniel.pl" style={styles.contactLink}>
