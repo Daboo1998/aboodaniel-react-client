@@ -14,6 +14,7 @@ export const PopupOverlay = styled.div<{ $isShown: boolean }>`
   justify-content: center;
   padding: 20px;
   overflow-y: auto;
+  overscroll-behavior: contain;
   animation: ${({ $isShown }) => ($isShown ? "fadeIn 0.3s ease-out" : "none")};
 
   @keyframes fadeIn {
