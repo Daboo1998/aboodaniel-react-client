@@ -153,12 +153,12 @@ export const timestampToString = (timestamp: Timestamp, showTimeOnFullDate?: boo
     let hours = `${messageDate.getHours()}`;
     let minutes = `${messageDate.getMinutes()}`;
 
-    if (hours === "0") {
-        hours = "00";
+    if (hours.length === 1) {
+        hours = `0${hours}`;
     }
 
-    if (minutes === "0") {
-        minutes = "00";
+    if (minutes.length === 1) {
+        minutes = `0${minutes}`;
     }
 
     if (today.getFullYear() === messageDate.getFullYear() &&
